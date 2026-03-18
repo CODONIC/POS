@@ -2,74 +2,12 @@
 using System;
 namespace POS
 {
-    public partial class LogIn_Form : Form
+    public partial class LogIn_Form : BaseForm
     {
-        private Supabase.Client supabase;
         public LogIn_Form()
         {
             InitializeComponent();
-            InitializeSupabase();
-        }
-
-        private async void InitializeSupabase()
-        {
-            try
-            {
-                var url = "https://tvmxjtgypuimgbshtpbf.supabase.co"; 
-                var key = "sb_publishable_Fv1POfF2Fy0X4uAN9ec1mw_ZXlpLm6K"; 
-
-                var options = new SupabaseOptions
-                {
-                    AutoConnectRealtime = true,
-                    AutoRefreshToken = true
-                };
-
-                supabase = new Supabase.Client(url, key, options);
-                await supabase.InitializeAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to initialize Supabase: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private Point mouseOffset;
-        private void TitleBar_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                mouseOffset = new Point(-e.X, -e.Y);
-                titleBar.MouseMove += TitleBar_MouseMove;
-                titleBar.MouseUp += TitleBar_MouseUp;
-            }
-        }
-
-        private void TitleBar_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Point mousePos = Control.MousePosition;
-                mousePos.Offset(mouseOffset.X, mouseOffset.Y);
-                Location = mousePos;
-            }
-        }
-
-        private void TitleBar_MouseUp(object sender, MouseEventArgs e)
-        {
-            titleBar.MouseMove -= TitleBar_MouseMove;
-            titleBar.MouseUp -= TitleBar_MouseUp;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.Activate();
-            this.Focus();
+            InitializeTitleBar(closeButton, titleBar, titleLabel);
         }
 
         private async void btnSignInClick(object sender, EventArgs e)
@@ -79,7 +17,7 @@ namespace POS
 
             try
             {
-                var userCheck = await supabase
+                var userCheck = await SupabaseService.Client
                     .From<Users>()
                     .Select("*")
                     .Where(u => u.Username == username)
@@ -92,35 +30,34 @@ namespace POS
                     {
                         MessageBox.Show("Please enter username and password.", "Login Failed",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtUsername.FocusInner();
                         return;
                     }
                     if (username == "Username" || string.IsNullOrEmpty(username))
                     {
                         MessageBox.Show("Please enter a username.", "Login Failed",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtUsername.FocusInner();
                         return;
                     }
                     if (password == "Password" || string.IsNullOrEmpty(password))
                     {
                         MessageBox.Show("Please enter a password.", "Login Failed",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtPassword.FocusInner();
                         return;
                     }
 
-                    MessageBox.Show("Invalid username & password.", "Login Failed",
+                    MessageBox.Show("Invalid username or password.", "Login Failed",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtUsername.Clear();
                     txtPassword.Clear();
-                    txtUsername.Text = "Username";
-                    txtUsername.InnerForeColor = Color.Gray;
-                    txtPassword.IsPasswordField = false;
-                    txtPassword.Text = "Password";
-                    txtPassword.InnerForeColor = Color.Gray;
+                    txtUsername.FocusInner();
                     return;
                 }
 
                 // Username exists, now check password
-                var result = await supabase
+                var result = await SupabaseService.Client
                     .From<Users>()
                     .Select("*")
                     .Where(u => u.Username == username && u.Password == password)
@@ -134,9 +71,9 @@ namespace POS
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // open main POS form
-                    // MainForm main = new MainForm();
-                    // main.Show();
-                    // this.Hide();
+                     MainDashboard main = new MainDashboard();
+                     main.Show();
+                     this.Hide();
                 }
                 else
                 {
@@ -144,14 +81,14 @@ namespace POS
                     {
                         MessageBox.Show("Please enter a password.", "Login Failed",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtPassword.FocusInner();
                         return;
                     }
                     MessageBox.Show("Invalid password.", "Login Failed",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPassword.Clear();
-                    txtPassword.IsPasswordField = false;
-                    txtPassword.Text = "Password";
-                    txtPassword.InnerForeColor = Color.Gray;
+                    txtPassword.FocusInner();
+                    return;
                 }
             }
             catch (Exception ex)
@@ -196,6 +133,33 @@ namespace POS
                 txtPassword.Text = "Password";
                 txtPassword.InnerForeColor = Color.Gray;
                 txtPassword.IsPasswordField = false;
+            }
+        }
+
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down && sender == txtUsername)
+            {
+                e.Handled = true;
+                this.BeginInvoke((Action)(() =>
+                {
+                    txtPassword.FocusInner();
+                    txtPassword_Enter(txtPassword, EventArgs.Empty);
+                }));
+            }
+            else if (e.KeyCode == Keys.Up && sender == txtPassword)
+            {
+                e.Handled = true;
+                this.BeginInvoke((Action)(() =>
+                {
+                    txtUsername.FocusInner();
+                    txtUsername_Enter(txtUsername, EventArgs.Empty);
+                }));
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                btnSignInClick(sender, e);
+                e.Handled = true;
             }
         }
     }

@@ -165,6 +165,8 @@
             txtUsername.Text = "Username";
             txtUsername.Enter += txtUsername_Enter;
             txtUsername.Leave += txtUsername_Leave;
+            txtUsername.KeyDown += txt_KeyDown;
+
             // 
             // txtPassword
             // 
@@ -187,6 +189,8 @@
             txtPassword.Text = "Password";
             txtPassword.Enter += txtPassword_Enter;
             txtPassword.Leave += txtPassword_Leave;
+            txtPassword.KeyDown += txt_KeyDown;
+
             // 
             // label1
             // 
@@ -209,7 +213,7 @@
             titleBar.Name = "titleBar";
             titleBar.Size = new Size(679, 40);
             titleBar.TabIndex = 16;
-            titleBar.MouseDown += TitleBar_MouseDown;
+            
             // 
             // closeButton
             // 
@@ -226,7 +230,7 @@
             closeButton.TabIndex = 17;
             closeButton.Text = " X";
             closeButton.UseVisualStyleBackColor = false;
-            closeButton.Click += CloseButton_Click;
+            
             // 
             // titleLabel
             // 
@@ -238,7 +242,7 @@
             titleLabel.Size = new Size(100, 21);
             titleLabel.TabIndex = 0;
             titleLabel.Text = "POS System";
-            titleLabel.MouseDown += TitleBar_MouseDown;
+            
             // 
             // LogIn_Form
             // 
@@ -259,7 +263,7 @@
             Name = "LogIn_Form";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn Form";
-            Load += Form1_Load;
+            
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
