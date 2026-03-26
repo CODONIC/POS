@@ -3,44 +3,28 @@
   "WorkspaceRootPath": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\cashierdashboard.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashierdashboard.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\templates\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\templates\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\sourcecodes\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\sourcecodes\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\sourcecodes\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\sourcecodes\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|D:\\Albert\\Documents\\GitHub\\POS\\POS\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos\\pos\\pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,12 +33,37 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 43,
+          "DockedWidth": 207,
           "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CashierDashboard.cs [Design]",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\CashierDashboard.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs [Design]",
+              "RelativeToolTip": "POS\\CashierDashboard.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T11:41:45.533Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CashierDashboard.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\CashierDashboard.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
+              "RelativeToolTip": "POS\\CashierDashboard.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAA0wCMAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T11:14:54.633Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -71,7 +80,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
+              "Title": "LogInForm.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\LogInForm.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\LogInForm.cs",
+              "RelativeToolTip": "POS\\LogInForm.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAA1wGMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-17T03:20:50.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\SourceCodes\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "POS\\SourceCodes\\DatabaseService.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\SourceCodes\\DatabaseService.cs",
+              "RelativeToolTip": "POS\\SourceCodes\\DatabaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T10:45:44.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "LogInForm.cs [Design]",
               "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\LogInForm.cs",
               "RelativeDocumentMoniker": "POS\\LogInForm.cs",
@@ -79,114 +114,6 @@
               "RelativeToolTip": "POS\\LogInForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-19T14:58:28.128Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Users.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\SourceCodes\\Users.cs",
-              "RelativeDocumentMoniker": "POS\\SourceCodes\\Users.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\SourceCodes\\Users.cs",
-              "RelativeToolTip": "POS\\SourceCodes\\Users.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T12:41:59.199Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "LogInForm.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\LogInForm.cs",
-              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\LogInForm.cs",
-              "RelativeToolTip": "POS\\LogInForm.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAA1wEcAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-17T03:20:50.752Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 357,
-          "SelectedChildIndex": 2,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BaseForm.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\Templates\\BaseForm.cs",
-              "RelativeDocumentMoniker": "POS\\Templates\\BaseForm.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\Templates\\BaseForm.cs",
-              "RelativeToolTip": "POS\\Templates\\BaseForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvxYAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:23:10.315Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CashierDashboard.Designer.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.Designer.cs",
-              "RelativeDocumentMoniker": "POS\\CashierDashboard.Designer.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.Designer.cs",
-              "RelativeToolTip": "POS\\CashierDashboard.Designer.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAADgv24AAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:21:35.152Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CashierDashboard.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\CashierDashboard.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
-              "RelativeToolTip": "POS\\CashierDashboard.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAA3wCMAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:21:09.739Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CashierDashboard.cs [Design]",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\CashierDashboard.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\CashierDashboard.cs [Design]",
-              "RelativeToolTip": "POS\\CashierDashboard.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T14:45:27.534Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AdminDashboard.cs",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\AdminDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\AdminDashboard.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\AdminDashboard.cs",
-              "RelativeToolTip": "POS\\AdminDashboard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAIA4wBoAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T14:37:06.38Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AdminDashboard.cs [Design]",
-              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\AdminDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\AdminDashboard.cs",
-              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS\\POS\\POS\\AdminDashboard.cs [Design]",
-              "RelativeToolTip": "POS\\AdminDashboard.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T14:32:49.039Z",
               "EditorCaption": " [Design]"
             }
           ]

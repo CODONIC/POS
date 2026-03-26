@@ -11,7 +11,7 @@ namespace POS
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            await SupabaseService.InitializeAsync();
+            await DatabaseService.InitializeAsync();
             Application.Run(new LogInForm());
             //Application.Run(new CashierDashboard()); 
             //Application.Run(new AdminDashboard());

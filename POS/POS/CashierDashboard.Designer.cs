@@ -48,14 +48,6 @@
             label7 = new Label();
             panel2 = new Panel();
             label8 = new Label();
-            dataGridView1 = new DataGridView();
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            usernameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            passwordDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            baseUrlDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            requestClientOptionsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            tableNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            primaryKeyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             usersBindingSource = new BindingSource(components);
             panel3 = new Panel();
             customTextBox7 = new CustomControls.CustomTextBox();
@@ -70,12 +62,13 @@
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
+            dgvProducts = new DataGridView();
             titleBar.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)usersBindingSource).BeginInit();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             SuspendLayout();
             // 
             // titleBar
@@ -88,7 +81,7 @@
             titleBar.Dock = DockStyle.Top;
             titleBar.Location = new Point(0, 0);
             titleBar.Name = "titleBar";
-            titleBar.Size = new Size(1280, 48);
+            titleBar.Size = new Size(1280, 43);
             titleBar.TabIndex = 17;
             // 
             // btnLogOut
@@ -101,14 +94,14 @@
             btnLogOut.FlatStyle = FlatStyle.Flat;
             btnLogOut.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLogOut.ForeColor = Color.White;
-            btnLogOut.Location = new Point(915, 3);
+            btnLogOut.Location = new Point(877, 3);
             btnLogOut.Name = "btnLogOut";
             btnLogOut.Size = new Size(82, 34);
             btnLogOut.TabIndex = 21;
             btnLogOut.Text = "Logout";
             btnLogOut.TextAlign = ContentAlignment.TopCenter;
             btnLogOut.UseVisualStyleBackColor = false;
-            btnLogOut.Click += this.btnLogOut_Click;
+            btnLogOut.Click += btnLogOut_Click;
             // 
             // closeButton
             // 
@@ -341,66 +334,6 @@
             label8.Text = "TOTAL PRICE";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, usernameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, baseUrlDataGridViewTextBoxColumn, requestClientOptionsDataGridViewTextBoxColumn, tableNameDataGridViewTextBoxColumn, primaryKeyDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = usersBindingSource;
-            dataGridView1.Location = new Point(44, 263);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(843, 493);
-            dataGridView1.TabIndex = 28;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // usernameDataGridViewTextBoxColumn
-            // 
-            usernameDataGridViewTextBoxColumn.DataPropertyName = "Username";
-            usernameDataGridViewTextBoxColumn.HeaderText = "Username";
-            usernameDataGridViewTextBoxColumn.Name = "usernameDataGridViewTextBoxColumn";
-            // 
-            // passwordDataGridViewTextBoxColumn
-            // 
-            passwordDataGridViewTextBoxColumn.DataPropertyName = "Password";
-            passwordDataGridViewTextBoxColumn.HeaderText = "Password";
-            passwordDataGridViewTextBoxColumn.Name = "passwordDataGridViewTextBoxColumn";
-            // 
-            // baseUrlDataGridViewTextBoxColumn
-            // 
-            baseUrlDataGridViewTextBoxColumn.DataPropertyName = "BaseUrl";
-            baseUrlDataGridViewTextBoxColumn.HeaderText = "BaseUrl";
-            baseUrlDataGridViewTextBoxColumn.Name = "baseUrlDataGridViewTextBoxColumn";
-            // 
-            // requestClientOptionsDataGridViewTextBoxColumn
-            // 
-            requestClientOptionsDataGridViewTextBoxColumn.DataPropertyName = "RequestClientOptions";
-            requestClientOptionsDataGridViewTextBoxColumn.HeaderText = "RequestClientOptions";
-            requestClientOptionsDataGridViewTextBoxColumn.Name = "requestClientOptionsDataGridViewTextBoxColumn";
-            // 
-            // tableNameDataGridViewTextBoxColumn
-            // 
-            tableNameDataGridViewTextBoxColumn.DataPropertyName = "TableName";
-            tableNameDataGridViewTextBoxColumn.HeaderText = "TableName";
-            tableNameDataGridViewTextBoxColumn.Name = "tableNameDataGridViewTextBoxColumn";
-            tableNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // primaryKeyDataGridViewTextBoxColumn
-            // 
-            primaryKeyDataGridViewTextBoxColumn.DataPropertyName = "PrimaryKey";
-            primaryKeyDataGridViewTextBoxColumn.HeaderText = "PrimaryKey";
-            primaryKeyDataGridViewTextBoxColumn.Name = "primaryKeyDataGridViewTextBoxColumn";
-            primaryKeyDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // usersBindingSource
-            // 
-            usersBindingSource.DataSource = typeof(Users);
-            // 
             // panel3
             // 
             panel3.BackColor = SystemColors.ControlLight;
@@ -621,13 +554,22 @@
             label9.Text = "DISCOUNT:";
             label9.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // dgvProducts
+            // 
+            dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProducts.Location = new Point(44, 296);
+            dgvProducts.Name = "dgvProducts";
+            dgvProducts.Size = new Size(843, 460);
+            dgvProducts.TabIndex = 28;
+            // 
             // CashierDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1280, 768);
+            Controls.Add(dgvProducts);
             Controls.Add(panel3);
-            Controls.Add(dataGridView1);
             Controls.Add(label8);
             Controls.Add(panel2);
             Controls.Add(label2);
@@ -638,17 +580,17 @@
             Name = "CashierDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            Load += MainDashboard_Load;
+            Load += CashierDashboard_Load;
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)usersBindingSource).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -673,7 +615,6 @@
         private CustomControls.CustomTextBox customTextBox2;
         private CustomControls.CustomTextBox customTextBox1;
         private CustomControls.CustomTextBox txtprodCode;
-        private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn usernameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
@@ -696,5 +637,6 @@
         private CustomControls.CustomTextBox customTextBox6;
         private CustomControls.CustomTextBox customTextBox5;
         private RoundedButton btnLogOut;
+        private DataGridView dgvProducts;
     }
 }

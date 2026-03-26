@@ -1,5 +1,5 @@
-﻿using Supabase;
-using System;
+﻿using System;
+using Npgsql;
 namespace POS
 {
     public partial class LogInForm : BaseForm
@@ -15,39 +15,44 @@ namespace POS
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text;
 
+            // Basic validation for empty fields
+            if (string.IsNullOrEmpty(username) || username == "Username" && string.IsNullOrEmpty(password) || password == "Password")
+            {
+                MessageBox.Show("Please enter a username and password.", "Login Failed",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(username) || username == "Username")
+            {
+                MessageBox.Show("Please enter a username.", "Login Failed",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtUsername.FocusInner();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password) || password == "Password")
+            {
+                MessageBox.Show("Please enter a password.", "Login Failed",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPassword.FocusInner();
+                return;
+            }
+
+            
+
             try
             {
-                var userCheck = await SupabaseService.Client
-                    .From<Users>()
-                    .Select("*")
-                    .Where(u => u.Username == username)
-                    .Get();
+                await using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
 
-                if (userCheck.Models.Count == 0)
+                // Check if username exists
+                string checkUserSql = "SELECT COUNT(*) FROM users WHERE username = @username";
+                await using var checkCmd = new NpgsqlCommand(checkUserSql, conn);
+                checkCmd.Parameters.AddWithValue("username", username);
+                long userCount = (long)(await checkCmd.ExecuteScalarAsync() ?? 0L);
+
+                if (userCount == 0)
                 {
-                    if ((username == "Username" || string.IsNullOrEmpty(username)) &&
-                        (password == "Password" || string.IsNullOrEmpty(password)))
-                    {
-                        MessageBox.Show("Please enter username and password.", "Login Failed",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtUsername.FocusInner();
-                        return;
-                    }
-                    if (username == "Username" || string.IsNullOrEmpty(username))
-                    {
-                        MessageBox.Show("Please enter a username.", "Login Failed",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtUsername.FocusInner();
-                        return;
-                    }
-                    if (password == "Password" || string.IsNullOrEmpty(password))
-                    {
-                        MessageBox.Show("Please enter a password.", "Login Failed",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtPassword.FocusInner();
-                        return;
-                    }
-
                     MessageBox.Show("Invalid username or password.", "Login Failed",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtUsername.Clear();
@@ -56,48 +61,41 @@ namespace POS
                     return;
                 }
 
-                // Username exists, now check password
-                var result = await SupabaseService.Client
-                    .From<Users>()
-                    .Select("*")
-                    .Where(u => u.Username == username && u.Password == password)
-                    .Get();
+                // Check username + password and get role
+                string loginSql = "SELECT role FROM users WHERE username = @username AND password = @password";
+                await using var loginCmd = new NpgsqlCommand(loginSql, conn);
+                loginCmd.Parameters.AddWithValue("username", username);
+                loginCmd.Parameters.AddWithValue("password", password);
 
-                if (result.Models.Count > 0)
+                var roleResult = await loginCmd.ExecuteScalarAsync();
+
+                if (roleResult == null)
                 {
-                    var user = result.Models.First();
-                    if (user.Role == "ADMIN")
-                    {
-                        AdminDashboard admin = new AdminDashboard();
-                        admin.Show();
-                        this.Hide();
-                    }
-                    else if (user.Role == "CASHIER")
-                    {
-                        CashierDashboard cashier = new CashierDashboard();
-                        cashier.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Unknown role. Contact administrator.", "Access Denied",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-                else
-                {
-                    if (password == "Password" || string.IsNullOrEmpty(password))
-                    {
-                        MessageBox.Show("Please enter a password.", "Login Failed",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtPassword.FocusInner();
-                        return;
-                    }
                     MessageBox.Show("Invalid password.", "Login Failed",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPassword.Clear();
                     txtPassword.FocusInner();
                     return;
+                }
+
+                string role = roleResult.ToString();
+
+                if (role == "ADMIN")
+                {
+                    AdminDashboard admin = new AdminDashboard();
+                    admin.Show();
+                    this.Hide();
+                }
+                else if (role == "CASHIER")
+                {
+                    CashierDashboard cashier = new CashierDashboard();
+                    cashier.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Unknown role. Contact administrator.", "Access Denied",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
