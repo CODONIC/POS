@@ -38,7 +38,7 @@ namespace POS
                 return;
             }
 
-            
+
 
             try
             {
@@ -129,13 +129,13 @@ namespace POS
             {
                 txtPassword.Text = "";
                 txtPassword.InnerForeColor = Color.Black;
-                txtPassword.IsPasswordField = true; 
+                txtPassword.IsPasswordField = true;
             }
         }
 
         private void txtPassword_Leave(object sender, EventArgs e)
         {
-            if(txtPassword.Text == "")
+            if (txtPassword.Text == "")
             {
                 txtPassword.Text = "Password";
                 txtPassword.InnerForeColor = Color.Gray;
@@ -168,6 +168,11 @@ namespace POS
                 btnSignInClick(sender, e);
                 e.Handled = true;
             }
+        }
+
+        private void LogInForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

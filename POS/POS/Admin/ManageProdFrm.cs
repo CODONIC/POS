@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace POS.Admin
 {
-    public partial class ManageUsersFrm : BaseForm
+    public partial class ManageProdFrm : BaseForm
     {
-        public ManageUsersFrm()
+        public ManageProdFrm()
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -22,7 +22,7 @@ namespace POS.Admin
         {
             AdminDashboard admin = new AdminDashboard();
             admin.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

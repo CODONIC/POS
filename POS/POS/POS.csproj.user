@@ -7,7 +7,16 @@
     <Compile Update="Admin\AdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Admin\ManageProdFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\ManageStocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Admin\ManageUsersFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\ProdCategoryFrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Templates\BaseForm.cs">

@@ -39,10 +39,10 @@
             customTextBox3 = new CustomControls.CustomTextBox();
             customTextBox1 = new CustomControls.CustomTextBox();
             customTextBox2 = new CustomControls.CustomTextBox();
-            roundedButton1 = new RoundedButton();
-            roundedButton2 = new RoundedButton();
-            roundedButton3 = new RoundedButton();
-            roundedButton4 = new RoundedButton();
+            btnManageUsers = new RoundedButton();
+            btnManageProd = new RoundedButton();
+            btnManageCategory = new RoundedButton();
+            btnManageStocks = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -212,83 +212,87 @@
             customTextBox2.TabIndex = 34;
             customTextBox2.Text = "0";
             // 
-            // roundedButton1
+            // btnManageUsers
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(181, 300);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(192, 163);
-            roundedButton1.TabIndex = 35;
-            roundedButton1.Text = "Manage Users";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnManageUsers.BackColor = Color.SteelBlue;
+            btnManageUsers.BorderColor = Color.Transparent;
+            btnManageUsers.BorderRadius = 20;
+            btnManageUsers.BorderSize = 0;
+            btnManageUsers.FlatAppearance.BorderSize = 0;
+            btnManageUsers.FlatStyle = FlatStyle.Flat;
+            btnManageUsers.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManageUsers.ForeColor = Color.White;
+            btnManageUsers.Location = new Point(181, 300);
+            btnManageUsers.Name = "btnManageUsers";
+            btnManageUsers.Size = new Size(192, 163);
+            btnManageUsers.TabIndex = 35;
+            btnManageUsers.Text = "Manage Users";
+            btnManageUsers.UseVisualStyleBackColor = false;
+            btnManageUsers.Click += btnManageUsers_Click;
             // 
-            // roundedButton2
+            // btnManageProd
             // 
-            roundedButton2.BackColor = Color.SteelBlue;
-            roundedButton2.BorderColor = Color.Transparent;
-            roundedButton2.BorderRadius = 20;
-            roundedButton2.BorderSize = 0;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(644, 300);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(192, 163);
-            roundedButton2.TabIndex = 36;
-            roundedButton2.Text = "Manage Products";
-            roundedButton2.UseVisualStyleBackColor = false;
+            btnManageProd.BackColor = Color.SteelBlue;
+            btnManageProd.BorderColor = Color.Transparent;
+            btnManageProd.BorderRadius = 20;
+            btnManageProd.BorderSize = 0;
+            btnManageProd.FlatAppearance.BorderSize = 0;
+            btnManageProd.FlatStyle = FlatStyle.Flat;
+            btnManageProd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManageProd.ForeColor = Color.White;
+            btnManageProd.Location = new Point(644, 300);
+            btnManageProd.Name = "btnManageProd";
+            btnManageProd.Size = new Size(192, 163);
+            btnManageProd.TabIndex = 36;
+            btnManageProd.Text = "Manage Products";
+            btnManageProd.UseVisualStyleBackColor = false;
+            btnManageProd.Click += btnManageProd_Click;
             // 
-            // roundedButton3
+            // btnManageCategory
             // 
-            roundedButton3.BackColor = Color.SteelBlue;
-            roundedButton3.BorderColor = Color.Transparent;
-            roundedButton3.BorderRadius = 20;
-            roundedButton3.BorderSize = 0;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.White;
-            roundedButton3.Location = new Point(416, 300);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(192, 163);
-            roundedButton3.TabIndex = 37;
-            roundedButton3.Text = "Manage Product Categories";
-            roundedButton3.UseVisualStyleBackColor = false;
+            btnManageCategory.BackColor = Color.SteelBlue;
+            btnManageCategory.BorderColor = Color.Transparent;
+            btnManageCategory.BorderRadius = 20;
+            btnManageCategory.BorderSize = 0;
+            btnManageCategory.FlatAppearance.BorderSize = 0;
+            btnManageCategory.FlatStyle = FlatStyle.Flat;
+            btnManageCategory.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManageCategory.ForeColor = Color.White;
+            btnManageCategory.Location = new Point(416, 300);
+            btnManageCategory.Name = "btnManageCategory";
+            btnManageCategory.Size = new Size(192, 163);
+            btnManageCategory.TabIndex = 37;
+            btnManageCategory.Text = "Manage Product Categories";
+            btnManageCategory.UseVisualStyleBackColor = false;
+            btnManageCategory.Click += btnManageCategory_Click;
             // 
-            // roundedButton4
+            // btnManageStocks
             // 
-            roundedButton4.BackColor = Color.SteelBlue;
-            roundedButton4.BorderColor = Color.Transparent;
-            roundedButton4.BorderRadius = 20;
-            roundedButton4.BorderSize = 0;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton4.ForeColor = Color.White;
-            roundedButton4.Location = new Point(871, 300);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(192, 163);
-            roundedButton4.TabIndex = 38;
-            roundedButton4.Text = "Manage Stocks";
-            roundedButton4.UseVisualStyleBackColor = false;
+            btnManageStocks.BackColor = Color.SteelBlue;
+            btnManageStocks.BorderColor = Color.Transparent;
+            btnManageStocks.BorderRadius = 20;
+            btnManageStocks.BorderSize = 0;
+            btnManageStocks.FlatAppearance.BorderSize = 0;
+            btnManageStocks.FlatStyle = FlatStyle.Flat;
+            btnManageStocks.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManageStocks.ForeColor = Color.White;
+            btnManageStocks.Location = new Point(871, 300);
+            btnManageStocks.Name = "btnManageStocks";
+            btnManageStocks.Size = new Size(192, 163);
+            btnManageStocks.TabIndex = 38;
+            btnManageStocks.Text = "Manage Stocks";
+            btnManageStocks.UseVisualStyleBackColor = false;
+            btnManageStocks.Click += btnManageStocks_Click;
             // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
-            Controls.Add(roundedButton4);
-            Controls.Add(roundedButton3);
-            Controls.Add(roundedButton2);
-            Controls.Add(roundedButton1);
+            Controls.Add(btnManageStocks);
+            Controls.Add(btnManageCategory);
+            Controls.Add(btnManageProd);
+            Controls.Add(btnManageUsers);
             Controls.Add(customTextBox2);
             Controls.Add(customTextBox1);
             Controls.Add(customTextBox3);
@@ -319,9 +323,9 @@
         private CustomControls.CustomTextBox customTextBox3;
         private CustomControls.CustomTextBox customTextBox1;
         private CustomControls.CustomTextBox customTextBox2;
-        private RoundedButton roundedButton1;
-        private RoundedButton roundedButton2;
-        private RoundedButton roundedButton3;
-        private RoundedButton roundedButton4;
+        private RoundedButton btnManageUsers;
+        private RoundedButton btnManageProd;
+        private RoundedButton btnManageCategory;
+        private RoundedButton btnManageStocks;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.Admin;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,6 +34,34 @@ namespace POS
                 login.Show();
                 this.Close();
             }
+        }
+
+        private void btnManageUsers_Click(object sender, EventArgs e)
+        {
+            ManageUsersFrm users = new ManageUsersFrm();
+            users.Show();
+            this.Close();
+        }
+
+        private void btnManageCategory_Click(object sender, EventArgs e)
+        {
+            ProdCategoryFrm categories = new ProdCategoryFrm();
+            categories.Show();
+            this.Close();
+        }
+
+        private void btnManageProd_Click(object sender, EventArgs e)
+        {
+            ManageProdFrm prod = new ManageProdFrm();
+            prod.Show();
+            this.Close();
+        }
+
+        private void btnManageStocks_Click(object sender, EventArgs e)
+        {
+            ManageStocks stocks = new ManageStocks();
+            stocks.Show();
+            this.Close();
         }
     }
 }

@@ -32,6 +32,8 @@
             pictureBox1 = new PictureBox();
             btnSignIn = new RoundedButton();
             panel1 = new Panel();
+            label3 = new Label();
+            label2 = new Label();
             label8 = new Label();
             label7 = new Label();
             label6 = new Label();
@@ -43,8 +45,6 @@
             titleBar = new Panel();
             closeButton = new Button();
             titleLabel = new Label();
-            label2 = new Label();
-            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             titleBar.SuspendLayout();
@@ -92,6 +92,28 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(324, 574);
             panel1.TabIndex = 11;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.ButtonFace;
+            label3.Location = new Point(12, 328);
+            label3.Name = "label3";
+            label3.Size = new Size(140, 20);
+            label3.TabIndex = 6;
+            label3.Text = "Username: admin ";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.ButtonFace;
+            label2.Location = new Point(12, 348);
+            label2.Name = "label2";
+            label2.Size = new Size(156, 20);
+            label2.TabIndex = 5;
+            label2.Text = "Password: admin123";
             // 
             // label8
             // 
@@ -243,28 +265,6 @@
             titleLabel.TabIndex = 0;
             titleLabel.Text = "Tindero POS";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.ButtonFace;
-            label2.Location = new Point(12, 348);
-            label2.Name = "label2";
-            label2.Size = new Size(156, 20);
-            label2.TabIndex = 5;
-            label2.Text = "Password: admin123";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ButtonFace;
-            label3.Location = new Point(12, 328);
-            label3.Name = "label3";
-            label3.Size = new Size(140, 20);
-            label3.TabIndex = 6;
-            label3.Text = "Username: admin ";
-            // 
             // LogInForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -284,6 +284,7 @@
             Name = "LogInForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn Form";
+            Load += LogInForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

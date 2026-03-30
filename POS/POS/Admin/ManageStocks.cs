@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace POS.Admin
 {
-    public partial class ManageUsersFrm : BaseForm
+    public partial class ManageStocks : BaseForm
     {
-        public ManageUsersFrm()
+        public ManageStocks()
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -20,9 +20,9 @@ namespace POS.Admin
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            AdminDashboard admin = new AdminDashboard();
-            admin.Show();
-            this.Hide();
+            AdminDashboard adminDashboard = new AdminDashboard();
+            adminDashboard.Show();
+            this.Close();
         }
     }
 }
