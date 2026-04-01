@@ -1,14 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
+  "WorkspaceRootPath": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\albert\\desktop\\pos-tinderobackup\\pos\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\albert\\desktop\\pos-tinderobackup\\pos\\pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\albert\\desktop\\pos-tinderobackup\\pos\\pos\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\albert\\desktop\\pos-tinderobackup\\pos\\pos\\pos.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\pos.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\pos\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 207,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,27 +43,73 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ManageUsersFrm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\ManageUsersFrm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs [Design]",
-              "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs [Design]",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\Program.cs",
+              "RelativeDocumentMoniker": "POS\\Program.cs",
+              "ToolTip": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\Program.cs",
+              "RelativeToolTip": "POS\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxAAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T10:12:03.54Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-03-31T17:43:59.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LogInForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\LogInForm.Designer.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\LogInForm.Designer.cs",
+              "RelativeToolTip": "POS\\LogInForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T17:42:09.103Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ManageUsersFrm.cs",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\ManageUsersFrm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAADMAAABEAAAAAAAAAA==",
+              "Title": "LogInForm.cs",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\LogInForm.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
+              "ToolTip": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\LogInForm.cs",
+              "RelativeToolTip": "POS\\LogInForm.cs",
+              "ViewState": "AgIAAAUBAAAAAAAAAIA1wBQBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T09:55:46.036Z",
+              "WhenOpened": "2026-03-31T17:40:58.517Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "POS\\Properties\\Settings.settings",
+              "ToolTip": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\Properties\\Settings.settings",
+              "RelativeToolTip": "POS\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2026-03-31T17:40:36.988Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "POS",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\POS.csproj",
+              "RelativeDocumentMoniker": "POS\\POS.csproj",
+              "ToolTip": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\POS.csproj",
+              "RelativeToolTip": "POS\\POS.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-31T17:40:32.235Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LogInForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Albert\\Desktop\\POS-TinderoBackup\\POS\\POS\\LogInForm.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogInForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T17:39:00.212Z"
             }
           ]
         }

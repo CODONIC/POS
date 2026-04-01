@@ -1,12 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <_LastSelectedProfileId>C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Admin\AdminDashboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Admin\ManageProdFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -19,17 +14,26 @@
     <Compile Update="Admin\ProdCategoryFrm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="CashierDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LogInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StartUpForms\NewCompanyFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StartUpForms\OldCompanyFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StartUpForms\WelcomeFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Templates\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Templates\CustomTextBox.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Cashier\CashierDashboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LogInForm.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Update="Templates\RoundedButton.cs">
       <SubType>Component</SubType>

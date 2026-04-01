@@ -32,8 +32,6 @@
             pictureBox1 = new PictureBox();
             btnSignIn = new RoundedButton();
             panel1 = new Panel();
-            label3 = new Label();
-            label2 = new Label();
             label8 = new Label();
             label7 = new Label();
             label6 = new Label();
@@ -45,6 +43,8 @@
             titleBar = new Panel();
             closeButton = new Button();
             titleLabel = new Label();
+            txtCompany = new CustomControls.CustomTextBox();
+            chckUserComp = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             titleBar.SuspendLayout();
@@ -68,9 +68,9 @@
             btnSignIn.BorderSize = 0;
             btnSignIn.FlatAppearance.BorderSize = 0;
             btnSignIn.FlatStyle = FlatStyle.Flat;
-            btnSignIn.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
+            btnSignIn.Font = new Font("Microsoft Sans Serif", 13.75F, FontStyle.Bold);
             btnSignIn.ForeColor = Color.White;
-            btnSignIn.Location = new Point(397, 346);
+            btnSignIn.Location = new Point(397, 422);
             btnSignIn.Name = "btnSignIn";
             btnSignIn.Size = new Size(220, 46);
             btnSignIn.TabIndex = 9;
@@ -81,8 +81,6 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(41, 128, 185);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(label2);
             panel1.Controls.Add(label8);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
@@ -93,82 +91,60 @@
             panel1.Size = new Size(324, 574);
             panel1.TabIndex = 11;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ButtonFace;
-            label3.Location = new Point(12, 328);
-            label3.Name = "label3";
-            label3.Size = new Size(140, 20);
-            label3.TabIndex = 6;
-            label3.Text = "Username: admin ";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.ButtonFace;
-            label2.Location = new Point(12, 348);
-            label2.Name = "label2";
-            label2.Size = new Size(156, 20);
-            label2.TabIndex = 5;
-            label2.Text = "Password: admin123";
-            // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = SystemColors.ButtonFace;
             label8.Location = new Point(102, 527);
             label8.Name = "label8";
-            label8.Size = new Size(103, 17);
+            label8.Size = new Size(96, 16);
             label8.TabIndex = 4;
             label8.Text = "Developed by ";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.ButtonFace;
             label7.Location = new Point(12, 251);
             label7.Name = "label7";
-            label7.Size = new Size(81, 24);
+            label7.Size = new Size(83, 25);
             label7.TabIndex = 3;
             label7.Text = "System";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = SystemColors.ButtonFace;
             label6.Location = new Point(12, 223);
             label6.Name = "label6";
-            label6.Size = new Size(292, 24);
+            label6.Size = new Size(276, 25);
             label6.TabIndex = 2;
             label6.Text = "Point of Sales Management";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ButtonFace;
             label5.Location = new Point(71, 544);
             label5.Name = "label5";
-            label5.Size = new Size(166, 21);
+            label5.Size = new Size(149, 20);
             label5.TabIndex = 1;
             label5.Text = "Tindero Corporation";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ButtonFace;
             label4.Location = new Point(12, 196);
             label4.Name = "label4";
-            label4.Size = new Size(178, 24);
+            label4.Size = new Size(240, 25);
             label4.TabIndex = 0;
-            label4.Text = "Welcome to the";
+            label4.Text = "Welcome to the Tindero";
             // 
             // txtUsername
             // 
@@ -219,11 +195,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Gill Sans Ultra Bold", 12.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(30, 45, 61);
-            label1.Location = new Point(467, 187);
+            label1.Location = new Point(475, 187);
             label1.Name = "label1";
-            label1.Size = new Size(86, 25);
+            label1.Size = new Size(68, 24);
             label1.TabIndex = 15;
             label1.Text = "Sign In";
             // 
@@ -261,9 +237,44 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(104, 21);
+            titleLabel.Size = new Size(100, 21);
             titleLabel.TabIndex = 0;
-            titleLabel.Text = "Tindero POS";
+            titleLabel.Text = "POS System";
+            // 
+            // txtCompany
+            // 
+            txtCompany.BorderColor = SystemColors.ButtonFace;
+            txtCompany.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtCompany.BorderRadius = 8;
+            txtCompany.BorderThickness = 2;
+            txtCompany.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtCompany.ForeColor = SystemColors.Desktop;
+            txtCompany.InnerBackColor = SystemColors.InactiveCaption;
+            txtCompany.InnerForeColor = Color.Gray;
+            txtCompany.IsPasswordField = false;
+            txtCompany.Location = new Point(397, 346);
+            txtCompany.Name = "txtCompany";
+            txtCompany.PasswordChar = '\0';
+            txtCompany.PlaceholderColor = Color.Gray;
+            txtCompany.PlaceholderText = "";
+            txtCompany.Size = new Size(220, 45);
+            txtCompany.TabIndex = 22;
+            txtCompany.Text = "Company Name";
+            txtCompany.Enter += txtCompany_Enter;
+            txtCompany.KeyDown += txt_KeyDown;
+            txtCompany.Leave += txtCompany_Leave;
+            // 
+            // chckUserComp
+            // 
+            chckUserComp.AutoSize = true;
+            chckUserComp.ForeColor = SystemColors.ActiveCaptionText;
+            chckUserComp.Location = new Point(399, 397);
+            chckUserComp.Name = "chckUserComp";
+            chckUserComp.Size = new Size(218, 19);
+            chckUserComp.TabIndex = 23;
+            chckUserComp.Text = "Remember Username and Company";
+            chckUserComp.UseVisualStyleBackColor = true;
+            chckUserComp.CheckedChanged += chckUserComp_CheckedChanged;
             // 
             // LogInForm
             // 
@@ -272,6 +283,8 @@
             BackColor = SystemColors.Menu;
             ClientSize = new Size(679, 604);
             ControlBox = false;
+            Controls.Add(chckUserComp);
+            Controls.Add(txtCompany);
             Controls.Add(titleBar);
             Controls.Add(label1);
             Controls.Add(txtPassword);
@@ -284,7 +297,6 @@
             Name = "LogInForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn Form";
-            Load += LogInForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -310,7 +322,7 @@
         private Panel titleBar;
         private Label titleLabel;
         private Button closeButton;
-        private Label label3;
-        private Label label2;
+        private CustomControls.CustomTextBox txtCompany;
+        private CheckBox chckUserComp;
     }
 }

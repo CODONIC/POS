@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             titleBar = new Panel();
-            label1 = new Label();
+            lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
             label12 = new Label();
@@ -60,7 +60,7 @@
             // titleBar
             // 
             titleBar.BackColor = Color.FromArgb(44, 62, 80);
-            titleBar.Controls.Add(label1);
+            titleBar.Controls.Add(lblAdminName);
             titleBar.Controls.Add(closeButton);
             titleBar.Controls.Add(titleLabel);
             titleBar.Dock = DockStyle.Top;
@@ -69,16 +69,16 @@
             titleBar.Size = new Size(1280, 48);
             titleBar.TabIndex = 19;
             // 
-            // label1
+            // lblAdminName
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(1005, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(179, 21);
-            label1.TabIndex = 21;
-            label1.Text = "adminName | Admin";
+            lblAdminName.AutoSize = true;
+            lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAdminName.ForeColor = Color.White;
+            lblAdminName.Location = new Point(1020, 12);
+            lblAdminName.Name = "lblAdminName";
+            lblAdminName.Size = new Size(179, 21);
+            lblAdminName.TabIndex = 21;
+            lblAdminName.Text = "adminName | Admin";
             // 
             // closeButton
             // 
@@ -89,9 +89,9 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(1239, 3);
+            closeButton.Location = new Point(1236, 0);
             closeButton.Name = "closeButton";
-            closeButton.Size = new Size(41, 40);
+            closeButton.Size = new Size(44, 48);
             closeButton.TabIndex = 17;
             closeButton.Text = " X";
             closeButton.UseVisualStyleBackColor = false;
@@ -438,7 +438,7 @@
         #endregion
 
         private Panel titleBar;
-        private Label label1;
+        private Label lblAdminName;
         private Button closeButton;
         private Label titleLabel;
         private Label label12;

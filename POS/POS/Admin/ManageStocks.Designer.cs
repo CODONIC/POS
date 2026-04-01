@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             titleBar = new Panel();
-            label1 = new Label();
+            lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
             btnBack = new RoundedButton();
@@ -63,7 +63,7 @@
             // titleBar
             // 
             titleBar.BackColor = Color.FromArgb(44, 62, 80);
-            titleBar.Controls.Add(label1);
+            titleBar.Controls.Add(lblAdminName);
             titleBar.Controls.Add(closeButton);
             titleBar.Controls.Add(titleLabel);
             titleBar.Dock = DockStyle.Top;
@@ -72,16 +72,16 @@
             titleBar.Size = new Size(1404, 38);
             titleBar.TabIndex = 19;
             // 
-            // label1
+            // lblAdminName
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(1005, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(179, 21);
-            label1.TabIndex = 21;
-            label1.Text = "adminName | Admin";
+            lblAdminName.AutoSize = true;
+            lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAdminName.ForeColor = Color.White;
+            lblAdminName.Location = new Point(1178, 9);
+            lblAdminName.Name = "lblAdminName";
+            lblAdminName.Size = new Size(179, 21);
+            lblAdminName.TabIndex = 21;
+            lblAdminName.Text = "adminName | Admin";
             // 
             // closeButton
             // 
@@ -478,7 +478,7 @@
         #endregion
 
         private Panel titleBar;
-        private Label label1;
+        private Label lblAdminName;
         private Button closeButton;
         private Label titleLabel;
         private RoundedButton btnBack;

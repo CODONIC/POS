@@ -1,3 +1,5 @@
+using POS.StartUpForms;
+
 namespace POS
 {
     internal static class Program
@@ -12,7 +14,15 @@ namespace POS
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             await DatabaseService.InitializeAsync();
-            Application.Run(new LogInForm());
+            if (Properties.Settings.Default.DontShowWelcome)
+            {
+                Application.Run(new LogInForm()); // Skip welcome, go straight to login if user checked the box to skip it
+            }
+            else
+            {
+                Application.Run(new WelcomeFrm()); // Show welcome if not set to skip
+            }
+            //Application.Run(new LogInForm());
             //Application.Run(new CashierDashboard()); 
             //Application.Run(new AdminDashboard());
         }

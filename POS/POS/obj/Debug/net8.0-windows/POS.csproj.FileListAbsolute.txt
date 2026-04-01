@@ -1,180 +1,136 @@
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\POS.exe
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\POS.deps.json
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\POS.runtimeconfig.json
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\POS.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\POS.pdb
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.GeneratedMSBuildEditorConfig.editorconfig
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfoInputs.cache
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfo.cs
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.csproj.CoreCompileInputs.cache
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.dll
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\refint\POS.dll
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.pdb
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.LogIn_Form.resources
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Guna.UI2.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\System.Management.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.csproj.AssemblyReference.cache
-E:\visual stud repos\POS\POS\obj\Debug\net8.0-windows\POS.csproj.Up2Date
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Google.Protobuf.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\MySql.Data.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\ZstdSharp.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Npgsql.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\MimeMapping.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Core.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Functions.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Gotrue.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Postgrest.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Realtime.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Supabase.Storage.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\System.Reactive.dll
-E:\visual stud repos\POS\POS\bin\Debug\net8.0-windows\Websocket.Client.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\POS.exe
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\POS.deps.json
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\POS.runtimeconfig.json
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\POS.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\POS.pdb
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Google.Protobuf.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Guna.UI2.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\MimeMapping.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\MySql.Data.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Npgsql.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Core.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Functions.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Gotrue.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Postgrest.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Realtime.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Supabase.Storage.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\System.Management.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\System.Reactive.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\Websocket.Client.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\ZstdSharp.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.csproj.AssemblyReference.cache
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.GeneratedMSBuildEditorConfig.editorconfig
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfoInputs.cache
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfo.cs
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.csproj.CoreCompileInputs.cache
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.sourcelink.json
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.csproj.Up2Date
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\refint\POS.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.pdb
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.BaseForm.resources
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.AdminDashboard.resources
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.CashierDashboard.resources
-D:\Albert\Documents\GitHub\POS\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.exe
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.deps.json
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.runtimeconfig.json
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.pdb
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Google.Protobuf.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Guna.UI2.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\MimeMapping.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\MySql.Data.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Npgsql.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Core.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Functions.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Gotrue.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Postgrest.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Realtime.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Storage.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Management.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Reactive.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Websocket.Client.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\ZstdSharp.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.AssemblyReference.cache
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AdminDashboard.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.CashierDashboard.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.BaseForm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfoInputs.cache
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfo.cs
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.CoreCompileInputs.cache
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.sourcelink.json
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.Up2Date
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\refint\POS.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.pdb
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageUsersFrm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageProdFrm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageStocks.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ProdCategoryFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.exe
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.dll.config
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.deps.json
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.runtimeconfig.json
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\POS.pdb
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Google.Protobuf.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Guna.UI2.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\MimeMapping.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\MySql.Data.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Npgsql.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Core.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Functions.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Gotrue.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Postgrest.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Realtime.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Supabase.Storage.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Management.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Reactive.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\Websocket.Client.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\ZstdSharp.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.AssemblyReference.cache
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AdminDashboard.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageProdFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageStocks.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageUsersFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ProdCategoryFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.CashierDashboard.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.NewCompanyFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.OldCompanyFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.WelcomeFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.BaseForm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.GeneratedMSBuildEditorConfig.editorconfig
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfoInputs.cache
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfo.cs
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.CoreCompileInputs.cache
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.sourcelink.json
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.Up2Date
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\refint\POS.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.pdb
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.exe
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.dll.config
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.deps.json
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.runtimeconfig.json
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\POS.pdb
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Google.Protobuf.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Guna.UI2.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\MimeMapping.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\MySql.Data.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Npgsql.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Core.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Functions.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Gotrue.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Postgrest.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Realtime.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Supabase.Storage.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\System.Management.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\System.Reactive.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\Websocket.Client.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\ZstdSharp.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.csproj.AssemblyReference.cache
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.AdminDashboard.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageProdFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageStocks.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageUsersFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ProdCategoryFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.CashierDashboard.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.NewCompanyFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.OldCompanyFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.WelcomeFrm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.BaseForm.resources
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfoInputs.cache
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.AssemblyInfo.cs
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.csproj.CoreCompileInputs.cache
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.sourcelink.json
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.csproj.Up2Date
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\refint\POS.dll
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.pdb
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
+C:\Users\Albert\Desktop\POS-TinderoBackup\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            lblAdminName = new Label();
             titleLabel = new Label();
             titleBar = new Panel();
             closeButton = new Button();
@@ -65,16 +65,16 @@
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // lblAdminName
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(1005, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(179, 21);
-            label1.TabIndex = 21;
-            label1.Text = "adminName | Admin";
+            lblAdminName.AutoSize = true;
+            lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAdminName.ForeColor = Color.White;
+            lblAdminName.Location = new Point(1042, 9);
+            lblAdminName.Name = "lblAdminName";
+            lblAdminName.Size = new Size(179, 21);
+            lblAdminName.TabIndex = 21;
+            lblAdminName.Text = "adminName | Admin";
             // 
             // titleLabel
             // 
@@ -90,7 +90,7 @@
             // titleBar
             // 
             titleBar.BackColor = Color.FromArgb(44, 62, 80);
-            titleBar.Controls.Add(label1);
+            titleBar.Controls.Add(lblAdminName);
             titleBar.Controls.Add(closeButton);
             titleBar.Controls.Add(titleLabel);
             titleBar.Dock = DockStyle.Top;
@@ -433,7 +433,6 @@
             btnAdd.TabIndex = 36;
             btnAdd.Text = "ADD ";
             btnAdd.UseVisualStyleBackColor = false;
-            
             // 
             // btnUpdate
             // 
@@ -451,7 +450,6 @@
             btnUpdate.TabIndex = 37;
             btnUpdate.Text = "UPDATE";
             btnUpdate.UseVisualStyleBackColor = false;
-            
             // 
             // btnDelete
             // 
@@ -469,7 +467,6 @@
             btnDelete.TabIndex = 38;
             btnDelete.Text = "DELETE";
             btnDelete.UseVisualStyleBackColor = false;
-            
             // 
             // btnClear
             // 
@@ -487,7 +484,6 @@
             btnClear.TabIndex = 42;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
-            
             // 
             // txtSearch
             // 
@@ -571,7 +567,7 @@
 
         #endregion
 
-        private Label label1;
+        private Label lblAdminName;
         private Label titleLabel;
         private Panel titleBar;
         private Button closeButton;

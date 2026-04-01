@@ -13,10 +13,17 @@ namespace POS
 {
     public partial class AdminDashboard : BaseForm
     {
-        public AdminDashboard()
+        private string _username;
+        private string _companyName;
+
+        public AdminDashboard(string username, string companyName)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
+            _username = username;
+            _companyName = companyName;
+            lblAdminName.Text = $"{_username} | Admin";
+            titleLabel.Text = $"{_companyName} ";
         }
 
         private void btnLogOut_Click(object sender, EventArgs e)
@@ -27,41 +34,41 @@ namespace POS
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
-
             if (confirm == DialogResult.Yes)
             {
                 LogInForm login = new LogInForm();
                 login.Show();
-                this.Close();
+                this.Hide();
             }
         }
 
         private void btnManageUsers_Click(object sender, EventArgs e)
         {
-            ManageUsersFrm users = new ManageUsersFrm();
+            ManageUsersFrm users = new ManageUsersFrm(_username, _companyName);
             users.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void btnManageCategory_Click(object sender, EventArgs e)
         {
-            ProdCategoryFrm categories = new ProdCategoryFrm();
+            ProdCategoryFrm categories = new ProdCategoryFrm(_username, _companyName);
             categories.Show();
-            this.Close();
+            this.Hide();
         }
 
-        private void btnManageProd_Click(object sender, EventArgs e)
+        private void btnManageProducts_Click(object sender, EventArgs e)
         {
-            ManageProdFrm prod = new ManageProdFrm();
+            ManageProdFrm prod = new ManageProdFrm(_username, _companyName);
             prod.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void btnManageStocks_Click(object sender, EventArgs e)
         {
-            ManageStocks stocks = new ManageStocks();
+            ManageStocks stocks = new ManageStocks(_username, _companyName);
             stocks.Show();
-            this.Close();
+            this.Hide();
         }
+
     }
 }
