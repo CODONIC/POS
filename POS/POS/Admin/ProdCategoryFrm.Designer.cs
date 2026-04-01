@@ -33,17 +33,17 @@
             closeButton = new Button();
             titleLabel = new Label();
             btnBack = new RoundedButton();
-            dataGridView1 = new DataGridView();
+            dgvCategories = new DataGridView();
             customTextBox3 = new CustomControls.CustomTextBox();
             label12 = new Label();
             label2 = new Label();
-            customTextBox1 = new CustomControls.CustomTextBox();
-            roundedButton1 = new RoundedButton();
-            roundedButton2 = new RoundedButton();
-            roundedButton3 = new RoundedButton();
-            roundedButton4 = new RoundedButton();
+            txtCategoryName = new CustomControls.CustomTextBox();
+            btnAdd = new RoundedButton();
+            btnEdit = new RoundedButton();
+            btnDelete = new RoundedButton();
+            btnClear = new RoundedButton();
             titleBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCategories).BeginInit();
             SuspendLayout();
             // 
             // titleBar
@@ -55,7 +55,7 @@
             titleBar.Dock = DockStyle.Top;
             titleBar.Location = new Point(0, 0);
             titleBar.Name = "titleBar";
-            titleBar.Size = new Size(1280, 48);
+            titleBar.Size = new Size(670, 48);
             titleBar.TabIndex = 18;
             // 
             // lblAdminName
@@ -63,7 +63,7 @@
             lblAdminName.AutoSize = true;
             lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
-            lblAdminName.Location = new Point(1037, 13);
+            lblAdminName.Location = new Point(425, 13);
             lblAdminName.Name = "lblAdminName";
             lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
@@ -78,9 +78,9 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(1239, 5);
+            closeButton.Location = new Point(622, 1);
             closeButton.Name = "closeButton";
-            closeButton.Size = new Size(41, 40);
+            closeButton.Size = new Size(48, 47);
             closeButton.TabIndex = 17;
             closeButton.Text = " X";
             closeButton.UseVisualStyleBackColor = false;
@@ -90,7 +90,7 @@
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(12, 10);
+            titleLabel.Location = new Point(12, 13);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(104, 21);
             titleLabel.TabIndex = 0;
@@ -106,21 +106,22 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(12, 663);
+            btnBack.Location = new Point(12, 672);
             btnBack.Name = "btnBack";
-            btnBack.Size = new Size(91, 45);
+            btnBack.Size = new Size(74, 36);
             btnBack.TabIndex = 36;
             btnBack.Text = "Back";
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
             // 
-            // dataGridView1
+            // dgvCategories
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(158, 172);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(955, 254);
-            dataGridView1.TabIndex = 37;
+            dgvCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCategories.Location = new Point(110, 169);
+            dgvCategories.Name = "dgvCategories";
+            dgvCategories.Size = new Size(423, 254);
+            dgvCategories.TabIndex = 37;
+            dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
             // 
             // customTextBox3
             // 
@@ -132,14 +133,14 @@
             customTextBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             customTextBox3.ForeColor = SystemColors.GrayText;
             customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox3.InnerForeColor = Color.Gray;
+            customTextBox3.InnerForeColor = Color.Black;
             customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(158, 104);
+            customTextBox3.Location = new Point(110, 101);
             customTextBox3.Name = "customTextBox3";
             customTextBox3.PasswordChar = '\0';
             customTextBox3.PlaceholderColor = Color.Gray;
             customTextBox3.PlaceholderText = "";
-            customTextBox3.Size = new Size(955, 47);
+            customTextBox3.Size = new Size(423, 47);
             customTextBox3.TabIndex = 38;
             // 
             // label12
@@ -148,7 +149,7 @@
             label12.BackColor = Color.LightSteelBlue;
             label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Black;
-            label12.Location = new Point(158, 82);
+            label12.Location = new Point(110, 62);
             label12.Name = "label12";
             label12.Size = new Size(69, 19);
             label12.TabIndex = 45;
@@ -160,123 +161,127 @@
             label2.BackColor = Color.LightSteelBlue;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(158, 438);
+            label2.Location = new Point(110, 439);
             label2.Name = "label2";
             label2.Size = new Size(134, 19);
             label2.TabIndex = 46;
             label2.Text = "CATEGORY INFO";
             // 
-            // customTextBox1
+            // txtCategoryName
             // 
-            customTextBox1.BorderColor = SystemColors.ButtonFace;
-            customTextBox1.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox1.BorderRadius = 8;
-            customTextBox1.BorderThickness = 2;
-            customTextBox1.Enabled = false;
-            customTextBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox1.ForeColor = SystemColors.GrayText;
-            customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox1.InnerForeColor = Color.Gray;
-            customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(158, 479);
-            customTextBox1.Name = "customTextBox1";
-            customTextBox1.PasswordChar = '\0';
-            customTextBox1.PlaceholderColor = Color.Gray;
-            customTextBox1.PlaceholderText = "";
-            customTextBox1.Size = new Size(955, 104);
-            customTextBox1.TabIndex = 47;
+            txtCategoryName.BorderColor = SystemColors.ButtonFace;
+            txtCategoryName.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtCategoryName.BorderRadius = 8;
+            txtCategoryName.BorderThickness = 2;
+            txtCategoryName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtCategoryName.ForeColor = Color.Black;
+            txtCategoryName.InnerBackColor = SystemColors.InactiveCaption;
+            txtCategoryName.InnerForeColor = Color.Black;
+            txtCategoryName.IsPasswordField = false;
+            txtCategoryName.Location = new Point(110, 476);
+            txtCategoryName.Name = "txtCategoryName";
+            txtCategoryName.PasswordChar = '\0';
+            txtCategoryName.PlaceholderColor = Color.Gray;
+            txtCategoryName.PlaceholderText = "";
+            txtCategoryName.Size = new Size(423, 104);
+            txtCategoryName.TabIndex = 47;
             // 
-            // roundedButton1
+            // btnAdd
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(366, 626);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(91, 45);
-            roundedButton1.TabIndex = 48;
-            roundedButton1.Text = "SAVE";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnAdd.BackColor = Color.SteelBlue;
+            btnAdd.BorderColor = Color.Transparent;
+            btnAdd.BorderRadius = 20;
+            btnAdd.BorderSize = 0;
+            btnAdd.FlatAppearance.BorderSize = 0;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(110, 596);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(91, 45);
+            btnAdd.TabIndex = 48;
+            btnAdd.Text = "ADD";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
-            // roundedButton2
+            // btnEdit
             // 
-            roundedButton2.BackColor = Color.SteelBlue;
-            roundedButton2.BorderColor = Color.Transparent;
-            roundedButton2.BorderRadius = 20;
-            roundedButton2.BorderSize = 0;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(489, 626);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(91, 45);
-            roundedButton2.TabIndex = 49;
-            roundedButton2.Text = "EDIT";
-            roundedButton2.UseVisualStyleBackColor = false;
+            btnEdit.BackColor = Color.SteelBlue;
+            btnEdit.BorderColor = Color.Transparent;
+            btnEdit.BorderRadius = 20;
+            btnEdit.BorderSize = 0;
+            btnEdit.FlatAppearance.BorderSize = 0;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEdit.ForeColor = Color.White;
+            btnEdit.Location = new Point(216, 596);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(91, 45);
+            btnEdit.TabIndex = 49;
+            btnEdit.Text = "EDIT";
+            btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += btnEdit_Click;
             // 
-            // roundedButton3
+            // btnDelete
             // 
-            roundedButton3.BackColor = Color.SteelBlue;
-            roundedButton3.BorderColor = Color.Transparent;
-            roundedButton3.BorderRadius = 20;
-            roundedButton3.BorderSize = 0;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.White;
-            roundedButton3.Location = new Point(647, 626);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(91, 45);
-            roundedButton3.TabIndex = 50;
-            roundedButton3.Text = "DELETE";
-            roundedButton3.UseVisualStyleBackColor = false;
+            btnDelete.BackColor = Color.SteelBlue;
+            btnDelete.BorderColor = Color.Transparent;
+            btnDelete.BorderRadius = 20;
+            btnDelete.BorderSize = 0;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(327, 596);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(91, 45);
+            btnDelete.TabIndex = 50;
+            btnDelete.Text = "DELETE";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // roundedButton4
+            // btnClear
             // 
-            roundedButton4.BackColor = Color.SteelBlue;
-            roundedButton4.BorderColor = Color.Transparent;
-            roundedButton4.BorderRadius = 20;
-            roundedButton4.BorderSize = 0;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton4.ForeColor = Color.White;
-            roundedButton4.Location = new Point(773, 626);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(91, 45);
-            roundedButton4.TabIndex = 51;
-            roundedButton4.Text = "CLEAR";
-            roundedButton4.UseVisualStyleBackColor = false;
+            btnClear.BackColor = Color.SteelBlue;
+            btnClear.BorderColor = Color.Transparent;
+            btnClear.BorderRadius = 20;
+            btnClear.BorderSize = 0;
+            btnClear.FlatAppearance.BorderSize = 0;
+            btnClear.FlatStyle = FlatStyle.Flat;
+            btnClear.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnClear.ForeColor = Color.White;
+            btnClear.Location = new Point(442, 596);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(91, 45);
+            btnClear.TabIndex = 51;
+            btnClear.Text = "CLEAR";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // ProdCategoryFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1280, 720);
-            Controls.Add(roundedButton4);
-            Controls.Add(roundedButton3);
-            Controls.Add(roundedButton2);
-            Controls.Add(roundedButton1);
-            Controls.Add(customTextBox1);
+            ClientSize = new Size(670, 720);
+            Controls.Add(btnClear);
+            Controls.Add(btnDelete);
+            Controls.Add(btnEdit);
+            Controls.Add(btnAdd);
+            Controls.Add(txtCategoryName);
             Controls.Add(label2);
             Controls.Add(label12);
             Controls.Add(customTextBox3);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvCategories);
             Controls.Add(btnBack);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ProdCategoryFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ProdCategoryFrm";
+            Load += ProdCategoryFrm_Load;
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCategories).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -288,14 +293,15 @@
         private Button closeButton;
         private Label titleLabel;
         private RoundedButton btnBack;
-        private DataGridView dataGridView1;
+        private DataGridView dgvCategories;
         private CustomControls.CustomTextBox customTextBox3;
         private Label label12;
         private Label label2;
-        private CustomControls.CustomTextBox customTextBox1;
-        private RoundedButton roundedButton1;
-        private RoundedButton roundedButton2;
-        private RoundedButton roundedButton3;
-        private RoundedButton roundedButton4;
+        private CustomControls.CustomTextBox txtCategoryName;
+        private RoundedButton btnAdd;
+        private RoundedButton btnEdit;
+        private RoundedButton btnDelete;
+        private RoundedButton btnClear;
+
     }
 }

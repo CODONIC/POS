@@ -74,7 +74,7 @@
             lblAdminName.AutoSize = true;
             lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
-            lblAdminName.Location = new Point(1020, 12);
+            lblAdminName.Location = new Point(1030, 12);
             lblAdminName.Name = "lblAdminName";
             lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
@@ -101,7 +101,7 @@
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(12, 10);
+            titleLabel.Location = new Point(12, 12);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(104, 21);
             titleLabel.TabIndex = 0;

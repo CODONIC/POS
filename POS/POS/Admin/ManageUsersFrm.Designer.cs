@@ -197,7 +197,7 @@
             txtContact.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtContact.ForeColor = SystemColors.GrayText;
             txtContact.InnerBackColor = SystemColors.InactiveCaption;
-            txtContact.InnerForeColor = Color.Gray;
+            txtContact.InnerForeColor = Color.Black;
             txtContact.IsPasswordField = false;
             txtContact.Location = new Point(865, 132);
             txtContact.Name = "txtContact";
@@ -228,7 +228,7 @@
             txtMiddleName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMiddleName.ForeColor = SystemColors.GrayText;
             txtMiddleName.InnerBackColor = SystemColors.InactiveCaption;
-            txtMiddleName.InnerForeColor = Color.Gray;
+            txtMiddleName.InnerForeColor = Color.Black;
             txtMiddleName.IsPasswordField = false;
             txtMiddleName.Location = new Point(198, 231);
             txtMiddleName.Name = "txtMiddleName";
@@ -247,7 +247,7 @@
             txtFirstName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtFirstName.ForeColor = SystemColors.GrayText;
             txtFirstName.InnerBackColor = SystemColors.InactiveCaption;
-            txtFirstName.InnerForeColor = Color.Gray;
+            txtFirstName.InnerForeColor = Color.Black;
             txtFirstName.IsPasswordField = false;
             txtFirstName.Location = new Point(198, 186);
             txtFirstName.Name = "txtFirstName";
@@ -266,7 +266,7 @@
             txtLastName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtLastName.ForeColor = SystemColors.GrayText;
             txtLastName.InnerBackColor = SystemColors.InactiveCaption;
-            txtLastName.InnerForeColor = Color.Gray;
+            txtLastName.InnerForeColor = Color.Black;
             txtLastName.IsPasswordField = false;
             txtLastName.Location = new Point(198, 132);
             txtLastName.Name = "txtLastName";
@@ -321,7 +321,7 @@
             txtPassword.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtPassword.ForeColor = SystemColors.GrayText;
             txtPassword.InnerBackColor = SystemColors.InactiveCaption;
-            txtPassword.InnerForeColor = Color.Gray;
+            txtPassword.InnerForeColor = Color.Black;
             txtPassword.IsPasswordField = false;
             txtPassword.Location = new Point(198, 77);
             txtPassword.Name = "txtPassword";
@@ -340,7 +340,7 @@
             txtAge.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtAge.ForeColor = SystemColors.GrayText;
             txtAge.InnerBackColor = SystemColors.InactiveCaption;
-            txtAge.InnerForeColor = Color.Gray;
+            txtAge.InnerForeColor = Color.Black;
             txtAge.IsPasswordField = false;
             txtAge.Location = new Point(865, 23);
             txtAge.Name = "txtAge";
@@ -359,7 +359,7 @@
             txtUsername.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtUsername.ForeColor = SystemColors.GrayText;
             txtUsername.InnerBackColor = SystemColors.InactiveCaption;
-            txtUsername.InnerForeColor = Color.Gray;
+            txtUsername.InnerForeColor = Color.Black;
             txtUsername.IsPasswordField = false;
             txtUsername.Location = new Point(198, 23);
             txtUsername.Name = "txtUsername";
@@ -433,6 +433,7 @@
             btnAdd.TabIndex = 36;
             btnAdd.Text = "ADD ";
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnUpdate
             // 
@@ -450,6 +451,7 @@
             btnUpdate.TabIndex = 37;
             btnUpdate.Text = "UPDATE";
             btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
@@ -467,6 +469,7 @@
             btnDelete.TabIndex = 38;
             btnDelete.Text = "DELETE";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnClear
             // 
@@ -484,6 +487,7 @@
             btnClear.TabIndex = 42;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // txtSearch
             // 
@@ -494,7 +498,7 @@
             txtSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtSearch.ForeColor = SystemColors.GrayText;
             txtSearch.InnerBackColor = SystemColors.InactiveCaption;
-            txtSearch.InnerForeColor = Color.Gray;
+            txtSearch.InnerForeColor = Color.Black;
             txtSearch.IsPasswordField = false;
             txtSearch.Location = new Point(42, 73);
             txtSearch.Name = "txtSearch";

@@ -79,11 +79,12 @@ namespace POS
 
                 // Check user
                 string userSql = @"
-                    SELECT u.password, u.role, c.name AS company_name
-                    FROM users u
-                    JOIN companies c ON u.company_id = c.id
-                    WHERE u.username = @username
-                    AND LOWER(c.name) = LOWER(@company)";
+    SELECT u.password, r.name AS role, c.name AS company_name
+    FROM users u
+    JOIN companies c ON u.company_id = c.id
+    JOIN roles r ON u.role_id = r.id
+    WHERE u.username = @username
+    AND LOWER(c.name) = LOWER(@company)";
 
                 await using var userCmd = new NpgsqlCommand(userSql, conn);
                 userCmd.Parameters.AddWithValue("username", username);

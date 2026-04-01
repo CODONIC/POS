@@ -83,7 +83,7 @@
             lblAdminName.AutoSize = true;
             lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
-            lblAdminName.Location = new Point(1005, 9);
+            lblAdminName.Location = new Point(1012, 12);
             lblAdminName.Name = "lblAdminName";
             lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
@@ -110,7 +110,7 @@
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(12, 9);
+            titleLabel.Location = new Point(12, 12);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(100, 21);
             titleLabel.TabIndex = 0;
@@ -134,6 +134,7 @@
             txtSearch.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtSearch.BorderRadius = 8;
             txtSearch.BorderThickness = 2;
+            txtSearch.Enabled = false;
             txtSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtSearch.ForeColor = SystemColors.GrayText;
             txtSearch.InnerBackColor = SystemColors.InactiveCaption;
@@ -146,6 +147,7 @@
             txtSearch.PlaceholderText = "";
             txtSearch.Size = new Size(268, 39);
             txtSearch.TabIndex = 45;
+            txtSearch.Text = "0.00";
             // 
             // label2
             // 
@@ -153,7 +155,7 @@
             label2.BackColor = Color.LightSteelBlue;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(596, 82);
+            label2.Location = new Point(577, 82);
             label2.Name = "label2";
             label2.Size = new Size(138, 19);
             label2.TabIndex = 48;
@@ -165,6 +167,7 @@
             customTextBox1.BorderFocusColor = Color.FromArgb(30, 45, 61);
             customTextBox1.BorderRadius = 8;
             customTextBox1.BorderThickness = 2;
+            customTextBox1.Enabled = false;
             customTextBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             customTextBox1.ForeColor = SystemColors.GrayText;
             customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
@@ -177,6 +180,7 @@
             customTextBox1.PlaceholderText = "";
             customTextBox1.Size = new Size(268, 39);
             customTextBox1.TabIndex = 47;
+            customTextBox1.Text = "0";
             // 
             // label3
             // 
@@ -196,6 +200,7 @@
             customTextBox2.BorderFocusColor = Color.FromArgb(30, 45, 61);
             customTextBox2.BorderRadius = 8;
             customTextBox2.BorderThickness = 2;
+            customTextBox2.Enabled = false;
             customTextBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             customTextBox2.ForeColor = SystemColors.GrayText;
             customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
@@ -208,6 +213,7 @@
             customTextBox2.PlaceholderText = "";
             customTextBox2.Size = new Size(268, 39);
             customTextBox2.TabIndex = 49;
+            customTextBox2.Text = "0";
             // 
             // btnManageUsers
             // 
@@ -273,7 +279,7 @@
             btnManageStocks.FlatStyle = FlatStyle.Flat;
             btnManageStocks.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageStocks.ForeColor = Color.White;
-            btnManageStocks.Location = new Point(907, 220);
+            btnManageStocks.Location = new Point(919, 220);
             btnManageStocks.Name = "btnManageStocks";
             btnManageStocks.Size = new Size(179, 140);
             btnManageStocks.TabIndex = 54;

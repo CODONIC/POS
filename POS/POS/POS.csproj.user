@@ -14,7 +14,7 @@
     <Compile Update="Admin\ProdCategoryFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="CashierDashboard.cs">
+    <Compile Update="Cashier\CashierDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="LogInForm.cs">

@@ -10,7 +10,7 @@ namespace POS.Admin
         private string selectedUserId = null;
         private string _username;
         private string _companyName;
-        private string _companyId; 
+        private string _companyId;
 
         public ManageUsersFrm(string username, string companyName)
         {
@@ -21,7 +21,7 @@ namespace POS.Admin
             _companyName = companyName;
             lblAdminName.Text = $"{_username} | Admin";
             _companyId = GetCompanyId(_companyName);
-            titleLabel.Text =$"{_companyName} ";
+            titleLabel.Text = $"{_companyName} ";
             LoadUserLevels();
             LoadUsers();
         }
@@ -76,17 +76,18 @@ namespace POS.Admin
                     conn.Open();
 
                     string query = @"
-                        SELECT id, username, last_name, first_name, middle_name,
-                               contact_number, age, birthdate, role
-                        FROM public.users
-                        WHERE company_id = @companyId
-                          AND (
-                               username       ILIKE @search
-                            OR last_name      ILIKE @search
-                            OR first_name     ILIKE @search
-                            OR contact_number ILIKE @search
-                          )
-                        ORDER BY last_name, first_name";
+    SELECT u.id, u.username, u.last_name, u.first_name, u.middle_name,
+           u.contact_number, u.age, u.birthdate, r.name AS role
+    FROM public.users u
+    JOIN public.roles r ON u.role_id = r.id
+    WHERE u.company_id = @companyId
+      AND (
+           u.username       ILIKE @search
+        OR u.last_name      ILIKE @search
+        OR u.first_name     ILIKE @search
+        OR u.contact_number ILIKE @search
+      )
+    ORDER BY u.last_name, u.first_name";
 
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
@@ -151,11 +152,18 @@ namespace POS.Admin
             cmbUserLevel.SelectedItem = row.Cells["User Level"].Value?.ToString();
         }
 
-        // ─── Load User Levels ─────────────────────────────────────────────────────
+        // ─── ADD ──────────────────────────────────────────────────────────────────
 
-        private void LoadUserLevels()
+        private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_companyId)) return;
+            if (!ValidateFields()) return;
+
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                MessageBox.Show("Password is required when adding a new user.", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             try
             {
@@ -163,33 +171,247 @@ namespace POS.Admin
                 {
                     conn.Open();
 
+                    // Check for duplicate username
+                    using (var checkCmd = new NpgsqlCommand(
+                        "SELECT COUNT(*) FROM public.users WHERE username = @username AND company_id = @company_id", conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("username", txtUsername.Text.Trim());
+                        checkCmd.Parameters.AddWithValue("company_id",
+                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+                        long count = (long)checkCmd.ExecuteScalar();
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Username already exists in this company. Please choose another.",
+                                "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
                     string query = @"
-                        SELECT DISTINCT role 
-                        FROM public.users 
-                        WHERE company_id = @companyId
-                        ORDER BY role";
+    INSERT INTO public.users
+        (username, password, role_id, first_name, last_name,
+         middle_name, contact_number, age, birthdate, company_id)
+    VALUES
+        (@username, @password, (SELECT id FROM public.roles WHERE name = @role), @first_name, @last_name,
+         @middle_name, @contact_number, @age, @birthdate, @company_id)";
 
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
+                        AddAllParams(cmd, includePassword: true);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
-                        using (var reader = cmd.ExecuteReader())
+                MessageBox.Show("User added successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding user:\n{ex.Message}", "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ─── UPDATE ───────────────────────────────────────────────────────────────
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedUserId))
+            {
+                MessageBox.Show("Please select a user from the list to update.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!ValidateFields()) return;
+
+            try
+            {
+                using (var conn = DatabaseService.GetConnection())
+                {
+                    conn.Open();
+
+                    bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
+
+                    string query = changePassword
+     ? @"UPDATE public.users SET
+            username       = @username,
+            password       = @password,
+            role_id        = (SELECT id FROM public.roles WHERE name = @role),
+            first_name     = @first_name,
+            last_name      = @last_name,
+            middle_name    = @middle_name,
+            contact_number = @contact_number,
+            age            = @age,
+            birthdate      = @birthdate
+        WHERE id = @id"
+     : @"UPDATE public.users SET
+            username       = @username,
+            role_id        = (SELECT id FROM public.roles WHERE name = @role),
+            first_name     = @first_name,
+            last_name      = @last_name,
+            middle_name    = @middle_name,
+            contact_number = @contact_number,
+            age            = @age,
+            birthdate      = @birthdate
+        WHERE id = @id";
+
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        AddAllParams(cmd, includePassword: changePassword);
+                        cmd.Parameters.AddWithValue("id",
+                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("User updated successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating user:\n{ex.Message}", "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ─── DELETE ───────────────────────────────────────────────────────────────
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedUserId))
+            {
+                MessageBox.Show("Please select a user from the list to delete.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Are you sure you want to delete \"{txtUsername.Text}\"?\nThis action cannot be undone.",
+                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                using (var conn = DatabaseService.GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new NpgsqlCommand(
+                        "DELETE FROM public.users WHERE id = @id", conn))
+                    {
+                        cmd.Parameters.AddWithValue("id",
+                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("User deleted successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting user:\n{ex.Message}", "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ─── CLEAR ────────────────────────────────────────────────────────────────
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearFields();
+        }
+
+        private void ClearFields()
+        {
+            selectedUserId = null;
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtLastName.Text = "";
+            txtFirstName.Text = "";
+            txtMiddleName.Text = "";
+            txtContact.Text = "";
+            txtAge.Text = "";
+            dtpBirthdate.Value = DateTime.Today;
+            cmbUserLevel.SelectedIndex = -1;
+            dgvUsers.ClearSelection();
+        }
+
+
+        // ─── Helpers ──────────────────────────────────────────────────────────────
+
+        private bool ValidateFields()
+        {
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            { MessageBox.Show("Username is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
+
+            if (string.IsNullOrWhiteSpace(txtLastName.Text))
+            { MessageBox.Show("Last Name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
+
+            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
+            { MessageBox.Show("First Name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
+
+            if (cmbUserLevel.SelectedItem == null)
+            { MessageBox.Show("Please select a User Level (ADMIN or CASHIER).", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
+
+            if (!string.IsNullOrWhiteSpace(txtAge.Text) && !int.TryParse(txtAge.Text, out _))
+            { MessageBox.Show("Age must be a valid number.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Adds shared parameters to a command. Pass includePassword=true for INSERT and password-changing UPDATE.
+        /// </summary>
+        private void AddAllParams(NpgsqlCommand cmd, bool includePassword)
+        {
+            cmd.Parameters.AddWithValue("username", txtUsername.Text.Trim());
+            cmd.Parameters.AddWithValue("role", cmbUserLevel.SelectedItem.ToString());
+            cmd.Parameters.AddWithValue("first_name", txtFirstName.Text.Trim());
+            cmd.Parameters.AddWithValue("last_name", txtLastName.Text.Trim());
+            cmd.Parameters.AddWithValue("middle_name", (object)txtMiddleName.Text.Trim() ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("contact_number", (object)txtContact.Text.Trim() ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("age", int.TryParse(txtAge.Text, out int a) ? (object)a : DBNull.Value);
+            cmd.Parameters.AddWithValue("birthdate", dtpBirthdate.Value.Date);
+            cmd.Parameters.AddWithValue("company_id",NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+            if (includePassword)
+                cmd.Parameters.AddWithValue("password", txtPassword.Text);
+        }
+
+        // ─── Load User Levels ─────────────────────────────────────────────────────
+
+        private void LoadUserLevels()
+        {
+            try
+            {
+                using (var conn = DatabaseService.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = "SELECT name FROM public.roles ORDER BY name";
+
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        cmbUserLevel.Items.Clear();
+
+                        while (reader.Read())
                         {
-                            cmbUserLevel.Items.Clear();
-
-                            while (reader.Read())
-                            {
-                                string role = reader["role"].ToString();
-                                if (!string.IsNullOrEmpty(role))
-                                    cmbUserLevel.Items.Add(role);
-                            }
+                            cmbUserLevel.Items.Add(reader["name"].ToString());
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading user levels:\n{ex.Message}", "Database Error",
+                MessageBox.Show($"Error loading roles:\n{ex.Message}", "Database Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
