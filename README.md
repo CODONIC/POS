@@ -1,7 +1,7 @@
 [README.md](https://github.com/user-attachments/files/26120564/README.md)
 # 🛒 POS Management System
 
-A **Point of Sale (POS) Management System** built with **C# Windows Forms** and **Supabase** as the backend database. Designed for small to medium businesses with role-based access for Admins and Cashiers.
+A **Point of Sale (POS) Management System** built with **C# Windows Forms** and **Cockroachdb** as the backend database. Designed for small to medium businesses with company-based access for Admins and Cashiers.
 
 ---
 
