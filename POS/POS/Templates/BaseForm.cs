@@ -18,7 +18,7 @@ namespace POS
                 closeButton.Click += CloseButton_Click;
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        public void CloseButton_Click(object sender, EventArgs e)
         {
             DialogResult confirm = MessageBox.Show(
                 "Are you sure you want to exit?",

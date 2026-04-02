@@ -21,6 +21,16 @@ namespace POS.Admin
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
             _companyId = GetCompanyId(_companyName);
+            this.KeyPreview = true;
+            this.KeyDown += ProdCategoryFrm_KeyDown;
+            ShortcutKeyHints();
+        }
+
+        // ─── Search ───────────────────────────────────────────────────────────────
+
+        private async void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            await LoadCategoriesAsync(txtSearch.Text.Trim());
         }
 
         // ─── Resolve company name to ID ───────────────────────────────────────────
@@ -56,7 +66,7 @@ namespace POS.Admin
             await LoadCategoriesAsync();
         }
 
-        private async Task LoadCategoriesAsync()
+        private async Task LoadCategoriesAsync(string search = "")
         {
             if (string.IsNullOrEmpty(_companyId)) return;
 
@@ -66,13 +76,15 @@ namespace POS.Admin
                 await conn.OpenAsync();
 
                 string sql = @"
-                    SELECT id, name 
-                    FROM categories 
-                    WHERE company_id = @companyId
-                    ORDER BY name";
+            SELECT id, name 
+            FROM categories 
+            WHERE company_id = @companyId
+              AND name ILIKE @search
+            ORDER BY name";
 
                 await using var cmd = new NpgsqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+                cmd.Parameters.AddWithValue("search", $"%{search}%");
 
                 await using var reader = await cmd.ExecuteReaderAsync();
 
@@ -284,6 +296,71 @@ namespace POS.Admin
             AdminDashboard admin = new AdminDashboard(_username, _companyName);
             admin.Show();
             this.Close();
+        }
+
+        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
+
+        private void ProdCategoryFrm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    btnBack_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F1:
+                    btnAdd_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F2:
+                    btnEdit_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F3:
+                    btnDelete_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F4:
+                    btnClear_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void ShortcutKeyHints()
+        {
+            //Shortcut keys:
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.InitialDelay = 200; // ms before tooltip appears
+            toolTip.ShowAlways = true;
+
+            toolTip.SetToolTip(btnBack, "ESC");
+            toolTip.SetToolTip(btnAdd, "F1");
+            toolTip.SetToolTip(btnEdit, "F2");
+            toolTip.SetToolTip(btnDelete, "F3");
+            toolTip.SetToolTip(btnClear, "F4");
+            AttachHoverEffect(btnBack, "BACK", "ESC");
+            AttachHoverEffect(btnAdd, "ADD", "F1");
+            AttachHoverEffect(btnEdit, "EDIT", "F2");
+            AttachHoverEffect(btnDelete, "DELETE", "F3");
+            AttachHoverEffect(btnClear, "CLEAR", "F4");
+        }
+        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
+        {
+            Point originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Text = $"{defaultText}\n({shortcut})";
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Text = defaultText;
+                btn.Location = originalLocation;
+            };
         }
 
     }

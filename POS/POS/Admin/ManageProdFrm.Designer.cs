@@ -33,27 +33,27 @@
             closeButton = new Button();
             titleLabel = new Label();
             label12 = new Label();
-            customTextBox3 = new CustomControls.CustomTextBox();
-            dataGridView1 = new DataGridView();
+            txtSearch = new CustomControls.CustomTextBox();
+            dgvProducts = new DataGridView();
             panel1 = new Panel();
-            comboBox1 = new ComboBox();
-            customTextBox6 = new CustomControls.CustomTextBox();
-            customTextBox5 = new CustomControls.CustomTextBox();
-            customTextBox2 = new CustomControls.CustomTextBox();
-            customTextBox1 = new CustomControls.CustomTextBox();
+            cmbCategory = new ComboBox();
+            txtReorderLevel = new CustomControls.CustomTextBox();
+            txtPrice = new CustomControls.CustomTextBox();
+            txtProductName = new CustomControls.CustomTextBox();
+            txtProductCode = new CustomControls.CustomTextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
-            roundedButton4 = new RoundedButton();
-            roundedButton3 = new RoundedButton();
-            roundedButton2 = new RoundedButton();
-            roundedButton1 = new RoundedButton();
+            btnClear = new RoundedButton();
+            btnDelete = new RoundedButton();
+            btnEdit = new RoundedButton();
+            btnAdd = new RoundedButton();
             btnBack = new RoundedButton();
             titleBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -119,41 +119,41 @@
             label12.TabIndex = 48;
             label12.Text = "SEARCH";
             // 
-            // customTextBox3
+            // txtSearch
             // 
-            customTextBox3.BorderColor = SystemColors.ButtonFace;
-            customTextBox3.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox3.BorderRadius = 8;
-            customTextBox3.BorderThickness = 2;
-            customTextBox3.Enabled = false;
-            customTextBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox3.ForeColor = SystemColors.GrayText;
-            customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox3.InnerForeColor = Color.Gray;
-            customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(170, 97);
-            customTextBox3.Name = "customTextBox3";
-            customTextBox3.PasswordChar = '\0';
-            customTextBox3.PlaceholderColor = Color.Gray;
-            customTextBox3.PlaceholderText = "";
-            customTextBox3.Size = new Size(955, 47);
-            customTextBox3.TabIndex = 47;
+            txtSearch.BorderColor = SystemColors.ButtonFace;
+            txtSearch.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtSearch.BorderRadius = 8;
+            txtSearch.BorderThickness = 2;
+            txtSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSearch.ForeColor = SystemColors.GrayText;
+            txtSearch.InnerBackColor = SystemColors.InactiveCaption;
+            txtSearch.InnerForeColor = Color.Gray;
+            txtSearch.IsPasswordField = false;
+            txtSearch.Location = new Point(170, 97);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PasswordChar = '\0';
+            txtSearch.PlaceholderColor = Color.Gray;
+            txtSearch.PlaceholderText = "";
+            txtSearch.Size = new Size(955, 47);
+            txtSearch.TabIndex = 47;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
-            // dataGridView1
+            // dgvProducts
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(170, 150);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(955, 254);
-            dataGridView1.TabIndex = 46;
+            dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProducts.Location = new Point(170, 150);
+            dgvProducts.Name = "dgvProducts";
+            dgvProducts.Size = new Size(955, 254);
+            dgvProducts.TabIndex = 46;
             // 
             // panel1
             // 
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(customTextBox6);
-            panel1.Controls.Add(customTextBox5);
-            panel1.Controls.Add(customTextBox2);
-            panel1.Controls.Add(customTextBox1);
+            panel1.Controls.Add(cmbCategory);
+            panel1.Controls.Add(txtReorderLevel);
+            panel1.Controls.Add(txtPrice);
+            panel1.Controls.Add(txtProductName);
+            panel1.Controls.Add(txtProductCode);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
@@ -164,93 +164,89 @@
             panel1.Size = new Size(955, 206);
             panel1.TabIndex = 49;
             // 
-            // comboBox1
+            // cmbCategory
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(214, 90);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(387, 23);
-            comboBox1.TabIndex = 53;
+            cmbCategory.FormattingEnabled = true;
+            cmbCategory.Location = new Point(214, 90);
+            cmbCategory.Name = "cmbCategory";
+            cmbCategory.Size = new Size(387, 23);
+            cmbCategory.TabIndex = 53;
             // 
-            // customTextBox6
+            // txtReorderLevel
             // 
-            customTextBox6.BorderColor = SystemColors.ButtonFace;
-            customTextBox6.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox6.BorderRadius = 8;
-            customTextBox6.BorderThickness = 2;
-            customTextBox6.Enabled = false;
-            customTextBox6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox6.ForeColor = SystemColors.GrayText;
-            customTextBox6.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox6.InnerForeColor = Color.Gray;
-            customTextBox6.IsPasswordField = false;
-            customTextBox6.Location = new Point(214, 159);
-            customTextBox6.Name = "customTextBox6";
-            customTextBox6.PasswordChar = '\0';
-            customTextBox6.PlaceholderColor = Color.Gray;
-            customTextBox6.PlaceholderText = "";
-            customTextBox6.Size = new Size(387, 32);
-            customTextBox6.TabIndex = 52;
+            txtReorderLevel.BorderColor = SystemColors.ButtonFace;
+            txtReorderLevel.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtReorderLevel.BorderRadius = 8;
+            txtReorderLevel.BorderThickness = 2;
+            txtReorderLevel.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtReorderLevel.ForeColor = SystemColors.GrayText;
+            txtReorderLevel.InnerBackColor = SystemColors.InactiveCaption;
+            txtReorderLevel.InnerForeColor = Color.Gray;
+            txtReorderLevel.IsPasswordField = false;
+            txtReorderLevel.Location = new Point(214, 159);
+            txtReorderLevel.Name = "txtReorderLevel";
+            txtReorderLevel.PasswordChar = '\0';
+            txtReorderLevel.PlaceholderColor = Color.Gray;
+            txtReorderLevel.PlaceholderText = "";
+            txtReorderLevel.Size = new Size(387, 32);
+            txtReorderLevel.TabIndex = 52;
             // 
-            // customTextBox5
+            // txtPrice
             // 
-            customTextBox5.BorderColor = SystemColors.ButtonFace;
-            customTextBox5.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox5.BorderRadius = 8;
-            customTextBox5.BorderThickness = 2;
-            customTextBox5.Enabled = false;
-            customTextBox5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox5.ForeColor = SystemColors.GrayText;
-            customTextBox5.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox5.InnerForeColor = Color.Gray;
-            customTextBox5.IsPasswordField = false;
-            customTextBox5.Location = new Point(214, 121);
-            customTextBox5.Name = "customTextBox5";
-            customTextBox5.PasswordChar = '\0';
-            customTextBox5.PlaceholderColor = Color.Gray;
-            customTextBox5.PlaceholderText = "";
-            customTextBox5.Size = new Size(387, 32);
-            customTextBox5.TabIndex = 51;
+            txtPrice.BorderColor = SystemColors.ButtonFace;
+            txtPrice.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtPrice.BorderRadius = 8;
+            txtPrice.BorderThickness = 2;
+            txtPrice.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtPrice.ForeColor = SystemColors.GrayText;
+            txtPrice.InnerBackColor = SystemColors.InactiveCaption;
+            txtPrice.InnerForeColor = Color.Gray;
+            txtPrice.IsPasswordField = false;
+            txtPrice.Location = new Point(214, 121);
+            txtPrice.Name = "txtPrice";
+            txtPrice.PasswordChar = '\0';
+            txtPrice.PlaceholderColor = Color.Gray;
+            txtPrice.PlaceholderText = "";
+            txtPrice.Size = new Size(387, 32);
+            txtPrice.TabIndex = 51;
             // 
-            // customTextBox2
+            // txtProductName
             // 
-            customTextBox2.BorderColor = SystemColors.ButtonFace;
-            customTextBox2.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox2.BorderRadius = 8;
-            customTextBox2.BorderThickness = 2;
-            customTextBox2.Enabled = false;
-            customTextBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox2.ForeColor = SystemColors.GrayText;
-            customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox2.InnerForeColor = Color.Gray;
-            customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(214, 45);
-            customTextBox2.Name = "customTextBox2";
-            customTextBox2.PasswordChar = '\0';
-            customTextBox2.PlaceholderColor = Color.Gray;
-            customTextBox2.PlaceholderText = "";
-            customTextBox2.Size = new Size(387, 32);
-            customTextBox2.TabIndex = 49;
+            txtProductName.BorderColor = SystemColors.ButtonFace;
+            txtProductName.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtProductName.BorderRadius = 8;
+            txtProductName.BorderThickness = 2;
+            txtProductName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtProductName.ForeColor = SystemColors.GrayText;
+            txtProductName.InnerBackColor = SystemColors.InactiveCaption;
+            txtProductName.InnerForeColor = Color.Gray;
+            txtProductName.IsPasswordField = false;
+            txtProductName.Location = new Point(214, 45);
+            txtProductName.Name = "txtProductName";
+            txtProductName.PasswordChar = '\0';
+            txtProductName.PlaceholderColor = Color.Gray;
+            txtProductName.PlaceholderText = "";
+            txtProductName.Size = new Size(387, 32);
+            txtProductName.TabIndex = 49;
             // 
-            // customTextBox1
+            // txtProductCode
             // 
-            customTextBox1.BorderColor = SystemColors.ButtonFace;
-            customTextBox1.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox1.BorderRadius = 8;
-            customTextBox1.BorderThickness = 2;
-            customTextBox1.Enabled = false;
-            customTextBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox1.ForeColor = SystemColors.GrayText;
-            customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox1.InnerForeColor = Color.Gray;
-            customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(214, 7);
-            customTextBox1.Name = "customTextBox1";
-            customTextBox1.PasswordChar = '\0';
-            customTextBox1.PlaceholderColor = Color.Gray;
-            customTextBox1.PlaceholderText = "";
-            customTextBox1.Size = new Size(387, 32);
-            customTextBox1.TabIndex = 48;
+            txtProductCode.BorderColor = SystemColors.ButtonFace;
+            txtProductCode.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtProductCode.BorderRadius = 8;
+            txtProductCode.BorderThickness = 2;
+            txtProductCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtProductCode.ForeColor = SystemColors.GrayText;
+            txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
+            txtProductCode.InnerForeColor = Color.Gray;
+            txtProductCode.IsPasswordField = false;
+            txtProductCode.Location = new Point(214, 7);
+            txtProductCode.Name = "txtProductCode";
+            txtProductCode.PasswordChar = '\0';
+            txtProductCode.PlaceholderColor = Color.Gray;
+            txtProductCode.PlaceholderText = "";
+            txtProductCode.Size = new Size(387, 32);
+            txtProductCode.TabIndex = 48;
             // 
             // label7
             // 
@@ -319,73 +315,77 @@
             label2.TabIndex = 50;
             label2.Text = "PRODUCT INFO";
             // 
-            // roundedButton4
+            // btnClear
             // 
-            roundedButton4.BackColor = Color.SteelBlue;
-            roundedButton4.BorderColor = Color.Transparent;
-            roundedButton4.BorderRadius = 20;
-            roundedButton4.BorderSize = 0;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton4.ForeColor = Color.White;
-            roundedButton4.Location = new Point(779, 650);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(91, 45);
-            roundedButton4.TabIndex = 55;
-            roundedButton4.Text = "CLEAR";
-            roundedButton4.UseVisualStyleBackColor = false;
+            btnClear.BackColor = Color.SteelBlue;
+            btnClear.BorderColor = Color.Transparent;
+            btnClear.BorderRadius = 20;
+            btnClear.BorderSize = 0;
+            btnClear.FlatAppearance.BorderSize = 0;
+            btnClear.FlatStyle = FlatStyle.Flat;
+            btnClear.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnClear.ForeColor = Color.White;
+            btnClear.Location = new Point(728, 650);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(91, 45);
+            btnClear.TabIndex = 55;
+            btnClear.Text = "CLEAR";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
-            // roundedButton3
+            // btnDelete
             // 
-            roundedButton3.BackColor = Color.SteelBlue;
-            roundedButton3.BorderColor = Color.Transparent;
-            roundedButton3.BorderRadius = 20;
-            roundedButton3.BorderSize = 0;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.White;
-            roundedButton3.Location = new Point(653, 650);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(91, 45);
-            roundedButton3.TabIndex = 54;
-            roundedButton3.Text = "DELETE";
-            roundedButton3.UseVisualStyleBackColor = false;
+            btnDelete.BackColor = Color.SteelBlue;
+            btnDelete.BorderColor = Color.Transparent;
+            btnDelete.BorderRadius = 20;
+            btnDelete.BorderSize = 0;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(619, 650);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(91, 45);
+            btnDelete.TabIndex = 54;
+            btnDelete.Text = "DELETE";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // roundedButton2
+            // btnEdit
             // 
-            roundedButton2.BackColor = Color.SteelBlue;
-            roundedButton2.BorderColor = Color.Transparent;
-            roundedButton2.BorderRadius = 20;
-            roundedButton2.BorderSize = 0;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(495, 650);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(91, 45);
-            roundedButton2.TabIndex = 53;
-            roundedButton2.Text = "EDIT";
-            roundedButton2.UseVisualStyleBackColor = false;
+            btnEdit.BackColor = Color.SteelBlue;
+            btnEdit.BorderColor = Color.Transparent;
+            btnEdit.BorderRadius = 20;
+            btnEdit.BorderSize = 0;
+            btnEdit.FlatAppearance.BorderSize = 0;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEdit.ForeColor = Color.White;
+            btnEdit.Location = new Point(505, 650);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(91, 45);
+            btnEdit.TabIndex = 53;
+            btnEdit.Text = "EDIT";
+            btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += btnEdit_Click;
             // 
-            // roundedButton1
+            // btnAdd
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(372, 650);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(91, 45);
-            roundedButton1.TabIndex = 52;
-            roundedButton1.Text = "SAVE";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnAdd.BackColor = Color.SteelBlue;
+            btnAdd.BorderColor = Color.Transparent;
+            btnAdd.BorderRadius = 20;
+            btnAdd.BorderSize = 0;
+            btnAdd.FlatAppearance.BorderSize = 0;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(398, 650);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(91, 45);
+            btnAdd.TabIndex = 52;
+            btnAdd.Text = "ADD";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnBack
             // 
@@ -412,23 +412,24 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1280, 720);
             Controls.Add(btnBack);
-            Controls.Add(roundedButton4);
-            Controls.Add(roundedButton3);
-            Controls.Add(roundedButton2);
-            Controls.Add(roundedButton1);
+            Controls.Add(btnClear);
+            Controls.Add(btnDelete);
+            Controls.Add(btnEdit);
+            Controls.Add(btnAdd);
             Controls.Add(label2);
             Controls.Add(panel1);
             Controls.Add(label12);
-            Controls.Add(customTextBox3);
-            Controls.Add(dataGridView1);
+            Controls.Add(txtSearch);
+            Controls.Add(dgvProducts);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ManageProdFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageProdFrm";
+            Load += ManageProdFrm_Load;
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -442,24 +443,24 @@
         private Button closeButton;
         private Label titleLabel;
         private Label label12;
-        private CustomControls.CustomTextBox customTextBox3;
-        private DataGridView dataGridView1;
+        private CustomControls.CustomTextBox txtSearch;
+        private DataGridView dgvProducts;
         private Panel panel1;
         private Label label2;
-        private ComboBox comboBox1;
-        private CustomControls.CustomTextBox customTextBox6;
-        private CustomControls.CustomTextBox customTextBox5;
-        private CustomControls.CustomTextBox customTextBox2;
-        private CustomControls.CustomTextBox customTextBox1;
+        private ComboBox cmbCategory;
+        private CustomControls.CustomTextBox txtReorderLevel;
+        private CustomControls.CustomTextBox txtPrice;
+        private CustomControls.CustomTextBox txtProductName;
+        private CustomControls.CustomTextBox txtProductCode;
         private Label label7;
         private Label label6;
         private Label label5;
         private Label label4;
         private Label label3;
-        private RoundedButton roundedButton4;
-        private RoundedButton roundedButton3;
-        private RoundedButton roundedButton2;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnClear;
+        private RoundedButton btnDelete;
+        private RoundedButton btnEdit;
+        private RoundedButton btnAdd;
         private RoundedButton btnBack;
     }
 }

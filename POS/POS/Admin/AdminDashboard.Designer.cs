@@ -45,6 +45,7 @@
             btnManageStocks = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
+
             // 
             // titleBar
             // 
@@ -311,7 +312,10 @@
             titleBar.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+
+            
         }
+        
 
         #endregion
 

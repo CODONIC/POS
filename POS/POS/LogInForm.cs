@@ -11,6 +11,8 @@ namespace POS
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
+            this.KeyPreview = true;
+            this.KeyDown += LogInForm_KeyDown;
         }
 
         private async void btnSignInClick(object sender, EventArgs e)
@@ -160,11 +162,11 @@ namespace POS
         private void LogInForm_Load(object sender, EventArgs e)
         {
             bool remember = Properties.Settings.Default.RememberUserComp;
-            chckUserComp.Checked = remember; // Only trust the bool flag
+            chckUserComp.Checked = remember;
 
             if (remember)
             {
-                
+
                 string savedUsername = Properties.Settings.Default.SavedUsername;
                 string savedCompany = Properties.Settings.Default.SavedCompany;
 
@@ -179,7 +181,7 @@ namespace POS
                     txtCompany.Text = savedCompany;
                     txtCompany.InnerForeColor = Color.Black;
                 }
-                
+
             }
         }
         private void LogInForm_Shown(object sender, EventArgs e)
@@ -213,14 +215,14 @@ namespace POS
             if (chckUserComp.Checked)
             {
                 SaveUserCompany(txtUsername.Text.Trim(), txtCompany.Text.Trim());
-                
+
             }
             else
             {
                 Properties.Settings.Default.SavedUsername = string.Empty;
                 Properties.Settings.Default.SavedCompany = string.Empty;
                 Properties.Settings.Default.RememberUserComp = false;
-                Properties.Settings.Default.Save(); // <-- this is the critical line
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -310,12 +312,21 @@ namespace POS
 
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.Enter)
+        }
+
+        private void LogInForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSignInClick(sender, e);
                 e.Handled = true;
             }
-        }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                CloseButton_Click(sender, e);
+                e.Handled = true;
+            }
 
+        }
     }
 }

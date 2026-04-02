@@ -237,9 +237,9 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(100, 21);
+            titleLabel.Size = new Size(104, 21);
             titleLabel.TabIndex = 0;
-            titleLabel.Text = "POS System";
+            titleLabel.Text = "Tindero POS";
             // 
             // txtCompany
             // 
@@ -299,7 +299,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn Form";
             Load += LogInForm_Load;
-            this.Shown += LogInForm_Shown;
+            Shown += LogInForm_Shown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

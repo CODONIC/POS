@@ -24,7 +24,11 @@ namespace POS
             _companyName = companyName;
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
-            Console.WriteLine("AdminDashboard initialized with username: " + _username + " and companyName: " + _companyName);
+            this.KeyPreview = true;
+            this.KeyDown += AdminDashboard_KeyDown;
+            ShortcutKeyHints();
+
+
         }
 
         private void btnLogOut_Click(object sender, EventArgs e)
@@ -69,6 +73,54 @@ namespace POS
             ManageStocks stocks = new ManageStocks(_username, _companyName);
             stocks.Show();
             this.Hide();
+        }
+
+        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
+
+        private void AdminDashboard_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    btnLogOut_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F1:
+                    btnManageUsers_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F2:
+                    btnManageCategory_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F3:
+                    btnManageProducts_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F4:
+                    btnManageStocks_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void ShortcutKeyHints()
+        {
+            //Shortcut keys HINTS:
+            btnLogOut.MouseEnter += (s, e) => btnLogOut.Text = "Logout (ESC)";
+            btnLogOut.MouseLeave += (s, e) => btnLogOut.Text = "Logout";
+
+            btnManageUsers.MouseEnter += (s, e) => btnManageUsers.Text = "Manage Users (F1)";
+            btnManageUsers.MouseLeave += (s, e) => btnManageUsers.Text = "Manage Users";
+
+            btnManageCategory.MouseEnter += (s, e) => btnManageCategory.Text = "Manage Category (F2)";
+            btnManageCategory.MouseLeave += (s, e) => btnManageCategory.Text = "Manage Category";
+
+            btnManageProducts.MouseEnter += (s, e) => btnManageProducts.Text = "Manage Products (F3)";
+            btnManageProducts.MouseLeave += (s, e) => btnManageProducts.Text = "Manage Products";
+
+            btnManageStocks.MouseEnter += (s, e) => btnManageStocks.Text = "Manage Stocks (F4)";
+            btnManageStocks.MouseLeave += (s, e) => btnManageStocks.Text = "Manage Stocks";
         }
 
     }

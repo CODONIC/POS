@@ -34,7 +34,7 @@
             titleLabel = new Label();
             btnBack = new RoundedButton();
             dgvCategories = new DataGridView();
-            customTextBox3 = new CustomControls.CustomTextBox();
+            txtSearch = new CustomControls.CustomTextBox();
             label12 = new Label();
             label2 = new Label();
             txtCategoryName = new CustomControls.CustomTextBox();
@@ -123,25 +123,25 @@
             dgvCategories.TabIndex = 37;
             dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
             // 
-            // customTextBox3
+            // txtSearch
             // 
-            customTextBox3.BorderColor = SystemColors.ButtonFace;
-            customTextBox3.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox3.BorderRadius = 8;
-            customTextBox3.BorderThickness = 2;
-            customTextBox3.Enabled = false;
-            customTextBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox3.ForeColor = SystemColors.GrayText;
-            customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox3.InnerForeColor = Color.Black;
-            customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(110, 101);
-            customTextBox3.Name = "customTextBox3";
-            customTextBox3.PasswordChar = '\0';
-            customTextBox3.PlaceholderColor = Color.Gray;
-            customTextBox3.PlaceholderText = "";
-            customTextBox3.Size = new Size(423, 47);
-            customTextBox3.TabIndex = 38;
+            txtSearch.BorderColor = SystemColors.ButtonFace;
+            txtSearch.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtSearch.BorderRadius = 8;
+            txtSearch.BorderThickness = 2;
+            txtSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSearch.ForeColor = SystemColors.GrayText;
+            txtSearch.InnerBackColor = SystemColors.InactiveCaption;
+            txtSearch.InnerForeColor = Color.Black;
+            txtSearch.IsPasswordField = false;
+            txtSearch.Location = new Point(110, 101);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PasswordChar = '\0';
+            txtSearch.PlaceholderColor = Color.Gray;
+            txtSearch.PlaceholderText = "";
+            txtSearch.Size = new Size(423, 47);
+            txtSearch.TabIndex = 38;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // label12
             // 
@@ -270,7 +270,7 @@
             Controls.Add(txtCategoryName);
             Controls.Add(label2);
             Controls.Add(label12);
-            Controls.Add(customTextBox3);
+            Controls.Add(txtSearch);
             Controls.Add(dgvCategories);
             Controls.Add(btnBack);
             Controls.Add(titleBar);
@@ -294,7 +294,7 @@
         private Label titleLabel;
         private RoundedButton btnBack;
         private DataGridView dgvCategories;
-        private CustomControls.CustomTextBox customTextBox3;
+        private CustomControls.CustomTextBox txtSearch;
         private Label label12;
         private Label label2;
         private CustomControls.CustomTextBox txtCategoryName;

@@ -24,6 +24,9 @@ namespace POS.Admin
             titleLabel.Text = $"{_companyName} ";
             LoadUserLevels();
             LoadUsers();
+            this.KeyPreview = true;
+            this.KeyDown += ManageUsersFrm_KeyDown;
+            ShortcutKeyHints();
         }
 
         // ─── Setup ────────────────────────────────────────────────────────────────
@@ -380,7 +383,7 @@ namespace POS.Admin
             cmd.Parameters.AddWithValue("contact_number", (object)txtContact.Text.Trim() ?? DBNull.Value);
             cmd.Parameters.AddWithValue("age", int.TryParse(txtAge.Text, out int a) ? (object)a : DBNull.Value);
             cmd.Parameters.AddWithValue("birthdate", dtpBirthdate.Value.Date);
-            cmd.Parameters.AddWithValue("company_id",NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+            cmd.Parameters.AddWithValue("company_id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
             if (includePassword)
                 cmd.Parameters.AddWithValue("password", txtPassword.Text);
         }
@@ -423,6 +426,71 @@ namespace POS.Admin
             AdminDashboard admin = new AdminDashboard(_username, _companyName);
             admin.Show();
             this.Close();
+        }
+
+        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
+
+        private void ManageUsersFrm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    btnBack_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F1:
+                    btnAdd_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F2:
+                    btnUpdate_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F3:
+                    btnDelete_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F4:
+                    btnClear_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void ShortcutKeyHints()
+        {
+            //Shortcut keys:
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.InitialDelay = 200; // ms before tooltip appears
+            toolTip.ShowAlways = true;
+
+            toolTip.SetToolTip(btnBack, "ESC");
+            toolTip.SetToolTip(btnAdd, "F1");
+            toolTip.SetToolTip(btnUpdate, "F2");
+            toolTip.SetToolTip(btnDelete, "F3");
+            toolTip.SetToolTip(btnClear, "F4");
+            AttachHoverEffect(btnBack, "BACK", "ESC");
+            AttachHoverEffect(btnAdd, "ADD", "F1");
+            AttachHoverEffect(btnUpdate, "EDIT", "F2");
+            AttachHoverEffect(btnDelete, "DELETE", "F3");
+            AttachHoverEffect(btnClear, "CLEAR", "F4");
+        }
+        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
+        {
+            Point originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Text = $"{defaultText}\n({shortcut})";
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Text = defaultText;
+                btn.Location = originalLocation;
+            };
         }
     }
 }

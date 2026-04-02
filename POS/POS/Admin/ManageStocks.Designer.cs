@@ -33,11 +33,9 @@
             closeButton = new Button();
             titleLabel = new Label();
             btnBack = new RoundedButton();
-            roundedButton1 = new RoundedButton();
+            btnAddStock = new RoundedButton();
             label2 = new Label();
             panel1 = new Panel();
-            roundedButton3 = new RoundedButton();
-            roundedButton2 = new RoundedButton();
             customTextBox6 = new CustomControls.CustomTextBox();
             label8 = new Label();
             customTextBox4 = new CustomControls.CustomTextBox();
@@ -50,10 +48,17 @@
             label5 = new Label();
             customTextBox1 = new CustomControls.CustomTextBox();
             label6 = new Label();
+            btnCancel = new RoundedButton();
+            btnSave = new RoundedButton();
             dataGridView1 = new DataGridView();
             dataGridView2 = new DataGridView();
             label12 = new Label();
             customTextBox8 = new CustomControls.CustomTextBox();
+            label1 = new Label();
+            customTextBox7 = new CustomControls.CustomTextBox();
+            btnRemoveStock = new RoundedButton();
+            label9 = new Label();
+            label10 = new Label();
             titleBar.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -120,7 +125,7 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(23, 661);
+            btnBack.Location = new Point(23, 533);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(68, 34);
             btnBack.TabIndex = 37;
@@ -129,22 +134,23 @@
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
             // 
-            // roundedButton1
+            // btnAddStock
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(25, 294);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(137, 40);
-            roundedButton1.TabIndex = 38;
-            roundedButton1.Text = "ADD STOCK";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnAddStock.BackColor = Color.SteelBlue;
+            btnAddStock.BorderColor = Color.Transparent;
+            btnAddStock.BorderRadius = 20;
+            btnAddStock.BorderSize = 0;
+            btnAddStock.FlatAppearance.BorderSize = 0;
+            btnAddStock.FlatStyle = FlatStyle.Flat;
+            btnAddStock.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddStock.ForeColor = Color.White;
+            btnAddStock.Location = new Point(445, 529);
+            btnAddStock.Name = "btnAddStock";
+            btnAddStock.Size = new Size(121, 40);
+            btnAddStock.TabIndex = 38;
+            btnAddStock.Text = "ADD STOCK";
+            btnAddStock.UseVisualStyleBackColor = false;
+            btnAddStock.Click += btnAddStock_Click;
             // 
             // label2
             // 
@@ -161,12 +167,11 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlLight;
-            panel1.Controls.Add(roundedButton3);
-            panel1.Controls.Add(roundedButton2);
+            panel1.Controls.Add(customTextBox7);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(customTextBox6);
             panel1.Controls.Add(label8);
             panel1.Controls.Add(customTextBox4);
-            panel1.Controls.Add(roundedButton1);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(customTextBox3);
             panel1.Controls.Add(label3);
@@ -181,40 +186,6 @@
             panel1.Size = new Size(534, 352);
             panel1.TabIndex = 39;
             // 
-            // roundedButton3
-            // 
-            roundedButton3.BackColor = Color.SteelBlue;
-            roundedButton3.BorderColor = Color.Transparent;
-            roundedButton3.BorderRadius = 20;
-            roundedButton3.BorderSize = 0;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.White;
-            roundedButton3.Location = new Point(379, 294);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(137, 40);
-            roundedButton3.TabIndex = 67;
-            roundedButton3.Text = "CANCEL";
-            roundedButton3.UseVisualStyleBackColor = false;
-            // 
-            // roundedButton2
-            // 
-            roundedButton2.BackColor = Color.SteelBlue;
-            roundedButton2.BorderColor = Color.Transparent;
-            roundedButton2.BorderRadius = 20;
-            roundedButton2.BorderSize = 0;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Location = new Point(206, 294);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(137, 40);
-            roundedButton2.TabIndex = 66;
-            roundedButton2.Text = "SAVE";
-            roundedButton2.UseVisualStyleBackColor = false;
-            // 
             // customTextBox6
             // 
             customTextBox6.BorderColor = SystemColors.ButtonFace;
@@ -227,12 +198,12 @@
             customTextBox6.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox6.InnerForeColor = Color.Gray;
             customTextBox6.IsPasswordField = false;
-            customTextBox6.Location = new Point(206, 234);
+            customTextBox6.Location = new Point(237, 234);
             customTextBox6.Name = "customTextBox6";
             customTextBox6.PasswordChar = '\0';
             customTextBox6.PlaceholderColor = Color.Gray;
             customTextBox6.PlaceholderText = "";
-            customTextBox6.Size = new Size(310, 32);
+            customTextBox6.Size = new Size(279, 32);
             customTextBox6.TabIndex = 65;
             // 
             // label8
@@ -240,11 +211,11 @@
             label8.AutoSize = true;
             label8.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(25, 245);
+            label8.Location = new Point(22, 245);
             label8.Name = "label8";
-            label8.Size = new Size(119, 21);
+            label8.Size = new Size(178, 21);
             label8.TabIndex = 64;
-            label8.Text = "Add Quantity";
+            label8.Text = "Total amount to add ";
             // 
             // customTextBox4
             // 
@@ -258,12 +229,12 @@
             customTextBox4.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox4.InnerForeColor = Color.Gray;
             customTextBox4.IsPasswordField = false;
-            customTextBox4.Location = new Point(206, 178);
+            customTextBox4.Location = new Point(237, 178);
             customTextBox4.Name = "customTextBox4";
             customTextBox4.PasswordChar = '\0';
             customTextBox4.PlaceholderColor = Color.Gray;
             customTextBox4.PlaceholderText = "";
-            customTextBox4.Size = new Size(310, 32);
+            customTextBox4.Size = new Size(279, 32);
             customTextBox4.TabIndex = 63;
             // 
             // label7
@@ -289,12 +260,12 @@
             customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox3.InnerForeColor = Color.Gray;
             customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(206, 99);
+            customTextBox3.Location = new Point(237, 99);
             customTextBox3.Name = "customTextBox3";
             customTextBox3.PasswordChar = '\0';
             customTextBox3.PlaceholderColor = Color.Gray;
             customTextBox3.PlaceholderText = "";
-            customTextBox3.Size = new Size(310, 32);
+            customTextBox3.Size = new Size(279, 32);
             customTextBox3.TabIndex = 61;
             // 
             // label3
@@ -320,12 +291,12 @@
             customTextBox5.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox5.InnerForeColor = Color.Gray;
             customTextBox5.IsPasswordField = false;
-            customTextBox5.Location = new Point(206, 137);
+            customTextBox5.Location = new Point(237, 137);
             customTextBox5.Name = "customTextBox5";
             customTextBox5.PasswordChar = '\0';
             customTextBox5.PlaceholderColor = Color.Gray;
             customTextBox5.PlaceholderText = "";
-            customTextBox5.Size = new Size(310, 32);
+            customTextBox5.Size = new Size(279, 32);
             customTextBox5.TabIndex = 60;
             // 
             // label4
@@ -351,12 +322,12 @@
             customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox2.InnerForeColor = Color.Gray;
             customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(206, 61);
+            customTextBox2.Location = new Point(237, 61);
             customTextBox2.Name = "customTextBox2";
             customTextBox2.PasswordChar = '\0';
             customTextBox2.PlaceholderColor = Color.Gray;
             customTextBox2.PlaceholderText = "";
-            customTextBox2.Size = new Size(310, 32);
+            customTextBox2.Size = new Size(279, 32);
             customTextBox2.TabIndex = 59;
             // 
             // label5
@@ -382,12 +353,12 @@
             customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox1.InnerForeColor = Color.Gray;
             customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(206, 23);
+            customTextBox1.Location = new Point(237, 23);
             customTextBox1.Name = "customTextBox1";
             customTextBox1.PasswordChar = '\0';
             customTextBox1.PlaceholderColor = Color.Gray;
             customTextBox1.PlaceholderText = "";
-            customTextBox1.Size = new Size(310, 32);
+            customTextBox1.Size = new Size(279, 32);
             customTextBox1.TabIndex = 58;
             // 
             // label6
@@ -400,6 +371,42 @@
             label6.Size = new Size(82, 21);
             label6.TabIndex = 57;
             label6.Text = "Unit Price";
+            // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.SteelBlue;
+            btnCancel.BorderColor = Color.Transparent;
+            btnCancel.BorderRadius = 20;
+            btnCancel.BorderSize = 0;
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.Location = new Point(893, 529);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(108, 40);
+            btnCancel.TabIndex = 67;
+            btnCancel.Text = "CANCEL";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // btnSave
+            // 
+            btnSave.BackColor = Color.SteelBlue;
+            btnSave.BorderColor = Color.Transparent;
+            btnSave.BorderRadius = 20;
+            btnSave.BorderSize = 0;
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSave.ForeColor = Color.White;
+            btnSave.Location = new Point(777, 529);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(99, 40);
+            btnSave.TabIndex = 66;
+            btnSave.Text = "SAVE";
+            btnSave.UseVisualStyleBackColor = false;
+            btnSave.Click += btnSave_Click;
             // 
             // dataGridView1
             // 
@@ -448,16 +455,95 @@
             customTextBox8.Size = new Size(802, 39);
             customTextBox8.TabIndex = 45;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(22, 286);
+            label1.Name = "label1";
+            label1.Size = new Size(201, 21);
+            label1.TabIndex = 66;
+            label1.Text = "Total amount to remove";
+            // 
+            // customTextBox7
+            // 
+            customTextBox7.BorderColor = SystemColors.ButtonFace;
+            customTextBox7.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            customTextBox7.BorderRadius = 8;
+            customTextBox7.BorderThickness = 2;
+            customTextBox7.Enabled = false;
+            customTextBox7.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            customTextBox7.ForeColor = SystemColors.GrayText;
+            customTextBox7.InnerBackColor = SystemColors.InactiveCaption;
+            customTextBox7.InnerForeColor = Color.Gray;
+            customTextBox7.IsPasswordField = false;
+            customTextBox7.Location = new Point(237, 275);
+            customTextBox7.Name = "customTextBox7";
+            customTextBox7.PasswordChar = '\0';
+            customTextBox7.PlaceholderColor = Color.Gray;
+            customTextBox7.PlaceholderText = "";
+            customTextBox7.Size = new Size(279, 32);
+            customTextBox7.TabIndex = 67;
+            // 
+            // btnRemoveStock
+            // 
+            btnRemoveStock.BackColor = Color.SteelBlue;
+            btnRemoveStock.BorderColor = Color.Transparent;
+            btnRemoveStock.BorderRadius = 20;
+            btnRemoveStock.BorderSize = 0;
+            btnRemoveStock.FlatAppearance.BorderSize = 0;
+            btnRemoveStock.FlatStyle = FlatStyle.Flat;
+            btnRemoveStock.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRemoveStock.ForeColor = Color.White;
+            btnRemoveStock.Location = new Point(595, 529);
+            btnRemoveStock.Name = "btnRemoveStock";
+            btnRemoveStock.Size = new Size(160, 40);
+            btnRemoveStock.TabIndex = 68;
+            btnRemoveStock.Text = "REMOVE STOCK";
+            btnRemoveStock.UseVisualStyleBackColor = false;
+            btnRemoveStock.Click += btnRemoveStock_Click;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.LightSteelBlue;
+            label9.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.Black;
+            label9.Location = new Point(576, 131);
+            label9.Name = "label9";
+            label9.Size = new Size(117, 19);
+            label9.TabIndex = 69;
+            label9.Text = "TOTAL STOCKS";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.LightSteelBlue;
+            label10.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.Black;
+            label10.Location = new Point(991, 131);
+            label10.Name = "label10";
+            label10.Size = new Size(169, 19);
+            label10.TabIndex = 70;
+            label10.Text = "STOCKS TO BE ADDED";
+            // 
             // ManageStocks
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1404, 720);
+            ClientSize = new Size(1404, 593);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(btnRemoveStock);
+            Controls.Add(btnCancel);
             Controls.Add(label12);
+            Controls.Add(btnSave);
             Controls.Add(customTextBox8);
             Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
             Controls.Add(label2);
+            Controls.Add(btnAddStock);
             Controls.Add(panel1);
             Controls.Add(btnBack);
             Controls.Add(titleBar);
@@ -482,7 +568,7 @@
         private Button closeButton;
         private Label titleLabel;
         private RoundedButton btnBack;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnAddStock;
         private Label label2;
         private Panel panel1;
         private CustomControls.CustomTextBox customTextBox4;
@@ -497,11 +583,16 @@
         private Label label6;
         private CustomControls.CustomTextBox customTextBox6;
         private Label label8;
-        private RoundedButton roundedButton3;
-        private RoundedButton roundedButton2;
+        private RoundedButton btnCancel;
+        private RoundedButton btnSave;
         private DataGridView dataGridView1;
         private DataGridView dataGridView2;
         private Label label12;
         private CustomControls.CustomTextBox customTextBox8;
+        private Label label1;
+        private CustomControls.CustomTextBox customTextBox7;
+        private RoundedButton btnRemoveStock;
+        private Label label9;
+        private Label label10;
     }
 }

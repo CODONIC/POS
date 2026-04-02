@@ -427,9 +427,9 @@
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(120, 646);
+            btnAdd.Location = new Point(348, 653);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(192, 62);
+            btnAdd.Size = new Size(127, 49);
             btnAdd.TabIndex = 36;
             btnAdd.Text = "ADD ";
             btnAdd.UseVisualStyleBackColor = false;
@@ -445,9 +445,9 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(386, 646);
+            btnUpdate.Location = new Point(491, 653);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(192, 62);
+            btnUpdate.Size = new Size(127, 49);
             btnUpdate.TabIndex = 37;
             btnUpdate.Text = "UPDATE";
             btnUpdate.UseVisualStyleBackColor = false;
@@ -463,9 +463,9 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(655, 646);
+            btnDelete.Location = new Point(639, 653);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(192, 62);
+            btnDelete.Size = new Size(127, 49);
             btnDelete.TabIndex = 38;
             btnDelete.Text = "DELETE";
             btnDelete.UseVisualStyleBackColor = false;
@@ -481,9 +481,9 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(927, 646);
+            btnClear.Location = new Point(774, 653);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(192, 62);
+            btnClear.Size = new Size(127, 49);
             btnClear.TabIndex = 42;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
@@ -567,6 +567,8 @@
             panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+
+
         }
 
         #endregion
