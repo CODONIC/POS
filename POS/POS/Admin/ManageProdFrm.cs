@@ -201,11 +201,12 @@ namespace POS.Admin
         {
             await LoadProductsAsync(txtSearch.Text.Trim());
         }
+        // ─── Buttons ───────────────────────────────────────────────────────────────
         private void btnAdd_Click(object sender, EventArgs e)
         {
             //Code here
         }
-        // ─── Buttons ───────────────────────────────────────────────────────────────
+        
         private void btnEdit_Click(object sender, EventArgs e)
         {
             //Code here

@@ -449,7 +449,7 @@
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(127, 49);
             btnUpdate.TabIndex = 37;
-            btnUpdate.Text = "UPDATE";
+            btnUpdate.Text = "EDIT";
             btnUpdate.UseVisualStyleBackColor = false;
             btnUpdate.Click += btnUpdate_Click;
             // 

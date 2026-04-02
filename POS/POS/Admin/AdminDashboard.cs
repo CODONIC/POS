@@ -104,23 +104,41 @@ namespace POS
             }
         }
 
+
         private void ShortcutKeyHints()
         {
-            //Shortcut keys HINTS:
-            btnLogOut.MouseEnter += (s, e) => btnLogOut.Text = "Logout (ESC)";
-            btnLogOut.MouseLeave += (s, e) => btnLogOut.Text = "Logout";
+            //Shortcut keys:
 
-            btnManageUsers.MouseEnter += (s, e) => btnManageUsers.Text = "Manage Users (F1)";
-            btnManageUsers.MouseLeave += (s, e) => btnManageUsers.Text = "Manage Users";
+            ToolTip toolTip = new ToolTip();
+            toolTip.InitialDelay = 200; // ms before tooltip appears
+            toolTip.ShowAlways = true;
 
-            btnManageCategory.MouseEnter += (s, e) => btnManageCategory.Text = "Manage Category (F2)";
-            btnManageCategory.MouseLeave += (s, e) => btnManageCategory.Text = "Manage Category";
+            toolTip.SetToolTip(btnLogOut, "ESC");
+            toolTip.SetToolTip(btnManageUsers, "F1");
+            toolTip.SetToolTip(btnManageCategory, "F2");
+            toolTip.SetToolTip(btnManageProducts, "F3");
+            toolTip.SetToolTip(btnManageStocks, "F4");
+            AttachHoverEffect(btnLogOut);
+            AttachHoverEffect(btnManageUsers);
+            AttachHoverEffect(btnManageCategory);
+            AttachHoverEffect(btnManageProducts);
+            AttachHoverEffect(btnManageStocks);
+        }
+        private void AttachHoverEffect(Button btn)
+        {
+            Point originalLocation = btn.Location;
 
-            btnManageProducts.MouseEnter += (s, e) => btnManageProducts.Text = "Manage Products (F3)";
-            btnManageProducts.MouseLeave += (s, e) => btnManageProducts.Text = "Manage Products";
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6); // push text up
+            };
 
-            btnManageStocks.MouseEnter += (s, e) => btnManageStocks.Text = "Manage Stocks (F4)";
-            btnManageStocks.MouseLeave += (s, e) => btnManageStocks.Text = "Manage Stocks";
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0); // reset
+            };
         }
 
     }

@@ -127,152 +127,21 @@ namespace POS.Admin
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
-            {
-                MessageBox.Show("Please enter a category name.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                // Check duplicate within company
-                string checkSql = @"SELECT COUNT(*) FROM categories 
-                            WHERE LOWER(name) = LOWER(@name) 
-                            AND company_id = @companyId";
-                await using var checkCmd = new NpgsqlCommand(checkSql, conn);
-                checkCmd.Parameters.AddWithValue("name", txtCategoryName.Text.Trim());
-                checkCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                long count = (long)await checkCmd.ExecuteScalarAsync();
-
-                if (count > 0)
-                {
-                    MessageBox.Show("Category already exists.", "Duplicate",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string sql = @"INSERT INTO categories (name, company_id) 
-                       VALUES (@name, @companyId)";
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("name", txtCategoryName.Text.Trim());
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                MessageBox.Show("Category added successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadCategoriesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding category:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //CODE HERE
         }
 
         // ─── EDIT ─────────────────────────────────────────────────────────────────────
 
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_selectedCategoryId))
-            {
-                MessageBox.Show("Please select a category to edit.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
-            {
-                MessageBox.Show("Please enter a category name.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                // Check duplicate within company excluding current
-                string checkSql = @"SELECT COUNT(*) FROM categories 
-                            WHERE LOWER(name) = LOWER(@name) 
-                            AND company_id = @companyId
-                            AND id != @id";
-                await using var checkCmd = new NpgsqlCommand(checkSql, conn);
-                checkCmd.Parameters.AddWithValue("name", txtCategoryName.Text.Trim());
-                checkCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                checkCmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
-                long count = (long)await checkCmd.ExecuteScalarAsync();
-
-                if (count > 0)
-                {
-                    MessageBox.Show("Category name already exists.", "Duplicate",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string sql = @"UPDATE categories SET name = @name 
-                       WHERE id = @id AND company_id = @companyId";
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("name", txtCategoryName.Text.Trim());
-                cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                MessageBox.Show("Category updated successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadCategoriesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating category:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //CODE HERE
         }
 
         // ─── DELETE ───────────────────────────────────────────────────────────────────
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_selectedCategoryId))
-            {
-                MessageBox.Show("Please select a category to delete.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var confirm = MessageBox.Show(
-                $"Are you sure you want to delete \"{txtCategoryName.Text}\"?\nThis cannot be undone.",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirm != DialogResult.Yes) return;
-
-            try
-            {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                string sql = "DELETE FROM categories WHERE id = @id AND company_id = @companyId";
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                MessageBox.Show("Category deleted successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadCategoriesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error deleting category:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //CODE HERE
         }
 
         // ─── CLEAR ────────────────────────────────────────────────────────────────────
@@ -329,7 +198,7 @@ namespace POS.Admin
 
         private void ShortcutKeyHints()
         {
-            //Shortcut keys:
+            
 
             ToolTip toolTip = new ToolTip();
             toolTip.InitialDelay = 200; // ms before tooltip appears
