@@ -185,9 +185,9 @@
             label2.ForeColor = Color.Black;
             label2.Location = new Point(228, 202);
             label2.Name = "label2";
-            label2.Size = new Size(160, 21);
+            label2.Size = new Size(209, 21);
             label2.TabIndex = 36;
-            label2.Text = "Customer Payment";
+            label2.Text = "Customer Payment(cash)";
             // 
             // label3
             // 

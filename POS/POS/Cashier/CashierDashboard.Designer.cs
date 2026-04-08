@@ -36,10 +36,10 @@
             titleLabel = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             panel1 = new Panel();
-            customTextBox3 = new CustomControls.CustomTextBox();
-            customTextBox2 = new CustomControls.CustomTextBox();
-            customTextBox1 = new CustomControls.CustomTextBox();
-            txtprodCode = new CustomControls.CustomTextBox();
+            txtProductName = new CustomControls.CustomTextBox();
+            txtPrice = new CustomControls.CustomTextBox();
+            txtQuan = new CustomControls.CustomTextBox();
+            txtProductCode = new CustomControls.CustomTextBox();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
@@ -50,21 +50,22 @@
             label8 = new Label();
             usersBindingSource = new BindingSource(components);
             panel3 = new Panel();
+            btnClearSelection = new RoundedButton();
             customTextBox7 = new CustomControls.CustomTextBox();
             customTextBox6 = new CustomControls.CustomTextBox();
             customTextBox5 = new CustomControls.CustomTextBox();
             customTextBox4 = new CustomControls.CustomTextBox();
-            roundedButton4 = new RoundedButton();
+            btnClearCart = new RoundedButton();
             btnPayment = new RoundedButton();
             btnDiscount = new RoundedButton();
-            roundedButton1 = new RoundedButton();
+            btnAddToCart = new RoundedButton();
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
             dgvProducts = new DataGridView();
-            roundedButton5 = new RoundedButton();
-            label1 = new Label();
+            btnCart = new RoundedButton();
+            lblProducts = new Label();
             titleBar.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -152,10 +153,10 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlLight;
-            panel1.Controls.Add(customTextBox3);
-            panel1.Controls.Add(customTextBox2);
-            panel1.Controls.Add(customTextBox1);
-            panel1.Controls.Add(txtprodCode);
+            panel1.Controls.Add(txtProductName);
+            panel1.Controls.Add(txtPrice);
+            panel1.Controls.Add(txtQuan);
+            panel1.Controls.Add(txtProductCode);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
@@ -165,81 +166,81 @@
             panel1.Size = new Size(843, 162);
             panel1.TabIndex = 18;
             // 
-            // customTextBox3
+            // txtProductName
             // 
-            customTextBox3.BorderColor = SystemColors.ButtonFace;
-            customTextBox3.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox3.BorderRadius = 8;
-            customTextBox3.BorderThickness = 2;
-            customTextBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox3.ForeColor = SystemColors.GrayText;
-            customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox3.InnerForeColor = Color.Gray;
-            customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(133, 88);
-            customTextBox3.Name = "customTextBox3";
-            customTextBox3.PasswordChar = '\0';
-            customTextBox3.PlaceholderColor = Color.Gray;
-            customTextBox3.PlaceholderText = "";
-            customTextBox3.Size = new Size(194, 39);
-            customTextBox3.TabIndex = 31;
+            txtProductName.BorderColor = SystemColors.ButtonFace;
+            txtProductName.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtProductName.BorderRadius = 8;
+            txtProductName.BorderThickness = 2;
+            txtProductName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtProductName.ForeColor = SystemColors.GrayText;
+            txtProductName.InnerBackColor = SystemColors.InactiveCaption;
+            txtProductName.InnerForeColor = Color.Gray;
+            txtProductName.IsPasswordField = false;
+            txtProductName.Location = new Point(133, 88);
+            txtProductName.Name = "txtProductName";
+            txtProductName.PasswordChar = '\0';
+            txtProductName.PlaceholderColor = Color.Gray;
+            txtProductName.PlaceholderText = "";
+            txtProductName.Size = new Size(194, 39);
+            txtProductName.TabIndex = 31;
             // 
-            // customTextBox2
+            // txtPrice
             // 
-            customTextBox2.BorderColor = SystemColors.ButtonFace;
-            customTextBox2.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox2.BorderRadius = 8;
-            customTextBox2.BorderThickness = 2;
-            customTextBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox2.ForeColor = SystemColors.GrayText;
-            customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox2.InnerForeColor = Color.Gray;
-            customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(479, 87);
-            customTextBox2.Name = "customTextBox2";
-            customTextBox2.PasswordChar = '\0';
-            customTextBox2.PlaceholderColor = Color.Gray;
-            customTextBox2.PlaceholderText = "";
-            customTextBox2.Size = new Size(95, 39);
-            customTextBox2.TabIndex = 30;
+            txtPrice.BorderColor = SystemColors.ButtonFace;
+            txtPrice.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtPrice.BorderRadius = 8;
+            txtPrice.BorderThickness = 2;
+            txtPrice.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtPrice.ForeColor = SystemColors.GrayText;
+            txtPrice.InnerBackColor = SystemColors.InactiveCaption;
+            txtPrice.InnerForeColor = Color.Gray;
+            txtPrice.IsPasswordField = false;
+            txtPrice.Location = new Point(479, 87);
+            txtPrice.Name = "txtPrice";
+            txtPrice.PasswordChar = '\0';
+            txtPrice.PlaceholderColor = Color.Gray;
+            txtPrice.PlaceholderText = "";
+            txtPrice.Size = new Size(95, 39);
+            txtPrice.TabIndex = 30;
             // 
-            // customTextBox1
+            // txtQuan
             // 
-            customTextBox1.BorderColor = SystemColors.ButtonFace;
-            customTextBox1.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox1.BorderRadius = 8;
-            customTextBox1.BorderThickness = 2;
-            customTextBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox1.ForeColor = SystemColors.GrayText;
-            customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox1.InnerForeColor = Color.Gray;
-            customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(479, 34);
-            customTextBox1.Name = "customTextBox1";
-            customTextBox1.PasswordChar = '\0';
-            customTextBox1.PlaceholderColor = Color.Gray;
-            customTextBox1.PlaceholderText = "";
-            customTextBox1.Size = new Size(95, 39);
-            customTextBox1.TabIndex = 29;
+            txtQuan.BorderColor = SystemColors.ButtonFace;
+            txtQuan.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtQuan.BorderRadius = 8;
+            txtQuan.BorderThickness = 2;
+            txtQuan.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtQuan.ForeColor = SystemColors.GrayText;
+            txtQuan.InnerBackColor = SystemColors.InactiveCaption;
+            txtQuan.InnerForeColor = Color.Gray;
+            txtQuan.IsPasswordField = false;
+            txtQuan.Location = new Point(479, 34);
+            txtQuan.Name = "txtQuan";
+            txtQuan.PasswordChar = '\0';
+            txtQuan.PlaceholderColor = Color.Gray;
+            txtQuan.PlaceholderText = "";
+            txtQuan.Size = new Size(95, 39);
+            txtQuan.TabIndex = 29;
             // 
-            // txtprodCode
+            // txtProductCode
             // 
-            txtprodCode.BorderColor = SystemColors.ButtonFace;
-            txtprodCode.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            txtprodCode.BorderRadius = 8;
-            txtprodCode.BorderThickness = 2;
-            txtprodCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtprodCode.ForeColor = SystemColors.GrayText;
-            txtprodCode.InnerBackColor = SystemColors.InactiveCaption;
-            txtprodCode.InnerForeColor = Color.Gray;
-            txtprodCode.IsPasswordField = false;
-            txtprodCode.Location = new Point(133, 34);
-            txtprodCode.Name = "txtprodCode";
-            txtprodCode.PasswordChar = '\0';
-            txtprodCode.PlaceholderColor = Color.Gray;
-            txtprodCode.PlaceholderText = "";
-            txtprodCode.Size = new Size(194, 39);
-            txtprodCode.TabIndex = 28;
+            txtProductCode.BorderColor = SystemColors.ButtonFace;
+            txtProductCode.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtProductCode.BorderRadius = 8;
+            txtProductCode.BorderThickness = 2;
+            txtProductCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtProductCode.ForeColor = SystemColors.GrayText;
+            txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
+            txtProductCode.InnerForeColor = Color.Gray;
+            txtProductCode.IsPasswordField = false;
+            txtProductCode.Location = new Point(133, 34);
+            txtProductCode.Name = "txtProductCode";
+            txtProductCode.PasswordChar = '\0';
+            txtProductCode.PlaceholderColor = Color.Gray;
+            txtProductCode.PlaceholderText = "";
+            txtProductCode.Size = new Size(194, 39);
+            txtProductCode.TabIndex = 28;
             // 
             // label6
             // 
@@ -339,14 +340,15 @@
             // panel3
             // 
             panel3.BackColor = SystemColors.ControlLight;
+            panel3.Controls.Add(btnClearSelection);
             panel3.Controls.Add(customTextBox7);
             panel3.Controls.Add(customTextBox6);
             panel3.Controls.Add(customTextBox5);
             panel3.Controls.Add(customTextBox4);
-            panel3.Controls.Add(roundedButton4);
+            panel3.Controls.Add(btnClearCart);
             panel3.Controls.Add(btnPayment);
             panel3.Controls.Add(btnDiscount);
-            panel3.Controls.Add(roundedButton1);
+            panel3.Controls.Add(btnAddToCart);
             panel3.Controls.Add(label12);
             panel3.Controls.Add(label11);
             panel3.Controls.Add(label10);
@@ -355,6 +357,23 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(274, 493);
             panel3.TabIndex = 27;
+            // 
+            // btnClearSelection
+            // 
+            btnClearSelection.BackColor = Color.MediumSlateBlue;
+            btnClearSelection.BorderColor = Color.Transparent;
+            btnClearSelection.BorderRadius = 20;
+            btnClearSelection.BorderSize = 0;
+            btnClearSelection.FlatAppearance.BorderSize = 0;
+            btnClearSelection.FlatStyle = FlatStyle.Flat;
+            btnClearSelection.ForeColor = Color.White;
+            btnClearSelection.Location = new Point(63, 413);
+            btnClearSelection.Name = "btnClearSelection";
+            btnClearSelection.Size = new Size(150, 40);
+            btnClearSelection.TabIndex = 36;
+            btnClearSelection.Text = "CLEAR SELECTION";
+            btnClearSelection.UseVisualStyleBackColor = false;
+            btnClearSelection.Click += btnClearSelection_Click;
             // 
             // customTextBox7
             // 
@@ -440,21 +459,21 @@
             customTextBox4.TabIndex = 32;
             customTextBox4.Text = "12345678";
             // 
-            // roundedButton4
+            // btnClearCart
             // 
-            roundedButton4.BackColor = Color.MediumSlateBlue;
-            roundedButton4.BorderColor = Color.Transparent;
-            roundedButton4.BorderRadius = 20;
-            roundedButton4.BorderSize = 0;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.ForeColor = Color.White;
-            roundedButton4.Location = new Point(59, 401);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(150, 40);
-            roundedButton4.TabIndex = 29;
-            roundedButton4.Text = "CLEAR CART";
-            roundedButton4.UseVisualStyleBackColor = false;
+            btnClearCart.BackColor = Color.MediumSlateBlue;
+            btnClearCart.BorderColor = Color.Transparent;
+            btnClearCart.BorderRadius = 20;
+            btnClearCart.BorderSize = 0;
+            btnClearCart.FlatAppearance.BorderSize = 0;
+            btnClearCart.FlatStyle = FlatStyle.Flat;
+            btnClearCart.ForeColor = Color.White;
+            btnClearCart.Location = new Point(63, 367);
+            btnClearCart.Name = "btnClearCart";
+            btnClearCart.Size = new Size(150, 40);
+            btnClearCart.TabIndex = 29;
+            btnClearCart.Text = "CLEAR CART";
+            btnClearCart.UseVisualStyleBackColor = false;
             // 
             // btnPayment
             // 
@@ -465,7 +484,7 @@
             btnPayment.FlatAppearance.BorderSize = 0;
             btnPayment.FlatStyle = FlatStyle.Flat;
             btnPayment.ForeColor = Color.White;
-            btnPayment.Location = new Point(59, 355);
+            btnPayment.Location = new Point(63, 321);
             btnPayment.Name = "btnPayment";
             btnPayment.Size = new Size(150, 40);
             btnPayment.TabIndex = 28;
@@ -482,7 +501,7 @@
             btnDiscount.FlatAppearance.BorderSize = 0;
             btnDiscount.FlatStyle = FlatStyle.Flat;
             btnDiscount.ForeColor = Color.White;
-            btnDiscount.Location = new Point(59, 309);
+            btnDiscount.Location = new Point(63, 275);
             btnDiscount.Name = "btnDiscount";
             btnDiscount.Size = new Size(150, 40);
             btnDiscount.TabIndex = 27;
@@ -490,21 +509,22 @@
             btnDiscount.UseVisualStyleBackColor = false;
             btnDiscount.Click += btnDiscount_Click;
             // 
-            // roundedButton1
+            // btnAddToCart
             // 
-            roundedButton1.BackColor = Color.MediumSlateBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(59, 263);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(150, 40);
-            roundedButton1.TabIndex = 26;
-            roundedButton1.Text = "ADD TO CART";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnAddToCart.BackColor = Color.MediumSlateBlue;
+            btnAddToCart.BorderColor = Color.Transparent;
+            btnAddToCart.BorderRadius = 20;
+            btnAddToCart.BorderSize = 0;
+            btnAddToCart.FlatAppearance.BorderSize = 0;
+            btnAddToCart.FlatStyle = FlatStyle.Flat;
+            btnAddToCart.ForeColor = Color.White;
+            btnAddToCart.Location = new Point(63, 229);
+            btnAddToCart.Name = "btnAddToCart";
+            btnAddToCart.Size = new Size(150, 40);
+            btnAddToCart.TabIndex = 26;
+            btnAddToCart.Text = "ADD TO CART";
+            btnAddToCart.UseVisualStyleBackColor = false;
+            btnAddToCart.Click += btnAddToCart_Click;
             // 
             // label12
             // 
@@ -566,42 +586,44 @@
             dgvProducts.Name = "dgvProducts";
             dgvProducts.Size = new Size(843, 460);
             dgvProducts.TabIndex = 28;
+            dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
             // 
-            // roundedButton5
+            // btnCart
             // 
-            roundedButton5.BackColor = Color.MediumSlateBlue;
-            roundedButton5.BorderColor = Color.Transparent;
-            roundedButton5.BorderRadius = 20;
-            roundedButton5.BorderSize = 0;
-            roundedButton5.FlatAppearance.BorderSize = 0;
-            roundedButton5.FlatStyle = FlatStyle.Flat;
-            roundedButton5.ForeColor = Color.White;
-            roundedButton5.Location = new Point(737, 716);
-            roundedButton5.Name = "roundedButton5";
-            roundedButton5.Size = new Size(150, 40);
-            roundedButton5.TabIndex = 36;
-            roundedButton5.Text = "Cart Table";
-            roundedButton5.UseVisualStyleBackColor = false;
+            btnCart.BackColor = Color.MediumSlateBlue;
+            btnCart.BorderColor = Color.Transparent;
+            btnCart.BorderRadius = 20;
+            btnCart.BorderSize = 0;
+            btnCart.FlatAppearance.BorderSize = 0;
+            btnCart.FlatStyle = FlatStyle.Flat;
+            btnCart.ForeColor = Color.White;
+            btnCart.Location = new Point(737, 716);
+            btnCart.Name = "btnCart";
+            btnCart.Size = new Size(150, 40);
+            btnCart.TabIndex = 36;
+            btnCart.Text = "Cart Table >";
+            btnCart.UseVisualStyleBackColor = false;
+            btnCart.Click += btnCart_Click;
             // 
-            // label1
+            // lblProducts
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.LightSteelBlue;
-            label1.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(44, 241);
-            label1.Name = "label1";
-            label1.Size = new Size(74, 19);
-            label1.TabIndex = 37;
-            label1.Text = "Products";
+            lblProducts.AutoSize = true;
+            lblProducts.BackColor = Color.LightSteelBlue;
+            lblProducts.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblProducts.ForeColor = Color.Black;
+            lblProducts.Location = new Point(44, 241);
+            lblProducts.Name = "lblProducts";
+            lblProducts.Size = new Size(74, 19);
+            lblProducts.TabIndex = 37;
+            lblProducts.Text = "Products";
             // 
             // CashierDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1267, 768);
-            Controls.Add(label1);
-            Controls.Add(roundedButton5);
+            Controls.Add(lblProducts);
+            Controls.Add(btnCart);
             Controls.Add(dgvProducts);
             Controls.Add(panel3);
             Controls.Add(label8);
@@ -645,10 +667,10 @@
         private Label label7;
         private Panel panel2;
         private Label label8;
-        private CustomControls.CustomTextBox customTextBox3;
-        private CustomControls.CustomTextBox customTextBox2;
-        private CustomControls.CustomTextBox customTextBox1;
-        private CustomControls.CustomTextBox txtprodCode;
+        private CustomControls.CustomTextBox txtProductName;
+        private CustomControls.CustomTextBox txtPrice;
+        private CustomControls.CustomTextBox txtQuan;
+        private CustomControls.CustomTextBox txtProductCode;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn usernameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
@@ -663,16 +685,17 @@
         private Label label11;
         private Label label10;
         private CustomControls.CustomTextBox customTextBox4;
-        private RoundedButton roundedButton4;
+        private RoundedButton btnClearCart;
         private RoundedButton btnPayment;
         private RoundedButton btnDiscount;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnAddToCart;
         private CustomControls.CustomTextBox customTextBox7;
         private CustomControls.CustomTextBox customTextBox6;
         private CustomControls.CustomTextBox customTextBox5;
         private RoundedButton btnLogOut;
         private DataGridView dgvProducts;
-        private RoundedButton roundedButton5;
-        private Label label1;
+        private RoundedButton btnCart;
+        private Label lblProducts;
+        private RoundedButton btnClearSelection;
     }
 }
