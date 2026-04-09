@@ -385,11 +385,7 @@ namespace POS
             }
         }
 
-        private void btnDiscount_Click(object sender, EventArgs e)
-        {
-            DiscountFrm discount = new DiscountFrm(_username, _companyName);
-            discount.Show();
-        }
+        
 
         private void btnPayment_Click(object sender, EventArgs e)
         {

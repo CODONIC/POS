@@ -29,10 +29,6 @@ namespace POS.Cashier
             this.Hide();
         }
 
-        private void btnDiscount_Click(object sender, EventArgs e)
-        {
-            DiscountFrm discount = new DiscountFrm(_username, _companyName);
-            discount.Show();
-        }
+        
     }
 }

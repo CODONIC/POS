@@ -39,7 +39,9 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            btnDiscount = new RoundedButton();
+            label4 = new Label();
+            label5 = new Label();
+            customTextBox4 = new CustomControls.CustomTextBox();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -103,7 +105,7 @@
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(228, 343);
+            btnSave.Location = new Point(228, 365);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(82, 34);
             btnSave.TabIndex = 31;
@@ -123,7 +125,7 @@
             customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox2.InnerForeColor = Color.Gray;
             customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(226, 157);
+            customTextBox2.Location = new Point(226, 111);
             customTextBox2.Name = "customTextBox2";
             customTextBox2.PasswordChar = '\0';
             customTextBox2.PlaceholderColor = Color.Gray;
@@ -142,7 +144,7 @@
             customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox1.InnerForeColor = Color.Gray;
             customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(228, 226);
+            customTextBox1.Location = new Point(228, 180);
             customTextBox1.Name = "customTextBox1";
             customTextBox1.PasswordChar = '\0';
             customTextBox1.PlaceholderColor = Color.Gray;
@@ -161,7 +163,7 @@
             customTextBox3.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox3.InnerForeColor = Color.Gray;
             customTextBox3.IsPasswordField = false;
-            customTextBox3.Location = new Point(226, 295);
+            customTextBox3.Location = new Point(226, 317);
             customTextBox3.Name = "customTextBox3";
             customTextBox3.PasswordChar = '\0';
             customTextBox3.PlaceholderColor = Color.Gray;
@@ -174,7 +176,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(226, 119);
+            label1.Location = new Point(226, 73);
             label1.Name = "label1";
             label1.Size = new Size(186, 21);
             label1.TabIndex = 35;
@@ -185,7 +187,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(228, 202);
+            label2.Location = new Point(228, 156);
             label2.Name = "label2";
             label2.Size = new Size(209, 21);
             label2.TabIndex = 36;
@@ -196,35 +198,61 @@
             label3.AutoSize = true;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(228, 271);
+            label3.Location = new Point(228, 293);
             label3.Name = "label3";
             label3.Size = new Size(75, 21);
             label3.TabIndex = 37;
             label3.Text = "Change";
             // 
-            // btnDiscount
+            // label4
             // 
-            btnDiscount.BackColor = Color.MediumSlateBlue;
-            btnDiscount.BorderColor = Color.Transparent;
-            btnDiscount.BorderRadius = 20;
-            btnDiscount.BorderSize = 0;
-            btnDiscount.FlatAppearance.BorderSize = 0;
-            btnDiscount.FlatStyle = FlatStyle.Flat;
-            btnDiscount.ForeColor = Color.White;
-            btnDiscount.Location = new Point(367, 342);
-            btnDiscount.Name = "btnDiscount";
-            btnDiscount.Size = new Size(101, 40);
-            btnDiscount.TabIndex = 38;
-            btnDiscount.Text = "ADD DISCOUNT";
-            btnDiscount.UseVisualStyleBackColor = false;
-            btnDiscount.Click += btnDiscount_Click;
+            label4.AutoSize = true;
+            label4.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Black;
+            label4.Location = new Point(478, 260);
+            label4.Name = "label4";
+            label4.Size = new Size(22, 21);
+            label4.TabIndex = 45;
+            label4.Text = "%";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Black;
+            label5.Location = new Point(232, 224);
+            label5.Name = "label5";
+            label5.Size = new Size(78, 21);
+            label5.TabIndex = 44;
+            label5.Text = "Discount";
+            // 
+            // customTextBox4
+            // 
+            customTextBox4.BorderColor = SystemColors.ButtonFace;
+            customTextBox4.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            customTextBox4.BorderRadius = 8;
+            customTextBox4.BorderThickness = 2;
+            customTextBox4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            customTextBox4.ForeColor = SystemColors.GrayText;
+            customTextBox4.InnerBackColor = SystemColors.InactiveCaption;
+            customTextBox4.InnerForeColor = Color.Gray;
+            customTextBox4.IsPasswordField = false;
+            customTextBox4.Location = new Point(230, 248);
+            customTextBox4.Name = "customTextBox4";
+            customTextBox4.PasswordChar = '\0';
+            customTextBox4.PlaceholderColor = Color.Gray;
+            customTextBox4.PlaceholderText = "";
+            customTextBox4.Size = new Size(242, 42);
+            customTextBox4.TabIndex = 43;
             // 
             // PaymentFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(698, 450);
-            Controls.Add(btnDiscount);
+            Controls.Add(label4);
+            Controls.Add(label5);
+            Controls.Add(customTextBox4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -256,6 +284,8 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private RoundedButton btnDiscount;
+        private Label label4;
+        private Label label5;
+        private CustomControls.CustomTextBox customTextBox4;
     }
 }
