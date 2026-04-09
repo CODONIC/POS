@@ -26,7 +26,13 @@ namespace POS.Cashier
 
         public override void CloseButton_Click(object sender, EventArgs e)
         {
-                this.Hide();
+            this.Hide();
+        }
+
+        private void btnDiscount_Click(object sender, EventArgs e)
+        {
+            DiscountFrm discount = new DiscountFrm(_username, _companyName);
+            discount.Show();
         }
     }
 }

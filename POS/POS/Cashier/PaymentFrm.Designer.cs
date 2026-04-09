@@ -39,6 +39,7 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            btnDiscount = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -102,7 +103,7 @@
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(293, 343);
+            btnSave.Location = new Point(228, 343);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(82, 34);
             btnSave.TabIndex = 31;
@@ -116,6 +117,7 @@
             customTextBox2.BorderFocusColor = Color.FromArgb(30, 45, 61);
             customTextBox2.BorderRadius = 8;
             customTextBox2.BorderThickness = 2;
+            customTextBox2.Enabled = false;
             customTextBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             customTextBox2.ForeColor = SystemColors.GrayText;
             customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
@@ -200,11 +202,29 @@
             label3.TabIndex = 37;
             label3.Text = "Change";
             // 
+            // btnDiscount
+            // 
+            btnDiscount.BackColor = Color.MediumSlateBlue;
+            btnDiscount.BorderColor = Color.Transparent;
+            btnDiscount.BorderRadius = 20;
+            btnDiscount.BorderSize = 0;
+            btnDiscount.FlatAppearance.BorderSize = 0;
+            btnDiscount.FlatStyle = FlatStyle.Flat;
+            btnDiscount.ForeColor = Color.White;
+            btnDiscount.Location = new Point(367, 342);
+            btnDiscount.Name = "btnDiscount";
+            btnDiscount.Size = new Size(101, 40);
+            btnDiscount.TabIndex = 38;
+            btnDiscount.Text = "ADD DISCOUNT";
+            btnDiscount.UseVisualStyleBackColor = false;
+            btnDiscount.Click += btnDiscount_Click;
+            // 
             // PaymentFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(698, 450);
+            Controls.Add(btnDiscount);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -236,5 +256,6 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private RoundedButton btnDiscount;
     }
 }

@@ -22,7 +22,8 @@ namespace POS
         private DataTable _productsTable = new DataTable();
         private DataTable _cartTable = new DataTable();
         private bool _isCartView = false;
-        private bool _suppressSelectionChanged = false; // ← NEW
+        private bool _suppressSelectionChanged = false;
+        private bool _transactionStarted = false;
 
 
         public CashierDashboard(string username, string companyName)
@@ -57,6 +58,10 @@ namespace POS
             txtPrice.TextChanged += txtPrice_TextChanged;
 
             dgvProducts.AllowUserToAddRows = false;
+
+            this.KeyPreview = true;
+            this.KeyDown += CashierDashboard_KeyDown;
+            ShortcutKeyHints();
         }
 
         // ─── Resolve company name to ID ───────────────────────────────────────────
@@ -85,11 +90,22 @@ namespace POS
             }
         }
 
+        // ─── Generate Transaction Number ──────────────────────────────────────────
+
+        private void GenerateTransactionNumber()
+        {
+            string datePart = DateTime.Now.ToString("yyyyMMdd");
+            string timePart = DateTime.Now.ToString("HHmmss");
+            string randomPart = new Random().Next(100, 999).ToString();
+            txtTransNo.Text = $"TXN-{datePart}-{timePart}-{randomPart}";
+        }
+
         // ─── Load Products ────────────────────────────────────────────────────────
 
         private async void CashierDashboard_Load(object sender, EventArgs e)
         {
             await LoadProductsAsync();
+            UpdateTotalPrice();
         }
 
         private async Task LoadProductsAsync()
@@ -124,6 +140,16 @@ namespace POS
             }
         }
 
+        // ─── Update Total Price ───────────────────────────────────────────────────
+
+        private void UpdateTotalPrice()
+        {
+            decimal total = _cartTable.AsEnumerable()
+                .Sum(r => Convert.ToDecimal(r["subtotal"]));
+
+            lblTotalPrice.Text = $"{total:N2}";
+        }
+
         // ─── View Switching ───────────────────────────────────────────────────────
 
         private void ShowProductsView()
@@ -140,7 +166,8 @@ namespace POS
 
             _suppressSelectionChanged = false;
             lblProducts.Text = "Products";
-            btnCart.Text = "Cart Table >"; 
+            btnCart.Text = "Cart Table >";
+            dgvProducts.ClearSelection();
         }
 
         private void ShowCartView()
@@ -158,7 +185,8 @@ namespace POS
 
             _suppressSelectionChanged = false;
             lblProducts.Text = "Cart";
-            btnCart.Text = "< Products Table"; 
+            btnCart.Text = "< Products Table";
+            dgvProducts.ClearSelection();
         }
 
         // ─── Toggle Cart / Products ───────────────────────────────────────────────
@@ -184,7 +212,6 @@ namespace POS
                 return;
             }
 
-            // ─── Find product from _productsTable using txtProductCode ────────
             var match = _productsTable.AsEnumerable()
                 .FirstOrDefault(r => r["product_code"].ToString()
                     .Equals(typedCode, StringComparison.OrdinalIgnoreCase));
@@ -201,34 +228,42 @@ namespace POS
             decimal price = Convert.ToDecimal(match["price"]);
             int availableQty = Convert.ToInt32(match["quantity"]);
 
-            // ─── Check if already in cart ─────────────────────────────────────
+            // ─── Check existing cart quantity ─────────────────────────────────
             var existingRow = _cartTable.AsEnumerable()
                 .FirstOrDefault(r => r["product_code"].ToString() == productCode);
+            int alreadyInCart = existingRow != null ? Convert.ToInt32(existingRow["quantity"]) : 0;
+            int remainingStock = availableQty - alreadyInCart;
 
-            if (existingRow != null)
+            if (remainingStock < 1)
             {
-                int newQty = Convert.ToInt32(existingRow["quantity"]) + 1;
-
-                if (newQty > availableQty)
-                {
-                    MessageBox.Show($"Not enough stock. Available: {availableQty}", "Stock Limit",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                existingRow["quantity"] = newQty;
-                existingRow["subtotal"] = newQty * price;
+                MessageBox.Show($"No more stock available. Already {alreadyInCart} in cart.", "Stock Limit",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            // ─── Prompt for quantity ──────────────────────────────────────────
+            using (var qtyDialog = new QuantityDialog($"{productName}\nAvailable: {remainingStock}", remainingStock))
             {
-                if (availableQty < 1)
+                if (qtyDialog.ShowDialog() != DialogResult.OK) return;
+                int requestedQty = qtyDialog.Quantity;
+
+                // ─── Generate transaction number on first item added ───────────
+                if (!_transactionStarted)
                 {
-                    MessageBox.Show("This product is out of stock.", "Out of Stock",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    GenerateTransactionNumber();
+                    _transactionStarted = true;
                 }
 
-                _cartTable.Rows.Add(productCode, productName, price, 1, price);
+                if (existingRow != null)
+                {
+                    int newQty = alreadyInCart + requestedQty;
+                    existingRow["quantity"] = newQty;
+                    existingRow["subtotal"] = newQty * price;
+                }
+                else
+                {
+                    _cartTable.Rows.Add(productCode, productName, price, requestedQty, requestedQty * price);
+                }
             }
 
             txtProductCode.Clear();
@@ -237,6 +272,7 @@ namespace POS
             txtPrice.Clear();
 
             ShowCartView();
+            UpdateTotalPrice();
         }
 
         // ─── Populate fields on row selection ────────────────────────────────────
@@ -251,7 +287,7 @@ namespace POS
             if (row.Index < 0 || row.Index >= dgvProducts.Rows.Count) return;
             if (row.IsNewRow) return;
 
-            _suppressSelectionChanged = true; // ← NEW: prevent TextChanged from firing a search
+            _suppressSelectionChanged = true;
             txtProductCode.Text = (dgvProducts.Columns.Contains("product_code") && row.Cells["product_code"].Value != null)
                                    ? row.Cells["product_code"].Value.ToString() : "";
             txtProductName.Text = (dgvProducts.Columns.Contains("product_name") && row.Cells["product_name"].Value != null)
@@ -260,14 +296,14 @@ namespace POS
                            ? row.Cells["quantity"].Value.ToString() : "";
             txtPrice.Text = (dgvProducts.Columns.Contains("price") && row.Cells["price"].Value != null)
                             ? row.Cells["price"].Value.ToString() : "";
-            _suppressSelectionChanged = false; // ← NEW
+            _suppressSelectionChanged = false;
         }
 
         // ─── Search ───────────────────────────────────────────────────────────────
 
         private void txtProductCode_TextChanged(object sender, EventArgs e)
         {
-            if (_suppressSelectionChanged) return; // ← prevents loop when row selection fills the textbox
+            if (_suppressSelectionChanged) return;
             SearchTable(txtProductCode.Text.Trim(), "product_code");
         }
 
@@ -311,10 +347,10 @@ namespace POS
                 ? filtered.CopyToDataTable()
                 : source.Clone();
 
-            _suppressSelectionChanged = true; // ← NEW
+            _suppressSelectionChanged = true;
             dgvProducts.DataSource = null;
             dgvProducts.DataSource = result;
-            _suppressSelectionChanged = false; // ← NEW
+            _suppressSelectionChanged = false;
 
             if (_isCartView)
             {
@@ -369,13 +405,196 @@ namespace POS
             txtProductName.Clear();
             txtQuan.Clear();
             txtPrice.Clear();
-
+            ShowProductsView();
             dgvProducts.ClearSelection();
 
             _suppressSelectionChanged = false;
+        }
 
-            // ← Restore full product list in case a search had filtered it
-            ShowProductsView();
+        private void btnClearCart_Click(object sender, EventArgs e)
+        {
+            if (_cartTable.Rows.Count == 0)
+            {
+                MessageBox.Show("Cart is already empty.", "Clear Cart",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult confirm = MessageBox.Show(
+                "Are you sure you want to clear all items from the cart?",
+                "Confirm Clear Cart", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+                _cartTable.Rows.Clear();
+                _transactionStarted = false;
+                txtTransNo.Text = "";
+
+                if (_isCartView)
+                    ShowCartView();
+
+                UpdateTotalPrice();
+            }
+        }
+
+        private void btnRemoveItems_Click(object sender, EventArgs e)
+        {
+            // ─── Must be in cart view ─────────────────────────────────────────
+            if (!_isCartView)
+            {
+                MessageBox.Show("Please switch to the cart view to remove items.",
+                    "Not in Cart View", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // ─── Must have a row selected ─────────────────────────────────────
+            if (dgvProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an item from the cart to remove.",
+                    "No Item Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ─── Get selected row data ────────────────────────────────────────
+            var selectedRow = dgvProducts.SelectedRows[0];
+            string productCode = selectedRow.Cells["product_code"].Value?.ToString();
+            string productName = selectedRow.Cells["product_name"].Value?.ToString();
+            int currentQty = Convert.ToInt32(selectedRow.Cells["quantity"].Value);
+            decimal price = Convert.ToDecimal(selectedRow.Cells["price"].Value);
+
+            // ─── Find matching row in _cartTable ──────────────────────────────
+            var cartRow = _cartTable.AsEnumerable()
+                .FirstOrDefault(r => r["product_code"].ToString() == productCode);
+
+            if (cartRow == null) return;
+
+            // ─── Prompt how many to remove ────────────────────────────────────
+            using (var qtyDialog = new QuantityDialog($"Remove: {productName}\nIn cart: {currentQty}", currentQty, "Remove Item"))
+            {
+                if (qtyDialog.ShowDialog() != DialogResult.OK) return;
+                int removeQty = qtyDialog.Quantity;
+
+                int newQty = currentQty - removeQty;
+
+                if (newQty <= 0)
+                {
+                    _cartTable.Rows.Remove(cartRow);
+                }
+                else
+                {
+                    cartRow["quantity"] = newQty;
+                    cartRow["subtotal"] = newQty * price;
+                }
+            }
+
+            // ─── If cart is now empty, reset transaction ──────────────────────
+            if (_cartTable.Rows.Count == 0)
+            {
+                _transactionStarted = false;
+                txtTransNo.Text = "";
+            }
+
+            ShowCartView();
+            UpdateTotalPrice();
+        }
+
+        // ─── Reset Transaction (called externally after successful payment) ────────
+        public void ResetTransaction()
+        {
+            _cartTable.Rows.Clear();
+            _transactionStarted = false;
+            txtTransNo.Text = "";
+            UpdateTotalPrice();
+
+            if (_isCartView)
+                ShowCartView();
+        }
+
+
+        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
+
+        private void CashierDashboard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)                            // Add to Cart
+            {
+                btnAddToCart_Click(sender, e);
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Delete)                      // Remove from Cart
+            {
+                btnRemoveItems_Click(sender, e);
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.C && e.Control && e.Shift)  // Clear Cart
+            {
+                btnClearCart_Click(sender, e);
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (dgvProducts.SelectedRows.Count > 0)
+                {
+                    // ─── Only clear selection if a row is actually selected
+                    btnClearSelection_Click(sender, e);
+                }
+                else
+                {
+                    // ─── No row selected, go straight to logout
+                    btnLogOut_Click(sender, e);
+                }
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.F2)                          // Proceed to Payment
+            {
+                btnPayment_Click(sender, e);
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.F1)
+            {
+                btnCart_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+        
+
+
+        private void ShortcutKeyHints()
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.InitialDelay = 200;
+            toolTip.ShowAlways = true;
+
+            toolTip.SetToolTip(btnAddToCart, "Enter");
+            toolTip.SetToolTip(btnRemoveItems, "Delete");
+            toolTip.SetToolTip(btnClearCart, "Ctrl + Shift + C");
+            toolTip.SetToolTip(btnClearSelection, "Esc");
+            toolTip.SetToolTip(btnPayment, "F2");
+            toolTip.SetToolTip(btnLogOut, "Esc");
+            toolTip.SetToolTip(btnCart, "F1");
+
+            AttachHoverEffect(btnAddToCart);
+            AttachHoverEffect(btnRemoveItems);
+            AttachHoverEffect(btnClearCart);
+            AttachHoverEffect(btnClearSelection);
+            AttachHoverEffect(btnPayment);
+            AttachHoverEffect(btnLogOut);
+            AttachHoverEffect(btnCart);
+        }
+        private void AttachHoverEffect(Button btn)
+        {
+            Point originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6); // push text up
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0); // reset
+            };
         }
     }
 }

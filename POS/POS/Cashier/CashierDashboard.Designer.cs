@@ -45,19 +45,19 @@
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
-            label7 = new Label();
+            lblTotalPrice = new Label();
             panel2 = new Panel();
             label8 = new Label();
             usersBindingSource = new BindingSource(components);
             panel3 = new Panel();
+            btnRemoveItems = new RoundedButton();
             btnClearSelection = new RoundedButton();
             customTextBox7 = new CustomControls.CustomTextBox();
             customTextBox6 = new CustomControls.CustomTextBox();
             customTextBox5 = new CustomControls.CustomTextBox();
-            customTextBox4 = new CustomControls.CustomTextBox();
+            txtTransNo = new CustomControls.CustomTextBox();
             btnClearCart = new RoundedButton();
             btnPayment = new RoundedButton();
-            btnDiscount = new RoundedButton();
             btnAddToCart = new RoundedButton();
             label12 = new Label();
             label11 = new Label();
@@ -302,23 +302,23 @@
             label2.TabIndex = 21;
             label2.Text = "ITEM INFORMATION";
             // 
-            // label7
+            // lblTotalPrice
             // 
-            label7.AutoSize = true;
-            label7.BackColor = SystemColors.Control;
-            label7.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.Black;
-            label7.Location = new Point(117, 66);
-            label7.Name = "label7";
-            label7.Size = new Size(40, 19);
-            label7.TabIndex = 22;
-            label7.Text = "0.00";
-            label7.TextAlign = ContentAlignment.MiddleCenter;
+            lblTotalPrice.AutoSize = true;
+            lblTotalPrice.BackColor = SystemColors.Control;
+            lblTotalPrice.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalPrice.ForeColor = Color.Black;
+            lblTotalPrice.Location = new Point(108, 66);
+            lblTotalPrice.Name = "lblTotalPrice";
+            lblTotalPrice.Size = new Size(40, 19);
+            lblTotalPrice.TabIndex = 22;
+            lblTotalPrice.Text = "0.00";
+            lblTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(label7);
+            panel2.Controls.Add(lblTotalPrice);
             panel2.Location = new Point(953, 73);
             panel2.Name = "panel2";
             panel2.Size = new Size(274, 162);
@@ -340,14 +340,14 @@
             // panel3
             // 
             panel3.BackColor = SystemColors.ControlLight;
+            panel3.Controls.Add(btnRemoveItems);
             panel3.Controls.Add(btnClearSelection);
             panel3.Controls.Add(customTextBox7);
             panel3.Controls.Add(customTextBox6);
             panel3.Controls.Add(customTextBox5);
-            panel3.Controls.Add(customTextBox4);
+            panel3.Controls.Add(txtTransNo);
             panel3.Controls.Add(btnClearCart);
             panel3.Controls.Add(btnPayment);
-            panel3.Controls.Add(btnDiscount);
             panel3.Controls.Add(btnAddToCart);
             panel3.Controls.Add(label12);
             panel3.Controls.Add(label11);
@@ -358,16 +358,33 @@
             panel3.Size = new Size(274, 493);
             panel3.TabIndex = 27;
             // 
+            // btnRemoveItems
+            // 
+            btnRemoveItems.BackColor = Color.Firebrick;
+            btnRemoveItems.BorderColor = Color.Transparent;
+            btnRemoveItems.BorderRadius = 20;
+            btnRemoveItems.BorderSize = 0;
+            btnRemoveItems.FlatAppearance.BorderSize = 0;
+            btnRemoveItems.FlatStyle = FlatStyle.Flat;
+            btnRemoveItems.ForeColor = Color.White;
+            btnRemoveItems.Location = new Point(63, 275);
+            btnRemoveItems.Name = "btnRemoveItems";
+            btnRemoveItems.Size = new Size(150, 40);
+            btnRemoveItems.TabIndex = 37;
+            btnRemoveItems.Text = "REMOVE FROM CART";
+            btnRemoveItems.UseVisualStyleBackColor = false;
+            btnRemoveItems.Click += btnRemoveItems_Click;
+            // 
             // btnClearSelection
             // 
-            btnClearSelection.BackColor = Color.MediumSlateBlue;
+            btnClearSelection.BackColor = Color.Firebrick;
             btnClearSelection.BorderColor = Color.Transparent;
             btnClearSelection.BorderRadius = 20;
             btnClearSelection.BorderSize = 0;
             btnClearSelection.FlatAppearance.BorderSize = 0;
             btnClearSelection.FlatStyle = FlatStyle.Flat;
             btnClearSelection.ForeColor = Color.White;
-            btnClearSelection.Location = new Point(63, 413);
+            btnClearSelection.Location = new Point(63, 367);
             btnClearSelection.Name = "btnClearSelection";
             btnClearSelection.Size = new Size(150, 40);
             btnClearSelection.TabIndex = 36;
@@ -438,80 +455,64 @@
             customTextBox5.TabIndex = 33;
             customTextBox5.Text = "0.00";
             // 
-            // customTextBox4
+            // txtTransNo
             // 
-            customTextBox4.BorderColor = SystemColors.ButtonFace;
-            customTextBox4.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox4.BorderRadius = 8;
-            customTextBox4.BorderThickness = 1;
-            customTextBox4.Enabled = false;
-            customTextBox4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox4.ForeColor = SystemColors.GrayText;
-            customTextBox4.InnerBackColor = SystemColors.ScrollBar;
-            customTextBox4.InnerForeColor = Color.Gray;
-            customTextBox4.IsPasswordField = false;
-            customTextBox4.Location = new Point(12, 167);
-            customTextBox4.Name = "customTextBox4";
-            customTextBox4.PasswordChar = '\0';
-            customTextBox4.PlaceholderColor = Color.Gray;
-            customTextBox4.PlaceholderText = "";
-            customTextBox4.Size = new Size(250, 39);
-            customTextBox4.TabIndex = 32;
-            customTextBox4.Text = "12345678";
+            txtTransNo.BorderColor = SystemColors.ButtonFace;
+            txtTransNo.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtTransNo.BorderRadius = 8;
+            txtTransNo.BorderThickness = 1;
+            txtTransNo.Enabled = false;
+            txtTransNo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtTransNo.ForeColor = SystemColors.GrayText;
+            txtTransNo.InnerBackColor = SystemColors.ScrollBar;
+            txtTransNo.InnerForeColor = Color.Gray;
+            txtTransNo.IsPasswordField = false;
+            txtTransNo.Location = new Point(12, 167);
+            txtTransNo.Name = "txtTransNo";
+            txtTransNo.PasswordChar = '\0';
+            txtTransNo.PlaceholderColor = Color.Gray;
+            txtTransNo.PlaceholderText = "";
+            txtTransNo.Size = new Size(250, 39);
+            txtTransNo.TabIndex = 32;
+            txtTransNo.Text = "177013";
             // 
             // btnClearCart
             // 
-            btnClearCart.BackColor = Color.MediumSlateBlue;
+            btnClearCart.BackColor = Color.Firebrick;
             btnClearCart.BorderColor = Color.Transparent;
             btnClearCart.BorderRadius = 20;
             btnClearCart.BorderSize = 0;
             btnClearCart.FlatAppearance.BorderSize = 0;
             btnClearCart.FlatStyle = FlatStyle.Flat;
             btnClearCart.ForeColor = Color.White;
-            btnClearCart.Location = new Point(63, 367);
+            btnClearCart.Location = new Point(63, 321);
             btnClearCart.Name = "btnClearCart";
             btnClearCart.Size = new Size(150, 40);
             btnClearCart.TabIndex = 29;
             btnClearCart.Text = "CLEAR CART";
             btnClearCart.UseVisualStyleBackColor = false;
+            btnClearCart.Click += btnClearCart_Click;
             // 
             // btnPayment
             // 
-            btnPayment.BackColor = Color.MediumSlateBlue;
+            btnPayment.BackColor = Color.Green;
             btnPayment.BorderColor = Color.Transparent;
             btnPayment.BorderRadius = 20;
             btnPayment.BorderSize = 0;
             btnPayment.FlatAppearance.BorderSize = 0;
             btnPayment.FlatStyle = FlatStyle.Flat;
             btnPayment.ForeColor = Color.White;
-            btnPayment.Location = new Point(63, 321);
+            btnPayment.Location = new Point(63, 430);
             btnPayment.Name = "btnPayment";
             btnPayment.Size = new Size(150, 40);
             btnPayment.TabIndex = 28;
-            btnPayment.Text = "PAYMENT";
+            btnPayment.Text = "PROCEED TO PAYMENT";
             btnPayment.UseVisualStyleBackColor = false;
             btnPayment.Click += btnPayment_Click;
             // 
-            // btnDiscount
-            // 
-            btnDiscount.BackColor = Color.MediumSlateBlue;
-            btnDiscount.BorderColor = Color.Transparent;
-            btnDiscount.BorderRadius = 20;
-            btnDiscount.BorderSize = 0;
-            btnDiscount.FlatAppearance.BorderSize = 0;
-            btnDiscount.FlatStyle = FlatStyle.Flat;
-            btnDiscount.ForeColor = Color.White;
-            btnDiscount.Location = new Point(63, 275);
-            btnDiscount.Name = "btnDiscount";
-            btnDiscount.Size = new Size(150, 40);
-            btnDiscount.TabIndex = 27;
-            btnDiscount.Text = "ADD DISCOUNT";
-            btnDiscount.UseVisualStyleBackColor = false;
-            btnDiscount.Click += btnDiscount_Click;
-            // 
             // btnAddToCart
             // 
-            btnAddToCart.BackColor = Color.MediumSlateBlue;
+            btnAddToCart.BackColor = Color.Green;
             btnAddToCart.BorderColor = Color.Transparent;
             btnAddToCart.BorderRadius = 20;
             btnAddToCart.BorderSize = 0;
@@ -534,9 +535,9 @@
             label12.ForeColor = Color.Black;
             label12.Location = new Point(12, 133);
             label12.Name = "label12";
-            label12.Size = new Size(160, 19);
+            label12.Size = new Size(169, 19);
             label12.TabIndex = 25;
-            label12.Text = "TRANSACTION NO#:";
+            label12.Text = "TRANSACTION CODE:";
             label12.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label11
@@ -664,7 +665,7 @@
         private Label label5;
         private Label label4;
         private Label label3;
-        private Label label7;
+        private Label lblTotalPrice;
         private Panel panel2;
         private Label label8;
         private CustomControls.CustomTextBox txtProductName;
@@ -684,10 +685,9 @@
         private Label label12;
         private Label label11;
         private Label label10;
-        private CustomControls.CustomTextBox customTextBox4;
+        private CustomControls.CustomTextBox txtTransNo;
         private RoundedButton btnClearCart;
         private RoundedButton btnPayment;
-        private RoundedButton btnDiscount;
         private RoundedButton btnAddToCart;
         private CustomControls.CustomTextBox customTextBox7;
         private CustomControls.CustomTextBox customTextBox6;
@@ -697,5 +697,6 @@
         private RoundedButton btnCart;
         private Label lblProducts;
         private RoundedButton btnClearSelection;
+        private RoundedButton btnRemoveItems;
     }
 }

@@ -136,3 +136,4 @@ D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genr
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.DiscountFrm.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.PaymentFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.QuantityDialog.resources
