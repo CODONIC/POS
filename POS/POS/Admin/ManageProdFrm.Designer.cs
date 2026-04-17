@@ -135,7 +135,7 @@
             txtSearch.PasswordChar = '\0';
             txtSearch.PlaceholderColor = Color.Gray;
             txtSearch.PlaceholderText = "";
-            txtSearch.Size = new Size(955, 47);
+            txtSearch.Size = new Size(601, 38);
             txtSearch.TabIndex = 47;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -179,7 +179,7 @@
             txtReorderLevel.BorderRadius = 8;
             txtReorderLevel.BorderThickness = 2;
             txtReorderLevel.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtReorderLevel.ForeColor = SystemColors.GrayText;
+            txtReorderLevel.ForeColor = Color.Black;
             txtReorderLevel.InnerBackColor = SystemColors.InactiveCaption;
             txtReorderLevel.InnerForeColor = Color.Gray;
             txtReorderLevel.IsPasswordField = false;
@@ -198,7 +198,7 @@
             txtPrice.BorderRadius = 8;
             txtPrice.BorderThickness = 2;
             txtPrice.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtPrice.ForeColor = SystemColors.GrayText;
+            txtPrice.ForeColor = Color.Black;
             txtPrice.InnerBackColor = SystemColors.InactiveCaption;
             txtPrice.InnerForeColor = Color.Gray;
             txtPrice.IsPasswordField = false;
@@ -217,7 +217,7 @@
             txtProductName.BorderRadius = 8;
             txtProductName.BorderThickness = 2;
             txtProductName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtProductName.ForeColor = SystemColors.GrayText;
+            txtProductName.ForeColor = Color.Black;
             txtProductName.InnerBackColor = SystemColors.InactiveCaption;
             txtProductName.InnerForeColor = Color.Gray;
             txtProductName.IsPasswordField = false;
@@ -236,7 +236,7 @@
             txtProductCode.BorderRadius = 8;
             txtProductCode.BorderThickness = 2;
             txtProductCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtProductCode.ForeColor = SystemColors.GrayText;
+            txtProductCode.ForeColor = Color.Black;
             txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
             txtProductCode.InnerForeColor = Color.Gray;
             txtProductCode.IsPasswordField = false;

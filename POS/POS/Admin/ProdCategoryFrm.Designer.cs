@@ -139,7 +139,7 @@
             txtSearch.PasswordChar = '\0';
             txtSearch.PlaceholderColor = Color.Gray;
             txtSearch.PlaceholderText = "";
-            txtSearch.Size = new Size(423, 47);
+            txtSearch.Size = new Size(423, 43);
             txtSearch.TabIndex = 38;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -149,7 +149,7 @@
             label12.BackColor = Color.LightSteelBlue;
             label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Black;
-            label12.Location = new Point(110, 62);
+            label12.Location = new Point(110, 79);
             label12.Name = "label12";
             label12.Size = new Size(69, 19);
             label12.TabIndex = 45;
