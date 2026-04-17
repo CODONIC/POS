@@ -1,0 +1,13 @@
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.pdb
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.dll.config
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\D3DCompiler_47_cor3.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\PenImc_cor3.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\PresentationNative_cor3.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\vcruntime140_cor3.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\wpfgfx_cor3.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\comerr64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\gssapi64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\k5sprt64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krb5_64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krbcc64.dll
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.exe

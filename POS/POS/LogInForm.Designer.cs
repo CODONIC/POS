@@ -129,11 +129,11 @@
             label5.AutoSize = true;
             label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ButtonFace;
-            label5.Location = new Point(128, 543);
+            label5.Location = new Point(91, 544);
             label5.Name = "label5";
-            label5.Size = new Size(71, 21);
+            label5.Size = new Size(149, 21);
             label5.TabIndex = 1;
-            label5.Text = "Tindero ";
+            label5.Text = "Tindero Company";
             // 
             // label4
             // 

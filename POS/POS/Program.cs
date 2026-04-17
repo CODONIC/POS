@@ -14,6 +14,9 @@ namespace POS
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             await DatabaseService.InitializeAsync();
+
+            //Properties.Settings.Default.Reset();
+            //Properties.Settings.Default.Save();
             if (Properties.Settings.Default.DontShowWelcome)
             {
                 Application.Run(new LogInForm()); // Skip welcome, go straight to login if user checked the box to skip it

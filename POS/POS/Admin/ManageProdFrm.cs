@@ -202,24 +202,241 @@ namespace POS.Admin
             await LoadProductsAsync(txtSearch.Text.Trim());
         }
         // ─── Buttons ───────────────────────────────────────────────────────────────
-        private void btnAdd_Click(object sender, EventArgs e)
+        private async void btnAdd_Click(object sender, EventArgs e)
         {
-            //Code here
-        }
-        
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            //Code here
+            if (!ValidateInputs()) return;
+
+            string productCode = txtProductCode.Text.Trim();
+            string productName = txtProductName.Text.Trim();
+            decimal price = decimal.Parse(txtPrice.Text.Trim());
+            int reorderLevel = int.Parse(txtReorderLevel.Text.Trim());
+            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
+
+            try
+            {
+                btnAdd.Enabled = false;
+
+                await using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                // Check duplicate product code
+                string checkSql = "SELECT COUNT(*) FROM products WHERE product_code = @code AND company_id = @companyId";
+                await using var checkCmd = new NpgsqlCommand(checkSql, conn);
+                checkCmd.Parameters.AddWithValue("code", productCode);
+                checkCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+
+                long count = (long)await checkCmd.ExecuteScalarAsync();
+                if (count > 0)
+                {
+                    MessageBox.Show($"Product code '{productCode}' already exists.", "Duplicate Code",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtProductCode.Focus();
+                    return;
+                }
+
+                string sql = @"
+            INSERT INTO products (product_code, product_name, price, quantity, reorder_level, category_id, company_id)
+            VALUES (@code, @name, @price, 0, @reorderLevel, @categoryId, @companyId)";
+
+                await using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("code", productCode);
+                cmd.Parameters.AddWithValue("name", productName);
+                cmd.Parameters.AddWithValue("price", price);
+                cmd.Parameters.AddWithValue("reorderLevel", reorderLevel);
+                cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
+                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+
+                await cmd.ExecuteNonQueryAsync();
+
+                MessageBox.Show($"Product '{productName}' added successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                await LoadProductsAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding product:\n{ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnAdd.Enabled = true;
+            }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
-            //Code here
+            if (string.IsNullOrEmpty(_selectedProductId))
+            {
+                MessageBox.Show("Please select a product to edit.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!ValidateInputs()) return;
+
+            string productName = txtProductName.Text.Trim();
+            decimal price = decimal.Parse(txtPrice.Text.Trim());
+            int reorderLevel = int.Parse(txtReorderLevel.Text.Trim());
+            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
+
+            var confirm = MessageBox.Show($"Update product '{_selectedProductId}'?", "Confirm Edit",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                btnEdit.Enabled = false;
+
+                await using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                string sql = @"
+            UPDATE products 
+            SET product_name  = @name,
+                price         = @price,
+                reorder_level = @reorderLevel,
+                category_id   = @categoryId
+            WHERE product_code = @code
+              AND company_id   = @companyId";
+
+                await using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("name", productName);
+                cmd.Parameters.AddWithValue("price", price);
+                cmd.Parameters.AddWithValue("reorderLevel", reorderLevel);
+                cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
+                cmd.Parameters.AddWithValue("code", _selectedProductId);
+                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+
+                await cmd.ExecuteNonQueryAsync();
+
+                MessageBox.Show($"Product '{productName}' updated successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                await LoadProductsAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating product:\n{ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnEdit.Enabled = true;
+            }
+        }
+
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_selectedProductId))
+            {
+                MessageBox.Show("Please select a product to delete.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string productName = txtProductName.Text.Trim();
+
+            var confirm = MessageBox.Show(
+                $"Are you sure you want to delete '{productName}' ({_selectedProductId})?\nThis action cannot be undone.",
+                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                btnDelete.Enabled = false;
+
+                await using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                string sql = "DELETE FROM products WHERE product_code = @code AND company_id = @companyId";
+                await using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("code", _selectedProductId);
+                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+
+                await cmd.ExecuteNonQueryAsync();
+
+                MessageBox.Show($"Product '{productName}' deleted successfully.", "Deleted",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                await LoadProductsAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting product:\n{ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnDelete.Enabled = true;
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            //Code here
+            ClearFields();
+        }
+
+        // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+        private void ClearFields()
+        {
+            _selectedProductId = null;
+            txtProductCode.Text = "";
+            txtProductName.Text = "";
+            txtPrice.Text = "";
+            txtReorderLevel.Text = "";
+            cmbCategory.SelectedIndex = -1;
+            dgvProducts.ClearSelection();
+            txtProductCode.Focus();
+        }
+
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtProductCode.Text))
+            {
+                MessageBox.Show("Product code is required.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtProductCode.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+            {
+                MessageBox.Show("Product name is required.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtProductName.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtPrice.Text.Trim(), out decimal price) || price < 0)
+            {
+                MessageBox.Show("Please enter a valid price (0 or greater).", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrice.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtReorderLevel.Text.Trim(), out int reorder) || reorder < 0)
+            {
+                MessageBox.Show("Please enter a valid reorder level (0 or greater).", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtReorderLevel.Focus();
+                return false;
+            }
+
+            if (cmbCategory.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a category.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbCategory.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void btnBack_Click(object sender, EventArgs e)

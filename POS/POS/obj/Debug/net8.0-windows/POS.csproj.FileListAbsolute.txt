@@ -116,6 +116,8 @@ D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admi
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ManageUsersFrm.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ProdCategoryFrm.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.CashierDashboard.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.PaymentFrm.resources
+D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.QuantityDialog.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.NewCompanyFrm.resources
@@ -134,5 +136,3 @@ D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\refint\P
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.pdb
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
 D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
-D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.PaymentFrm.resources
-D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Cashier.QuantityDialog.resources

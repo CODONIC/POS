@@ -54,7 +54,6 @@ namespace POS
 
                 try
                 {
-                    // ✅ Step 1: Insert company
                     string insertCompany = @"
                     INSERT INTO companies (name) 
                     VALUES (@name) 
@@ -65,30 +64,30 @@ namespace POS
 
                     var companyId = (Guid)await companyCmd.ExecuteScalarAsync();
 
-                    // ✅ Step 2: Insert admin with generated password (admin-001, admin-002, ...)
+                    
                     string insertAdmin = @"
-                    WITH next_num AS (
-                        SELECT COUNT(*) + 1 AS num FROM users WHERE username = 'admin'
-                    )
-                    INSERT INTO users (id, username, password, role, company_id)
-                    SELECT 
-                        gen_random_uuid(),
-                        'admin',
-                        'admin-' || LPAD(num::TEXT, 3, '0'),
-                        'ADMIN',
-                        @companyId
-                    FROM next_num
-                    RETURNING password";
+                      WITH next_num AS (
+                      SELECT COUNT(*) + 1 AS num FROM users WHERE username = 'admin'
+                      )
+                       INSERT INTO users (id, username, password, role_id, company_id)
+                      SELECT 
+                      gen_random_uuid(),
+                      'admin',
+                      'admin-' || LPAD(num::TEXT, 3, '0'),
+                       (SELECT id FROM roles WHERE LOWER(name) = 'admin'),
+                       @companyId
+                       FROM next_num
+                       RETURNING password";
 
                     await using var adminCmd = new NpgsqlCommand(insertAdmin, conn, transaction);
                     adminCmd.Parameters.AddWithValue("companyId", companyId);
 
-                    // 🔥 Fetch generated password
+                    
                     string generatedPassword = (string)await adminCmd.ExecuteScalarAsync();
 
                     await transaction.CommitAsync();
 
-                    // ✅ Step 3: Show credentials
+                    
                     MessageBox.Show(
                         $"Company '{companyName}' created successfully!\n\n" +
                         $"Admin Credentials:\nUsername: admin\nPassword: {generatedPassword}\n\n" +
@@ -97,7 +96,7 @@ namespace POS
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    // Redirect to login
+                    
                     LogInForm login = new LogInForm();
                     login.Show();
                     this.Hide();
