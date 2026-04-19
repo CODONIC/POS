@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
             label12 = new Label();
             txtSearch = new CustomControls.CustomTextBox();
-            dgvProducts = new DataGridView();
             panel1 = new Panel();
             cmbCategory = new ComboBox();
             txtReorderLevel = new CustomControls.CustomTextBox();
@@ -52,9 +55,10 @@
             btnEdit = new RoundedButton();
             btnAdd = new RoundedButton();
             btnBack = new RoundedButton();
+            dgvProducts = new DataGridView();
             titleBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             SuspendLayout();
             // 
             // titleBar
@@ -139,14 +143,6 @@
             txtSearch.TabIndex = 47;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
-            // dgvProducts
-            // 
-            dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProducts.Location = new Point(170, 150);
-            dgvProducts.Name = "dgvProducts";
-            dgvProducts.Size = new Size(955, 254);
-            dgvProducts.TabIndex = 46;
-            // 
             // panel1
             // 
             panel1.Controls.Add(cmbCategory);
@@ -181,12 +177,12 @@
             txtReorderLevel.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtReorderLevel.ForeColor = Color.Black;
             txtReorderLevel.InnerBackColor = SystemColors.InactiveCaption;
-            txtReorderLevel.InnerForeColor = Color.Gray;
+            txtReorderLevel.InnerForeColor = Color.Black;
             txtReorderLevel.IsPasswordField = false;
             txtReorderLevel.Location = new Point(214, 159);
             txtReorderLevel.Name = "txtReorderLevel";
             txtReorderLevel.PasswordChar = '\0';
-            txtReorderLevel.PlaceholderColor = Color.Gray;
+            txtReorderLevel.PlaceholderColor = Color.Black;
             txtReorderLevel.PlaceholderText = "";
             txtReorderLevel.Size = new Size(387, 32);
             txtReorderLevel.TabIndex = 52;
@@ -200,12 +196,12 @@
             txtPrice.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtPrice.ForeColor = Color.Black;
             txtPrice.InnerBackColor = SystemColors.InactiveCaption;
-            txtPrice.InnerForeColor = Color.Gray;
+            txtPrice.InnerForeColor = Color.Black;
             txtPrice.IsPasswordField = false;
             txtPrice.Location = new Point(214, 121);
             txtPrice.Name = "txtPrice";
             txtPrice.PasswordChar = '\0';
-            txtPrice.PlaceholderColor = Color.Gray;
+            txtPrice.PlaceholderColor = Color.Black;
             txtPrice.PlaceholderText = "";
             txtPrice.Size = new Size(387, 32);
             txtPrice.TabIndex = 51;
@@ -219,12 +215,12 @@
             txtProductName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtProductName.ForeColor = Color.Black;
             txtProductName.InnerBackColor = SystemColors.InactiveCaption;
-            txtProductName.InnerForeColor = Color.Gray;
+            txtProductName.InnerForeColor = Color.Black;
             txtProductName.IsPasswordField = false;
             txtProductName.Location = new Point(214, 45);
             txtProductName.Name = "txtProductName";
             txtProductName.PasswordChar = '\0';
-            txtProductName.PlaceholderColor = Color.Gray;
+            txtProductName.PlaceholderColor = Color.Black;
             txtProductName.PlaceholderText = "";
             txtProductName.Size = new Size(387, 32);
             txtProductName.TabIndex = 49;
@@ -238,12 +234,12 @@
             txtProductCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtProductCode.ForeColor = Color.Black;
             txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
-            txtProductCode.InnerForeColor = Color.Gray;
+            txtProductCode.InnerForeColor = Color.Black;
             txtProductCode.IsPasswordField = false;
             txtProductCode.Location = new Point(214, 7);
             txtProductCode.Name = "txtProductCode";
             txtProductCode.PasswordChar = '\0';
-            txtProductCode.PlaceholderColor = Color.Gray;
+            txtProductCode.PlaceholderColor = Color.Black;
             txtProductCode.PlaceholderText = "";
             txtProductCode.Size = new Size(387, 32);
             txtProductCode.TabIndex = 48;
@@ -406,11 +402,60 @@
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
             // 
+            // dgvProducts
+            // 
+            dgvProducts.AllowUserToAddRows = false;
+            dgvProducts.AllowUserToDeleteRows = false;
+            dgvProducts.AllowUserToOrderColumns = true;
+            dgvProducts.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 249, 250);
+            dgvProducts.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProducts.BackgroundColor = Color.White;
+            dgvProducts.BorderStyle = BorderStyle.None;
+            dgvProducts.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 12.25F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(5, 0, 5, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProducts.EnableHeadersVisualStyles = false;
+            dgvProducts.GridColor = Color.FromArgb(230, 230, 230);
+            dgvProducts.Location = new Point(170, 150);
+            dgvProducts.Name = "dgvProducts";
+            dgvProducts.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvProducts.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvProducts.RowHeadersVisible = false;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.InactiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(33, 37, 41);
+            dgvProducts.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProducts.Size = new Size(955, 254);
+            dgvProducts.TabIndex = 57;
+            // 
             // ManageProdFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1280, 720);
+            Controls.Add(dgvProducts);
             Controls.Add(btnBack);
             Controls.Add(btnClear);
             Controls.Add(btnDelete);
@@ -420,7 +465,6 @@
             Controls.Add(panel1);
             Controls.Add(label12);
             Controls.Add(txtSearch);
-            Controls.Add(dgvProducts);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ManageProdFrm";
@@ -429,9 +473,9 @@
             Load += ManageProdFrm_Load;
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvProducts).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -444,7 +488,6 @@
         private Label titleLabel;
         private Label label12;
         private CustomControls.CustomTextBox txtSearch;
-        private DataGridView dgvProducts;
         private Panel panel1;
         private Label label2;
         private ComboBox cmbCategory;
@@ -462,5 +505,6 @@
         private RoundedButton btnEdit;
         private RoundedButton btnAdd;
         private RoundedButton btnBack;
+        private DataGridView dgvProducts;
     }
 }

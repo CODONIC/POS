@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
             btnBack = new RoundedButton();
-            dgvCategories = new DataGridView();
             txtSearch = new CustomControls.CustomTextBox();
             label12 = new Label();
             label2 = new Label();
@@ -42,6 +45,7 @@
             btnEdit = new RoundedButton();
             btnDelete = new RoundedButton();
             btnClear = new RoundedButton();
+            dgvCategories = new DataGridView();
             titleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCategories).BeginInit();
             SuspendLayout();
@@ -113,15 +117,6 @@
             btnBack.Text = "Back";
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
-            // 
-            // dgvCategories
-            // 
-            dgvCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategories.Location = new Point(110, 169);
-            dgvCategories.Name = "dgvCategories";
-            dgvCategories.Size = new Size(423, 254);
-            dgvCategories.TabIndex = 37;
-            dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
             // 
             // txtSearch
             // 
@@ -258,11 +253,60 @@
             btnClear.UseVisualStyleBackColor = false;
             btnClear.Click += btnClear_Click;
             // 
+            // dgvCategories
+            // 
+            dgvCategories.AllowUserToAddRows = false;
+            dgvCategories.AllowUserToDeleteRows = false;
+            dgvCategories.AllowUserToOrderColumns = true;
+            dgvCategories.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 249, 250);
+            dgvCategories.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvCategories.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvCategories.BackgroundColor = Color.White;
+            dgvCategories.BorderStyle = BorderStyle.None;
+            dgvCategories.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvCategories.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 12.25F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(5, 0, 5, 0);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvCategories.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCategories.EnableHeadersVisualStyles = false;
+            dgvCategories.GridColor = Color.FromArgb(230, 230, 230);
+            dgvCategories.Location = new Point(110, 169);
+            dgvCategories.Name = "dgvCategories";
+            dgvCategories.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.GradientInactiveCaption;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvCategories.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvCategories.RowHeadersVisible = false;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.InactiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(33, 37, 41);
+            dgvCategories.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgvCategories.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvCategories.Size = new Size(423, 267);
+            dgvCategories.TabIndex = 52;
+            // 
             // ProdCategoryFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(670, 720);
+            Controls.Add(dgvCategories);
             Controls.Add(btnClear);
             Controls.Add(btnDelete);
             Controls.Add(btnEdit);
@@ -271,7 +315,6 @@
             Controls.Add(label2);
             Controls.Add(label12);
             Controls.Add(txtSearch);
-            Controls.Add(dgvCategories);
             Controls.Add(btnBack);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
@@ -293,7 +336,6 @@
         private Button closeButton;
         private Label titleLabel;
         private RoundedButton btnBack;
-        private DataGridView dgvCategories;
         private CustomControls.CustomTextBox txtSearch;
         private Label label12;
         private Label label2;
@@ -302,6 +344,6 @@
         private RoundedButton btnEdit;
         private RoundedButton btnDelete;
         private RoundedButton btnClear;
-
+        private DataGridView dgvCategories;
     }
 }
