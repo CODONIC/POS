@@ -31,9 +31,6 @@
     <Compile Update="StartUpForms\NewCompanyFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="StartUpForms\OldCompanyFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="StartUpForms\WelcomeFrm.cs">
       <SubType>Form</SubType>
     </Compile>

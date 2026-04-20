@@ -57,7 +57,7 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(638, 0);
+            closeButton.Location = new Point(639, 0);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(41, 40);
             closeButton.TabIndex = 17;
@@ -71,9 +71,9 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(104, 21);
+            titleLabel.Size = new Size(201, 21);
             titleLabel.TabIndex = 0;
-            titleLabel.Text = "Tindero POS";
+            titleLabel.Text = "Tindero POS Initial Setup";
             // 
             // label4
             // 

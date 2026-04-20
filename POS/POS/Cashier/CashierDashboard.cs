@@ -166,7 +166,7 @@ namespace POS
 
             _suppressSelectionChanged = false;
             lblProducts.Text = "Products";
-            btnCart.Text = "Cart Table >";
+            btnCart.Text = "CART TABLE >";
             dgvProducts.ClearSelection();
         }
 
@@ -185,7 +185,7 @@ namespace POS
 
             _suppressSelectionChanged = false;
             lblProducts.Text = "Cart";
-            btnCart.Text = "< Products Table";
+            btnCart.Text = "< PRODUCTS TABLE";
             dgvProducts.ClearSelection();
         }
 

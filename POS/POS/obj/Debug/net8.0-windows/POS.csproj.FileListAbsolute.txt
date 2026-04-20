@@ -191,7 +191,6 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.LogInForm.resources
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Properties.Resources.resources
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.NewCompanyFrm.resources
-C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.OldCompanyFrm.resources
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.StartUpForms.WelcomeFrm.resources
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.BaseForm.resources
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.csproj.GenerateResource.cache

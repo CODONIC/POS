@@ -28,16 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeFrm));
             titleBar = new Panel();
             closeButton = new Button();
             titleLabel = new Label();
             label4 = new Label();
             label1 = new Label();
-            label2 = new Label();
             btnNewUser = new RoundedButton();
             btnOldUser = new RoundedButton();
             chckDontShow = new CheckBox();
+            label8 = new Label();
+            label5 = new Label();
+            pictureBox1 = new PictureBox();
             titleBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // titleBar
@@ -60,7 +64,7 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(638, 0);
+            closeButton.Location = new Point(641, 0);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(41, 40);
             closeButton.TabIndex = 17;
@@ -74,18 +78,18 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(104, 21);
+            titleLabel.Size = new Size(201, 21);
             titleLabel.TabIndex = 0;
-            titleLabel.Text = "Tindero POS";
+            titleLabel.Text = "Tindero POS Initial Setup";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(207, 115);
+            label4.Font = new Font("Century Gothic", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.SteelBlue;
+            label4.Location = new Point(127, 239);
             label4.Name = "label4";
-            label4.Size = new Size(282, 24);
+            label4.Size = new Size(423, 38);
             label4.TabIndex = 19;
             label4.Text = "Welcome to TINDERO POS!";
             // 
@@ -94,23 +98,11 @@
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(231, 152);
+            label1.Location = new Point(238, 289);
             label1.Name = "label1";
-            label1.Size = new Size(232, 24);
+            label1.Size = new Size(200, 24);
             label1.TabIndex = 20;
-            label1.Text = "Before we get started";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(167, 187);
-            label2.Name = "label2";
-            label2.Size = new Size(371, 24);
-            label2.TabIndex = 21;
-            label2.Text = "Are you a New User or an Old User?";
-            label2.Click += label2_Click;
+            label1.Text = "Let's set things up...";
             // 
             // btnNewUser
             // 
@@ -122,11 +114,11 @@
             btnNewUser.FlatStyle = FlatStyle.Flat;
             btnNewUser.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnNewUser.ForeColor = Color.White;
-            btnNewUser.Location = new Point(146, 264);
+            btnNewUser.Location = new Point(230, 345);
             btnNewUser.Name = "btnNewUser";
-            btnNewUser.Size = new Size(178, 46);
+            btnNewUser.Size = new Size(208, 46);
             btnNewUser.TabIndex = 22;
-            btnNewUser.Text = "NEW USER";
+            btnNewUser.Text = "CREATE COMPANY";
             btnNewUser.UseVisualStyleBackColor = false;
             btnNewUser.Click += btnNewUser_Click;
             // 
@@ -140,34 +132,69 @@
             btnOldUser.FlatStyle = FlatStyle.Flat;
             btnOldUser.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnOldUser.ForeColor = Color.White;
-            btnOldUser.Location = new Point(360, 264);
+            btnOldUser.Location = new Point(230, 407);
             btnOldUser.Name = "btnOldUser";
-            btnOldUser.Size = new Size(178, 46);
+            btnOldUser.Size = new Size(208, 46);
             btnOldUser.TabIndex = 23;
-            btnOldUser.Text = "OLD USER";
+            btnOldUser.Text = "LOAD EXISTING";
             btnOldUser.UseVisualStyleBackColor = false;
             btnOldUser.Click += btnOldUser_Click;
             // 
             // chckDontShow
             // 
             chckDontShow.AutoSize = true;
-            chckDontShow.Location = new Point(267, 341);
+            chckDontShow.Location = new Point(249, 468);
             chckDontShow.Name = "chckDontShow";
-            chckDontShow.Size = new Size(154, 19);
+            chckDontShow.Size = new Size(173, 19);
             chckDontShow.TabIndex = 24;
-            chckDontShow.Text = "Do not show this AGAIN";
+            chckDontShow.Text = "DO NOT SHOW THIS AGAIN";
             chckDontShow.UseVisualStyleBackColor = true;
             chckDontShow.CheckedChanged += chckDontShow_CheckedChanged;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.Black;
+            label8.Location = new Point(282, 531);
+            label8.Name = "label8";
+            label8.Size = new Size(103, 17);
+            label8.TabIndex = 26;
+            label8.Text = "Developed by ";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Black;
+            label5.Location = new Point(258, 549);
+            label5.Name = "label5";
+            label5.Size = new Size(149, 21);
+            label5.TabIndex = 25;
+            label5.Text = "Tindero Company";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImageLayout = ImageLayout.None;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(249, 66);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(162, 153);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 27;
+            pictureBox1.TabStop = false;
             // 
             // WelcomeFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(682, 450);
+            ClientSize = new Size(682, 594);
+            Controls.Add(pictureBox1);
+            Controls.Add(label8);
+            Controls.Add(label5);
             Controls.Add(chckDontShow);
             Controls.Add(btnOldUser);
             Controls.Add(btnNewUser);
-            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(label4);
             Controls.Add(titleBar);
@@ -177,6 +204,7 @@
             Text = "WelcomeFrm";
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -188,9 +216,11 @@
         private Label titleLabel;
         private Label label4;
         private Label label1;
-        private Label label2;
         private RoundedButton btnNewUser;
         private RoundedButton btnOldUser;
         private CheckBox chckDontShow;
+        private Label label8;
+        private Label label5;
+        private PictureBox pictureBox1;
     }
 }

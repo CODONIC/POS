@@ -10,11 +10,12 @@ using System.Windows.Forms;
 
 namespace POS.StartUpForms
 {
-    public partial class WelcomeFrm : Form
+    public partial class WelcomeFrm : BaseForm
     {
         public WelcomeFrm()
         {
             InitializeComponent();
+            InitializeTitleBar(closeButton, titleBar, titleLabel);
         }
 
         private void label2_Click(object sender, EventArgs e)
