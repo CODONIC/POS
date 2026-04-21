@@ -25,6 +25,13 @@ namespace POS
         private bool _suppressSelectionChanged = false;
         private bool _transactionStarted = false;
 
+        // Financial calculation fields
+        private decimal _subtotal = 0;
+        private decimal _discountPercentage = 0;
+        private decimal _discountAmount = 0;
+        private decimal _vatableAmount = 0;
+        private decimal _vatAmount = 0;
+        private decimal _totalAmount = 0;
 
         public CashierDashboard(string username, string companyName)
         {
@@ -57,11 +64,24 @@ namespace POS
             txtQuan.TextChanged += txtQuan_TextChanged;
             txtPrice.TextChanged += txtPrice_TextChanged;
 
+            // ─── Wire up discount event ────────────────────────────────────────
+            if (txtDiscountPercent != null)
+            {
+                txtDiscountPercent.TextChanged += txtDiscount_TextChanged;
+            }
+
             dgvProducts.AllowUserToAddRows = false;
 
             this.KeyPreview = true;
             this.KeyDown += CashierDashboard_KeyDown;
             ShortcutKeyHints();
+
+            // Initialize discount display
+            if (txtDiscountPercent != null)
+            {
+                txtDiscountPercent.Text = "0";
+                txtDiscountPercent.Enabled = true;
+            }
         }
 
         // ─── Resolve company name to ID ───────────────────────────────────────────
@@ -105,7 +125,7 @@ namespace POS
         private async void CashierDashboard_Load(object sender, EventArgs e)
         {
             await LoadProductsAsync();
-            UpdateTotalPrice();
+            CalculateAmounts();
         }
 
         private async Task LoadProductsAsync()
@@ -140,14 +160,64 @@ namespace POS
             }
         }
 
-        // ─── Update Total Price ───────────────────────────────────────────────────
+        // ─── Financial Calculations ───────────────────────────────────────────────
+
+        private void CalculateAmounts()
+        {
+            // Calculate subtotal from cart
+            _subtotal = _cartTable.AsEnumerable()
+                .Sum(r => Convert.ToDecimal(r["subtotal"]));
+
+            // Calculate discount amount
+            _discountAmount = _subtotal * (_discountPercentage / 100);
+
+            // Calculate vatable amount (subtotal minus discount)
+            _vatableAmount = _subtotal - _discountAmount;
+
+            // Calculate VAT (12% of vatable amount)
+            _vatAmount = _vatableAmount * 0.12m;
+
+            // Calculate total amount (vatable amount plus VAT)
+            _totalAmount = _vatableAmount + _vatAmount;
+
+            // Update display labels
+          //  if (lblSubtotal != null)
+           //     lblSubtotal.Text = $"₱ {_subtotal:N2}";
+
+          ////  if (lblDiscount != null)
+            //    lblDiscount.Text = $"₱ {_discountAmount:N2}";
+
+           //// if (lblDiscountPercent != null)
+            //    lblDiscountPercent.Text = $"{_discountPercentage}%";
+
+            if (lblVATable != null)
+                lblVATable.Text = $"₱ {_vatableAmount:N2}";
+
+            if (lblVAT != null)
+                lblVAT.Text = $"₱ {_vatAmount:N2}";
+
+          //  if (lblTotal != null)
+           //     lblTotal.Text = $"₱ {_totalAmount:N2}";
+
+            // Update the main total price label (used for display)
+            if (lblTotalPrice != null)
+                lblTotalPrice.Text = _totalAmount.ToString("F2");
+        }
 
         private void UpdateTotalPrice()
         {
-            decimal total = _cartTable.AsEnumerable()
-                .Sum(r => Convert.ToDecimal(r["subtotal"]));
+            CalculateAmounts();
+        }
 
-            lblTotalPrice.Text = $"{total:N2}";
+        private void txtDiscount_TextChanged(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txtDiscountPercent.Text, out decimal discount))
+            {
+                // Limit discount between 0 and 100
+                _discountPercentage = Math.Min(100, Math.Max(0, discount));
+                txtDiscountPercent.Text = _discountPercentage.ToString();
+                CalculateAmounts();
+            }
         }
 
         // ─── View Switching ───────────────────────────────────────────────────────
@@ -272,7 +342,7 @@ namespace POS
             txtPrice.Clear();
 
             ShowCartView();
-            UpdateTotalPrice();
+            CalculateAmounts(); // Update all financial calculations
         }
 
         // ─── Populate fields on row selection ────────────────────────────────────
@@ -385,12 +455,55 @@ namespace POS
             }
         }
 
-        
-
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            PaymentFrm payment = new PaymentFrm(_username, _companyName);
-            payment.Show();
+            // Check if cart is empty
+            if (_cartTable.Rows.Count == 0)
+            {
+                MessageBox.Show("Cart is empty. Please add items before proceeding to payment.",
+                    "Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check if transaction number exists
+            if (string.IsNullOrEmpty(txtTransNo.Text))
+            {
+                GenerateTransactionNumber();
+                _transactionStarted = true;
+            }
+
+            // Create payment form with pre-calculated values
+            PaymentFrm payment = new PaymentFrm(
+                _username,
+                _companyName,
+                txtTransNo.Text,
+                _cartTable.Copy(),
+                _subtotal,           // Pass subtotal
+                _discountPercentage, // Pass discount percentage
+                _discountAmount,     // Pass discount amount
+                _vatableAmount,      // Pass vatable amount
+                _vatAmount,          // Pass VAT amount
+                _totalAmount         // Pass total amount
+            );
+
+            // Show as dialog and check result
+            if (payment.ShowDialog() == DialogResult.OK)
+            {
+                // Payment successful - reset the transaction
+                ResetTransaction();
+
+                // Reset discount
+                _discountPercentage = 0;
+                if (txtDiscountPercent != null)
+                    txtDiscountPercent.Text = "0";
+
+                // Reload products to reflect updated quantities
+                _ = LoadProductsAsync();
+
+                // Show success message
+                MessageBox.Show("Transaction completed successfully!\n\nReceipt has been recorded.",
+                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnClearSelection_Click(object sender, EventArgs e)
@@ -426,10 +539,15 @@ namespace POS
                 _transactionStarted = false;
                 txtTransNo.Text = "";
 
+                // Reset discount
+                _discountPercentage = 0;
+                if (txtDiscountPercent != null)
+                    txtDiscountPercent.Text = "0";
+
                 if (_isCartView)
                     ShowCartView();
 
-                UpdateTotalPrice();
+                CalculateAmounts(); // Reset all financial displays
             }
         }
 
@@ -488,10 +606,13 @@ namespace POS
             {
                 _transactionStarted = false;
                 txtTransNo.Text = "";
+                _discountPercentage = 0;
+                if (txtDiscountPercent != null)
+                    txtDiscountPercent.Text = "0";
             }
 
             ShowCartView();
-            UpdateTotalPrice();
+            CalculateAmounts(); // Update all financial calculations
         }
 
         // ─── Reset Transaction (called externally after successful payment) ────────
@@ -500,12 +621,11 @@ namespace POS
             _cartTable.Rows.Clear();
             _transactionStarted = false;
             txtTransNo.Text = "";
-            UpdateTotalPrice();
+            CalculateAmounts();
 
             if (_isCartView)
                 ShowCartView();
         }
-
 
         // ─── Shortcut Keys ────────────────────────────────────────────────────────────
 
@@ -551,8 +671,6 @@ namespace POS
                 e.Handled = true;
             }
         }
-        
-
 
         private void ShortcutKeyHints()
         {
@@ -576,6 +694,7 @@ namespace POS
             AttachHoverEffect(btnLogOut);
             AttachHoverEffect(btnCart);
         }
+
         private void AttachHoverEffect(Button btn)
         {
             Point originalLocation = btn.Location;
@@ -583,13 +702,13 @@ namespace POS
             btn.MouseEnter += (s, e) =>
             {
                 btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-                btn.Padding = new Padding(0, 0, 0, 6); // push text up
+                btn.Padding = new Padding(0, 0, 0, 6);
             };
 
             btn.MouseLeave += (s, e) =>
             {
                 btn.Location = originalLocation;
-                btn.Padding = new Padding(0); // reset
+                btn.Padding = new Padding(0);
             };
         }
     }
