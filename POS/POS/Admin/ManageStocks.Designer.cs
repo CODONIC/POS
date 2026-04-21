@@ -36,6 +36,7 @@
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageStocks));
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
@@ -635,6 +636,7 @@
             Controls.Add(btnBack);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ManageStocks";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageStocks";

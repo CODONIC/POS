@@ -199,6 +199,7 @@
             Controls.Add(label4);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WelcomeFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "WelcomeFrm";

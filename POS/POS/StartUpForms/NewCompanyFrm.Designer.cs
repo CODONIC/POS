@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewCompanyFrm));
             titleBar = new Panel();
             closeButton = new Button();
             titleLabel = new Label();
@@ -134,6 +135,7 @@
             Controls.Add(label4);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "NewCompanyFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NewCompanyFrm";

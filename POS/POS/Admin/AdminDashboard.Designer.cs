@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboard));
             titleBar = new Panel();
             btnLogOut = new RoundedButton();
             lblAdminName = new Label();
@@ -45,7 +46,6 @@
             btnManageStocks = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
-
             // 
             // titleBar
             // 
@@ -305,6 +305,7 @@
             Controls.Add(txtSearch);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AdminDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AdminDashboard";
@@ -313,9 +314,9 @@
             ResumeLayout(false);
             PerformLayout();
 
-            
+
         }
-        
+
 
         #endregion
 

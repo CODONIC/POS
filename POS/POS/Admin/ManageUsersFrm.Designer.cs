@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageUsersFrm));
             lblAdminName = new Label();
             titleLabel = new Label();
             titleBar = new Panel();
@@ -601,6 +602,7 @@
             Controls.Add(dgvUsers);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ManageUsersFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageUsersFrm";

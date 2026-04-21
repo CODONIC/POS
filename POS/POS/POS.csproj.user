@@ -43,5 +43,8 @@
     <Compile Update="Templates\RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Templates\RoundedComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
