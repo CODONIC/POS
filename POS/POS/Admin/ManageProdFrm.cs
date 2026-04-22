@@ -120,7 +120,7 @@ namespace POS.Admin
 
                 dgvProducts.DataSource = dt;
 
-                
+
             }
             catch (Exception ex)
             {
@@ -517,5 +517,7 @@ namespace POS.Admin
             public string Name { get; set; }
             public override string ToString() => Name;
         }
+
+        
     }
 }

@@ -50,7 +50,6 @@
             // titleBar
             // 
             titleBar.BackColor = Color.FromArgb(44, 62, 80);
-            titleBar.Controls.Add(btnLogOut);
             titleBar.Controls.Add(lblAdminName);
             titleBar.Controls.Add(closeButton);
             titleBar.Controls.Add(titleLabel);
@@ -70,9 +69,9 @@
             btnLogOut.FlatStyle = FlatStyle.Flat;
             btnLogOut.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLogOut.ForeColor = Color.White;
-            btnLogOut.Location = new Point(907, 3);
+            btnLogOut.Location = new Point(26, 622);
             btnLogOut.Name = "btnLogOut";
-            btnLogOut.Size = new Size(82, 34);
+            btnLogOut.Size = new Size(86, 37);
             btnLogOut.TabIndex = 22;
             btnLogOut.Text = "Logout";
             btnLogOut.TextAlign = ContentAlignment.TopCenter;
@@ -123,7 +122,7 @@
             label12.BackColor = Color.LightSteelBlue;
             label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Black;
-            label12.Location = new Point(301, 82);
+            label12.Location = new Point(285, 82);
             label12.Name = "label12";
             label12.Size = new Size(102, 19);
             label12.TabIndex = 46;
@@ -141,7 +140,7 @@
             txtSearch.InnerBackColor = SystemColors.InactiveCaption;
             txtSearch.InnerForeColor = Color.Gray;
             txtSearch.IsPasswordField = false;
-            txtSearch.Location = new Point(224, 115);
+            txtSearch.Location = new Point(208, 115);
             txtSearch.Name = "txtSearch";
             txtSearch.PasswordChar = '\0';
             txtSearch.PlaceholderColor = Color.Gray;
@@ -156,7 +155,7 @@
             label2.BackColor = Color.LightSteelBlue;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(577, 82);
+            label2.Location = new Point(561, 82);
             label2.Name = "label2";
             label2.Size = new Size(138, 19);
             label2.TabIndex = 48;
@@ -174,7 +173,7 @@
             customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox1.InnerForeColor = Color.Gray;
             customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(519, 115);
+            customTextBox1.Location = new Point(503, 115);
             customTextBox1.Name = "customTextBox1";
             customTextBox1.PasswordChar = '\0';
             customTextBox1.PlaceholderColor = Color.Gray;
@@ -189,7 +188,7 @@
             label3.BackColor = Color.LightSteelBlue;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(887, 82);
+            label3.Location = new Point(871, 82);
             label3.Name = "label3";
             label3.Size = new Size(131, 19);
             label3.TabIndex = 50;
@@ -207,7 +206,7 @@
             customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
             customTextBox2.InnerForeColor = Color.Gray;
             customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(810, 115);
+            customTextBox2.Location = new Point(794, 115);
             customTextBox2.Name = "customTextBox2";
             customTextBox2.PasswordChar = '\0';
             customTextBox2.PlaceholderColor = Color.Gray;
@@ -226,11 +225,13 @@
             btnManageUsers.FlatStyle = FlatStyle.Flat;
             btnManageUsers.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageUsers.ForeColor = Color.White;
-            btnManageUsers.Location = new Point(136, 220);
+            btnManageUsers.Image = (Image)resources.GetObject("btnManageUsers.Image");
+            btnManageUsers.Location = new Point(208, 196);
             btnManageUsers.Name = "btnManageUsers";
-            btnManageUsers.Size = new Size(179, 140);
+            btnManageUsers.Size = new Size(180, 180);
             btnManageUsers.TabIndex = 51;
-            btnManageUsers.Text = "MANAGE USERS";
+            btnManageUsers.Text = "USERS";
+            btnManageUsers.TextAlign = ContentAlignment.BottomCenter;
             btnManageUsers.UseVisualStyleBackColor = false;
             btnManageUsers.Click += btnManageUsers_Click;
             // 
@@ -244,11 +245,13 @@
             btnManageCategory.FlatStyle = FlatStyle.Flat;
             btnManageCategory.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageCategory.ForeColor = Color.White;
-            btnManageCategory.Location = new Point(402, 220);
+            btnManageCategory.Image = (Image)resources.GetObject("btnManageCategory.Image");
+            btnManageCategory.Location = new Point(437, 196);
             btnManageCategory.Name = "btnManageCategory";
-            btnManageCategory.Size = new Size(179, 140);
+            btnManageCategory.Size = new Size(180, 180);
             btnManageCategory.TabIndex = 52;
-            btnManageCategory.Text = "MANAGE CATEGORY";
+            btnManageCategory.Text = "CATEGORIES";
+            btnManageCategory.TextAlign = ContentAlignment.BottomCenter;
             btnManageCategory.UseVisualStyleBackColor = false;
             btnManageCategory.Click += btnManageCategory_Click;
             // 
@@ -262,11 +265,13 @@
             btnManageProducts.FlatStyle = FlatStyle.Flat;
             btnManageProducts.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageProducts.ForeColor = Color.White;
-            btnManageProducts.Location = new Point(665, 220);
+            btnManageProducts.Image = (Image)resources.GetObject("btnManageProducts.Image");
+            btnManageProducts.Location = new Point(659, 196);
             btnManageProducts.Name = "btnManageProducts";
-            btnManageProducts.Size = new Size(179, 140);
+            btnManageProducts.Size = new Size(180, 180);
             btnManageProducts.TabIndex = 53;
-            btnManageProducts.Text = "MANAGE PRODUCTS";
+            btnManageProducts.Text = "PRODUCTS";
+            btnManageProducts.TextAlign = ContentAlignment.BottomCenter;
             btnManageProducts.UseVisualStyleBackColor = false;
             btnManageProducts.Click += btnManageProducts_Click;
             // 
@@ -280,11 +285,13 @@
             btnManageStocks.FlatStyle = FlatStyle.Flat;
             btnManageStocks.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageStocks.ForeColor = Color.White;
-            btnManageStocks.Location = new Point(919, 220);
+            btnManageStocks.Image = (Image)resources.GetObject("btnManageStocks.Image");
+            btnManageStocks.Location = new Point(882, 196);
             btnManageStocks.Name = "btnManageStocks";
-            btnManageStocks.Size = new Size(179, 140);
+            btnManageStocks.Size = new Size(180, 180);
             btnManageStocks.TabIndex = 54;
-            btnManageStocks.Text = "MANAGE STOCKS";
+            btnManageStocks.Text = "INVENTORY ";
+            btnManageStocks.TextAlign = ContentAlignment.BottomCenter;
             btnManageStocks.UseVisualStyleBackColor = false;
             btnManageStocks.Click += btnManageStocks_Click;
             // 
@@ -293,6 +300,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(btnLogOut);
             Controls.Add(btnManageStocks);
             Controls.Add(btnManageProducts);
             Controls.Add(btnManageCategory);

@@ -32,6 +32,8 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageProdFrm));
             titleBar = new Panel();
             lblAdminName = new Label();
@@ -40,7 +42,6 @@
             label12 = new Label();
             txtSearch = new CustomControls.CustomTextBox();
             panel1 = new Panel();
-            cmbCategory = new ComboBox();
             txtReorderLevel = new CustomControls.CustomTextBox();
             txtPrice = new CustomControls.CustomTextBox();
             txtProductName = new CustomControls.CustomTextBox();
@@ -57,6 +58,7 @@
             btnAdd = new RoundedButton();
             btnBack = new RoundedButton();
             dgvProducts = new DataGridView();
+            cmbCategory = new Guna.UI2.WinForms.Guna2ComboBox();
             titleBar.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
@@ -146,6 +148,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = SystemColors.ControlLight;
             panel1.Controls.Add(cmbCategory);
             panel1.Controls.Add(txtReorderLevel);
             panel1.Controls.Add(txtPrice);
@@ -161,14 +164,6 @@
             panel1.Size = new Size(955, 206);
             panel1.TabIndex = 49;
             // 
-            // cmbCategory
-            // 
-            cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(214, 90);
-            cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(387, 23);
-            cmbCategory.TabIndex = 53;
-            // 
             // txtReorderLevel
             // 
             txtReorderLevel.BorderColor = SystemColors.ButtonFace;
@@ -180,12 +175,12 @@
             txtReorderLevel.InnerBackColor = SystemColors.InactiveCaption;
             txtReorderLevel.InnerForeColor = Color.Black;
             txtReorderLevel.IsPasswordField = false;
-            txtReorderLevel.Location = new Point(214, 159);
+            txtReorderLevel.Location = new Point(650, 83);
             txtReorderLevel.Name = "txtReorderLevel";
             txtReorderLevel.PasswordChar = '\0';
             txtReorderLevel.PlaceholderColor = Color.Black;
             txtReorderLevel.PlaceholderText = "";
-            txtReorderLevel.Size = new Size(387, 32);
+            txtReorderLevel.Size = new Size(241, 43);
             txtReorderLevel.TabIndex = 52;
             // 
             // txtPrice
@@ -199,12 +194,12 @@
             txtPrice.InnerBackColor = SystemColors.InactiveCaption;
             txtPrice.InnerForeColor = Color.Black;
             txtPrice.IsPasswordField = false;
-            txtPrice.Location = new Point(214, 121);
+            txtPrice.Location = new Point(650, 23);
             txtPrice.Name = "txtPrice";
             txtPrice.PasswordChar = '\0';
             txtPrice.PlaceholderColor = Color.Black;
             txtPrice.PlaceholderText = "";
-            txtPrice.Size = new Size(387, 32);
+            txtPrice.Size = new Size(241, 43);
             txtPrice.TabIndex = 51;
             // 
             // txtProductName
@@ -218,12 +213,12 @@
             txtProductName.InnerBackColor = SystemColors.InactiveCaption;
             txtProductName.InnerForeColor = Color.Black;
             txtProductName.IsPasswordField = false;
-            txtProductName.Location = new Point(214, 45);
+            txtProductName.Location = new Point(214, 83);
             txtProductName.Name = "txtProductName";
             txtProductName.PasswordChar = '\0';
             txtProductName.PlaceholderColor = Color.Black;
             txtProductName.PlaceholderText = "";
-            txtProductName.Size = new Size(387, 32);
+            txtProductName.Size = new Size(241, 43);
             txtProductName.TabIndex = 49;
             // 
             // txtProductCode
@@ -237,12 +232,12 @@
             txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
             txtProductCode.InnerForeColor = Color.Black;
             txtProductCode.IsPasswordField = false;
-            txtProductCode.Location = new Point(214, 7);
+            txtProductCode.Location = new Point(214, 23);
             txtProductCode.Name = "txtProductCode";
             txtProductCode.PasswordChar = '\0';
             txtProductCode.PlaceholderColor = Color.Black;
             txtProductCode.PlaceholderText = "";
-            txtProductCode.Size = new Size(387, 32);
+            txtProductCode.Size = new Size(241, 43);
             txtProductCode.TabIndex = 48;
             // 
             // label7
@@ -250,18 +245,19 @@
             label7.AutoSize = true;
             label7.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(30, 164);
+            label7.Location = new Point(497, 94);
             label7.Name = "label7";
             label7.Size = new Size(120, 21);
             label7.TabIndex = 28;
             label7.Text = "Re-order Level";
+            
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(30, 126);
+            label6.Location = new Point(497, 45);
             label6.Name = "label6";
             label6.Size = new Size(82, 21);
             label6.TabIndex = 27;
@@ -272,7 +268,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(30, 90);
+            label5.Location = new Point(36, 154);
             label5.Name = "label5";
             label5.Size = new Size(85, 21);
             label5.TabIndex = 26;
@@ -283,7 +279,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(30, 56);
+            label4.Location = new Point(30, 94);
             label4.Name = "label4";
             label4.Size = new Size(163, 21);
             label4.TabIndex = 25;
@@ -294,7 +290,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(30, 23);
+            label3.Location = new Point(30, 39);
             label3.Name = "label3";
             label3.Size = new Size(120, 21);
             label3.TabIndex = 24;
@@ -451,6 +447,25 @@
             dgvProducts.Size = new Size(955, 254);
             dgvProducts.TabIndex = 57;
             // 
+            // cmbCategory
+            // 
+            cmbCategory.BackColor = Color.Transparent;
+            cmbCategory.BorderColor = Color.White;
+            cmbCategory.CustomizableEdges = customizableEdges1;
+            cmbCategory.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCategory.FillColor = SystemColors.InactiveCaption;
+            cmbCategory.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbCategory.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbCategory.Font = new Font("Segoe UI", 10F);
+            cmbCategory.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbCategory.ItemHeight = 30;
+            cmbCategory.Location = new Point(214, 139);
+            cmbCategory.Name = "cmbCategory";
+            cmbCategory.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cmbCategory.Size = new Size(241, 36);
+            cmbCategory.TabIndex = 54;
+            // 
             // ManageProdFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -492,7 +507,6 @@
         private CustomControls.CustomTextBox txtSearch;
         private Panel panel1;
         private Label label2;
-        private ComboBox cmbCategory;
         private CustomControls.CustomTextBox txtReorderLevel;
         private CustomControls.CustomTextBox txtPrice;
         private CustomControls.CustomTextBox txtProductName;
@@ -508,5 +522,6 @@
         private RoundedButton btnAdd;
         private RoundedButton btnBack;
         private DataGridView dgvProducts;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbCategory;
     }
 }

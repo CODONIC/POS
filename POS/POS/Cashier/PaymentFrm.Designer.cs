@@ -130,7 +130,7 @@
             txtTotalToPay.Enabled = false;
             txtTotalToPay.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtTotalToPay.ForeColor = SystemColors.GrayText;
-            txtTotalToPay.InnerBackColor = SystemColors.InactiveCaption;
+            txtTotalToPay.InnerBackColor = SystemColors.ScrollBar;
             txtTotalToPay.InnerForeColor = Color.Gray;
             txtTotalToPay.IsPasswordField = false;
             txtTotalToPay.Location = new Point(56, 225);
@@ -302,7 +302,7 @@
             txtTransactionNo.Enabled = false;
             txtTransactionNo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtTransactionNo.ForeColor = SystemColors.GrayText;
-            txtTransactionNo.InnerBackColor = SystemColors.InactiveCaption;
+            txtTransactionNo.InnerBackColor = SystemColors.ScrollBar;
             txtTransactionNo.InnerForeColor = Color.Gray;
             txtTransactionNo.IsPasswordField = false;
             txtTransactionNo.Location = new Point(56, 133);

@@ -83,7 +83,7 @@
             titleBar.Dock = DockStyle.Top;
             titleBar.Location = new Point(0, 0);
             titleBar.Name = "titleBar";
-            titleBar.Size = new Size(1280, 38);
+            titleBar.Size = new Size(1273, 42);
             titleBar.TabIndex = 19;
             // 
             // lblAdminName
@@ -91,7 +91,7 @@
             lblAdminName.AutoSize = true;
             lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
-            lblAdminName.Location = new Point(1694, 9);
+            lblAdminName.Location = new Point(1028, 9);
             lblAdminName.Name = "lblAdminName";
             lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
@@ -106,9 +106,9 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(1879, 0);
+            closeButton.Location = new Point(1232, 0);
             closeButton.Name = "closeButton";
-            closeButton.Size = new Size(41, 35);
+            closeButton.Size = new Size(41, 42);
             closeButton.TabIndex = 17;
             closeButton.Text = " X";
             closeButton.UseVisualStyleBackColor = false;
@@ -134,7 +134,7 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(12, 674);
+            btnBack.Location = new Point(23, 641);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(68, 34);
             btnBack.TabIndex = 37;
@@ -153,7 +153,7 @@
             btnAddStock.FlatStyle = FlatStyle.Flat;
             btnAddStock.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAddStock.ForeColor = Color.White;
-            btnAddStock.Location = new Point(297, 670);
+            btnAddStock.Location = new Point(348, 635);
             btnAddStock.Name = "btnAddStock";
             btnAddStock.Size = new Size(121, 40);
             btnAddStock.TabIndex = 38;
@@ -192,7 +192,7 @@
             panel1.Controls.Add(label6);
             panel1.Location = new Point(23, 153);
             panel1.Name = "panel1";
-            panel1.Size = new Size(534, 352);
+            panel1.Size = new Size(534, 443);
             panel1.TabIndex = 39;
             // 
             // txtRemove
@@ -206,7 +206,7 @@
             txtRemove.InnerBackColor = SystemColors.InactiveCaption;
             txtRemove.InnerForeColor = Color.Black;
             txtRemove.IsPasswordField = false;
-            txtRemove.Location = new Point(237, 275);
+            txtRemove.Location = new Point(237, 356);
             txtRemove.Name = "txtRemove";
             txtRemove.PasswordChar = '\0';
             txtRemove.PlaceholderColor = Color.Gray;
@@ -219,7 +219,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(22, 286);
+            label1.Location = new Point(22, 367);
             label1.Name = "label1";
             label1.Size = new Size(201, 21);
             label1.TabIndex = 66;
@@ -236,7 +236,7 @@
             txtAdd.InnerBackColor = SystemColors.InactiveCaption;
             txtAdd.InnerForeColor = Color.Black;
             txtAdd.IsPasswordField = false;
-            txtAdd.Location = new Point(237, 234);
+            txtAdd.Location = new Point(237, 315);
             txtAdd.Name = "txtAdd";
             txtAdd.PasswordChar = '\0';
             txtAdd.PlaceholderColor = Color.Gray;
@@ -249,7 +249,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(22, 245);
+            label8.Location = new Point(22, 326);
             label8.Name = "label8";
             label8.Size = new Size(178, 21);
             label8.TabIndex = 64;
@@ -257,7 +257,7 @@
             // 
             // txtStockInDate
             // 
-            txtStockInDate.BorderColor = SystemColors.ButtonFace;
+            txtStockInDate.BorderColor = Color.Transparent;
             txtStockInDate.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtStockInDate.BorderRadius = 8;
             txtStockInDate.BorderThickness = 2;
@@ -267,7 +267,7 @@
             txtStockInDate.InnerBackColor = SystemColors.InactiveCaption;
             txtStockInDate.InnerForeColor = Color.Black;
             txtStockInDate.IsPasswordField = false;
-            txtStockInDate.Location = new Point(237, 178);
+            txtStockInDate.Location = new Point(237, 229);
             txtStockInDate.Name = "txtStockInDate";
             txtStockInDate.PasswordChar = '\0';
             txtStockInDate.PlaceholderColor = Color.Gray;
@@ -280,7 +280,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(25, 178);
+            label7.Location = new Point(24, 240);
             label7.Name = "label7";
             label7.Size = new Size(118, 21);
             label7.TabIndex = 62;
@@ -288,7 +288,7 @@
             // 
             // txtCategory
             // 
-            txtCategory.BorderColor = SystemColors.ButtonFace;
+            txtCategory.BorderColor = Color.Transparent;
             txtCategory.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtCategory.BorderRadius = 8;
             txtCategory.BorderThickness = 2;
@@ -298,7 +298,7 @@
             txtCategory.InnerBackColor = SystemColors.InactiveCaption;
             txtCategory.InnerForeColor = Color.Black;
             txtCategory.IsPasswordField = false;
-            txtCategory.Location = new Point(237, 99);
+            txtCategory.Location = new Point(237, 131);
             txtCategory.Name = "txtCategory";
             txtCategory.PasswordChar = '\0';
             txtCategory.PlaceholderColor = Color.Gray;
@@ -311,7 +311,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(22, 39);
+            label3.Location = new Point(22, 48);
             label3.Name = "label3";
             label3.Size = new Size(120, 21);
             label3.TabIndex = 54;
@@ -319,7 +319,7 @@
             // 
             // txtUnitPrice
             // 
-            txtUnitPrice.BorderColor = SystemColors.ButtonFace;
+            txtUnitPrice.BorderColor = Color.Transparent;
             txtUnitPrice.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtUnitPrice.BorderRadius = 8;
             txtUnitPrice.BorderThickness = 2;
@@ -329,7 +329,7 @@
             txtUnitPrice.InnerBackColor = SystemColors.InactiveCaption;
             txtUnitPrice.InnerForeColor = Color.Black;
             txtUnitPrice.IsPasswordField = false;
-            txtUnitPrice.Location = new Point(237, 137);
+            txtUnitPrice.Location = new Point(237, 178);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.PasswordChar = '\0';
             txtUnitPrice.PlaceholderColor = Color.Gray;
@@ -342,7 +342,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(22, 72);
+            label4.Location = new Point(22, 99);
             label4.Name = "label4";
             label4.Size = new Size(163, 21);
             label4.TabIndex = 55;
@@ -350,7 +350,7 @@
             // 
             // txtDescription
             // 
-            txtDescription.BorderColor = SystemColors.ButtonFace;
+            txtDescription.BorderColor = Color.Transparent;
             txtDescription.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtDescription.BorderRadius = 8;
             txtDescription.BorderThickness = 2;
@@ -360,7 +360,7 @@
             txtDescription.InnerBackColor = SystemColors.InactiveCaption;
             txtDescription.InnerForeColor = Color.Black;
             txtDescription.IsPasswordField = false;
-            txtDescription.Location = new Point(237, 61);
+            txtDescription.Location = new Point(237, 88);
             txtDescription.Name = "txtDescription";
             txtDescription.PasswordChar = '\0';
             txtDescription.PlaceholderColor = Color.Gray;
@@ -373,7 +373,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(22, 106);
+            label5.Location = new Point(22, 142);
             label5.Name = "label5";
             label5.Size = new Size(85, 21);
             label5.TabIndex = 56;
@@ -381,7 +381,7 @@
             // 
             // txtProductCode
             // 
-            txtProductCode.BorderColor = SystemColors.ButtonFace;
+            txtProductCode.BorderColor = Color.Transparent;
             txtProductCode.BorderFocusColor = Color.FromArgb(30, 45, 61);
             txtProductCode.BorderRadius = 8;
             txtProductCode.BorderThickness = 2;
@@ -391,7 +391,7 @@
             txtProductCode.InnerBackColor = SystemColors.InactiveCaption;
             txtProductCode.InnerForeColor = Color.Black;
             txtProductCode.IsPasswordField = false;
-            txtProductCode.Location = new Point(237, 23);
+            txtProductCode.Location = new Point(237, 37);
             txtProductCode.Name = "txtProductCode";
             txtProductCode.PasswordChar = '\0';
             txtProductCode.PlaceholderColor = Color.Gray;
@@ -404,7 +404,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(22, 142);
+            label6.Location = new Point(22, 189);
             label6.Name = "label6";
             label6.Size = new Size(82, 21);
             label6.TabIndex = 57;
@@ -420,7 +420,7 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(722, 670);
+            btnCancel.Location = new Point(773, 635);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(108, 40);
             btnCancel.TabIndex = 67;
@@ -438,7 +438,7 @@
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(606, 670);
+            btnSave.Location = new Point(657, 635);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(99, 40);
             btnSave.TabIndex = 66;
@@ -488,7 +488,7 @@
             btnRemoveStock.FlatStyle = FlatStyle.Flat;
             btnRemoveStock.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRemoveStock.ForeColor = Color.White;
-            btnRemoveStock.Location = new Point(424, 670);
+            btnRemoveStock.Location = new Point(475, 635);
             btnRemoveStock.Name = "btnRemoveStock";
             btnRemoveStock.Size = new Size(160, 40);
             btnRemoveStock.TabIndex = 68;
@@ -502,7 +502,7 @@
             label9.BackColor = Color.LightSteelBlue;
             label9.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.Black;
-            label9.Location = new Point(606, 54);
+            label9.Location = new Point(576, 54);
             label9.Name = "label9";
             label9.Size = new Size(117, 19);
             label9.TabIndex = 69;
@@ -514,7 +514,7 @@
             label10.BackColor = Color.LightSteelBlue;
             label10.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(606, 325);
+            label10.Location = new Point(576, 331);
             label10.Name = "label10";
             label10.Size = new Size(169, 19);
             label10.TabIndex = 70;
@@ -545,7 +545,7 @@
             dgvAllProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAllProducts.EnableHeadersVisualStyles = false;
             dgvAllProducts.GridColor = Color.FromArgb(230, 230, 230);
-            dgvAllProducts.Location = new Point(606, 76);
+            dgvAllProducts.Location = new Point(576, 76);
             dgvAllProducts.Name = "dgvAllProducts";
             dgvAllProducts.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -565,7 +565,7 @@
             dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(33, 37, 41);
             dgvAllProducts.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvAllProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAllProducts.Size = new Size(649, 222);
+            dgvAllProducts.Size = new Size(679, 240);
             dgvAllProducts.TabIndex = 72;
             // 
             // dgvPending
@@ -593,7 +593,7 @@
             dgvPending.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPending.EnableHeadersVisualStyles = false;
             dgvPending.GridColor = Color.FromArgb(230, 230, 230);
-            dgvPending.Location = new Point(606, 356);
+            dgvPending.Location = new Point(576, 356);
             dgvPending.Name = "dgvPending";
             dgvPending.ReadOnly = true;
             dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -613,14 +613,14 @@
             dataGridViewCellStyle8.SelectionForeColor = Color.FromArgb(33, 37, 41);
             dgvPending.RowsDefaultCellStyle = dataGridViewCellStyle8;
             dgvPending.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPending.Size = new Size(649, 303);
+            dgvPending.Size = new Size(679, 240);
             dgvPending.TabIndex = 73;
             // 
             // ManageStocks
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1273, 720);
             Controls.Add(dgvPending);
             Controls.Add(dgvAllProducts);
             Controls.Add(label10);
