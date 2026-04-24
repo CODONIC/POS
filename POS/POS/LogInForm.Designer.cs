@@ -157,7 +157,7 @@
             txtUsername.InnerBackColor = SystemColors.InactiveCaption;
             txtUsername.InnerForeColor = Color.Gray;
             txtUsername.IsPasswordField = false;
-            txtUsername.Location = new Point(397, 244);
+            txtUsername.Location = new Point(397, 291);
             txtUsername.Name = "txtUsername";
             txtUsername.PasswordChar = '\0';
             txtUsername.PlaceholderColor = Color.Gray;
@@ -180,7 +180,7 @@
             txtPassword.InnerBackColor = SystemColors.InactiveCaption;
             txtPassword.InnerForeColor = Color.Gray;
             txtPassword.IsPasswordField = false;
-            txtPassword.Location = new Point(397, 295);
+            txtPassword.Location = new Point(397, 342);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '\0';
             txtPassword.PlaceholderColor = Color.Gray;
@@ -252,7 +252,7 @@
             txtCompany.InnerBackColor = SystemColors.InactiveCaption;
             txtCompany.InnerForeColor = Color.Gray;
             txtCompany.IsPasswordField = false;
-            txtCompany.Location = new Point(397, 346);
+            txtCompany.Location = new Point(397, 240);
             txtCompany.Name = "txtCompany";
             txtCompany.PasswordChar = '\0';
             txtCompany.PlaceholderColor = Color.Gray;
@@ -268,11 +268,11 @@
             // 
             chckUserComp.AutoSize = true;
             chckUserComp.ForeColor = SystemColors.ActiveCaptionText;
-            chckUserComp.Location = new Point(399, 397);
+            chckUserComp.Location = new Point(453, 397);
             chckUserComp.Name = "chckUserComp";
-            chckUserComp.Size = new Size(218, 19);
+            chckUserComp.Size = new Size(104, 19);
             chckUserComp.TabIndex = 23;
-            chckUserComp.Text = "Remember Username and Company";
+            chckUserComp.Text = "Remember Me";
             chckUserComp.UseVisualStyleBackColor = true;
             chckUserComp.CheckedChanged += chckUserComp_CheckedChanged;
             chckUserComp.KeyDown += txt_KeyDown;

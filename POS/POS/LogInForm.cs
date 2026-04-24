@@ -288,26 +288,26 @@ namespace POS
         {
             if (e.KeyCode == Keys.Down)
             {
-                if (sender == txtUsername)
+                if (sender == txtCompany /*txtUsername */ )
+                {
+                    txtUsername.FocusInner();
+                }
+                else if (sender == txtUsername /*txtPassword*/)
                 {
                     txtPassword.FocusInner();
-                }
-                else if (sender == txtPassword)
-                {
-                    txtCompany.FocusInner();
                 }
 
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Up)
             {
-                if (sender == txtCompany)
-                {
-                    txtPassword.FocusInner();
-                }
-                else if (sender == txtPassword)
+                if (sender == txtPassword)
                 {
                     txtUsername.FocusInner();
+                }
+                else if (sender == txtUsername)
+                {
+                    txtCompany.FocusInner();
                 }
 
                 e.Handled = true;

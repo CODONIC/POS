@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,7 +42,58 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CashierDashboard.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "RelativeToolTip": "POS\\Cashier\\CashierDashboard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T12:01:22.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PaymentFrm.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\PaymentFrm.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\PaymentFrm.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\PaymentFrm.cs",
+              "RelativeToolTip": "POS\\Cashier\\PaymentFrm.cs",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAAwKMAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T11:26:54.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LogInForm.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogInForm.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogInForm.cs",
+              "RelativeToolTip": "POS\\LogInForm.cs",
+              "ViewState": "AgIAABQBAAAAAAAAAAAAAC8BAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T11:16:27.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LogInForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogInForm.cs",
+              "RelativeDocumentMoniker": "POS\\LogInForm.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogInForm.cs [Design]",
+              "RelativeToolTip": "POS\\LogInForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T11:11:47.584Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "CashierDashboard.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
               "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
@@ -38,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "PaymentFrm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\PaymentFrm.cs",
               "RelativeDocumentMoniker": "POS\\Cashier\\PaymentFrm.cs",

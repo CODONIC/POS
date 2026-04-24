@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +16,10 @@ namespace POS.Cashier
         private string _transactionNumber;
         private DataTable _cartItems;
 
-        // Received pre-calculated values
+        // Original subtotal (before any discount) — never changes
+        private decimal _originalSubtotal;
+
+        // Received pre-calculated values (may be recalculated when discount changes)
         private decimal _subtotal;
         private decimal _discountPercentage;
         private decimal _discountAmount;
@@ -42,6 +45,9 @@ namespace POS.Cashier
             _vatAmount = vatAmount;
             _totalAmount = totalAmount;
 
+            // Store original subtotal so recalculations always start from base price
+            _originalSubtotal = subtotal;
+
             // Get company ID
             _companyId = GetCompanyId(_companyName);
 
@@ -56,6 +62,10 @@ namespace POS.Cashier
             txtChange.Text = "₱ 0.00";
             lblCashierName.Text = $"{_username} | Cashier";
             titleLabel.Text = $"{_companyName} ";
+
+            // Wire up discount TextChanged event
+            txtDiscountPercent.TextChanged += txtDiscountPercent_TextChanged;
+            txtCustomerPayment.TextChanged += txtCustomerPayment_TextChanged;
 
             // Calculate initial change
             CalculateChange();
@@ -93,21 +103,49 @@ namespace POS.Cashier
             guna2ComboBox1.Items.Add("Debit Card");
             guna2ComboBox1.Items.Add("GCash");
             guna2ComboBox1.Items.Add("PayMaya");
-            guna2ComboBox1.Items.Add("Bank Transfer");
             guna2ComboBox1.SelectedIndex = 0;
             guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-         private void DisplayAmounts()
-         {
-             // Display all the pre-calculated values
-             //txtSubtotal.Text = _subtotal.ToString("F2");
-             txtDiscountPercent.Text = _discountPercentage.ToString();
-             //txtDiscountAmount.Text = _discountAmount.ToString("F2");
-             //txtVatable.Text = _vatableAmount.ToString("F2");
-             //txtVAT.Text = _vatAmount.ToString("F2");
-             txtTotalToPay.Text = _totalAmount.ToString("F2");
-             txtTransactionNo.Text = _transactionNumber;
+        private void DisplayAmounts()
+        {
+            txtDiscountPercent.Text = _discountPercentage.ToString();
+            txtTotalToPay.Text = _totalAmount.ToString("F2");
+            txtTransactionNo.Text = _transactionNumber;
+        }
+
+        // Fires whenever the user edits the Discount % field
+        private void txtDiscountPercent_TextChanged(object sender, EventArgs e)
+        {
+            RecalculateTotal();
+            CalculateChange();
+        }
+
+        // Recalculates all amounts from the original subtotal based on the current discount %
+        private void RecalculateTotal()
+        {
+            // Parse discount; default to 0 if invalid
+            if (!decimal.TryParse(txtDiscountPercent.Text, out decimal newDiscountPct))
+                newDiscountPct = 0;
+
+            // Clamp discount between 0 and 100
+            if (newDiscountPct < 0) newDiscountPct = 0;
+            if (newDiscountPct > 100) newDiscountPct = 100;
+
+            // Recalculate from original (base) subtotal
+            _discountPercentage = newDiscountPct;
+            _discountAmount = _originalSubtotal * (_discountPercentage / 100m);
+
+            decimal discountedAmount = _originalSubtotal - _discountAmount;
+
+            // VAT-inclusive breakdown (12% VAT)
+            _vatableAmount = discountedAmount / 1.12m;
+            _vatAmount = _vatableAmount * 0.12m;
+            _totalAmount = discountedAmount;
+
+            // Update the displayed total
+            txtTotalToPay.Text = _totalAmount.ToString("F2");
+           
         }
 
         private void CalculateChange()
@@ -122,15 +160,12 @@ namespace POS.Cashier
 
             if (change < 0)
             {
-                change = 0;
                 txtChange.Text = "₱ 0.00";
-                
                 btnConfirmPayment.Enabled = false;
             }
             else
             {
                 txtChange.Text = $"₱ {change:F2}";
-                
                 btnConfirmPayment.Enabled = true;
             }
         }
@@ -142,6 +177,7 @@ namespace POS.Cashier
 
         private void txtCustomerPayment_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Allow only digits, one decimal point, and control keys (backspace etc.)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
@@ -165,7 +201,8 @@ namespace POS.Cashier
 
             if (customerPayment < _totalAmount)
             {
-                MessageBox.Show($"Insufficient payment amount!\n\nTotal to Pay: ₱{_totalAmount:F2}\nCustomer Payment: ₱{customerPayment:F2}",
+                MessageBox.Show(
+                    $"Insufficient payment amount!\n\nTotal to Pay: ₱{_totalAmount:F2}\nCustomer Payment: ₱{customerPayment:F2}",
                     "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -177,7 +214,7 @@ namespace POS.Cashier
             DialogResult result = MessageBox.Show(
                 $"Payment Confirmation:\n\n" +
                 $"Transaction #: {_transactionNumber}\n" +
-                $"Subtotal: ₱{_subtotal:F2}\n" +
+                $"Subtotal: ₱{_originalSubtotal:F2}\n" +
                 $"Discount ({_discountPercentage}%): -₱{_discountAmount:F2}\n" +
                 $"VATable Amount: ₱{_vatableAmount:F2}\n" +
                 $"VAT (12%): ₱{_vatAmount:F2}\n" +
@@ -198,7 +235,8 @@ namespace POS.Cashier
                 {
                     await UpdateProductQuantities();
 
-                    MessageBox.Show($"Payment Successful!\n\nChange: ₱{change:F2}\n\nThank you for your purchase!",
+                    MessageBox.Show(
+                        $"Payment Successful!\n\nChange: ₱{change:F2}\n\nThank you for your purchase!",
                         "Payment Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     this.DialogResult = DialogResult.OK;
@@ -222,7 +260,6 @@ namespace POS.Cashier
 
                     using (var transaction = await conn.BeginTransactionAsync())
                     {
-                        // Insert into transactions table
                         string insertTransaction = @"
                             INSERT INTO transactions (
                                 transaction_number, company_id, cashier_name, 
@@ -244,7 +281,8 @@ namespace POS.Cashier
                             cmd.Parameters.AddWithValue("@transactionNumber", _transactionNumber);
                             cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
                             cmd.Parameters.AddWithValue("@cashierName", _username);
-                            cmd.Parameters.AddWithValue("@subtotal", _subtotal);
+                            // Save the original subtotal to the DB, not the discounted one
+                            cmd.Parameters.AddWithValue("@subtotal", _originalSubtotal);
                             cmd.Parameters.AddWithValue("@discountPercentage", _discountPercentage);
                             cmd.Parameters.AddWithValue("@discountAmount", _discountAmount);
                             cmd.Parameters.AddWithValue("@vatAmount", _vatAmount);
@@ -276,7 +314,9 @@ namespace POS.Cashier
                             {
                                 DataRow item = _cartItems.Rows[i];
                                 if (i > 0) insertItemSql.Append(",");
-                                insertItemSql.Append($"(@transactionId, @productCode{paramIndex}, @productName{paramIndex}, @quantity{paramIndex}, @price{paramIndex}, @subtotal{paramIndex})");
+                                insertItemSql.Append(
+                                    $"(@transactionId, @productCode{paramIndex}, @productName{paramIndex}, " +
+                                    $"@quantity{paramIndex}, @price{paramIndex}, @subtotal{paramIndex})");
 
                                 parameters.Add(new NpgsqlParameter($"@productCode{paramIndex}", item["product_code"].ToString()));
                                 parameters.Add(new NpgsqlParameter($"@productName{paramIndex}", item["product_name"].ToString()));
@@ -354,10 +394,8 @@ namespace POS.Cashier
         {
             txtCustomerPayment.Text = "0";
             txtChange.Text = "₱ 0.00";
-            
-            btnConfirmPayment.Enabled = true;
+            btnConfirmPayment.Enabled = false;
             txtCustomerPayment.Focus();
-            
         }
 
         public override void CloseButton_Click(object sender, EventArgs e)

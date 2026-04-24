@@ -57,7 +57,6 @@
             panel3 = new Panel();
             btnRemoveItems = new RoundedButton();
             btnClearSelection = new RoundedButton();
-            txtDiscountPercent = new CustomControls.CustomTextBox();
             lblVAT = new CustomControls.CustomTextBox();
             lblVATable = new CustomControls.CustomTextBox();
             txtTransNo = new CustomControls.CustomTextBox();
@@ -67,7 +66,6 @@
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
-            label9 = new Label();
             btnCart = new RoundedButton();
             lblProducts = new Label();
             dgvProducts = new DataGridView();
@@ -346,7 +344,6 @@
             panel3.BackColor = SystemColors.ControlLight;
             panel3.Controls.Add(btnRemoveItems);
             panel3.Controls.Add(btnClearSelection);
-            panel3.Controls.Add(txtDiscountPercent);
             panel3.Controls.Add(lblVAT);
             panel3.Controls.Add(lblVATable);
             panel3.Controls.Add(txtTransNo);
@@ -356,7 +353,6 @@
             panel3.Controls.Add(label12);
             panel3.Controls.Add(label11);
             panel3.Controls.Add(label10);
-            panel3.Controls.Add(label9);
             panel3.Location = new Point(953, 254);
             panel3.Name = "panel3";
             panel3.Size = new Size(274, 493);
@@ -396,27 +392,6 @@
             btnClearSelection.UseVisualStyleBackColor = false;
             btnClearSelection.Click += btnClearSelection_Click;
             // 
-            // txtDiscountPercent
-            // 
-            txtDiscountPercent.BorderColor = Color.Transparent;
-            txtDiscountPercent.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            txtDiscountPercent.BorderRadius = 8;
-            txtDiscountPercent.BorderThickness = 1;
-            txtDiscountPercent.Enabled = false;
-            txtDiscountPercent.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtDiscountPercent.ForeColor = SystemColors.GrayText;
-            txtDiscountPercent.InnerBackColor = SystemColors.InactiveCaption;
-            txtDiscountPercent.InnerForeColor = Color.Gray;
-            txtDiscountPercent.IsPasswordField = false;
-            txtDiscountPercent.Location = new Point(108, 9);
-            txtDiscountPercent.Name = "txtDiscountPercent";
-            txtDiscountPercent.PasswordChar = '\0';
-            txtDiscountPercent.PlaceholderColor = Color.Gray;
-            txtDiscountPercent.PlaceholderText = "";
-            txtDiscountPercent.Size = new Size(133, 30);
-            txtDiscountPercent.TabIndex = 35;
-            txtDiscountPercent.Text = "0.00";
-            // 
             // lblVAT
             // 
             lblVAT.BorderColor = Color.Transparent;
@@ -429,7 +404,7 @@
             lblVAT.InnerBackColor = SystemColors.InactiveCaption;
             lblVAT.InnerForeColor = Color.Gray;
             lblVAT.IsPasswordField = false;
-            lblVAT.Location = new Point(108, 45);
+            lblVAT.Location = new Point(108, 21);
             lblVAT.Name = "lblVAT";
             lblVAT.PasswordChar = '\0';
             lblVAT.PlaceholderColor = Color.Gray;
@@ -450,7 +425,7 @@
             lblVATable.InnerBackColor = SystemColors.InactiveCaption;
             lblVATable.InnerForeColor = Color.Gray;
             lblVATable.IsPasswordField = false;
-            lblVATable.Location = new Point(108, 80);
+            lblVATable.Location = new Point(108, 56);
             lblVATable.Name = "lblVATable";
             lblVATable.PasswordChar = '\0';
             lblVATable.PlaceholderColor = Color.Gray;
@@ -471,7 +446,7 @@
             txtTransNo.InnerBackColor = SystemColors.InactiveCaption;
             txtTransNo.InnerForeColor = Color.Gray;
             txtTransNo.IsPasswordField = false;
-            txtTransNo.Location = new Point(12, 167);
+            txtTransNo.Location = new Point(12, 143);
             txtTransNo.Name = "txtTransNo";
             txtTransNo.PasswordChar = '\0';
             txtTransNo.PlaceholderColor = Color.Gray;
@@ -537,7 +512,7 @@
             label12.BackColor = SystemColors.Control;
             label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Black;
-            label12.Location = new Point(12, 133);
+            label12.Location = new Point(12, 109);
             label12.Name = "label12";
             label12.Size = new Size(169, 19);
             label12.TabIndex = 25;
@@ -550,7 +525,7 @@
             label11.BackColor = SystemColors.Control;
             label11.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(12, 91);
+            label11.Location = new Point(12, 67);
             label11.Name = "label11";
             label11.Size = new Size(79, 19);
             label11.TabIndex = 24;
@@ -563,25 +538,12 @@
             label10.BackColor = SystemColors.Control;
             label10.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(12, 56);
+            label10.Location = new Point(12, 32);
             label10.Name = "label10";
             label10.Size = new Size(43, 19);
             label10.TabIndex = 23;
             label10.Text = "VAT:";
             label10.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.BackColor = SystemColors.Control;
-            label9.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.Black;
-            label9.Location = new Point(12, 19);
-            label9.Name = "label9";
-            label9.Size = new Size(90, 19);
-            label9.TabIndex = 22;
-            label9.Text = "DISCOUNT:";
-            label9.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnCart
             // 
@@ -725,7 +687,6 @@
         private DataGridViewTextBoxColumn primaryKeyDataGridViewTextBoxColumn;
         private BindingSource usersBindingSource;
         private Panel panel3;
-        private Label label9;
         private Label label12;
         private Label label11;
         private Label label10;
@@ -733,7 +694,6 @@
         private RoundedButton btnClearCart;
         private RoundedButton btnPayment;
         private RoundedButton btnAddToCart;
-        private CustomControls.CustomTextBox txtDiscountPercent;
         private CustomControls.CustomTextBox lblVAT;
         private CustomControls.CustomTextBox lblVATable;
         private RoundedButton btnLogOut;

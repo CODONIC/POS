@@ -113,7 +113,7 @@
             btnConfirmPayment.FlatStyle = FlatStyle.Flat;
             btnConfirmPayment.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnConfirmPayment.ForeColor = Color.White;
-            btnConfirmPayment.Location = new Point(245, 558);
+            btnConfirmPayment.Location = new Point(245, 515);
             btnConfirmPayment.Name = "btnConfirmPayment";
             btnConfirmPayment.Size = new Size(183, 52);
             btnConfirmPayment.TabIndex = 31;
@@ -133,7 +133,7 @@
             txtTotalToPay.InnerBackColor = SystemColors.ScrollBar;
             txtTotalToPay.InnerForeColor = Color.Gray;
             txtTotalToPay.IsPasswordField = false;
-            txtTotalToPay.Location = new Point(56, 225);
+            txtTotalToPay.Location = new Point(56, 157);
             txtTotalToPay.Name = "txtTotalToPay";
             txtTotalToPay.PasswordChar = '\0';
             txtTotalToPay.PlaceholderColor = Color.Gray;
@@ -152,7 +152,7 @@
             txtCustomerPayment.InnerBackColor = SystemColors.InactiveCaption;
             txtCustomerPayment.InnerForeColor = Color.Black;
             txtCustomerPayment.IsPasswordField = false;
-            txtCustomerPayment.Location = new Point(56, 430);
+            txtCustomerPayment.Location = new Point(56, 394);
             txtCustomerPayment.Name = "txtCustomerPayment";
             txtCustomerPayment.PasswordChar = '\0';
             txtCustomerPayment.PlaceholderColor = Color.Black;
@@ -165,7 +165,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(60, 201);
+            label1.Location = new Point(60, 133);
             label1.Name = "label1";
             label1.Size = new Size(102, 21);
             label1.TabIndex = 35;
@@ -176,7 +176,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(60, 406);
+            label2.Location = new Point(60, 370);
             label2.Name = "label2";
             label2.Size = new Size(183, 21);
             label2.TabIndex = 36;
@@ -187,7 +187,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(62, 487);
+            label3.Location = new Point(62, 451);
             label3.Name = "label3";
             label3.Size = new Size(75, 21);
             label3.TabIndex = 37;
@@ -198,7 +198,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(140, 270);
+            label4.Location = new Point(140, 301);
             label4.Name = "label4";
             label4.Size = new Size(22, 21);
             label4.TabIndex = 45;
@@ -209,7 +209,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(62, 270);
+            label5.Location = new Point(62, 301);
             label5.Name = "label5";
             label5.Size = new Size(78, 21);
             label5.TabIndex = 44;
@@ -226,7 +226,7 @@
             txtDiscountPercent.InnerBackColor = SystemColors.InactiveCaption;
             txtDiscountPercent.InnerForeColor = Color.Black;
             txtDiscountPercent.IsPasswordField = false;
-            txtDiscountPercent.Location = new Point(56, 294);
+            txtDiscountPercent.Location = new Point(56, 325);
             txtDiscountPercent.Name = "txtDiscountPercent";
             txtDiscountPercent.PasswordChar = '\0';
             txtDiscountPercent.PlaceholderColor = Color.Black;
@@ -239,8 +239,9 @@
             txtChange.AutoSize = true;
             txtChange.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtChange.ForeColor = Color.Black;
-            txtChange.Location = new Point(372, 487);
+            txtChange.Location = new Point(372, 451);
             txtChange.Name = "txtChange";
+            txtChange.RightToLeft = RightToLeft.Yes;
             txtChange.Size = new Size(56, 21);
             txtChange.TabIndex = 46;
             txtChange.Text = "₱ 0.00";
@@ -255,7 +256,7 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(56, 558);
+            btnClear.Location = new Point(56, 515);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(183, 52);
             btnClear.TabIndex = 47;
@@ -268,7 +269,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(62, 339);
+            label7.Location = new Point(60, 225);
             label7.Name = "label7";
             label7.Size = new Size(147, 21);
             label7.TabIndex = 48;
@@ -287,7 +288,7 @@
             guna2ComboBox1.Font = new Font("Segoe UI", 10F);
             guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
             guna2ComboBox1.ItemHeight = 30;
-            guna2ComboBox1.Location = new Point(62, 367);
+            guna2ComboBox1.Location = new Point(60, 253);
             guna2ComboBox1.Name = "guna2ComboBox1";
             guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2ComboBox1.Size = new Size(366, 36);
@@ -305,7 +306,7 @@
             txtTransactionNo.InnerBackColor = SystemColors.ScrollBar;
             txtTransactionNo.InnerForeColor = Color.Gray;
             txtTransactionNo.IsPasswordField = false;
-            txtTransactionNo.Location = new Point(56, 133);
+            txtTransactionNo.Location = new Point(56, 90);
             txtTransactionNo.Name = "txtTransactionNo";
             txtTransactionNo.PasswordChar = '\0';
             txtTransactionNo.PlaceholderColor = Color.Gray;
@@ -318,7 +319,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(62, 109);
+            label6.Location = new Point(62, 66);
             label6.Name = "label6";
             label6.Size = new Size(117, 21);
             label6.TabIndex = 51;
@@ -328,7 +329,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(499, 660);
+            ClientSize = new Size(499, 622);
             Controls.Add(label6);
             Controls.Add(txtTransactionNo);
             Controls.Add(guna2ComboBox1);

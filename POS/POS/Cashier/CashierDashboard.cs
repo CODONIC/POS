@@ -64,24 +64,13 @@ namespace POS
             txtQuan.TextChanged += txtQuan_TextChanged;
             txtPrice.TextChanged += txtPrice_TextChanged;
 
-            // ─── Wire up discount event ────────────────────────────────────────
-            if (txtDiscountPercent != null)
-            {
-                txtDiscountPercent.TextChanged += txtDiscount_TextChanged;
-            }
+            
 
             dgvProducts.AllowUserToAddRows = false;
 
             this.KeyPreview = true;
             this.KeyDown += CashierDashboard_KeyDown;
             ShortcutKeyHints();
-
-            // Initialize discount display
-            if (txtDiscountPercent != null)
-            {
-                txtDiscountPercent.Text = "0";
-                txtDiscountPercent.Enabled = true;
-            }
         }
 
         // ─── Resolve company name to ID ───────────────────────────────────────────
@@ -168,57 +157,30 @@ namespace POS
             _subtotal = _cartTable.AsEnumerable()
                 .Sum(r => Convert.ToDecimal(r["subtotal"]));
 
-            // Calculate discount amount
-            _discountAmount = _subtotal * (_discountPercentage / 100);
+            // Calculate discount
+            _discountAmount = _subtotal * (_discountPercentage / 100m);
 
-            // Calculate vatable amount (subtotal minus discount)
-            _vatableAmount = _subtotal - _discountAmount;
+            // Discounted total (this IS the total to pay — VAT already included)
+            decimal discountedAmount = _subtotal - _discountAmount;
 
-            // Calculate VAT (12% of vatable amount)
+            // VAT-INCLUSIVE breakdown (BIR standard)
+            _vatableAmount = discountedAmount / 1.12m;
             _vatAmount = _vatableAmount * 0.12m;
-
-            // Calculate total amount (vatable amount plus VAT)
-            _totalAmount = _vatableAmount + _vatAmount;
+            _totalAmount = discountedAmount; // NOT vatableAmount + vatAmount
 
             // Update display labels
-          //  if (lblSubtotal != null)
-           //     lblSubtotal.Text = $"₱ {_subtotal:N2}";
-
-          ////  if (lblDiscount != null)
-            //    lblDiscount.Text = $"₱ {_discountAmount:N2}";
-
-           //// if (lblDiscountPercent != null)
-            //    lblDiscountPercent.Text = $"{_discountPercentage}%";
-
             if (lblVATable != null)
                 lblVATable.Text = $"₱ {_vatableAmount:N2}";
 
             if (lblVAT != null)
                 lblVAT.Text = $"₱ {_vatAmount:N2}";
 
-          //  if (lblTotal != null)
-           //     lblTotal.Text = $"₱ {_totalAmount:N2}";
-
-            // Update the main total price label (used for display)
             if (lblTotalPrice != null)
                 lblTotalPrice.Text = _totalAmount.ToString("F2");
         }
 
-        private void UpdateTotalPrice()
-        {
-            CalculateAmounts();
-        }
 
-        private void txtDiscount_TextChanged(object sender, EventArgs e)
-        {
-            if (decimal.TryParse(txtDiscountPercent.Text, out decimal discount))
-            {
-                // Limit discount between 0 and 100
-                _discountPercentage = Math.Min(100, Math.Max(0, discount));
-                txtDiscountPercent.Text = _discountPercentage.ToString();
-                CalculateAmounts();
-            }
-        }
+        
 
         // ─── View Switching ───────────────────────────────────────────────────────
 
@@ -492,10 +454,7 @@ namespace POS
                 // Payment successful - reset the transaction
                 ResetTransaction();
 
-                // Reset discount
-                _discountPercentage = 0;
-                if (txtDiscountPercent != null)
-                    txtDiscountPercent.Text = "0";
+                
 
                 // Reload products to reflect updated quantities
                 _ = LoadProductsAsync();
@@ -539,10 +498,7 @@ namespace POS
                 _transactionStarted = false;
                 txtTransNo.Text = "";
 
-                // Reset discount
-                _discountPercentage = 0;
-                if (txtDiscountPercent != null)
-                    txtDiscountPercent.Text = "0";
+               
 
                 if (_isCartView)
                     ShowCartView();
@@ -607,8 +563,7 @@ namespace POS
                 _transactionStarted = false;
                 txtTransNo.Text = "";
                 _discountPercentage = 0;
-                if (txtDiscountPercent != null)
-                    txtDiscountPercent.Text = "0";
+               
             }
 
             ShowCartView();
