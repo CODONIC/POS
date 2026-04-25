@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboard));
             titleBar = new Panel();
-            btnLogOut = new RoundedButton();
             lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
+            btnLogOut = new RoundedButton();
             label12 = new Label();
             txtSearch = new CustomControls.CustomTextBox();
             label2 = new Label();
@@ -44,6 +44,10 @@
             btnManageCategory = new RoundedButton();
             btnManageProducts = new RoundedButton();
             btnManageStocks = new RoundedButton();
+            roundedButton2 = new RoundedButton();
+            roundedButton3 = new RoundedButton();
+            roundedButton4 = new RoundedButton();
+            roundedButton5 = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -58,25 +62,6 @@
             titleBar.Name = "titleBar";
             titleBar.Size = new Size(1264, 48);
             titleBar.TabIndex = 17;
-            // 
-            // btnLogOut
-            // 
-            btnLogOut.BackColor = Color.SteelBlue;
-            btnLogOut.BorderColor = Color.Transparent;
-            btnLogOut.BorderRadius = 10;
-            btnLogOut.BorderSize = 0;
-            btnLogOut.FlatAppearance.BorderSize = 0;
-            btnLogOut.FlatStyle = FlatStyle.Flat;
-            btnLogOut.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLogOut.ForeColor = Color.White;
-            btnLogOut.Location = new Point(26, 622);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.Size = new Size(86, 37);
-            btnLogOut.TabIndex = 22;
-            btnLogOut.Text = "Logout";
-            btnLogOut.TextAlign = ContentAlignment.TopCenter;
-            btnLogOut.UseVisualStyleBackColor = false;
-            btnLogOut.Click += btnLogOut_Click;
             // 
             // lblAdminName
             // 
@@ -115,6 +100,25 @@
             titleLabel.Size = new Size(100, 21);
             titleLabel.TabIndex = 0;
             titleLabel.Text = "POS System";
+            // 
+            // btnLogOut
+            // 
+            btnLogOut.BackColor = Color.SteelBlue;
+            btnLogOut.BorderColor = Color.Transparent;
+            btnLogOut.BorderRadius = 10;
+            btnLogOut.BorderSize = 0;
+            btnLogOut.FlatAppearance.BorderSize = 0;
+            btnLogOut.FlatStyle = FlatStyle.Flat;
+            btnLogOut.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLogOut.ForeColor = Color.White;
+            btnLogOut.Location = new Point(26, 622);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.Size = new Size(86, 37);
+            btnLogOut.TabIndex = 22;
+            btnLogOut.Text = "Logout";
+            btnLogOut.TextAlign = ContentAlignment.TopCenter;
+            btnLogOut.UseVisualStyleBackColor = false;
+            btnLogOut.Click += btnLogOut_Click;
             // 
             // label12
             // 
@@ -295,11 +299,91 @@
             btnManageStocks.UseVisualStyleBackColor = false;
             btnManageStocks.Click += btnManageStocks_Click;
             // 
+            // roundedButton2
+            // 
+            roundedButton2.BackColor = Color.SteelBlue;
+            roundedButton2.BorderColor = Color.Transparent;
+            roundedButton2.BorderRadius = 20;
+            roundedButton2.BorderSize = 0;
+            roundedButton2.FlatAppearance.BorderSize = 0;
+            roundedButton2.FlatStyle = FlatStyle.Flat;
+            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton2.ForeColor = Color.White;
+            roundedButton2.Image = (Image)resources.GetObject("roundedButton2.Image");
+            roundedButton2.Location = new Point(437, 410);
+            roundedButton2.Name = "roundedButton2";
+            roundedButton2.Size = new Size(180, 180);
+            roundedButton2.TabIndex = 56;
+            roundedButton2.Text = "BUSINESS STATS";
+            roundedButton2.TextAlign = ContentAlignment.BottomCenter;
+            roundedButton2.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton3
+            // 
+            roundedButton3.BackColor = Color.SteelBlue;
+            roundedButton3.BorderColor = Color.Transparent;
+            roundedButton3.BorderRadius = 20;
+            roundedButton3.BorderSize = 0;
+            roundedButton3.FlatAppearance.BorderSize = 0;
+            roundedButton3.FlatStyle = FlatStyle.Flat;
+            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton3.ForeColor = Color.White;
+            roundedButton3.Image = (Image)resources.GetObject("roundedButton3.Image");
+            roundedButton3.Location = new Point(208, 410);
+            roundedButton3.Name = "roundedButton3";
+            roundedButton3.Size = new Size(180, 180);
+            roundedButton3.TabIndex = 57;
+            roundedButton3.Text = "TRANSACTIONS";
+            roundedButton3.TextAlign = ContentAlignment.BottomCenter;
+            roundedButton3.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton4
+            // 
+            roundedButton4.BackColor = Color.SteelBlue;
+            roundedButton4.BorderColor = Color.Transparent;
+            roundedButton4.BorderRadius = 20;
+            roundedButton4.BorderSize = 0;
+            roundedButton4.FlatAppearance.BorderSize = 0;
+            roundedButton4.FlatStyle = FlatStyle.Flat;
+            roundedButton4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton4.ForeColor = Color.White;
+            roundedButton4.Image = (Image)resources.GetObject("roundedButton4.Image");
+            roundedButton4.Location = new Point(659, 410);
+            roundedButton4.Name = "roundedButton4";
+            roundedButton4.Size = new Size(180, 180);
+            roundedButton4.TabIndex = 58;
+            roundedButton4.Text = "SALES REPORTS";
+            roundedButton4.TextAlign = ContentAlignment.BottomCenter;
+            roundedButton4.UseVisualStyleBackColor = false;
+            // 
+            // roundedButton5
+            // 
+            roundedButton5.BackColor = Color.SteelBlue;
+            roundedButton5.BorderColor = Color.Transparent;
+            roundedButton5.BorderRadius = 20;
+            roundedButton5.BorderSize = 0;
+            roundedButton5.FlatAppearance.BorderSize = 0;
+            roundedButton5.FlatStyle = FlatStyle.Flat;
+            roundedButton5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton5.ForeColor = Color.White;
+            roundedButton5.Image = (Image)resources.GetObject("roundedButton5.Image");
+            roundedButton5.Location = new Point(882, 410);
+            roundedButton5.Name = "roundedButton5";
+            roundedButton5.Size = new Size(180, 180);
+            roundedButton5.TabIndex = 59;
+            roundedButton5.Text = "SETTINGS";
+            roundedButton5.TextAlign = ContentAlignment.BottomCenter;
+            roundedButton5.UseVisualStyleBackColor = false;
+            // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(roundedButton5);
+            Controls.Add(roundedButton4);
+            Controls.Add(roundedButton3);
+            Controls.Add(roundedButton2);
             Controls.Add(btnLogOut);
             Controls.Add(btnManageStocks);
             Controls.Add(btnManageProducts);
@@ -343,5 +427,9 @@
         private RoundedButton btnManageCategory;
         private RoundedButton btnManageProducts;
         private RoundedButton btnManageStocks;
+        private RoundedButton roundedButton2;
+        private RoundedButton roundedButton3;
+        private RoundedButton roundedButton4;
+        private RoundedButton roundedButton5;
     }
 }

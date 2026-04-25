@@ -14,12 +14,12 @@ namespace POS
         {
             try
             {
-                // CockroachDB connection — fill in your password below
-                _connectionString = "Host=tindero-corp-13921.jxf.cockroachlabs.cloud;" +
+                // CockroachDB connection 
+                _connectionString = "Host=tindero-comp-15354.jxf.cockroachlabs.cloud;" +
                                     "Port=26257;" +
-                                    "Database=defaultdb;" +
+                                    "Database=tinderodb;" +
                                     "Username=krizz;" +
-                                    "Password=U0wu3qf6U9KXVgBj94g07g ;" +
+                                    "Password=UFZfxznt1P7k6XSmIw17zQ;" +
                                     "SSL Mode=Require;";
 
                 // Test the connection

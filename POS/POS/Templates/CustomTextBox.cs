@@ -13,6 +13,11 @@ namespace CustomControls
     {
         private TextBox _innerTextBox;
         private bool _isFocused = false;
+        private bool _passwordVisible = false;
+        private Label _eyeButton;
+
+        private const string EYE_OPEN = "👁";
+        private const string EYE_CLOSED = "😌";
 
         // ── Backing fields ───────────────────────────────────────────────────────
         private Color _borderColor = Color.FromArgb(100, 180, 255);
@@ -24,7 +29,7 @@ namespace CustomControls
         private string _placeholderText = string.Empty;
         private Color _placeholderColor = Color.FromArgb(120, 150, 200);
         private bool _isPasswordField = false;
-        private char _passwordChar = '●';   // ← default mask character
+        private char _passwordChar = '●';
 
         // ────────────────────────────────────────────────────────────────────────
         //  Constructor
@@ -43,6 +48,7 @@ namespace CustomControls
             Font = new Font("Segoe UI", 10f, FontStyle.Regular, GraphicsUnit.Point);
 
             InitInnerTextBox();
+            InitEyeButton();
         }
 
         // ────────────────────────────────────────────────────────────────────────
@@ -59,7 +65,6 @@ namespace CustomControls
                 TabStop = false,
             };
 
-            // Apply password masking based on current settings
             ApplyPasswordMode();
 
             _innerTextBox.GotFocus += (s, e) => { _isFocused = true; Invalidate(); };
@@ -72,31 +77,83 @@ namespace CustomControls
             PositionInnerTextBox();
         }
 
-        /// <summary>
-        /// Applies the current password mode to the inner TextBox.
-        /// Prefers an explicit PasswordChar when set; falls back to
-        /// UseSystemPasswordChar only when PasswordChar is '\0'.
-        /// </summary>
+        // ────────────────────────────────────────────────────────────────────────
+        //  Eye Toggle Button
+        // ────────────────────────────────────────────────────────────────────────
+        private void InitEyeButton()
+        {
+            _eyeButton = new Label
+            {
+                Text = EYE_OPEN,
+                Font = new Font("Segoe UI Emoji", 11f),
+                ForeColor = _placeholderColor,
+                BackColor = Color.Transparent,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Cursor = Cursors.Hand,
+                Visible = false,
+                TabStop = false,
+            };
+
+            _eyeButton.Click += (s, e) => TogglePasswordVisibility();
+
+            Controls.Add(_eyeButton);
+            PositionEyeButton();
+        }
+
+        private void PositionEyeButton()
+        {
+            if (_eyeButton == null) return;
+            int btnSize = Height - _borderThickness * 2 - 6;
+            _eyeButton.SetBounds(
+                Width - btnSize - _borderThickness - 6,
+                (Height - btnSize) / 2,
+                btnSize,
+                btnSize);
+        }
+
+        private void TogglePasswordVisibility()
+        {
+            if (!_isPasswordField) return;
+
+            _passwordVisible = !_passwordVisible;
+
+            int caret = _innerTextBox.SelectionStart;
+
+            if (_passwordVisible)
+            {
+                _innerTextBox.UseSystemPasswordChar = false;
+                _innerTextBox.PasswordChar = '\0';
+                _eyeButton.Text = EYE_CLOSED;
+                _eyeButton.ForeColor = _borderFocusColor;
+            }
+            else
+            {
+                ApplyPasswordMode();
+                _eyeButton.Text = EYE_OPEN;
+                _eyeButton.ForeColor = _placeholderColor;
+            }
+
+            _innerTextBox.SelectionStart = Math.Min(caret, _innerTextBox.Text.Length);
+            _innerTextBox.Focus();
+        }
+
         private void ApplyPasswordMode()
         {
             if (_innerTextBox == null) return;
 
             if (!_isPasswordField)
             {
-                // Clear all masking
                 _innerTextBox.UseSystemPasswordChar = false;
                 _innerTextBox.PasswordChar = '\0';
             }
             else if (_passwordChar != '\0')
             {
-                // Custom character takes priority — UseSystemPasswordChar must be
-                // false, otherwise Windows ignores PasswordChar entirely.
                 _innerTextBox.UseSystemPasswordChar = false;
                 _innerTextBox.PasswordChar = _passwordChar;
             }
             else
             {
-                // Caller explicitly set PasswordChar to '\0': use the OS default
                 _innerTextBox.PasswordChar = '\0';
                 _innerTextBox.UseSystemPasswordChar = true;
             }
@@ -105,12 +162,18 @@ namespace CustomControls
         private void PositionInnerTextBox()
         {
             if (_innerTextBox == null) return;
-            int hPad = _borderThickness + _borderRadius / 2 + 4;
+
+            int hPadLeft = _borderThickness + _borderRadius / 2 + 4;
+            // Shrink right side to make room for eye button when password field
+            int hPadRight = _isPasswordField
+                ? Height + 2
+                : _borderThickness + _borderRadius / 2 + 4;
+
             int tHeight = _innerTextBox.PreferredHeight;
             _innerTextBox.SetBounds(
-                hPad,
+                hPadLeft,
                 (Height - tHeight) / 2,
-                Math.Max(1, Width - hPad * 2),
+                Math.Max(1, Width - hPadLeft - hPadRight),
                 tHeight);
         }
 
@@ -155,7 +218,7 @@ namespace CustomControls
             }
         }
 
-        [Category("Custom Appearance"), Description("Corner radius in pixels (0 = fully square, 8 = default subtle rounding).")]
+        [Category("Custom Appearance"), Description("Corner radius in pixels.")]
         public int BorderRadius
         {
             get => _borderRadius;
@@ -184,39 +247,44 @@ namespace CustomControls
         }
 
         [Category("Behavior")]
-        [Description("Mask input as a password field. Uses PasswordChar (default ●) to hide typed characters.")]
+        [Description("Mask input as a password field. Shows the eye toggle button.")]
         public bool IsPasswordField
         {
             get => _isPasswordField;
             set
             {
                 _isPasswordField = value;
+                _passwordVisible = false;
+
+                if (_eyeButton != null)
+                {
+                    _eyeButton.Visible = value;
+                    _eyeButton.Text = EYE_OPEN;
+                    _eyeButton.ForeColor = _placeholderColor;
+                }
+
                 ApplyPasswordMode();
+                PositionInnerTextBox();
+                PositionEyeButton();
+                Invalidate();
             }
         }
 
         [Category("Behavior")]
-        [Description(
-            "Character used to mask input when IsPasswordField is true. " +
-            "Default is ● (U+25CF). Set to '\\0' to fall back to the OS system password character.")]
+        [Description("Character used to mask input when IsPasswordField is true. Default is ●.")]
         [DefaultValue('●')]
         public char PasswordChar
         {
             get => _passwordChar;
-            set
-            {
-                _passwordChar = value;
-                ApplyPasswordMode();   // re-apply so the change takes effect immediately
-            }
+            set { _passwordChar = value; ApplyPasswordMode(); }
         }
 
-        // Hide BackColor from designer — transparency is managed internally.
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => Color.Transparent;
-            set { /* always transparent outside the rounded rect */ }
+            set { }
         }
 
         [Browsable(true)]
@@ -239,8 +307,7 @@ namespace CustomControls
                 pt = Parent.PointToClient(pt);
 
                 e.Graphics.TranslateTransform(clip.X, clip.Y);
-                using (var pea = new PaintEventArgs(e.Graphics,
-                    new Rectangle(pt, clip.Size)))
+                using (var pea = new PaintEventArgs(e.Graphics, new Rectangle(pt, clip.Size)))
                 {
                     pea.Graphics.TranslateTransform(-pt.X, -pt.Y);
                     InvokePaintBackground(Parent, pea);
@@ -300,27 +367,31 @@ namespace CustomControls
         // ────────────────────────────────────────────────────────────────────────
         //  Public Methods
         // ────────────────────────────────────────────────────────────────────────
-
-        /// <summary>
-        /// Clears all text from the textbox, even while the user is actively typing.
-        /// </summary>
         public void Clear()
         {
             if (_innerTextBox != null)
             {
-                _innerTextBox.Text = string.Empty;   // forcefully wipe the buffer
-                _innerTextBox.SelectionStart = 0;    // reset caret to beginning
+                _innerTextBox.Text = string.Empty;
+                _innerTextBox.SelectionStart = 0;
                 _innerTextBox.SelectionLength = 0;
             }
-
-            Invalidate(); // repaint so placeholder reappears immediately
+            Invalidate();
         }
+
+        public void FocusInner() => _innerTextBox?.Focus();
 
         // ────────────────────────────────────────────────────────────────────────
         //  Events / Layout
         // ────────────────────────────────────────────────────────────────────────
-        protected override void OnResize(EventArgs e) { base.OnResize(e); PositionInnerTextBox(); }
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            PositionInnerTextBox();
+            PositionEyeButton();
+        }
+
         protected override void OnClick(EventArgs e) { base.OnClick(e); _innerTextBox?.Focus(); }
+
         protected override void OnFontChanged(EventArgs e)
         {
             base.OnFontChanged(e);
@@ -345,13 +416,12 @@ namespace CustomControls
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) _innerTextBox?.Dispose();
+            if (disposing)
+            {
+                _innerTextBox?.Dispose();
+                _eyeButton?.Dispose();
+            }
             base.Dispose(disposing);
-        }
-
-        public void FocusInner()
-        {
-            _innerTextBox?.Focus();
         }
     }
 }

@@ -21,41 +21,30 @@ namespace POS
             string password = txtPassword.Text;
             string company = txtCompany.Text.Trim();
 
-            //Save immediately if checkbox is checked (even before validation)
+            // Clear placeholder values before validation
+            if (username == "Username") username = "";
+            if (password == "Password") password = "";
+            if (company == "Company Name") company = "";
+
+            // Save immediately if checkbox is checked (even before validation)
             if (chckUserComp.Checked)
             {
                 SaveUserCompany(username, company);
             }
 
-            if (string.IsNullOrEmpty(username) || username == "Username" && string.IsNullOrEmpty(password) || password == "Password" && string.IsNullOrEmpty(company) || company == "Company Name")
+            // FIX: Proper parentheses to avoid operator precedence bugs
+            if ((string.IsNullOrEmpty(username)) ||
+                (string.IsNullOrEmpty(password)) ||
+                (string.IsNullOrEmpty(company)))
             {
                 MessageBox.Show("Please fill all of the text boxes.", "Login Failed",
                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUsername.FocusInner();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(username) || username == "Username")
-            {
-                MessageBox.Show("Please enter a username.", "Login Failed",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUsername.FocusInner();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(password) || password == "Password")
-            {
-                MessageBox.Show("Please enter a password.", "Login Failed",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPassword.FocusInner();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(company) || company == "Company Name")
-            {
-                MessageBox.Show("Please enter a company name.", "Login Failed",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCompany.FocusInner();
+                if (string.IsNullOrEmpty(username))
+                    txtUsername.FocusInner();
+                else if (string.IsNullOrEmpty(password))
+                    txtPassword.FocusInner();
+                else
+                    txtCompany.FocusInner();
                 return;
             }
 
@@ -79,13 +68,13 @@ namespace POS
                     return;
                 }
 
-                // Check user
+                // FIX: Use LOWER() on username to make it case-insensitive
                 string userSql = @"
     SELECT u.password, r.name AS role, c.name AS company_name
     FROM users u
     JOIN companies c ON u.company_id = c.id
     JOIN roles r ON u.role_id = r.id
-    WHERE u.username = @username
+    WHERE LOWER(u.username) = LOWER(@username)
     AND LOWER(c.name) = LOWER(@company)";
 
                 await using var userCmd = new NpgsqlCommand(userSql, conn);
@@ -117,7 +106,7 @@ namespace POS
                     return;
                 }
 
-                //Save again on success (clean values)
+                // Save again on success (clean values)
                 if (chckUserComp.Checked)
                 {
                     SaveUserCompany(username, company);
@@ -144,15 +133,15 @@ namespace POS
                 MessageBox.Show($"Login failed: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        } 
 
         // Centralized save method
         private void SaveUserCompany(string username, string company)
         {
-            if (username != "Username" && !string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(username))
                 Properties.Settings.Default.SavedUsername = username;
 
-            if (company != "Company Name" && !string.IsNullOrEmpty(company))
+            if (!string.IsNullOrEmpty(company))
                 Properties.Settings.Default.SavedCompany = company;
 
             Properties.Settings.Default.RememberUserComp = true;
@@ -166,7 +155,6 @@ namespace POS
 
             if (remember)
             {
-
                 string savedUsername = Properties.Settings.Default.SavedUsername;
                 string savedCompany = Properties.Settings.Default.SavedCompany;
 
@@ -181,9 +169,9 @@ namespace POS
                     txtCompany.Text = savedCompany;
                     txtCompany.InnerForeColor = Color.Black;
                 }
-
             }
         }
+
         private void LogInForm_Shown(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.RememberUserComp)
@@ -198,7 +186,11 @@ namespace POS
 
             if (chckUserComp.Checked)
             {
-                SaveUserCompany(txtUsername.Text.Trim(), txtCompany.Text.Trim());
+                string username = txtUsername.Text.Trim();
+                string company = txtCompany.Text.Trim();
+                if (username == "Username") username = "";
+                if (company == "Company Name") company = "";
+                SaveUserCompany(username, company);
             }
             else
             {
@@ -214,8 +206,11 @@ namespace POS
 
             if (chckUserComp.Checked)
             {
-                SaveUserCompany(txtUsername.Text.Trim(), txtCompany.Text.Trim());
-
+                string username = txtUsername.Text.Trim();
+                string company = txtCompany.Text.Trim();
+                if (username == "Username") username = "";
+                if (company == "Company Name") company = "";
+                SaveUserCompany(username, company);
             }
             else
             {
@@ -288,11 +283,11 @@ namespace POS
         {
             if (e.KeyCode == Keys.Down)
             {
-                if (sender == txtCompany /*txtUsername */ )
+                if (sender == txtCompany)
                 {
                     txtUsername.FocusInner();
                 }
-                else if (sender == txtUsername /*txtPassword*/)
+                else if (sender == txtUsername)
                 {
                     txtPassword.FocusInner();
                 }
@@ -326,7 +321,6 @@ namespace POS
                 CloseButton_Click(sender, e);
                 e.Handled = true;
             }
-
         }
     }
 }

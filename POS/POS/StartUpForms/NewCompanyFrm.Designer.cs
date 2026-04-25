@@ -35,6 +35,10 @@
             label4 = new Label();
             txtCompanyName = new CustomControls.CustomTextBox();
             btnCreateCompany = new RoundedButton();
+            txtEmailAdd = new CustomControls.CustomTextBox();
+            label1 = new Label();
+            label2 = new Label();
+            txtContactNum = new CustomControls.CustomTextBox();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -72,20 +76,20 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(201, 21);
+            titleLabel.Size = new Size(262, 21);
             titleLabel.TabIndex = 0;
-            titleLabel.Text = "Tindero POS Initial Setup";
+            titleLabel.Text = "Tindero POS (Company Creation)";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(174, 164);
+            label4.Location = new Point(90, 99);
             label4.Name = "label4";
-            label4.Size = new Size(323, 24);
+            label4.Size = new Size(185, 24);
             label4.TabIndex = 18;
-            label4.Text = "What is your Company Name?";
+            label4.Text = "Company Name";
             // 
             // txtCompanyName
             // 
@@ -98,7 +102,7 @@
             txtCompanyName.InnerBackColor = SystemColors.InactiveCaption;
             txtCompanyName.InnerForeColor = Color.Gray;
             txtCompanyName.IsPasswordField = false;
-            txtCompanyName.Location = new Point(230, 221);
+            txtCompanyName.Location = new Point(281, 88);
             txtCompanyName.Name = "txtCompanyName";
             txtCompanyName.PasswordChar = '\0';
             txtCompanyName.PlaceholderColor = Color.Gray;
@@ -117,19 +121,83 @@
             btnCreateCompany.FlatStyle = FlatStyle.Flat;
             btnCreateCompany.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnCreateCompany.ForeColor = Color.White;
-            btnCreateCompany.Location = new Point(245, 301);
+            btnCreateCompany.Location = new Point(281, 313);
             btnCreateCompany.Name = "btnCreateCompany";
-            btnCreateCompany.Size = new Size(178, 46);
+            btnCreateCompany.Size = new Size(220, 46);
             btnCreateCompany.TabIndex = 20;
-            btnCreateCompany.Text = "Create ";
+            btnCreateCompany.Text = "Create Company";
             btnCreateCompany.UseVisualStyleBackColor = false;
             btnCreateCompany.Click += btnCreateCompany_Click;
+            // 
+            // txtEmailAdd
+            // 
+            txtEmailAdd.BorderColor = SystemColors.ButtonFace;
+            txtEmailAdd.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtEmailAdd.BorderRadius = 8;
+            txtEmailAdd.BorderThickness = 2;
+            txtEmailAdd.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtEmailAdd.ForeColor = SystemColors.GrayText;
+            txtEmailAdd.InnerBackColor = SystemColors.InactiveCaption;
+            txtEmailAdd.InnerForeColor = Color.Gray;
+            txtEmailAdd.IsPasswordField = false;
+            txtEmailAdd.Location = new Point(282, 139);
+            txtEmailAdd.Name = "txtEmailAdd";
+            txtEmailAdd.PasswordChar = '\0';
+            txtEmailAdd.PlaceholderColor = Color.Gray;
+            txtEmailAdd.PlaceholderText = "";
+            txtEmailAdd.Size = new Size(220, 45);
+            txtEmailAdd.TabIndex = 21;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(91, 149);
+            label1.Name = "label1";
+            label1.Size = new Size(149, 24);
+            label1.TabIndex = 22;
+            label1.Text = "Email Address";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(90, 203);
+            label2.Name = "label2";
+            label2.Size = new Size(186, 24);
+            label2.TabIndex = 23;
+            label2.Text = "Contact Number";
+            // 
+            // txtContactNum
+            // 
+            txtContactNum.BorderColor = SystemColors.ButtonFace;
+            txtContactNum.BorderFocusColor = Color.FromArgb(30, 45, 61);
+            txtContactNum.BorderRadius = 8;
+            txtContactNum.BorderThickness = 2;
+            txtContactNum.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtContactNum.ForeColor = SystemColors.GrayText;
+            txtContactNum.InnerBackColor = SystemColors.InactiveCaption;
+            txtContactNum.InnerForeColor = Color.Gray;
+            txtContactNum.IsPasswordField = false;
+            txtContactNum.Location = new Point(282, 190);
+            txtContactNum.Name = "txtContactNum";
+            txtContactNum.PasswordChar = '\0';
+            txtContactNum.PlaceholderColor = Color.Gray;
+            txtContactNum.PlaceholderText = "";
+            txtContactNum.Size = new Size(220, 45);
+            txtContactNum.TabIndex = 24;
             // 
             // NewCompanyFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(680, 431);
+            Controls.Add(txtContactNum);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(txtEmailAdd);
             Controls.Add(btnCreateCompany);
             Controls.Add(txtCompanyName);
             Controls.Add(label4);
@@ -153,5 +221,9 @@
         private Label label4;
         private CustomControls.CustomTextBox txtCompanyName;
         private RoundedButton btnCreateCompany;
+        private CustomControls.CustomTextBox txtEmailAdd;
+        private Label label1;
+        private Label label2;
+        private CustomControls.CustomTextBox txtContactNum;
     }
 }
