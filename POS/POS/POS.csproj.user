@@ -4,6 +4,9 @@
     <_LastSelectedProfileId>D:\Albert\Documents\GitHub\POS-Tindero\POS\POS\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Admin\BusinessStatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Admin\ManageProdFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -14,6 +17,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Admin\ProdCategoryFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\TransactionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Cashier\CashierDashboard.cs">

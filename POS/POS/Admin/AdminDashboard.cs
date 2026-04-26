@@ -15,13 +15,14 @@ namespace POS
     {
         private string _username;
         private string _companyName;
-        
-        public AdminDashboard(string username, string companyName)
+       
+        public AdminDashboard(string username, string companyName )
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
             _username = username;
             _companyName = companyName;
+            
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
             this.KeyPreview = true;
@@ -75,6 +76,35 @@ namespace POS
             this.Hide();
         }
 
+       
+
+        private void btnTransactions_Click(object sender, EventArgs e)
+        {
+            TransactionsForm trans = new TransactionsForm(_username, _companyName);
+            trans.Show();
+            this.Hide();
+        }
+
+        private void btnBusinessStats_Click(object sender, EventArgs e)
+        {
+            BusinessStatsForm businessStats = new BusinessStatsForm(_username, _companyName);
+            businessStats.Show();
+            this.Hide();
+        }
+
+        private void btnSalesReport_Click(object sender, EventArgs e)
+        {
+            //Generate pdf report
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm(_username, _companyName);
+            settingsForm.Show();
+
+        }
+
+
         // ─── Shortcut Keys ────────────────────────────────────────────────────────────
 
         private void AdminDashboard_KeyDown(object sender, KeyEventArgs e)
@@ -101,6 +131,23 @@ namespace POS
                     btnManageStocks_Click(sender, e);
                     e.Handled = true;
                     break;
+                case Keys.F5:
+                    btnTransactions_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F6:
+                    btnBusinessStats_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F7:
+                    btnSalesReport_Click(sender, e);
+                    e.Handled = true;
+                    break;
+                case Keys.F8:
+                    btnSettings_Click(sender, e);
+                    e.Handled = true;
+                    break;
+
             }
         }
 
@@ -118,11 +165,19 @@ namespace POS
             toolTip.SetToolTip(btnManageCategory, "F2");
             toolTip.SetToolTip(btnManageProducts, "F3");
             toolTip.SetToolTip(btnManageStocks, "F4");
+            toolTip.SetToolTip(btnTransactions, "F5");
+            toolTip.SetToolTip(btnBusinessStats, "F6");
+            toolTip.SetToolTip(btnSalesReport, "F7");
+            toolTip.SetToolTip(btnSettings, "F8");
             AttachHoverEffect(btnLogOut);
             AttachHoverEffect(btnManageUsers);
             AttachHoverEffect(btnManageCategory);
             AttachHoverEffect(btnManageProducts);
             AttachHoverEffect(btnManageStocks);
+            AttachHoverEffect(btnTransactions);
+            AttachHoverEffect(btnBusinessStats);
+            AttachHoverEffect(btnSalesReport);
+            AttachHoverEffect(btnSettings);
         }
         private void AttachHoverEffect(Button btn)
         {
@@ -140,6 +195,5 @@ namespace POS
                 btn.Padding = new Padding(0); // reset
             };
         }
-
     }
 }

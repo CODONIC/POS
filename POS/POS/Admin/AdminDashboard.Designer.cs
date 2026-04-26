@@ -34,20 +34,15 @@
             closeButton = new Button();
             titleLabel = new Label();
             btnLogOut = new RoundedButton();
-            label12 = new Label();
-            txtSearch = new CustomControls.CustomTextBox();
-            label2 = new Label();
-            customTextBox1 = new CustomControls.CustomTextBox();
-            label3 = new Label();
-            customTextBox2 = new CustomControls.CustomTextBox();
             btnManageUsers = new RoundedButton();
             btnManageCategory = new RoundedButton();
             btnManageProducts = new RoundedButton();
             btnManageStocks = new RoundedButton();
-            roundedButton2 = new RoundedButton();
-            roundedButton3 = new RoundedButton();
-            roundedButton4 = new RoundedButton();
-            roundedButton5 = new RoundedButton();
+            btnBusinessStats = new RoundedButton();
+            btnTransactions = new RoundedButton();
+            btnSalesReport = new RoundedButton();
+            btnSettings = new RoundedButton();
+            roundedButton1 = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -120,105 +115,6 @@
             btnLogOut.UseVisualStyleBackColor = false;
             btnLogOut.Click += btnLogOut_Click;
             // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.BackColor = Color.LightSteelBlue;
-            label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.Black;
-            label12.Location = new Point(285, 82);
-            label12.Name = "label12";
-            label12.Size = new Size(102, 19);
-            label12.TabIndex = 46;
-            label12.Text = "TOTAL SALES";
-            // 
-            // txtSearch
-            // 
-            txtSearch.BorderColor = SystemColors.ButtonFace;
-            txtSearch.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            txtSearch.BorderRadius = 8;
-            txtSearch.BorderThickness = 2;
-            txtSearch.Enabled = false;
-            txtSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSearch.ForeColor = SystemColors.GrayText;
-            txtSearch.InnerBackColor = SystemColors.InactiveCaption;
-            txtSearch.InnerForeColor = Color.Gray;
-            txtSearch.IsPasswordField = false;
-            txtSearch.Location = new Point(208, 115);
-            txtSearch.Name = "txtSearch";
-            txtSearch.PasswordChar = '\0';
-            txtSearch.PlaceholderColor = Color.Gray;
-            txtSearch.PlaceholderText = "";
-            txtSearch.Size = new Size(268, 39);
-            txtSearch.TabIndex = 45;
-            txtSearch.Text = "0.00";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.LightSteelBlue;
-            label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(561, 82);
-            label2.Name = "label2";
-            label2.Size = new Size(138, 19);
-            label2.TabIndex = 48;
-            label2.Text = "TOTAL PRODUCTS";
-            // 
-            // customTextBox1
-            // 
-            customTextBox1.BorderColor = SystemColors.ButtonFace;
-            customTextBox1.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox1.BorderRadius = 8;
-            customTextBox1.BorderThickness = 2;
-            customTextBox1.Enabled = false;
-            customTextBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox1.ForeColor = SystemColors.GrayText;
-            customTextBox1.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox1.InnerForeColor = Color.Gray;
-            customTextBox1.IsPasswordField = false;
-            customTextBox1.Location = new Point(503, 115);
-            customTextBox1.Name = "customTextBox1";
-            customTextBox1.PasswordChar = '\0';
-            customTextBox1.PlaceholderColor = Color.Gray;
-            customTextBox1.PlaceholderText = "";
-            customTextBox1.Size = new Size(268, 39);
-            customTextBox1.TabIndex = 47;
-            customTextBox1.Text = "0";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.LightSteelBlue;
-            label3.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(871, 82);
-            label3.Name = "label3";
-            label3.Size = new Size(131, 19);
-            label3.TabIndex = 50;
-            label3.Text = "PRODUCTS SOLD";
-            // 
-            // customTextBox2
-            // 
-            customTextBox2.BorderColor = SystemColors.ButtonFace;
-            customTextBox2.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            customTextBox2.BorderRadius = 8;
-            customTextBox2.BorderThickness = 2;
-            customTextBox2.Enabled = false;
-            customTextBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            customTextBox2.ForeColor = SystemColors.GrayText;
-            customTextBox2.InnerBackColor = SystemColors.InactiveCaption;
-            customTextBox2.InnerForeColor = Color.Gray;
-            customTextBox2.IsPasswordField = false;
-            customTextBox2.Location = new Point(794, 115);
-            customTextBox2.Name = "customTextBox2";
-            customTextBox2.PasswordChar = '\0';
-            customTextBox2.PlaceholderColor = Color.Gray;
-            customTextBox2.PlaceholderText = "";
-            customTextBox2.Size = new Size(268, 39);
-            customTextBox2.TabIndex = 49;
-            customTextBox2.Text = "0";
-            // 
             // btnManageUsers
             // 
             btnManageUsers.BackColor = Color.SteelBlue;
@@ -230,7 +126,7 @@
             btnManageUsers.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageUsers.ForeColor = Color.White;
             btnManageUsers.Image = (Image)resources.GetObject("btnManageUsers.Image");
-            btnManageUsers.Location = new Point(208, 196);
+            btnManageUsers.Location = new Point(200, 132);
             btnManageUsers.Name = "btnManageUsers";
             btnManageUsers.Size = new Size(180, 180);
             btnManageUsers.TabIndex = 51;
@@ -250,7 +146,7 @@
             btnManageCategory.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageCategory.ForeColor = Color.White;
             btnManageCategory.Image = (Image)resources.GetObject("btnManageCategory.Image");
-            btnManageCategory.Location = new Point(437, 196);
+            btnManageCategory.Location = new Point(429, 132);
             btnManageCategory.Name = "btnManageCategory";
             btnManageCategory.Size = new Size(180, 180);
             btnManageCategory.TabIndex = 52;
@@ -270,7 +166,7 @@
             btnManageProducts.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageProducts.ForeColor = Color.White;
             btnManageProducts.Image = (Image)resources.GetObject("btnManageProducts.Image");
-            btnManageProducts.Location = new Point(659, 196);
+            btnManageProducts.Location = new Point(651, 132);
             btnManageProducts.Name = "btnManageProducts";
             btnManageProducts.Size = new Size(180, 180);
             btnManageProducts.TabIndex = 53;
@@ -290,7 +186,7 @@
             btnManageStocks.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageStocks.ForeColor = Color.White;
             btnManageStocks.Image = (Image)resources.GetObject("btnManageStocks.Image");
-            btnManageStocks.Location = new Point(882, 196);
+            btnManageStocks.Location = new Point(874, 132);
             btnManageStocks.Name = "btnManageStocks";
             btnManageStocks.Size = new Size(180, 180);
             btnManageStocks.TabIndex = 54;
@@ -299,102 +195,120 @@
             btnManageStocks.UseVisualStyleBackColor = false;
             btnManageStocks.Click += btnManageStocks_Click;
             // 
-            // roundedButton2
+            // btnBusinessStats
             // 
-            roundedButton2.BackColor = Color.SteelBlue;
-            roundedButton2.BorderColor = Color.Transparent;
-            roundedButton2.BorderRadius = 20;
-            roundedButton2.BorderSize = 0;
-            roundedButton2.FlatAppearance.BorderSize = 0;
-            roundedButton2.FlatStyle = FlatStyle.Flat;
-            roundedButton2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton2.ForeColor = Color.White;
-            roundedButton2.Image = (Image)resources.GetObject("roundedButton2.Image");
-            roundedButton2.Location = new Point(437, 410);
-            roundedButton2.Name = "roundedButton2";
-            roundedButton2.Size = new Size(180, 180);
-            roundedButton2.TabIndex = 56;
-            roundedButton2.Text = "BUSINESS STATS";
-            roundedButton2.TextAlign = ContentAlignment.BottomCenter;
-            roundedButton2.UseVisualStyleBackColor = false;
+            btnBusinessStats.BackColor = Color.SteelBlue;
+            btnBusinessStats.BorderColor = Color.Transparent;
+            btnBusinessStats.BorderRadius = 20;
+            btnBusinessStats.BorderSize = 0;
+            btnBusinessStats.FlatAppearance.BorderSize = 0;
+            btnBusinessStats.FlatStyle = FlatStyle.Flat;
+            btnBusinessStats.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnBusinessStats.ForeColor = Color.White;
+            btnBusinessStats.Image = (Image)resources.GetObject("btnBusinessStats.Image");
+            btnBusinessStats.Location = new Point(429, 346);
+            btnBusinessStats.Name = "btnBusinessStats";
+            btnBusinessStats.Size = new Size(180, 180);
+            btnBusinessStats.TabIndex = 56;
+            btnBusinessStats.Text = "BUSINESS STATS";
+            btnBusinessStats.TextAlign = ContentAlignment.BottomCenter;
+            btnBusinessStats.UseVisualStyleBackColor = false;
+            btnBusinessStats.Click += btnBusinessStats_Click;
             // 
-            // roundedButton3
+            // btnTransactions
             // 
-            roundedButton3.BackColor = Color.SteelBlue;
-            roundedButton3.BorderColor = Color.Transparent;
-            roundedButton3.BorderRadius = 20;
-            roundedButton3.BorderSize = 0;
-            roundedButton3.FlatAppearance.BorderSize = 0;
-            roundedButton3.FlatStyle = FlatStyle.Flat;
-            roundedButton3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton3.ForeColor = Color.White;
-            roundedButton3.Image = (Image)resources.GetObject("roundedButton3.Image");
-            roundedButton3.Location = new Point(208, 410);
-            roundedButton3.Name = "roundedButton3";
-            roundedButton3.Size = new Size(180, 180);
-            roundedButton3.TabIndex = 57;
-            roundedButton3.Text = "TRANSACTIONS";
-            roundedButton3.TextAlign = ContentAlignment.BottomCenter;
-            roundedButton3.UseVisualStyleBackColor = false;
+            btnTransactions.BackColor = Color.SteelBlue;
+            btnTransactions.BorderColor = Color.Transparent;
+            btnTransactions.BorderRadius = 20;
+            btnTransactions.BorderSize = 0;
+            btnTransactions.FlatAppearance.BorderSize = 0;
+            btnTransactions.FlatStyle = FlatStyle.Flat;
+            btnTransactions.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnTransactions.ForeColor = Color.White;
+            btnTransactions.Image = (Image)resources.GetObject("btnTransactions.Image");
+            btnTransactions.Location = new Point(200, 346);
+            btnTransactions.Name = "btnTransactions";
+            btnTransactions.Size = new Size(180, 180);
+            btnTransactions.TabIndex = 57;
+            btnTransactions.Text = "TRANSACTIONS";
+            btnTransactions.TextAlign = ContentAlignment.BottomCenter;
+            btnTransactions.UseVisualStyleBackColor = false;
+            btnTransactions.Click += btnTransactions_Click;
             // 
-            // roundedButton4
+            // btnSalesReport
             // 
-            roundedButton4.BackColor = Color.SteelBlue;
-            roundedButton4.BorderColor = Color.Transparent;
-            roundedButton4.BorderRadius = 20;
-            roundedButton4.BorderSize = 0;
-            roundedButton4.FlatAppearance.BorderSize = 0;
-            roundedButton4.FlatStyle = FlatStyle.Flat;
-            roundedButton4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton4.ForeColor = Color.White;
-            roundedButton4.Image = (Image)resources.GetObject("roundedButton4.Image");
-            roundedButton4.Location = new Point(659, 410);
-            roundedButton4.Name = "roundedButton4";
-            roundedButton4.Size = new Size(180, 180);
-            roundedButton4.TabIndex = 58;
-            roundedButton4.Text = "SALES REPORTS";
-            roundedButton4.TextAlign = ContentAlignment.BottomCenter;
-            roundedButton4.UseVisualStyleBackColor = false;
+            btnSalesReport.BackColor = Color.SteelBlue;
+            btnSalesReport.BorderColor = Color.Transparent;
+            btnSalesReport.BorderRadius = 20;
+            btnSalesReport.BorderSize = 0;
+            btnSalesReport.FlatAppearance.BorderSize = 0;
+            btnSalesReport.FlatStyle = FlatStyle.Flat;
+            btnSalesReport.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSalesReport.ForeColor = Color.White;
+            btnSalesReport.Image = (Image)resources.GetObject("btnSalesReport.Image");
+            btnSalesReport.Location = new Point(651, 346);
+            btnSalesReport.Name = "btnSalesReport";
+            btnSalesReport.Size = new Size(180, 180);
+            btnSalesReport.TabIndex = 58;
+            btnSalesReport.Text = "SALES REPORTS";
+            btnSalesReport.TextAlign = ContentAlignment.BottomCenter;
+            btnSalesReport.UseVisualStyleBackColor = false;
+            btnSalesReport.Click += btnSalesReport_Click;
             // 
-            // roundedButton5
+            // btnSettings
             // 
-            roundedButton5.BackColor = Color.SteelBlue;
-            roundedButton5.BorderColor = Color.Transparent;
-            roundedButton5.BorderRadius = 20;
-            roundedButton5.BorderSize = 0;
-            roundedButton5.FlatAppearance.BorderSize = 0;
-            roundedButton5.FlatStyle = FlatStyle.Flat;
-            roundedButton5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton5.ForeColor = Color.White;
-            roundedButton5.Image = (Image)resources.GetObject("roundedButton5.Image");
-            roundedButton5.Location = new Point(882, 410);
-            roundedButton5.Name = "roundedButton5";
-            roundedButton5.Size = new Size(180, 180);
-            roundedButton5.TabIndex = 59;
-            roundedButton5.Text = "SETTINGS";
-            roundedButton5.TextAlign = ContentAlignment.BottomCenter;
-            roundedButton5.UseVisualStyleBackColor = false;
+            btnSettings.BackColor = Color.SteelBlue;
+            btnSettings.BorderColor = Color.Transparent;
+            btnSettings.BorderRadius = 20;
+            btnSettings.BorderSize = 0;
+            btnSettings.FlatAppearance.BorderSize = 0;
+            btnSettings.FlatStyle = FlatStyle.Flat;
+            btnSettings.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSettings.ForeColor = Color.White;
+            btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
+            btnSettings.Location = new Point(1154, 588);
+            btnSettings.Name = "btnSettings";
+            btnSettings.Size = new Size(83, 71);
+            btnSettings.TabIndex = 59;
+            btnSettings.Text = "SETTINGS";
+            btnSettings.TextAlign = ContentAlignment.BottomCenter;
+            btnSettings.UseVisualStyleBackColor = false;
+            btnSettings.Click += btnSettings_Click;
+            // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = Color.SteelBlue;
+            roundedButton1.BorderColor = Color.Transparent;
+            roundedButton1.BorderRadius = 20;
+            roundedButton1.BorderSize = 0;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roundedButton1.ForeColor = Color.White;
+            roundedButton1.Image = (Image)resources.GetObject("roundedButton1.Image");
+            roundedButton1.Location = new Point(874, 346);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(180, 180);
+            roundedButton1.TabIndex = 60;
+            roundedButton1.Text = "EMPLOYEE LOGS";
+            roundedButton1.TextAlign = ContentAlignment.BottomCenter;
+            roundedButton1.UseVisualStyleBackColor = false;
             // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
-            Controls.Add(roundedButton5);
-            Controls.Add(roundedButton4);
-            Controls.Add(roundedButton3);
-            Controls.Add(roundedButton2);
+            Controls.Add(roundedButton1);
+            Controls.Add(btnSettings);
+            Controls.Add(btnSalesReport);
+            Controls.Add(btnTransactions);
+            Controls.Add(btnBusinessStats);
             Controls.Add(btnLogOut);
             Controls.Add(btnManageStocks);
             Controls.Add(btnManageProducts);
             Controls.Add(btnManageCategory);
             Controls.Add(btnManageUsers);
-            Controls.Add(label3);
-            Controls.Add(customTextBox2);
-            Controls.Add(label2);
-            Controls.Add(customTextBox1);
-            Controls.Add(label12);
-            Controls.Add(txtSearch);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -404,7 +318,6 @@
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
 
 
         }
@@ -417,19 +330,14 @@
         private Label titleLabel;
         private Label lblAdminName;
         private RoundedButton btnLogOut;
-        private Label label12;
-        private CustomControls.CustomTextBox txtSearch;
-        private Label label2;
-        private CustomControls.CustomTextBox customTextBox1;
-        private Label label3;
-        private CustomControls.CustomTextBox customTextBox2;
         private RoundedButton btnManageUsers;
         private RoundedButton btnManageCategory;
         private RoundedButton btnManageProducts;
         private RoundedButton btnManageStocks;
-        private RoundedButton roundedButton2;
-        private RoundedButton roundedButton3;
-        private RoundedButton roundedButton4;
-        private RoundedButton roundedButton5;
+        private RoundedButton btnBusinessStats;
+        private RoundedButton btnTransactions;
+        private RoundedButton btnSalesReport;
+        private RoundedButton btnSettings;
+        private RoundedButton roundedButton1;
     }
 }
