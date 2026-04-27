@@ -3,32 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\businessstatsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\businessstatsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\businessstatsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\transactionsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\transactionsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\manageprodfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageprodfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,23 +29,12 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "DockedWidth": 74,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ManageProdFrm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageProdFrm.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\ManageProdFrm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageProdFrm.cs [Design]",
-              "RelativeToolTip": "POS\\Admin\\ManageProdFrm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T03:41:05.151Z"
             },
             {
               "$type": "Document",
@@ -70,30 +51,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ManageUsersFrm.cs",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\ManageUsersFrm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs",
-              "ViewState": "AgIAAJUBAAAAAAAAAADwv6sBAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T03:09:43.475Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ManageUsersFrm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\ManageUsersFrm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs [Design]",
-              "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-25T13:40:01.099Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "AdminDashboard.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
               "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
@@ -106,25 +63,38 @@
           ]
         },
         {
-          "DockedWidth": 46,
+          "DockedWidth": 172,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "BusinessStatsForm.cs",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\BusinessStatsForm.cs",
               "RelativeDocumentMoniker": "POS\\Admin\\BusinessStatsForm.cs",
               "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\BusinessStatsForm.cs",
               "RelativeToolTip": "POS\\Admin\\BusinessStatsForm.cs",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAvwN8AAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAMBAAAAAAAAAAAAwB0BAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-25T12:56:11.664Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
+              "Title": "BusinessStatsForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\BusinessStatsForm.Designer.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\BusinessStatsForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\BusinessStatsForm.Designer.cs",
+              "RelativeToolTip": "POS\\Admin\\BusinessStatsForm.Designer.cs",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAewN8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T14:50:55.401Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TransactionsForm.cs",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\TransactionsForm.cs",
               "RelativeDocumentMoniker": "POS\\Admin\\TransactionsForm.cs",
@@ -132,7 +102,8 @@
               "RelativeToolTip": "POS\\Admin\\TransactionsForm.cs",
               "ViewState": "AgIAAEcAAAAAAAAAAAAMwF8AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T13:11:33.375Z"
+              "WhenOpened": "2026-04-26T13:11:33.375Z",
+              "EditorCaption": ""
             }
           ]
         }

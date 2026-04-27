@@ -34,6 +34,11 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BusinessStatsForm));
+            LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
+            LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
@@ -71,7 +76,12 @@
             label15 = new Label();
             label4 = new Label();
             lblTotalProducts = new Label();
+            cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
+            btnToggleChart = new RoundedButton();
+            btnBestSellers = new RoundedButton();
+            panel1 = new Panel();
             titleBar.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // titleBar
@@ -134,7 +144,7 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(23, 665);
+            btnBack.Location = new Point(23, 744);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(68, 34);
             btnBack.TabIndex = 24;
@@ -211,6 +221,7 @@
             btnRefresh.Text = "Refresh";
             btnRefresh.TextAlign = ContentAlignment.TopCenter;
             btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // lblLoadingIndicator
             // 
@@ -234,7 +245,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(640, 366);
+            label2.Location = new Point(928, 423);
             label2.Name = "label2";
             label2.Size = new Size(100, 15);
             label2.TabIndex = 60;
@@ -243,7 +254,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(640, 399);
+            label3.Location = new Point(928, 449);
             label3.Name = "label3";
             label3.Size = new Size(122, 15);
             label3.TabIndex = 61;
@@ -252,7 +263,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(640, 536);
+            label5.Location = new Point(928, 567);
             label5.Name = "label5";
             label5.Size = new Size(115, 15);
             label5.TabIndex = 63;
@@ -261,7 +272,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(640, 562);
+            label6.Location = new Point(928, 593);
             label6.Name = "label6";
             label6.Size = new Size(107, 15);
             label6.TabIndex = 64;
@@ -270,7 +281,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(640, 447);
+            label7.Location = new Point(929, 477);
             label7.Name = "label7";
             label7.Size = new Size(66, 15);
             label7.TabIndex = 65;
@@ -279,7 +290,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(640, 472);
+            label8.Location = new Point(929, 502);
             label8.Name = "label8";
             label8.Size = new Size(43, 15);
             label8.TabIndex = 66;
@@ -288,7 +299,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(640, 611);
+            label9.Location = new Point(928, 642);
             label9.Name = "label9";
             label9.Size = new Size(93, 15);
             label9.TabIndex = 67;
@@ -297,7 +308,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(640, 640);
+            label10.Location = new Point(928, 671);
             label10.Name = "label10";
             label10.Size = new Size(73, 15);
             label10.TabIndex = 68;
@@ -306,7 +317,7 @@
             // lblTotalTransactions
             // 
             lblTotalTransactions.AutoSize = true;
-            lblTotalTransactions.Location = new Point(872, 366);
+            lblTotalTransactions.Location = new Point(1160, 423);
             lblTotalTransactions.Name = "lblTotalTransactions";
             lblTotalTransactions.Size = new Size(54, 15);
             lblTotalTransactions.TabIndex = 69;
@@ -315,7 +326,7 @@
             // lblAvgTransValue
             // 
             lblAvgTransValue.AutoSize = true;
-            lblAvgTransValue.Location = new Point(872, 399);
+            lblAvgTransValue.Location = new Point(1160, 449);
             lblAvgTransValue.Name = "lblAvgTransValue";
             lblAvgTransValue.Size = new Size(54, 15);
             lblAvgTransValue.TabIndex = 70;
@@ -324,16 +335,17 @@
             // lblTotalItemsSold
             // 
             lblTotalItemsSold.AutoSize = true;
-            lblTotalItemsSold.Location = new Point(547, 118);
+            lblTotalItemsSold.Font = new Font("Segoe UI", 12F);
+            lblTotalItemsSold.Location = new Point(532, 111);
             lblTotalItemsSold.Name = "lblTotalItemsSold";
-            lblTotalItemsSold.Size = new Size(54, 15);
+            lblTotalItemsSold.Size = new Size(72, 21);
             lblTotalItemsSold.TabIndex = 71;
             lblTotalItemsSold.Text = "Total Rev";
             // 
             // lblTotalDiscount
             // 
             lblTotalDiscount.AutoSize = true;
-            lblTotalDiscount.Location = new Point(872, 536);
+            lblTotalDiscount.Location = new Point(1160, 567);
             lblTotalDiscount.Name = "lblTotalDiscount";
             lblTotalDiscount.Size = new Size(54, 15);
             lblTotalDiscount.TabIndex = 72;
@@ -342,7 +354,7 @@
             // lblTotalVAT
             // 
             lblTotalVAT.AutoSize = true;
-            lblTotalVAT.Location = new Point(872, 562);
+            lblTotalVAT.Location = new Point(1160, 593);
             lblTotalVAT.Name = "lblTotalVAT";
             lblTotalVAT.Size = new Size(54, 15);
             lblTotalVAT.TabIndex = 73;
@@ -351,7 +363,7 @@
             // lblCompletedTrans
             // 
             lblCompletedTrans.AutoSize = true;
-            lblCompletedTrans.Location = new Point(872, 447);
+            lblCompletedTrans.Location = new Point(1161, 477);
             lblCompletedTrans.Name = "lblCompletedTrans";
             lblCompletedTrans.Size = new Size(54, 15);
             lblCompletedTrans.TabIndex = 74;
@@ -360,7 +372,7 @@
             // lblVoidedTrans
             // 
             lblVoidedTrans.AutoSize = true;
-            lblVoidedTrans.Location = new Point(872, 472);
+            lblVoidedTrans.Location = new Point(1161, 502);
             lblVoidedTrans.Name = "lblVoidedTrans";
             lblVoidedTrans.Size = new Size(54, 15);
             lblVoidedTrans.TabIndex = 75;
@@ -369,7 +381,7 @@
             // lblLowStockCount
             // 
             lblLowStockCount.AutoSize = true;
-            lblLowStockCount.Location = new Point(872, 611);
+            lblLowStockCount.Location = new Point(1160, 642);
             lblLowStockCount.Name = "lblLowStockCount";
             lblLowStockCount.Size = new Size(54, 15);
             lblLowStockCount.TabIndex = 76;
@@ -378,7 +390,7 @@
             // lblOutOfStockCount
             // 
             lblOutOfStockCount.AutoSize = true;
-            lblOutOfStockCount.Location = new Point(872, 640);
+            lblOutOfStockCount.Location = new Point(1160, 671);
             lblOutOfStockCount.Name = "lblOutOfStockCount";
             lblOutOfStockCount.Size = new Size(54, 15);
             lblOutOfStockCount.TabIndex = 77;
@@ -481,17 +493,109 @@
             // lblTotalProducts
             // 
             lblTotalProducts.AutoSize = true;
-            lblTotalProducts.Location = new Point(740, 117);
+            lblTotalProducts.Font = new Font("Segoe UI", 12F);
+            lblTotalProducts.Location = new Point(725, 110);
             lblTotalProducts.Name = "lblTotalProducts";
-            lblTotalProducts.Size = new Size(54, 15);
+            lblTotalProducts.Size = new Size(72, 21);
             lblTotalProducts.TabIndex = 86;
             lblTotalProducts.Text = "Total Rev";
+            // 
+            // cartesianChart1
+            // 
+            cartesianChart1.AutoScroll = true;
+            cartesianChart1.AutoUpdateEnabled = true;
+            cartesianChart1.ChartTheme = null;
+            skDefaultLegend1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultLegend1.Content = null;
+            skDefaultLegend1.IsValid = false;
+            skDefaultLegend1.Opacity = 1F;
+            padding1.Bottom = 0F;
+            padding1.Left = 0F;
+            padding1.Right = 0F;
+            padding1.Top = 0F;
+            skDefaultLegend1.Padding = padding1;
+            skDefaultLegend1.RemoveOnCompleted = false;
+            skDefaultLegend1.RotateTransform = 0F;
+            skDefaultLegend1.X = 0F;
+            skDefaultLegend1.Y = 0F;
+            cartesianChart1.Legend = skDefaultLegend1;
+            cartesianChart1.Location = new Point(3, 1);
+            cartesianChart1.MatchAxesScreenDataRatio = false;
+            cartesianChart1.Name = "cartesianChart1";
+            cartesianChart1.Size = new Size(800, 560);
+            cartesianChart1.TabIndex = 87;
+            skDefaultTooltip1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultTooltip1.Content = null;
+            skDefaultTooltip1.IsValid = false;
+            skDefaultTooltip1.Opacity = 1F;
+            padding2.Bottom = 0F;
+            padding2.Left = 0F;
+            padding2.Right = 0F;
+            padding2.Top = 0F;
+            skDefaultTooltip1.Padding = padding2;
+            skDefaultTooltip1.RemoveOnCompleted = false;
+            skDefaultTooltip1.RotateTransform = 0F;
+            skDefaultTooltip1.Wedge = 10;
+            skDefaultTooltip1.X = 0F;
+            skDefaultTooltip1.Y = 0F;
+            cartesianChart1.Tooltip = skDefaultTooltip1;
+            cartesianChart1.TooltipFindingStrategy = LiveChartsCore.Measure.TooltipFindingStrategy.Automatic;
+            cartesianChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
+            // 
+            // btnToggleChart
+            // 
+            btnToggleChart.BackColor = Color.SteelBlue;
+            btnToggleChart.BorderColor = Color.Transparent;
+            btnToggleChart.BorderRadius = 10;
+            btnToggleChart.BorderSize = 0;
+            btnToggleChart.FlatAppearance.BorderSize = 0;
+            btnToggleChart.FlatStyle = FlatStyle.Flat;
+            btnToggleChart.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnToggleChart.ForeColor = Color.White;
+            btnToggleChart.Location = new Point(763, 738);
+            btnToggleChart.Name = "btnToggleChart";
+            btnToggleChart.Size = new Size(121, 39);
+            btnToggleChart.TabIndex = 88;
+            btnToggleChart.Text = "Toggle Chart";
+            btnToggleChart.TextAlign = ContentAlignment.TopCenter;
+            btnToggleChart.UseVisualStyleBackColor = false;
+            btnToggleChart.Click += btnToggleChart_Click;
+            // 
+            // btnBestSellers
+            // 
+            btnBestSellers.BackColor = Color.SteelBlue;
+            btnBestSellers.BorderColor = Color.Transparent;
+            btnBestSellers.BorderRadius = 10;
+            btnBestSellers.BorderSize = 0;
+            btnBestSellers.FlatAppearance.BorderSize = 0;
+            btnBestSellers.FlatStyle = FlatStyle.Flat;
+            btnBestSellers.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBestSellers.ForeColor = Color.White;
+            btnBestSellers.Location = new Point(623, 738);
+            btnBestSellers.Name = "btnBestSellers";
+            btnBestSellers.Size = new Size(121, 39);
+            btnBestSellers.TabIndex = 89;
+            btnBestSellers.Text = "Best Sellers";
+            btnBestSellers.TextAlign = ContentAlignment.TopCenter;
+            btnBestSellers.UseVisualStyleBackColor = false;
+            btnBestSellers.Click += btnBestSellers_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(cartesianChart1);
+            panel1.Location = new Point(64, 168);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(820, 564);
+            panel1.TabIndex = 90;
             // 
             // BusinessStatsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1280, 789);
+            Controls.Add(panel1);
+            Controls.Add(btnBestSellers);
+            Controls.Add(btnToggleChart);
             Controls.Add(lblTotalProducts);
             Controls.Add(label4);
             Controls.Add(label15);
@@ -532,6 +636,7 @@
             Text = "BusinessStatsForm";
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -575,5 +680,9 @@
         private Label label15;
         private Label label4;
         private Label lblTotalProducts;
+        private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart cartesianChart1;
+        private RoundedButton btnToggleChart;
+        private RoundedButton btnBestSellers;
+        private Panel panel1;
     }
 }
