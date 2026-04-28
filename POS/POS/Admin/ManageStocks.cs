@@ -231,6 +231,7 @@ namespace POS.Admin
 
         // ─── SAVE ─────────────────────────────────────────────────────────────────
 
+        // ─── SAVE ─────────────────────────────────────────────────────────────────────
         private async void btnSave_Click(object sender, EventArgs e)
         {
             if (_pendingChanges.Rows.Count == 0)
@@ -248,10 +249,23 @@ namespace POS.Admin
                 foreach (DataRow row in _pendingChanges.Rows)
                 {
                     string code = row["product_code"].ToString();
+                    string name = row["product_name"].ToString();
                     string type = row["change_type"].ToString();
                     int qty = Convert.ToInt32(row["quantity"]);
 
-                    
+                    // Fetch old quantity for audit
+                    int oldQty = 0;
+                    await using (var fetchCmd = new NpgsqlCommand(
+                        "SELECT quantity FROM products WHERE product_code = @code AND company_id = @companyId", conn))
+                    {
+                        fetchCmd.Parameters.AddWithValue("code", code);
+                        fetchCmd.Parameters.AddWithValue("companyId",
+                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+                        oldQty = Convert.ToInt32(await fetchCmd.ExecuteScalarAsync());
+                    }
+
+                    int newQty = type == "ADD" ? oldQty + qty : oldQty - qty;
+
                     string sql = type == "ADD"
                         ? @"UPDATE products SET 
                         quantity = quantity + @qty,
@@ -262,12 +276,23 @@ namespace POS.Admin
                     await using var cmd = new NpgsqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("qty", qty);
                     cmd.Parameters.AddWithValue("code", code);
-                    cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
+                    cmd.Parameters.AddWithValue("companyId",
+                        NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                     if (type == "ADD")
                         cmd.Parameters.AddWithValue("date", DateTime.Today);
-                    
+
                     await cmd.ExecuteNonQueryAsync();
+
+                    // ✅ AUDIT LOG per stock change
+                    await AuditService.LogUpdateAsync(
+                        username: _username,
+                        companyId: _companyId,
+                        tableName: "products",
+                        recordId: code,
+                        oldValuesJson: AuditService.ToJson(("quantity", oldQty)),
+                        newValuesJson: AuditService.ToJson(("quantity", newQty)),
+                        remarks: $"Stock {type}: {qty} unit(s) for '{name}'."
+                    );
                 }
 
                 MessageBox.Show("Stock updated successfully!", "Success",

@@ -202,6 +202,7 @@ namespace POS.Admin
             await LoadProductsAsync(txtSearch.Text.Trim());
         }
         // ─── Buttons ───────────────────────────────────────────────────────────────
+        // ─── ADD ──────────────────────────────────────────────────────────────────────
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             if (!ValidateInputs()) return;
@@ -219,7 +220,6 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
-                // Check duplicate product code
                 string checkSql = "SELECT COUNT(*) FROM products WHERE product_code = @code AND company_id = @companyId";
                 await using var checkCmd = new NpgsqlCommand(checkSql, conn);
                 checkCmd.Parameters.AddWithValue("code", productCode);
@@ -245,12 +245,25 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("reorderLevel", reorderLevel);
                 cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
                 await cmd.ExecuteNonQueryAsync();
+
+                // ✅ AUDIT LOG
+                await AuditService.LogInsertAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "products",
+                    recordId: productCode,
+                    newValuesJson: AuditService.ToJson(
+                        ("product_code", productCode),
+                        ("product_name", productName),
+                        ("price", price),
+                        ("reorder_level", reorderLevel),
+                        ("category", selectedCategory.Name)
+                    )
+                );
 
                 MessageBox.Show($"Product '{productName}' added successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 ClearFields();
                 await LoadProductsAsync();
             }
@@ -265,6 +278,7 @@ namespace POS.Admin
             }
         }
 
+        // ─── EDIT ─────────────────────────────────────────────────────────────────────
         private async void btnEdit_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedProductId))
@@ -292,6 +306,26 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
+                // Fetch old values for audit
+                string oldName = ""; decimal oldPrice = 0; int oldReorder = 0; string oldCategory = "";
+                await using (var fetchCmd = new NpgsqlCommand(@"
+            SELECT p.product_name, p.price, p.reorder_level, c.name AS category
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE p.product_code = @code AND p.company_id = @companyId", conn))
+                {
+                    fetchCmd.Parameters.AddWithValue("code", _selectedProductId);
+                    fetchCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
+                    await using var reader = await fetchCmd.ExecuteReaderAsync();
+                    if (await reader.ReadAsync())
+                    {
+                        oldName = reader["product_name"].ToString();
+                        oldPrice = Convert.ToDecimal(reader["price"]);
+                        oldReorder = Convert.ToInt32(reader["reorder_level"]);
+                        oldCategory = reader["category"]?.ToString();
+                    }
+                }
+
                 string sql = @"
             UPDATE products 
             SET product_name  = @name,
@@ -308,12 +342,30 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
                 cmd.Parameters.AddWithValue("code", _selectedProductId);
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
                 await cmd.ExecuteNonQueryAsync();
+
+                // ✅ AUDIT LOG
+                await AuditService.LogUpdateAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "products",
+                    recordId: _selectedProductId,
+                    oldValuesJson: AuditService.ToJson(
+                        ("product_name", oldName),
+                        ("price", oldPrice),
+                        ("reorder_level", oldReorder),
+                        ("category", oldCategory)
+                    ),
+                    newValuesJson: AuditService.ToJson(
+                        ("product_name", productName),
+                        ("price", price),
+                        ("reorder_level", reorderLevel),
+                        ("category", selectedCategory.Name)
+                    )
+                );
 
                 MessageBox.Show($"Product '{productName}' updated successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 ClearFields();
                 await LoadProductsAsync();
             }
@@ -328,6 +380,7 @@ namespace POS.Admin
             }
         }
 
+        // ─── DELETE ───────────────────────────────────────────────────────────────────
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedProductId))
@@ -338,9 +391,12 @@ namespace POS.Admin
             }
 
             string productName = txtProductName.Text.Trim();
+            string deletedCode = _selectedProductId;
+            decimal deletedPrice = decimal.TryParse(txtPrice.Text, out var p) ? p : 0;
+            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
 
             var confirm = MessageBox.Show(
-                $"Are you sure you want to delete '{productName}' ({_selectedProductId})?\nThis action cannot be undone.",
+                $"Are you sure you want to delete '{productName}' ({deletedCode})?\nThis action cannot be undone.",
                 "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
 
@@ -353,14 +409,26 @@ namespace POS.Admin
 
                 string sql = "DELETE FROM products WHERE product_code = @code AND company_id = @companyId";
                 await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("code", _selectedProductId);
+                cmd.Parameters.AddWithValue("code", deletedCode);
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
                 await cmd.ExecuteNonQueryAsync();
+
+                // ✅ AUDIT LOG
+                await AuditService.LogDeleteAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "products",
+                    recordId: deletedCode,
+                    oldValuesJson: AuditService.ToJson(
+                        ("product_code", deletedCode),
+                        ("product_name", productName),
+                        ("price", deletedPrice),
+                        ("category", selectedCategory?.Name)
+                    )
+                );
 
                 MessageBox.Show($"Product '{productName}' deleted successfully.", "Deleted",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 ClearFields();
                 await LoadProductsAsync();
             }

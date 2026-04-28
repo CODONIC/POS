@@ -21,30 +21,22 @@ namespace POS
             string password = txtPassword.Text;
             string company = txtCompany.Text.Trim();
 
-            // Clear placeholder values before validation
             if (username == "Username") username = "";
             if (password == "Password") password = "";
             if (company == "Company Name") company = "";
 
-            // Save immediately if checkbox is checked (even before validation)
             if (chckUserComp.Checked)
-            {
                 SaveUserCompany(username, company);
-            }
 
-            // FIX: Proper parentheses to avoid operator precedence bugs
-            if ((string.IsNullOrEmpty(username)) ||
-                (string.IsNullOrEmpty(password)) ||
-                (string.IsNullOrEmpty(company)))
+            if (string.IsNullOrEmpty(username) ||
+                string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(company))
             {
                 MessageBox.Show("Please fill all of the text boxes.", "Login Failed",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (string.IsNullOrEmpty(username))
-                    txtUsername.FocusInner();
-                else if (string.IsNullOrEmpty(password))
-                    txtPassword.FocusInner();
-                else
-                    txtCompany.FocusInner();
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (string.IsNullOrEmpty(username)) txtUsername.FocusInner();
+                else if (string.IsNullOrEmpty(password)) txtPassword.FocusInner();
+                else txtCompany.FocusInner();
                 return;
             }
 
@@ -57,25 +49,27 @@ namespace POS
                 string companySql = "SELECT id FROM companies WHERE LOWER(name) = LOWER(@company)";
                 await using var companyCmd = new NpgsqlCommand(companySql, conn);
                 companyCmd.Parameters.AddWithValue("company", company);
-                var companyId = await companyCmd.ExecuteScalarAsync();
+                var companyIdObj = await companyCmd.ExecuteScalarAsync();
 
-                if (companyId == null)
+                if (companyIdObj == null)
                 {
                     MessageBox.Show("Company name not found.", "Login Failed",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtCompany.Clear();
                     txtCompany.FocusInner();
                     return;
                 }
 
-                // FIX: Use LOWER() on username to make it case-insensitive
+                string companyId = companyIdObj.ToString();
+
+                // Check user
                 string userSql = @"
-    SELECT u.password, r.name AS role, c.name AS company_name
-    FROM users u
-    JOIN companies c ON u.company_id = c.id
-    JOIN roles r ON u.role_id = r.id
-    WHERE LOWER(u.username) = LOWER(@username)
-    AND LOWER(c.name) = LOWER(@company)";
+            SELECT u.password, r.name AS role, c.name AS company_name
+            FROM users u
+            JOIN companies c ON u.company_id = c.id
+            JOIN roles r ON u.role_id = r.id
+            WHERE LOWER(u.username) = LOWER(@username)
+            AND LOWER(c.name) = LOWER(@company)";
 
                 await using var userCmd = new NpgsqlCommand(userSql, conn);
                 userCmd.Parameters.AddWithValue("username", username);
@@ -86,7 +80,7 @@ namespace POS
                 if (!await reader.ReadAsync())
                 {
                     MessageBox.Show("Username not found under the specified company.", "Login Failed",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtUsername.Clear();
                     txtUsername.FocusInner();
                     return;
@@ -100,17 +94,21 @@ namespace POS
                 if (storedPassword != password)
                 {
                     MessageBox.Show("Incorrect password.", "Login Failed",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPassword.Clear();
                     txtPassword.FocusInner();
                     return;
                 }
 
-                // Save again on success (clean values)
                 if (chckUserComp.Checked)
-                {
                     SaveUserCompany(username, company);
-                }
+
+                // ✅ LOG THE LOGIN
+                await AuditService.LogLoginAsync(
+                    username: username,
+                    companyId: companyId,
+                    deviceInfo: Environment.MachineName
+                );
 
                 if (role == "ADMIN")
                 {
@@ -125,15 +123,15 @@ namespace POS
                 else
                 {
                     MessageBox.Show("Unknown role.", "Access Denied",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Login failed: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        } 
+        }
 
         // Centralized save method
         private void SaveUserCompany(string username, string company)

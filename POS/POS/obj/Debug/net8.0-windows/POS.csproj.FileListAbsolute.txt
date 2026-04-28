@@ -226,3 +226,4 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runt
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.EmployeeLogsFrm.resources

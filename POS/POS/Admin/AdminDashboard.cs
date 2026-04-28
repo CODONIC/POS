@@ -1,4 +1,5 @@
-﻿using POS.Admin;
+﻿using Npgsql;
+using POS.Admin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,14 +16,14 @@ namespace POS
     {
         private string _username;
         private string _companyName;
-       
-        public AdminDashboard(string username, string companyName )
+
+        public AdminDashboard(string username, string companyName)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
             _username = username;
             _companyName = companyName;
-            
+
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
             this.KeyPreview = true;
@@ -32,7 +33,7 @@ namespace POS
 
         }
 
-        private void btnLogOut_Click(object sender, EventArgs e)
+        private async void btnLogOut_Click(object sender, EventArgs e)
         {
             DialogResult confirm = MessageBox.Show(
                 "Are you sure you want to log out?",
@@ -40,8 +41,34 @@ namespace POS
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
+
             if (confirm == DialogResult.Yes)
             {
+                // Resolve company ID from name then log the logout
+                try
+                {
+                    await using var conn = DatabaseService.GetConnection();
+                    await conn.OpenAsync();
+
+                    const string sql = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
+                    await using var cmd = new NpgsqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@name", _companyName);
+
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result != null)
+                    {
+                        await AuditService.LogLogoutAsync(
+                            username: _username,
+                            companyId: result.ToString(),
+                            deviceInfo: Environment.MachineName
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Logout audit failed: {ex.Message}");
+                }
+
                 LogInForm login = new LogInForm();
                 login.Show();
                 this.Hide();
@@ -76,7 +103,7 @@ namespace POS
             this.Hide();
         }
 
-       
+
 
         private void btnTransactions_Click(object sender, EventArgs e)
         {
@@ -194,6 +221,13 @@ namespace POS
                 btn.Location = originalLocation;
                 btn.Padding = new Padding(0); // reset
             };
+        }
+
+        private void btnAudit_Click(object sender, EventArgs e)
+        {
+            EmployeeLogsFrm audit = new EmployeeLogsFrm(_username, _companyName);
+            audit.Show();
+            this.Hide();
         }
     }
 }

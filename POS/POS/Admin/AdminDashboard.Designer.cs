@@ -42,7 +42,7 @@
             btnTransactions = new RoundedButton();
             btnSalesReport = new RoundedButton();
             btnSettings = new RoundedButton();
-            roundedButton1 = new RoundedButton();
+            btnAudit = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -266,40 +266,40 @@
             btnSettings.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSettings.ForeColor = Color.White;
             btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
-            btnSettings.Location = new Point(1154, 588);
+            btnSettings.Location = new Point(1157, 579);
             btnSettings.Name = "btnSettings";
-            btnSettings.Size = new Size(83, 71);
+            btnSettings.Size = new Size(80, 80);
             btnSettings.TabIndex = 59;
-            btnSettings.Text = "SETTINGS";
             btnSettings.TextAlign = ContentAlignment.BottomCenter;
             btnSettings.UseVisualStyleBackColor = false;
             btnSettings.Click += btnSettings_Click;
             // 
-            // roundedButton1
+            // btnAudit
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Image = (Image)resources.GetObject("roundedButton1.Image");
-            roundedButton1.Location = new Point(874, 346);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(180, 180);
-            roundedButton1.TabIndex = 60;
-            roundedButton1.Text = "EMPLOYEE LOGS";
-            roundedButton1.TextAlign = ContentAlignment.BottomCenter;
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnAudit.BackColor = Color.SteelBlue;
+            btnAudit.BorderColor = Color.Transparent;
+            btnAudit.BorderRadius = 20;
+            btnAudit.BorderSize = 0;
+            btnAudit.FlatAppearance.BorderSize = 0;
+            btnAudit.FlatStyle = FlatStyle.Flat;
+            btnAudit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAudit.ForeColor = Color.White;
+            btnAudit.Image = (Image)resources.GetObject("btnAudit.Image");
+            btnAudit.Location = new Point(874, 346);
+            btnAudit.Name = "btnAudit";
+            btnAudit.Size = new Size(180, 180);
+            btnAudit.TabIndex = 60;
+            btnAudit.Text = "EMPLOYEE LOGS";
+            btnAudit.TextAlign = ContentAlignment.BottomCenter;
+            btnAudit.UseVisualStyleBackColor = false;
+            btnAudit.Click += btnAudit_Click;
             // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
-            Controls.Add(roundedButton1);
+            Controls.Add(btnAudit);
             Controls.Add(btnSettings);
             Controls.Add(btnSalesReport);
             Controls.Add(btnTransactions);
@@ -338,6 +338,6 @@
         private RoundedButton btnTransactions;
         private RoundedButton btnSalesReport;
         private RoundedButton btnSettings;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnAudit;
     }
 }

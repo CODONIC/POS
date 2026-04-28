@@ -124,7 +124,6 @@ namespace POS.Admin
         }
 
         // ─── ADD ──────────────────────────────────────────────────────────────────────
-
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
@@ -139,7 +138,6 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
-                // Check duplicate within company
                 string checkSql = @"SELECT COUNT(*) FROM categories 
                             WHERE LOWER(name) = LOWER(@name) 
                             AND company_id = @companyId";
@@ -155,12 +153,23 @@ namespace POS.Admin
                     return;
                 }
 
+                // Insert and return the new ID for the audit record
                 string sql = @"INSERT INTO categories (name, company_id) 
-                       VALUES (@name, @companyId)";
+                       VALUES (@name, @companyId)
+                       RETURNING id";
                 await using var cmd = new NpgsqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("name", txtCategoryName.Text.Trim());
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
+                var newId = (await cmd.ExecuteScalarAsync())?.ToString();
+
+                // ✅ AUDIT LOG
+                await AuditService.LogInsertAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "categories",
+                    recordId: newId,
+                    newValuesJson: AuditService.ToJson(("name", txtCategoryName.Text.Trim()))
+                );
 
                 MessageBox.Show("Category added successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -175,7 +184,6 @@ namespace POS.Admin
         }
 
         // ─── EDIT ─────────────────────────────────────────────────────────────────────
-
         private async void btnEdit_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedCategoryId))
@@ -197,7 +205,16 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
-                // Check duplicate within company excluding current
+                // Fetch old name for audit
+                string oldName = "";
+                await using (var fetchCmd = new NpgsqlCommand(
+                    "SELECT name FROM categories WHERE id = @id", conn))
+                {
+                    fetchCmd.Parameters.AddWithValue("id",
+                        NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
+                    oldName = (await fetchCmd.ExecuteScalarAsync())?.ToString();
+                }
+
                 string checkSql = @"SELECT COUNT(*) FROM categories 
                             WHERE LOWER(name) = LOWER(@name) 
                             AND company_id = @companyId
@@ -223,6 +240,16 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                 await cmd.ExecuteNonQueryAsync();
 
+                // ✅ AUDIT LOG
+                await AuditService.LogUpdateAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "categories",
+                    recordId: _selectedCategoryId,
+                    oldValuesJson: AuditService.ToJson(("name", oldName)),
+                    newValuesJson: AuditService.ToJson(("name", txtCategoryName.Text.Trim()))
+                );
+
                 MessageBox.Show("Category updated successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearFields();
@@ -236,7 +263,6 @@ namespace POS.Admin
         }
 
         // ─── DELETE ───────────────────────────────────────────────────────────────────
-
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedCategoryId))
@@ -252,6 +278,9 @@ namespace POS.Admin
 
             if (confirm != DialogResult.Yes) return;
 
+            string deletedName = txtCategoryName.Text.Trim();
+            string deletedId = _selectedCategoryId;
+
             try
             {
                 await using var conn = DatabaseService.GetConnection();
@@ -262,6 +291,15 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                 await cmd.ExecuteNonQueryAsync();
+
+                // ✅ AUDIT LOG
+                await AuditService.LogDeleteAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "categories",
+                    recordId: deletedId,
+                    oldValuesJson: AuditService.ToJson(("name", deletedName))
+                );
 
                 MessageBox.Show("Category deleted successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

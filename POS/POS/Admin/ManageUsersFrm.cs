@@ -157,7 +157,7 @@ namespace POS.Admin
 
         // ─── ADD ──────────────────────────────────────────────────────────────────
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private async void btnAdd_Click(object sender, EventArgs e)
         {
             if (!ValidateFields()) return;
 
@@ -174,7 +174,6 @@ namespace POS.Admin
                 {
                     conn.Open();
 
-                    // Check for duplicate username
                     using (var checkCmd = new NpgsqlCommand(
                         "SELECT COUNT(*) FROM public.users WHERE username = @username AND company_id = @company_id", conn))
                     {
@@ -191,12 +190,12 @@ namespace POS.Admin
                     }
 
                     string query = @"
-    INSERT INTO public.users
-        (username, password, role_id, first_name, last_name,
-         middle_name, contact_number, age, birthdate, company_id)
-    VALUES
-        (@username, @password, (SELECT id FROM public.roles WHERE name = @role), @first_name, @last_name,
-         @middle_name, @contact_number, @age, @birthdate, @company_id)";
+INSERT INTO public.users
+    (username, password, role_id, first_name, last_name,
+     middle_name, contact_number, age, birthdate, company_id)
+VALUES
+    (@username, @password, (SELECT id FROM public.roles WHERE name = @role), @first_name, @last_name,
+     @middle_name, @contact_number, @age, @birthdate, @company_id)";
 
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
@@ -204,6 +203,23 @@ namespace POS.Admin
                         cmd.ExecuteNonQuery();
                     }
                 }
+
+                // ✅ AUDIT LOG
+                await AuditService.LogInsertAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "users",
+                    recordId: txtUsername.Text.Trim(),
+                    newValuesJson: AuditService.ToJson(
+                        ("username", txtUsername.Text.Trim()),
+                        ("first_name", txtFirstName.Text.Trim()),
+                        ("last_name", txtLastName.Text.Trim()),
+                        ("middle_name", txtMiddleName.Text.Trim()),
+                        ("contact_number", txtContact.Text.Trim()),
+                        ("age", txtAge.Text.Trim()),
+                        ("role", cmbUserLevel.SelectedItem?.ToString())
+                    )
+                );
 
                 MessageBox.Show("User added successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -219,7 +235,7 @@ namespace POS.Admin
 
         // ─── UPDATE ───────────────────────────────────────────────────────────────
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private async void btnUpdate_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(selectedUserId))
             {
@@ -230,36 +246,66 @@ namespace POS.Admin
 
             if (!ValidateFields()) return;
 
+            // Capture old values before update
+            string oldUsername = "";
+            string oldFirstName = "";
+            string oldLastName = "";
+            string oldRole = "";
+            string oldContact = "";
+
             try
             {
                 using (var conn = DatabaseService.GetConnection())
                 {
                     conn.Open();
 
+                    // Fetch old values for audit
+                    using (var fetchCmd = new NpgsqlCommand(
+                        @"SELECT u.username, u.first_name, u.last_name, u.middle_name,
+                         u.contact_number, u.age, r.name AS role
+                  FROM public.users u
+                  JOIN public.roles r ON u.role_id = r.id
+                  WHERE u.id = @id", conn))
+                    {
+                        fetchCmd.Parameters.AddWithValue("id",
+                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
+                        using (var reader = fetchCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                oldUsername = reader["username"].ToString();
+                                oldFirstName = reader["first_name"].ToString();
+                                oldLastName = reader["last_name"].ToString();
+                                oldContact = reader["contact_number"].ToString();
+                                oldRole = reader["role"].ToString();
+                            }
+                        }
+                    }
+
                     bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
 
                     string query = changePassword
-     ? @"UPDATE public.users SET
-            username       = @username,
-            password       = @password,
-            role_id        = (SELECT id FROM public.roles WHERE name = @role),
-            first_name     = @first_name,
-            last_name      = @last_name,
-            middle_name    = @middle_name,
-            contact_number = @contact_number,
-            age            = @age,
-            birthdate      = @birthdate
-        WHERE id = @id"
-     : @"UPDATE public.users SET
-            username       = @username,
-            role_id        = (SELECT id FROM public.roles WHERE name = @role),
-            first_name     = @first_name,
-            last_name      = @last_name,
-            middle_name    = @middle_name,
-            contact_number = @contact_number,
-            age            = @age,
-            birthdate      = @birthdate
-        WHERE id = @id";
+                        ? @"UPDATE public.users SET
+                        username       = @username,
+                        password       = @password,
+                        role_id        = (SELECT id FROM public.roles WHERE name = @role),
+                        first_name     = @first_name,
+                        last_name      = @last_name,
+                        middle_name    = @middle_name,
+                        contact_number = @contact_number,
+                        age            = @age,
+                        birthdate      = @birthdate
+                    WHERE id = @id"
+                        : @"UPDATE public.users SET
+                        username       = @username,
+                        role_id        = (SELECT id FROM public.roles WHERE name = @role),
+                        first_name     = @first_name,
+                        last_name      = @last_name,
+                        middle_name    = @middle_name,
+                        contact_number = @contact_number,
+                        age            = @age,
+                        birthdate      = @birthdate
+                    WHERE id = @id";
 
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
@@ -269,6 +315,28 @@ namespace POS.Admin
                         cmd.ExecuteNonQuery();
                     }
                 }
+
+                // ✅ AUDIT LOG
+                await AuditService.LogUpdateAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "users",
+                    recordId: selectedUserId,
+                    oldValuesJson: AuditService.ToJson(
+                        ("username", oldUsername),
+                        ("first_name", oldFirstName),
+                        ("last_name", oldLastName),
+                        ("contact_number", oldContact),
+                        ("role", oldRole)
+                    ),
+                    newValuesJson: AuditService.ToJson(
+                        ("username", txtUsername.Text.Trim()),
+                        ("first_name", txtFirstName.Text.Trim()),
+                        ("last_name", txtLastName.Text.Trim()),
+                        ("contact_number", txtContact.Text.Trim()),
+                        ("role", cmbUserLevel.SelectedItem?.ToString())
+                    )
+                );
 
                 MessageBox.Show("User updated successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -284,7 +352,7 @@ namespace POS.Admin
 
         // ─── DELETE ───────────────────────────────────────────────────────────────
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(selectedUserId))
             {
@@ -299,6 +367,12 @@ namespace POS.Admin
 
             if (confirm != DialogResult.Yes) return;
 
+            // Capture values before deletion
+            string deletedUsername = txtUsername.Text.Trim();
+            string deletedFirstName = txtFirstName.Text.Trim();
+            string deletedLastName = txtLastName.Text.Trim();
+            string deletedRole = cmbUserLevel.SelectedItem?.ToString();
+
             try
             {
                 using (var conn = DatabaseService.GetConnection())
@@ -312,6 +386,20 @@ namespace POS.Admin
                         cmd.ExecuteNonQuery();
                     }
                 }
+
+                // ✅ AUDIT LOG
+                await AuditService.LogDeleteAsync(
+                    username: _username,
+                    companyId: _companyId,
+                    tableName: "users",
+                    recordId: selectedUserId,
+                    oldValuesJson: AuditService.ToJson(
+                        ("username", deletedUsername),
+                        ("first_name", deletedFirstName),
+                        ("last_name", deletedLastName),
+                        ("role", deletedRole)
+                    )
+                );
 
                 MessageBox.Show("User deleted successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

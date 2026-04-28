@@ -403,7 +403,7 @@ namespace POS
 
         // ─── Buttons ──────────────────────────────────────────────────────────────
 
-        private void btnLogOut_Click(object sender, EventArgs e)
+        private async void btnLogOut_Click(object sender, EventArgs e)
         {
             DialogResult confirm = MessageBox.Show(
                 "Are you sure you want to log out?",
@@ -411,6 +411,23 @@ namespace POS
 
             if (confirm == DialogResult.Yes)
             {
+                
+                try
+                {
+                    if (!string.IsNullOrEmpty(_companyId))
+                    {
+                        await AuditService.LogLogoutAsync(
+                            username: _username,
+                            companyId: _companyId,
+                            deviceInfo: Environment.MachineName
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Logout audit failed: {ex.Message}");
+                }
+
                 LogInForm login = new LogInForm();
                 login.Show();
                 this.Close();
