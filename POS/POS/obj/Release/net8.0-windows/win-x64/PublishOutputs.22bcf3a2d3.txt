@@ -12,4 +12,5 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\pu
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krb5_64.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krbcc64.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\libSkiaSharp.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\libSkiaSharp.pdb
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.exe

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Npgsql; 
+using Npgsql;
 
 namespace POS.Admin
 {
@@ -15,6 +15,7 @@ namespace POS.Admin
     {
         private string _username;
         private string _companyName;
+        private string _companyId;
         private DataTable _allTransactions = new DataTable();
 
         public TransactionsForm(string username, string companyName)
@@ -26,9 +27,38 @@ namespace POS.Admin
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName}";
 
+            // Resolve company ID and set user context for audit logging
+            _companyId = GetCompanyId(_companyName);
+            SetUserContext(_username, _companyId);
+
             SetupDataGridView();
             LoadTransactions();
             txtSearch.TextChanged += txtSearch_TextChanged;
+        }
+
+        // ─── Resolve company name to ID ───────────────────────────────────────────
+
+        private string GetCompanyId(string companyName)
+        {
+            try
+            {
+                using (var conn = DatabaseService.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", companyName);
+                        var result = cmd.ExecuteScalar();
+                        return result?.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error resolving company: {ex.Message}");
+                return null;
+            }
         }
 
         // ─── DataGridView Setup ───────────────────────────────────────────────
@@ -109,7 +139,7 @@ namespace POS.Admin
         {
             try
             {
-                string connStr = DatabaseService.ConnectionString; 
+                string connStr = DatabaseService.ConnectionString;
                 using (var conn = new NpgsqlConnection(connStr))
                 {
                     conn.Open();
@@ -130,12 +160,21 @@ namespace POS.Admin
                             change_amount,
                             status
                         FROM public.transactions
+                        WHERE company_id = @companyId
                         ORDER BY transaction_date DESC";
 
-                    using (var adapter = new NpgsqlDataAdapter(sql, conn))
+                    using (var cmd = new NpgsqlCommand(sql, conn))
                     {
-                        _allTransactions.Clear();
-                        adapter.Fill(_allTransactions);
+                        if (!string.IsNullOrEmpty(_companyId))
+                        {
+                            cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
+                        }
+
+                        using (var adapter = new NpgsqlDataAdapter(cmd))
+                        {
+                            _allTransactions.Clear();
+                            adapter.Fill(_allTransactions);
+                        }
                     }
                 }
 

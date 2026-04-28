@@ -472,7 +472,7 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Win32/3.119.0": {
+      "SkiaSharp.NativeAssets.Win32/3.119.2": {
         "type": "package",
         "compile": {
           "lib/net8.0/_._": {}
@@ -485,11 +485,23 @@
             "assetType": "native",
             "rid": "win-arm64"
           },
+          "runtimes/win-arm64/native/libSkiaSharp.pdb": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
           "runtimes/win-x64/native/libSkiaSharp.dll": {
             "assetType": "native",
             "rid": "win-x64"
           },
+          "runtimes/win-x64/native/libSkiaSharp.pdb": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
           "runtimes/win-x86/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/libSkiaSharp.pdb": {
             "assetType": "native",
             "rid": "win-x86"
           }
@@ -1338,7 +1350,7 @@
           "lib/net8.0/_._": {}
         }
       },
-      "SkiaSharp.NativeAssets.Win32/3.119.0": {
+      "SkiaSharp.NativeAssets.Win32/3.119.2": {
         "type": "package",
         "compile": {
           "lib/net8.0/_._": {}
@@ -1347,7 +1359,8 @@
           "lib/net8.0/_._": {}
         },
         "native": {
-          "runtimes/win-x64/native/libSkiaSharp.dll": {}
+          "runtimes/win-x64/native/libSkiaSharp.dll": {},
+          "runtimes/win-x64/native/libSkiaSharp.pdb": {}
         }
       },
       "SkiaSharp.Views.Desktop.Common/3.119.0": {
@@ -2514,10 +2527,10 @@
         "skiasharp.nativeassets.macos.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.Win32/3.119.0": {
-      "sha512": "IwC9yx36lOdXVT2DjgmWHl1qkVspfj8ctd4+li8CNnvqdfaTolXCOh6TLznURcPAvzatx9K/tLOB7zT6T8EA9w==",
+    "SkiaSharp.NativeAssets.Win32/3.119.2": {
+      "sha512": "uYe+da6+GXVgPKkCopzvIZ83DmC8SXXKeUAPrNcztJNsg0SjPQAxfKMOPZqmVjbzznrq/QUIjLUlJSZV/e0IPA==",
       "type": "package",
-      "path": "skiasharp.nativeassets.win32/3.119.0",
+      "path": "skiasharp.nativeassets.win32/3.119.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2535,9 +2548,12 @@
         "lib/netstandard2.0/_._",
         "lib/netstandard2.1/_._",
         "runtimes/win-arm64/native/libSkiaSharp.dll",
+        "runtimes/win-arm64/native/libSkiaSharp.pdb",
         "runtimes/win-x64/native/libSkiaSharp.dll",
+        "runtimes/win-x64/native/libSkiaSharp.pdb",
         "runtimes/win-x86/native/libSkiaSharp.dll",
-        "skiasharp.nativeassets.win32.3.119.0.nupkg.sha512",
+        "runtimes/win-x86/native/libSkiaSharp.pdb",
+        "skiasharp.nativeassets.win32.3.119.2.nupkg.sha512",
         "skiasharp.nativeassets.win32.nuspec"
       ]
     },
@@ -3097,6 +3113,7 @@
       "Microsoft.NET.ILLink.Tasks >= 8.0.25",
       "MySql.Data >= 9.6.0",
       "Npgsql >= 10.0.1",
+      "SkiaSharp.NativeAssets.Win32 >= 3.119.2",
       "Supabase >= 1.1.1"
     ]
   },
@@ -3166,6 +3183,10 @@
           "Npgsql": {
             "target": "Package",
             "version": "[10.0.1, )"
+          },
+          "SkiaSharp.NativeAssets.Win32": {
+            "target": "Package",
+            "version": "[3.119.2, )"
           },
           "Supabase": {
             "target": "Package",

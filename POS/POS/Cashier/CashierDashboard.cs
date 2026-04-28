@@ -50,6 +50,7 @@ namespace POS
             lblCashierName.Text = $"{_username} | Cashier";
             titleLabel.Text = $"{_companyName}";
             _companyId = GetCompanyId(_companyName);
+            SetUserContext(_username, _companyId);
 
             // ─── Setup cart table columns ─────────────────────────────────────
             _cartTable.Columns.Add("product_code", typeof(string));

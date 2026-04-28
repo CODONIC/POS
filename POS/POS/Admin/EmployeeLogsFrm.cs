@@ -33,6 +33,12 @@ namespace POS.Admin
 
             InitializeGrid();
             InitializeFilters();
+
+            txtSearch.TextChanged += async (s, e) =>
+            {
+                _currentPage = 1;
+                await LoadAuditLogsAsync();
+            };
         }
 
         // ─────────────────────────────────────────────
@@ -97,8 +103,21 @@ namespace POS.Admin
 
         private void InitializeFilters()
         {
+            // Set maximum date to today (disable future dates)
+            dtpFrom.MaxDate = DateTime.Today;
+            dtpTo.MaxDate = DateTime.Today;
+
+            // Set minimum dates to a reasonable past date (optional)
+            dtpFrom.MinDate = new DateTime(2000, 1, 1);
+            dtpTo.MinDate = new DateTime(2000, 1, 1);
+
+            // Set both dates to today (not tomorrow)
             dtpFrom.Value = DateTime.Today;
-            dtpTo.Value = DateTime.Today.AddDays(1).AddSeconds(-1);
+            dtpTo.Value = DateTime.Today;  // Changed from DateTime.Today.AddDays(1).AddSeconds(-1)
+
+            // Add event handlers to validate date ranges
+            dtpFrom.ValueChanged += DtpFrom_ValueChanged;
+            dtpTo.ValueChanged += DtpTo_ValueChanged;
 
             cmbCategory.Items.Clear();
             cmbCategory.Items.AddRange(new[] { "All", "AUTH", "DATA_CHANGE" });
@@ -109,6 +128,24 @@ namespace POS.Admin
             cmbAction.SelectedIndex = 0;
         }
 
+        private void DtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            // Ensure 'From' date is not after 'To' date
+            if (dtpFrom.Value.Date > dtpTo.Value.Date)
+            {
+                dtpTo.Value = dtpFrom.Value;
+            }
+        }
+
+        private void DtpTo_ValueChanged(object sender, EventArgs e)
+        {
+            // Ensure 'To' date is not before 'From' date
+            if (dtpTo.Value.Date < dtpFrom.Value.Date)
+            {
+                dtpFrom.Value = dtpTo.Value;
+            }
+        }
+
         // ─────────────────────────────────────────────
         //  LOAD ON SHOW
         // ─────────────────────────────────────────────
@@ -117,7 +154,11 @@ namespace POS.Admin
             base.OnLoad(e);
             bool resolved = await ResolveCompanyIdAsync();
             if (resolved)
+            {
+                // Set user context for audit logging after company ID is resolved
+                SetUserContext(_username, _companyId);
                 await LoadAuditLogsAsync();
+            }
         }
 
         // ─────────────────────────────────────────────
@@ -230,7 +271,7 @@ namespace POS.Admin
                     row.Cells["colAction"].Value = log.Action ?? "—";
                     row.Cells["colTable"].Value = log.TableName ?? "—";
                     row.Cells["colRecordId"].Value = log.RecordId ?? "—";
-                   // row.Cells["colIpAddress"].Value = log.IpAddress ?? "—";
+                    // row.Cells["colIpAddress"].Value = log.IpAddress ?? "—";
                     row.Cells["colRemarks"].Value = log.Remarks ?? "—";
                 }
 
@@ -397,7 +438,7 @@ namespace POS.Admin
         private void btnResetFilter_Click(object sender, EventArgs e)
         {
             dtpFrom.Value = DateTime.Today;
-            dtpTo.Value = DateTime.Today.AddDays(1).AddSeconds(-1);
+            dtpTo.Value = DateTime.Today;  // Changed from DateTime.Today.AddDays(1).AddSeconds(-1)
             cmbCategory.SelectedIndex = 0;
             cmbAction.SelectedIndex = 0;
             txtSearch.Text = string.Empty;
@@ -422,16 +463,15 @@ namespace POS.Admin
             {
                 if (_auditRows == null || _auditRows.Count == 0)
                 {
-                    MessageBox.Show("No records to export.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No records to export.", "Export",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
                 var sb = new System.Text.StringBuilder();
 
-                // Header
                 sb.AppendLine("\"Timestamp\",\"Employee\",\"Category\",\"Action\",\"Table Affected\",\"Record ID\",\"Remarks\",\"Old Values\",\"New Values\"");
 
-                // Rows — includes old/new values in export even though not shown in grid
                 foreach (var log in _auditRows)
                 {
                     string Esc(string s) => $"\"{s?.Replace("\"", "\"\"") ?? ""}\"";
@@ -442,7 +482,6 @@ namespace POS.Admin
                         Esc(log.Action),
                         Esc(log.TableName),
                         Esc(log.RecordId),
-                       // Esc(log.IpAddress),
                         Esc(log.Remarks),
                         Esc(log.OldValues),
                         Esc(log.NewValues)
@@ -450,11 +489,13 @@ namespace POS.Admin
                 }
 
                 System.IO.File.WriteAllText(dialog.FileName, sb.ToString(), System.Text.Encoding.UTF8);
-                MessageBox.Show("Exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Exported successfully!", "Export",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Export failed: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

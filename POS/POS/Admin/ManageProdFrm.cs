@@ -32,6 +32,7 @@ namespace POS.Admin
             this.KeyDown += ManageProdFrm_KeyDown;
             ShortcutKeyHints();
             _companyId = GetCompanyId(_companyName);
+            SetUserContext(_username, _companyId);
             SetupDataGridView();
             LoadCategories();
         }

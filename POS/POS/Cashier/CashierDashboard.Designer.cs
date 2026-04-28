@@ -568,7 +568,7 @@
             lblProducts.BackColor = Color.LightSteelBlue;
             lblProducts.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblProducts.ForeColor = Color.Black;
-            lblProducts.Location = new Point(44, 238);
+            lblProducts.Location = new Point(44, 232);
             lblProducts.Name = "lblProducts";
             lblProducts.Size = new Size(74, 19);
             lblProducts.TabIndex = 37;

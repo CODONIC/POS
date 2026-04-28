@@ -46,9 +46,7 @@
             titleLabel = new Label();
             btnBack = new RoundedButton();
             dtpFrom = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            label1 = new Label();
             dtpTo = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            label2 = new Label();
             cmbCategory = new Guna.UI2.WinForms.Guna2ComboBox();
             cmbAction = new Guna.UI2.WinForms.Guna2ComboBox();
             label12 = new Label();
@@ -68,6 +66,10 @@
             lblPagination = new Label();
             label3 = new Label();
             label4 = new Label();
+            label11 = new Label();
+            label5 = new Label();
+            label1 = new Label();
+            label2 = new Label();
             titleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAuditLogs).BeginInit();
             SuspendLayout();
@@ -132,7 +134,7 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(33, 827);
+            btnBack.Location = new Point(34, 798);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(68, 34);
             btnBack.TabIndex = 25;
@@ -148,7 +150,7 @@
             dtpFrom.FillColor = SystemColors.InactiveCaption;
             dtpFrom.Font = new Font("Segoe UI", 9F);
             dtpFrom.Format = DateTimePickerFormat.Long;
-            dtpFrom.Location = new Point(562, 91);
+            dtpFrom.Location = new Point(577, 91);
             dtpFrom.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpFrom.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpFrom.Name = "dtpFrom";
@@ -156,15 +158,6 @@
             dtpFrom.Size = new Size(200, 36);
             dtpFrom.TabIndex = 26;
             dtpFrom.Value = new DateTime(2026, 4, 28, 3, 0, 48, 860);
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(511, 91);
-            label1.Name = "label1";
-            label1.Size = new Size(35, 15);
-            label1.TabIndex = 27;
-            label1.Text = "From";
             // 
             // dtpTo
             // 
@@ -181,15 +174,6 @@
             dtpTo.Size = new Size(200, 36);
             dtpTo.TabIndex = 28;
             dtpTo.Value = new DateTime(2026, 4, 28, 3, 0, 48, 860);
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(772, 91);
-            label2.Name = "label2";
-            label2.Size = new Size(19, 15);
-            label2.TabIndex = 29;
-            label2.Text = "To";
             // 
             // cmbCategory
             // 
@@ -270,7 +254,7 @@
             btnApplyFilter.FlatStyle = FlatStyle.Flat;
             btnApplyFilter.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnApplyFilter.ForeColor = Color.White;
-            btnApplyFilter.Location = new Point(1347, 572);
+            btnApplyFilter.Location = new Point(1317, 150);
             btnApplyFilter.Name = "btnApplyFilter";
             btnApplyFilter.Size = new Size(81, 36);
             btnApplyFilter.TabIndex = 59;
@@ -289,7 +273,7 @@
             btnResetFilter.FlatStyle = FlatStyle.Flat;
             btnResetFilter.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnResetFilter.ForeColor = Color.White;
-            btnResetFilter.Location = new Point(1450, 572);
+            btnResetFilter.Location = new Point(1420, 150);
             btnResetFilter.Name = "btnResetFilter";
             btnResetFilter.Size = new Size(81, 36);
             btnResetFilter.TabIndex = 60;
@@ -348,7 +332,7 @@
             // 
             // rtbOldValues
             // 
-            rtbOldValues.Location = new Point(1306, 222);
+            rtbOldValues.Location = new Point(1306, 257);
             rtbOldValues.Name = "rtbOldValues";
             rtbOldValues.Size = new Size(274, 152);
             rtbOldValues.TabIndex = 62;
@@ -356,7 +340,7 @@
             // 
             // rtbNewValues
             // 
-            rtbNewValues.Location = new Point(1306, 414);
+            rtbNewValues.Location = new Point(1306, 449);
             rtbNewValues.Name = "rtbNewValues";
             rtbNewValues.Size = new Size(274, 152);
             rtbNewValues.TabIndex = 63;
@@ -422,45 +406,50 @@
             // lblDetailAction
             // 
             lblDetailAction.AutoSize = true;
-            lblDetailAction.Location = new Point(1306, 760);
+            lblDetailAction.Font = new Font("Segoe UI", 11.25F);
+            lblDetailAction.Location = new Point(1306, 736);
             lblDetailAction.Name = "lblDetailAction";
-            lblDetailAction.Size = new Size(19, 15);
+            lblDetailAction.Size = new Size(25, 20);
             lblDetailAction.TabIndex = 67;
             lblDetailAction.Text = "To";
             // 
             // lblDetailTable
             // 
             lblDetailTable.AutoSize = true;
-            lblDetailTable.Location = new Point(1306, 650);
+            lblDetailTable.Font = new Font("Segoe UI", 11.25F);
+            lblDetailTable.Location = new Point(1306, 626);
             lblDetailTable.Name = "lblDetailTable";
-            lblDetailTable.Size = new Size(19, 15);
+            lblDetailTable.Size = new Size(25, 20);
             lblDetailTable.TabIndex = 68;
             lblDetailTable.Text = "To";
             // 
             // lblDetailEmployee
             // 
             lblDetailEmployee.AutoSize = true;
-            lblDetailEmployee.Location = new Point(1306, 676);
+            lblDetailEmployee.Font = new Font("Segoe UI", 11.25F);
+            lblDetailEmployee.Location = new Point(1306, 652);
             lblDetailEmployee.Name = "lblDetailEmployee";
-            lblDetailEmployee.Size = new Size(19, 15);
+            lblDetailEmployee.Size = new Size(25, 20);
             lblDetailEmployee.TabIndex = 69;
             lblDetailEmployee.Text = "To";
             // 
             // lblDetailTime
             // 
             lblDetailTime.AutoSize = true;
-            lblDetailTime.Location = new Point(1306, 701);
+            lblDetailTime.Font = new Font("Segoe UI", 11.25F);
+            lblDetailTime.Location = new Point(1306, 677);
             lblDetailTime.Name = "lblDetailTime";
-            lblDetailTime.Size = new Size(19, 15);
+            lblDetailTime.Size = new Size(25, 20);
             lblDetailTime.TabIndex = 70;
             lblDetailTime.Text = "To";
             // 
             // lblPagination
             // 
             lblPagination.AutoSize = true;
-            lblPagination.Location = new Point(1306, 731);
+            lblPagination.Font = new Font("Segoe UI", 11.25F);
+            lblPagination.Location = new Point(1306, 707);
             lblPagination.Name = "lblPagination";
-            lblPagination.Size = new Size(19, 15);
+            lblPagination.Size = new Size(25, 20);
             lblPagination.TabIndex = 71;
             lblPagination.Text = "To";
             // 
@@ -470,7 +459,7 @@
             label3.BackColor = Color.LightSteelBlue;
             label3.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(1306, 186);
+            label3.Location = new Point(1306, 221);
             label3.Name = "label3";
             label3.Size = new Size(64, 19);
             label3.TabIndex = 72;
@@ -482,17 +471,69 @@
             label4.BackColor = Color.LightSteelBlue;
             label4.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(1306, 392);
+            label4.Location = new Point(1306, 427);
             label4.Name = "label4";
             label4.Size = new Size(53, 19);
             label4.TabIndex = 73;
             label4.Text = "AFTER";
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.LightSteelBlue;
+            label11.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.Black;
+            label11.Location = new Point(818, 69);
+            label11.Name = "label11";
+            label11.Size = new Size(29, 19);
+            label11.TabIndex = 81;
+            label11.Text = "TO";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.LightSteelBlue;
+            label5.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Black;
+            label5.Location = new Point(577, 69);
+            label5.Name = "label5";
+            label5.Size = new Size(53, 19);
+            label5.TabIndex = 80;
+            label5.Text = "FROM";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.LightSteelBlue;
+            label1.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(1077, 69);
+            label1.Name = "label1";
+            label1.Size = new Size(103, 19);
+            label1.TabIndex = 82;
+            label1.Text = "CATEGORIES";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.LightSteelBlue;
+            label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(1306, 69);
+            label2.Name = "label2";
+            label2.Size = new Size(77, 19);
+            label2.TabIndex = 83;
+            label2.Text = "ACTIONS";
+            // 
             // EmployeeLogsFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1592, 877);
+            ClientSize = new Size(1592, 846);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(label11);
+            Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(lblPagination);
@@ -512,9 +553,7 @@
             Controls.Add(txtSearch);
             Controls.Add(cmbAction);
             Controls.Add(cmbCategory);
-            Controls.Add(label2);
             Controls.Add(dtpTo);
-            Controls.Add(label1);
             Controls.Add(dtpFrom);
             Controls.Add(btnBack);
             Controls.Add(titleBar);
@@ -537,9 +576,7 @@
         private Label titleLabel;
         private RoundedButton btnBack;
         private Guna.UI2.WinForms.Guna2DateTimePicker dtpFrom;
-        private Label label1;
         private Guna.UI2.WinForms.Guna2DateTimePicker dtpTo;
-        private Label label2;
         private Guna.UI2.WinForms.Guna2ComboBox cmbCategory;
         private Guna.UI2.WinForms.Guna2ComboBox cmbAction;
         private Label label12;
@@ -559,5 +596,9 @@
         private Label lblPagination;
         private Label label3;
         private Label label4;
+        private Label label11;
+        private Label label5;
+        private Label label1;
+        private Label label2;
     }
 }

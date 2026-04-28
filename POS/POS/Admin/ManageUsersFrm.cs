@@ -21,6 +21,10 @@ namespace POS.Admin
             _companyName = companyName;
             lblAdminName.Text = $"{_username} | Admin";
             _companyId = GetCompanyId(_companyName);
+
+            // Set user context for audit logging
+            SetUserContext(_username, _companyId);
+
             titleLabel.Text = $"{_companyName} ";
             LoadUserLevels();
             LoadUsers();

@@ -14,6 +14,7 @@
           "Microsoft.NET.ILLink.Tasks": "8.0.25",
           "MySql.Data": "9.6.0",
           "Npgsql": "10.0.1",
+          "SkiaSharp.NativeAssets.Win32": "3.119.2",
           "Supabase": "1.1.1",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "8.0.25",
           "runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64": "8.0.25"
@@ -1181,7 +1182,7 @@
       },
       "SkiaSharp/3.119.0": {
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "3.119.0",
+          "SkiaSharp.NativeAssets.Win32": "3.119.2",
           "SkiaSharp.NativeAssets.macOS": "3.119.0"
         },
         "runtime": {
@@ -1204,9 +1205,12 @@
         }
       },
       "SkiaSharp.NativeAssets.macOS/3.119.0": {},
-      "SkiaSharp.NativeAssets.Win32/3.119.0": {
+      "SkiaSharp.NativeAssets.Win32/3.119.2": {
         "native": {
           "runtimes/win-x64/native/libSkiaSharp.dll": {
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/libSkiaSharp.pdb": {
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1631,12 +1635,12 @@
       "path": "skiasharp.nativeassets.macos/3.119.0",
       "hashPath": "skiasharp.nativeassets.macos.3.119.0.nupkg.sha512"
     },
-    "SkiaSharp.NativeAssets.Win32/3.119.0": {
+    "SkiaSharp.NativeAssets.Win32/3.119.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IwC9yx36lOdXVT2DjgmWHl1qkVspfj8ctd4+li8CNnvqdfaTolXCOh6TLznURcPAvzatx9K/tLOB7zT6T8EA9w==",
-      "path": "skiasharp.nativeassets.win32/3.119.0",
-      "hashPath": "skiasharp.nativeassets.win32.3.119.0.nupkg.sha512"
+      "sha512": "sha512-uYe+da6+GXVgPKkCopzvIZ83DmC8SXXKeUAPrNcztJNsg0SjPQAxfKMOPZqmVjbzznrq/QUIjLUlJSZV/e0IPA==",
+      "path": "skiasharp.nativeassets.win32/3.119.2",
+      "hashPath": "skiasharp.nativeassets.win32.3.119.2.nupkg.sha512"
     },
     "SkiaSharp.Views.Desktop.Common/3.119.0": {
       "type": "package",

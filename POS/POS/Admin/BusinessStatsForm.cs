@@ -35,11 +35,16 @@ namespace POS.Admin
             _username = username;
             _companyName = companyName;
             _companyId = FetchCompanyId(companyName);
+
+            // Set user context for audit logging
+            SetUserContext(_username, _companyId.ToString());
+
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName}";
 
             SetDateDefaults();
-            LoadKPIs();
+            // Remove LoadKPIs() from here since SetDateDefaults already calls it
+            // LoadKPIs();  // ← REMOVE THIS LINE
 
             dtpFrom.ValueChanged += (s, e) => LoadKPIs();
             dtpTo.ValueChanged += (s, e) => LoadKPIs();
@@ -67,8 +72,51 @@ namespace POS.Admin
 
         private void SetDateDefaults()
         {
+            // Set maximum dates to today (disable future dates)
+            dtpFrom.MaxDate = DateTime.Today;
+            dtpTo.MaxDate = DateTime.Today;
+
+            // Set minimum dates to a reasonable past date (optional)
+            dtpFrom.MinDate = new DateTime(2000, 1, 1);
+            dtpTo.MinDate = new DateTime(2000, 1, 1);
+
+            // Add event handlers to validate date ranges
+            dtpFrom.ValueChanged += DtpFrom_ValueChanged;
+            dtpTo.ValueChanged += DtpTo_ValueChanged;
+
             cmbQuickFilter.Items.AddRange(new[] { "Today", "This Week", "This Month", "This Year", "All Time", "Custom" });
-            cmbQuickFilter.SelectedIndex = 2;
+
+            // Manually set the "All Time" values without triggering the event
+            dtpFrom.Enabled = false;
+            dtpTo.Enabled = false;
+            dtpFrom.Value = new DateTime(2000, 1, 1);
+            dtpTo.Value = DateTime.Today;
+
+            // Set the combo box selection without triggering the event
+            cmbQuickFilter.SelectedIndexChanged -= CmbQuickFilter_SelectedIndexChanged;
+            cmbQuickFilter.SelectedIndex = 4;
+            cmbQuickFilter.SelectedIndexChanged += CmbQuickFilter_SelectedIndexChanged;
+
+            // Now load the KPIs with the "All Time" date range
+            LoadKPIs();
+        }
+
+        private void DtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            // Ensure 'From' date is not after 'To' date
+            if (dtpFrom.Value.Date > dtpTo.Value.Date)
+            {
+                dtpTo.Value = dtpFrom.Value;
+            }
+        }
+
+        private void DtpTo_ValueChanged(object sender, EventArgs e)
+        {
+            // Ensure 'To' date is not before 'From' date
+            if (dtpTo.Value.Date < dtpFrom.Value.Date)
+            {
+                dtpFrom.Value = dtpTo.Value;
+            }
         }
 
         private void CmbQuickFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -78,6 +126,10 @@ namespace POS.Admin
 
             dtpFrom.Enabled = isCustom;
             dtpTo.Enabled = isCustom;
+
+            // Temporarily remove event handlers to prevent validation during batch updates
+            dtpFrom.ValueChanged -= DtpFrom_ValueChanged;
+            dtpTo.ValueChanged -= DtpTo_ValueChanged;
 
             switch (cmbQuickFilter.SelectedItem?.ToString())
             {
@@ -103,6 +155,10 @@ namespace POS.Admin
                     dtpTo.Value = now;
                     break;
             }
+
+            // Re-attach event handlers
+            dtpFrom.ValueChanged += DtpFrom_ValueChanged;
+            dtpTo.ValueChanged += DtpTo_ValueChanged;
 
             if (!isCustom) LoadKPIs();
         }
@@ -210,7 +266,6 @@ namespace POS.Admin
             cartesianChart1.Series = new ISeries[] { series };
             cartesianChart1.XAxes = new Axis[] { xAxis };
             cartesianChart1.YAxes = new Axis[] { yAxis };
-            //cartesianChart1.AnimationsSpeed = TimeSpan.Zero;
             cartesianChart1.LegendPosition = LiveChartsCore.Measure.LegendPosition.Top;
             cartesianChart1.TooltipPosition = LiveChartsCore.Measure.TooltipPosition.Top;
         }
@@ -254,7 +309,7 @@ namespace POS.Admin
             var series = new RowSeries<decimal>
             {
                 Name = "Top 10 Products Sold",
-                
+
                 Values = displaySales,  // Now should have correct values (100, 50, etc.)
                 Fill = new SolidColorPaint(new SKColor(16, 185, 129)),
                 Stroke = null,
@@ -262,11 +317,9 @@ namespace POS.Admin
                 Ry = 4,
                 DataLabelsPaint = new SolidColorPaint(SKColors.Black),
                 DataLabelsSize = 11,
-                //DataLabelsFormatter = (point) => $"{point.Model:N0}",
                 DataLabelsFormatter = point => $"{point.Coordinate.PrimaryValue:N0} units",
                 MaxBarWidth = 30,
                 Padding = 6,
-
             };
 
             var xAxis = new Axis
@@ -275,7 +328,6 @@ namespace POS.Admin
                 TextSize = 11,
                 Labeler = val => $"{val:N0} units",
                 MinStep = 1,
-                //ForceStepToMin = true,
                 MinLimit = 0,
             };
 
@@ -287,7 +339,6 @@ namespace POS.Admin
                 TextSize = 11,
                 MinStep = 1,
                 ForceStepToMin = true,
-                //MinLimit = 0,
                 LabelsAlignment = LiveChartsCore.Drawing.Align.Start,
                 Padding = new LiveChartsCore.Drawing.Padding(5, 10, 0, 10)
             };
@@ -299,10 +350,8 @@ namespace POS.Admin
             cartesianChart1.LegendPosition = LiveChartsCore.Measure.LegendPosition.Top;
             cartesianChart1.TooltipPosition = LiveChartsCore.Measure.TooltipPosition.Top;
             cartesianChart1.TooltipPosition = LiveChartsCore.Measure.TooltipPosition.Hidden;
-            
-            //cartesianChart1.DrawMarginFrame = null;
-
         }
+
         // ─── Chart Toggle Buttons ─────────────────────────────────────────────
 
         private void btnToggleChart_Click(object sender, EventArgs e)
@@ -451,16 +500,16 @@ namespace POS.Admin
 
                 // ── Top 10 Best Sellers ───────────────────────────────────────
                 string bestSellersSql = @"
-    SELECT ti.product_name, COALESCE(SUM(ti.quantity), 0) AS total_sold
-    FROM public.transaction_items ti
-    JOIN public.transactions t ON t.id = ti.transaction_id
-    WHERE t.company_id = @companyId
-        AND LOWER(t.status) = 'completed'
-        AND t.transaction_date >= @from
-        AND t.transaction_date <= @to
-    GROUP BY ti.product_name
-    ORDER BY total_sold DESC  -- This ensures highest sold comes first
-    LIMIT 10";
+                    SELECT ti.product_name, COALESCE(SUM(ti.quantity), 0) AS total_sold
+                    FROM public.transaction_items ti
+                    JOIN public.transactions t ON t.id = ti.transaction_id
+                    WHERE t.company_id = @companyId
+                        AND LOWER(t.status) = 'completed'
+                        AND t.transaction_date >= @from
+                        AND t.transaction_date <= @to
+                    GROUP BY ti.product_name
+                    ORDER BY total_sold DESC
+                    LIMIT 10";
 
                 using (var cmd = new NpgsqlCommand(bestSellersSql, conn))
                 {
@@ -492,8 +541,6 @@ namespace POS.Admin
             admin.Show();
             this.Hide();
         }
-
-        
     }
 
     // ─── KPI Data Model ───────────────────────────────────────────────────────

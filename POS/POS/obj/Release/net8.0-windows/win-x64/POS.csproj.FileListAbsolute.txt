@@ -1066,3 +1066,5 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\wi
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\POS.pdb
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\POS.genruntimeconfig.cache
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\ref\POS.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\libSkiaSharp.pdb
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\POS.Admin.EmployeeLogsFrm.resources

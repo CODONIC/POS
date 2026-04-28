@@ -21,9 +21,13 @@ namespace POS.Admin
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
             _companyId = GetCompanyId(_companyName);
+            SetUserContext(_username, _companyId);
             this.KeyPreview = true;
             this.KeyDown += ProdCategoryFrm_KeyDown;
             ShortcutKeyHints();
+
+            // ✅ Wire up SelectionChanged event here to ensure it's always registered
+            dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
         }
 
         // ─── Search ───────────────────────────────────────────────────────────────
@@ -97,6 +101,9 @@ namespace POS.Admin
                     dt.Rows.Add(reader["id"].ToString(), reader["name"].ToString());
                 }
 
+                // ✅ Temporarily detach event while rebinding to prevent ghost triggers
+                dgvCategories.SelectionChanged -= dgvCategories_SelectionChanged;
+
                 dgvCategories.DataSource = dt;
                 dgvCategories.Columns["id"].HeaderText = "ID";
                 dgvCategories.Columns["name"].HeaderText = "Category Name";
@@ -104,6 +111,9 @@ namespace POS.Admin
                 dgvCategories.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvCategories.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgvCategories.ReadOnly = true;
+
+                // ✅ Reattach event after binding is complete
+                dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
             }
             catch (Exception ex)
             {
@@ -116,11 +126,16 @@ namespace POS.Admin
 
         private void dgvCategories_SelectionChanged(object sender, EventArgs e)
         {
+            // ✅ Guard: no rows selected
             if (dgvCategories.SelectedRows.Count == 0) return;
 
             DataGridViewRow row = dgvCategories.SelectedRows[0];
-            _selectedCategoryId = row.Cells["id"].Value?.ToString();
-            txtCategoryName.Text = row.Cells["name"].Value?.ToString();
+
+            // ✅ Guard: null cell values (e.g. during rebind)
+            if (row.Cells["id"].Value == null || row.Cells["name"].Value == null) return;
+
+            _selectedCategoryId = row.Cells["id"].Value.ToString();
+            txtCategoryName.Text = row.Cells["name"].Value.ToString();
         }
 
         // ─── ADD ──────────────────────────────────────────────────────────────────────
@@ -153,7 +168,6 @@ namespace POS.Admin
                     return;
                 }
 
-                // Insert and return the new ID for the audit record
                 string sql = @"INSERT INTO categories (name, company_id) 
                        VALUES (@name, @companyId)
                        RETURNING id";
@@ -162,7 +176,6 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                 var newId = (await cmd.ExecuteScalarAsync())?.ToString();
 
-                // ✅ AUDIT LOG
                 await AuditService.LogInsertAsync(
                     username: _username,
                     companyId: _companyId,
@@ -205,7 +218,6 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
-                // Fetch old name for audit
                 string oldName = "";
                 await using (var fetchCmd = new NpgsqlCommand(
                     "SELECT name FROM categories WHERE id = @id", conn))
@@ -240,7 +252,6 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                 await cmd.ExecuteNonQueryAsync();
 
-                // ✅ AUDIT LOG
                 await AuditService.LogUpdateAsync(
                     username: _username,
                     companyId: _companyId,
@@ -286,13 +297,27 @@ namespace POS.Admin
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
+                // if products are using a category do not delete
+                string checkProductsSql = @"SELECT COUNT(*) FROM products 
+                             WHERE category_id = @id";
+                await using var checkCmd = new NpgsqlCommand(checkProductsSql, conn);
+                checkCmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
+                long productCount = (long)await checkCmd.ExecuteScalarAsync();
+
+                if (productCount > 0)
+                {
+                    MessageBox.Show(
+                        $"Cannot delete \"{deletedName}\" — it is assigned to {productCount} product(s).\nReassign or delete those products first.",
+                        "Delete Blocked", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 string sql = "DELETE FROM categories WHERE id = @id AND company_id = @companyId";
                 await using var cmd = new NpgsqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_selectedCategoryId));
                 cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
                 await cmd.ExecuteNonQueryAsync();
 
-                // ✅ AUDIT LOG
                 await AuditService.LogDeleteAsync(
                     username: _username,
                     companyId: _companyId,
@@ -367,10 +392,8 @@ namespace POS.Admin
 
         private void ShortcutKeyHints()
         {
-
-
             ToolTip toolTip = new ToolTip();
-            toolTip.InitialDelay = 200; // ms before tooltip appears
+            toolTip.InitialDelay = 200;
             toolTip.ShowAlways = true;
 
             toolTip.SetToolTip(btnBack, "ESC");
@@ -384,6 +407,7 @@ namespace POS.Admin
             AttachHoverEffect(btnDelete, "DELETE", "F3");
             AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
+
         private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
         {
             Point originalLocation = btn.Location;
@@ -400,6 +424,5 @@ namespace POS.Admin
                 btn.Location = originalLocation;
             };
         }
-
     }
 }

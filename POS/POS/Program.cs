@@ -8,12 +8,13 @@ namespace POS
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static async Task Main()
+        static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            await DatabaseService.InitializeAsync();
+            //await DatabaseService.InitializeAsync();
+            DatabaseService.InitializeAsync().GetAwaiter().GetResult();
 
             //Properties.Settings.Default.Reset();
             //Properties.Settings.Default.Save();

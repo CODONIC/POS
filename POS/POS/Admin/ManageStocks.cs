@@ -25,6 +25,7 @@ namespace POS.Admin
             this.KeyDown += ManageStocksFrm_KeyDown;
             ShortcutKeyHints();
             _companyId = GetCompanyId(_companyName);
+            SetUserContext(_username, _companyId);
             SetupDataGridViews();
             SetupPendingTable();
         }
