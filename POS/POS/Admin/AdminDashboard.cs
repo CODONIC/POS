@@ -123,7 +123,8 @@ namespace POS
 
         private void ShowFormAsDialog(Form form)
         {
-            form.ShowDialog(); // Use ShowDialog to keep admin dashboard accessible but disabled
+            form.Show(); 
+            this.Hide();
         }
 
         private async void btnSalesReport_Click(object sender, EventArgs e)
