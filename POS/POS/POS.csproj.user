@@ -37,6 +37,9 @@
     <Compile Update="Cashier\QuantityDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Inventory Manager\InventoryManagerDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="LogIn\LogInForm.cs">
       <SubType>Form</SubType>
     </Compile>

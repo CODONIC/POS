@@ -1,5 +1,8 @@
 ﻿using Npgsql;
+using POS.Inventory_Manager;
 using System;
+using System.Data;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,6 +13,7 @@ namespace POS.Admin
         private readonly string _username, _companyName, _companyId;
         private readonly ProductService _productService;
         private string _selectedProductId;
+        private readonly string _role;
 
         public ManageProdFrm(string username, string companyName)
         {
@@ -19,15 +23,51 @@ namespace POS.Admin
             _companyName = companyName;
             _companyId = GetCompanyId(companyName);
             _productService = new ProductService(_companyId);
+            _role = GetUserRole(username);
 
-            lblAdminName.Text = $"{_username} | Admin";
-            titleLabel.Text = $"{_companyName} ";
+            // Set title based on role
+            if (_role == "INVENTORY MANAGER")
+            {
+                lblAdminName.Text = $"{_username} | Inventory Manager";
+                titleLabel.Text = $"{_companyName} (View Mode)";
+                
+            }
+            else
+            {
+                lblAdminName.Text = $"{_username} | Admin";
+                titleLabel.Text = $"{_companyName} ";
+            }
+
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
             InitializeShortcuts();
             this.Load += async (s, e) => { await LoadProductsAsync(); await LoadCategoriesAsync(); };
         }
+
+        private string GetUserRole(string username)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                const string query = @"
+                    SELECT r.name 
+                    FROM public.users u
+                    JOIN public.roles r ON u.role_id = r.id
+                    WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                return cmd.ExecuteScalar()?.ToString()?.ToUpper();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error resolving role: {ex.Message}");
+                return null;
+            }
+        }
+
+        
 
         private string GetCompanyId(string companyName)
         {
@@ -97,6 +137,14 @@ namespace POS.Admin
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
+            // Prevent Inventory Manager from adding
+            if (_role == "INVENTORY MANAGER")
+            {
+                MessageBox.Show("Inventory Managers do not have permission to add products.",
+                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var result = ProductValidator.ValidateInputs(
                 txtProductCode.Text.Trim(),
                 txtProductName.Text.Trim(),
@@ -104,7 +152,7 @@ namespace POS.Admin
                 txtReorderLevel.Text.Trim(),
                 cmbCategory.SelectedItem);
 
-            if (!result.IsValid)  // ← Fix: use .IsValid property
+            if (!result.IsValid)
             {
                 MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -135,6 +183,14 @@ namespace POS.Admin
 
         private async void btnEdit_Click(object sender, EventArgs e)
         {
+            // Prevent Inventory Manager from editing
+            if (_role == "INVENTORY MANAGER")
+            {
+                MessageBox.Show("Inventory Managers do not have permission to edit products.",
+                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrEmpty(_selectedProductId))
             {
                 MessageBox.Show("Please select a product to edit.", "No Selection",
@@ -149,7 +205,7 @@ namespace POS.Admin
                 txtReorderLevel.Text.Trim(),
                 cmbCategory.SelectedItem);
 
-            if (!result.IsValid)  // ← Fix: use .IsValid property
+            if (!result.IsValid)
             {
                 MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -173,8 +229,19 @@ namespace POS.Admin
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
+            // Prevent Inventory Manager from deleting
+            if (_role == "INVENTORY MANAGER")
+            {
+                MessageBox.Show("Inventory Managers do not have permission to delete products.",
+                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrEmpty(_selectedProductId))
-            { MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            {
+                MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
@@ -199,7 +266,22 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
         private void btnClear_Click(object sender, EventArgs e) => ClearFields();
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName).Show(); Hide(); }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            // Return to appropriate dashboard based on role
+            if (_role == "INVENTORY MANAGER")
+            {
+                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName);
+                inventoryDashboard.Show();
+            }
+            else
+            {
+                var adminDashboard = new AdminDashboard(_username, _companyName);
+                adminDashboard.Show();
+            }
+            this.Hide();
+        }
 
         private void InitializeShortcuts()
         {
@@ -207,16 +289,18 @@ namespace POS.Admin
             KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
-                else if (e.KeyCode == Keys.F1) btnAdd_Click(s, e);
-                else if (e.KeyCode == Keys.F2) btnEdit_Click(s, e);
-                else if (e.KeyCode == Keys.F3) btnDelete_Click(s, e);
+                else if (e.KeyCode == Keys.F1 && _role != "INVENTORY MANAGER") btnAdd_Click(s, e);
+                else if (e.KeyCode == Keys.F2 && _role != "INVENTORY MANAGER") btnEdit_Click(s, e);
+                else if (e.KeyCode == Keys.F3 && _role != "INVENTORY MANAGER") btnDelete_Click(s, e);
                 else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
                 e.Handled = true;
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnBack, "ESC"); toolTip.SetToolTip(btnAdd, "F1");
-            toolTip.SetToolTip(btnEdit, "F2"); toolTip.SetToolTip(btnDelete, "F3");
+            toolTip.SetToolTip(btnBack, "ESC");
+            toolTip.SetToolTip(btnAdd, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F1");
+            toolTip.SetToolTip(btnEdit, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F2");
+            toolTip.SetToolTip(btnDelete, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F3");
             toolTip.SetToolTip(btnClear, "F4");
         }
     }

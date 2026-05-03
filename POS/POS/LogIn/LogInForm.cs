@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using POS.Inventory_Manager;
 using POS.Properties;
 
 namespace POS
@@ -42,10 +43,12 @@ namespace POS
 
             if (result.Role == "ADMIN")
                 new AdminDashboard(username, result.CompanyName).Show();
-            else
+            else if(result.Role == "CASHIER")
                 new CashierDashboard(username, result.CompanyName).Show();
+            else if(result.Role == "INVENTORY MANAGER")
+                new InventoryManagerDashboard(username, result.CompanyName).Show();
 
-            Hide();
+                Hide();
         }
 
         private (string username, string password, string company) GetSanitizedInputs()

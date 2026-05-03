@@ -243,3 +243,5 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\refi
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.pdb
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Debug\net8.0-windows\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Inventory_Manager.InventoryManagerDashboard.resources

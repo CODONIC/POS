@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using POS.Inventory_Manager;
 using System;
 using System.Data;
 using System.Drawing;
@@ -12,6 +13,7 @@ namespace POS.Admin
         private readonly string _username, _companyName, _companyId;
         private readonly StockService _stockService;
         private DataTable _pendingChanges;
+        private readonly string _role;
 
         public ManageStocks(string username, string companyName)
         {
@@ -21,9 +23,20 @@ namespace POS.Admin
             _companyName = companyName;
             _companyId = GetCompanyId(companyName);
             _stockService = new StockService(_companyId);
+            _role = GetUserRole(username);
 
-            lblAdminName.Text = $"{_username} | Admin";
-            titleLabel.Text = $"{_companyName} ";
+            // Set title based on role
+            if (_role == "INVENTORY MANAGER")
+            {
+                lblAdminName.Text = $"{_username} | Inventory Manager";
+                titleLabel.Text = $"{_companyName} (Stock Management)";
+            }
+            else
+            {
+                lblAdminName.Text = $"{_username} | Admin";
+                titleLabel.Text = $"{_companyName} ";
+            }
+
             SetUserContext(_username, _companyId);
 
             SetupDataGridViews();
@@ -32,6 +45,28 @@ namespace POS.Admin
 
             InitializeShortcuts();
             this.Load += async (s, e) => await LoadProductsAsync();
+        }
+
+        private string GetUserRole(string username)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                const string query = @"
+                    SELECT r.name 
+                    FROM public.users u
+                    JOIN public.roles r ON u.role_id = r.id
+                    WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                return cmd.ExecuteScalar()?.ToString()?.ToUpper();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error resolving role: {ex.Message}");
+                return null;
+            }
         }
 
         private string GetCompanyId(string companyName)
@@ -58,7 +93,7 @@ namespace POS.Admin
             dgvPending.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPending.ReadOnly = true;
             dgvPending.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPending.AutoGenerateColumns = true; // Let it auto-generate columns from the DataTable
+            dgvPending.AutoGenerateColumns = true;
         }
 
         private async Task LoadProductsAsync()
@@ -76,7 +111,6 @@ namespace POS.Admin
                 dt.Columns["stocked_in_date"].ColumnName = "Stocked In Date";
                 dgvAllProducts.DataSource = dt;
 
-                // Format the dgvAllProducts columns
                 if (dgvAllProducts.Columns["Price"] != null)
                     dgvAllProducts.Columns["Price"].DefaultCellStyle.Format = "C2";
             }
@@ -92,11 +126,13 @@ namespace POS.Admin
             txtCategory.Text = row.Cells["Category"].Value?.ToString();
             txtUnitPrice.Text = row.Cells["Price"].Value?.ToString();
             txtStockInDate.Text = row.Cells["Stocked In Date"].Value?.ToString();
+
+            
         }
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
-            // Validate stock selection
+            // Inventory Manager can add stock
             var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
             if (!selectionResult.IsValid)
             {
@@ -105,7 +141,6 @@ namespace POS.Admin
                 return;
             }
 
-            // Validate quantity
             var quantityResult = StockValidator.ValidateQuantity(txtAdd, "add");
             if (!quantityResult.IsValid)
             {
@@ -128,7 +163,7 @@ namespace POS.Admin
 
         private void btnRemoveStock_Click(object sender, EventArgs e)
         {
-            // Validate stock selection
+            // Inventory Manager can remove stock
             var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
             if (!selectionResult.IsValid)
             {
@@ -137,7 +172,6 @@ namespace POS.Admin
                 return;
             }
 
-            // Validate quantity
             var row = dgvAllProducts.SelectedRows[0];
             int currentQty = Convert.ToInt32(row.Cells["Quantity"].Value);
 
@@ -164,7 +198,6 @@ namespace POS.Admin
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            // Validate pending changes
             var changesResult = StockValidator.ValidatePendingChanges(_pendingChanges);
             if (!changesResult.IsValid)
             {
@@ -241,15 +274,23 @@ namespace POS.Admin
                 if (confirmResult != DialogResult.Yes) return;
             }
 
-            new AdminDashboard(_username, _companyName).Show();
+            // Return to appropriate dashboard based on role
+            if (_role == "INVENTORY MANAGER")
+            {
+                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName);
+                inventoryDashboard.Show();
+            }
+            else
+            {
+                var adminDashboard = new AdminDashboard(_username, _companyName);
+                adminDashboard.Show();
+            }
             Close();
         }
 
         private void UpdatePendingGrid()
         {
             dgvPending.Refresh();
-            // Optional: Add a label to show count
-            // lblPendingCount.Text = $"Pending: {_pendingChanges.Rows.Count}";
         }
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
@@ -268,11 +309,24 @@ namespace POS.Admin
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnBack, "ESC");
-            toolTip.SetToolTip(btnAddStock, "F1");
-            toolTip.SetToolTip(btnRemoveStock, "F2");
-            toolTip.SetToolTip(btnSave, "F3");
-            toolTip.SetToolTip(btnCancel, "F4");
+
+            // Custom tooltips based on role
+            if (_role == "INVENTORY MANAGER")
+            {
+                toolTip.SetToolTip(btnBack, "ESC - Return to Inventory Dashboard");
+                toolTip.SetToolTip(btnAddStock, "F1 - Add Stock");
+                toolTip.SetToolTip(btnRemoveStock, "F2 - Remove Stock");
+                toolTip.SetToolTip(btnSave, "F3 - Save Changes");
+                toolTip.SetToolTip(btnCancel, "F4 - Cancel");
+            }
+            else
+            {
+                toolTip.SetToolTip(btnBack, "ESC");
+                toolTip.SetToolTip(btnAddStock, "F1");
+                toolTip.SetToolTip(btnRemoveStock, "F2");
+                toolTip.SetToolTip(btnSave, "F3");
+                toolTip.SetToolTip(btnCancel, "F4");
+            }
         }
     }
 }

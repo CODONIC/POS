@@ -602,7 +602,7 @@
       "System.Configuration.ConfigurationManager/8.0.0": {
         "dependencies": {
           "System.Diagnostics.EventLog": "8.0.0",
-          "System.Security.Cryptography.ProtectedData": "8.0.0"
+          "System.Security.Cryptography.ProtectedData": "10.0.7"
         },
         "runtime": {
           "lib/net8.0/System.Configuration.ConfigurationManager.dll": {
@@ -704,11 +704,11 @@
           }
         }
       },
-      "System.Security.Cryptography.ProtectedData/8.0.0": {
+      "System.Security.Cryptography.ProtectedData/10.0.7": {
         "runtime": {
           "lib/net8.0/System.Security.Cryptography.ProtectedData.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.726.21808"
           }
         }
       },
@@ -1182,12 +1182,12 @@
       "path": "system.security.cryptography.pkcs/8.0.1",
       "hashPath": "system.security.cryptography.pkcs.8.0.1.nupkg.sha512"
     },
-    "System.Security.Cryptography.ProtectedData/8.0.0": {
+    "System.Security.Cryptography.ProtectedData/10.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+TUFINV2q2ifyXauQXRwy4CiBhqvDEDZeVJU7qfxya4aRYOKzVBpN+4acx25VcPB9ywUN6C0n8drWl110PhZEg==",
-      "path": "system.security.cryptography.protecteddata/8.0.0",
-      "hashPath": "system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
+      "sha512": "sha512-eqKW9wyPUhZi6pxy9Y0fQO/bdHROcwj0tYdmoGEPCPCtCJLFdVVAlzuuYYEnJI64HxhoXPYGhtx891g/jwN4rg==",
+      "path": "system.security.cryptography.protecteddata/10.0.7",
+      "hashPath": "system.security.cryptography.protecteddata.10.0.7.nupkg.sha512"
     },
     "System.Security.Cryptography.Xml/8.0.3": {
       "type": "package",

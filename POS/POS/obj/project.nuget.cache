@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qH166dDCn3g=",
+  "dgSpecHash": "pDrXMwrFCAw=",
   "success": true,
   "projectFilePath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
   "expectedPackageFiles": [
@@ -61,7 +61,7 @@
     "C:\\Users\\Kris\\.nuget\\packages\\system.management\\7.0.0\\system.management.7.0.0.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\system.reactive\\6.0.0\\system.reactive.6.0.0.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512",
-    "C:\\Users\\Kris\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
+    "C:\\Users\\Kris\\.nuget\\packages\\system.security.cryptography.protecteddata\\10.0.7\\system.security.cryptography.protecteddata.10.0.7.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\system.security.cryptography.xml\\8.0.3\\system.security.cryptography.xml.8.0.3.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\system.security.permissions\\8.0.0\\system.security.permissions.8.0.0.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\system.threading.channels\\8.0.0\\system.threading.channels.8.0.0.nupkg.sha512",
