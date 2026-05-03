@@ -42,6 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Admin\Settings Related\" />
+    <Folder Include="Manager\" />
+    <Folder Include="Inventory Manager\" />
+    <Folder Include="Chef\" />
+    <Folder Include="Customer\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
 

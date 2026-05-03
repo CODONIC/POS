@@ -1068,3 +1068,13 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\wi
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\ref\POS.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\libSkiaSharp.pdb
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\win-x64\POS.Admin.EmployeeLogsFrm.resources
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\EPPlus.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\EPPlus.Interfaces.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Configuration.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Primitives.dll

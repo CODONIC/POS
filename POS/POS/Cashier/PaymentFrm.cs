@@ -1,8 +1,6 @@
 ﻿using Npgsql;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,22 +8,11 @@ namespace POS.Cashier
 {
     public partial class PaymentFrm : BaseForm
     {
-        private string _username;
-        private string _companyName;
-        private string _companyId;
-        private string _transactionNumber;
-        private DataTable _cartItems;
-
-        // Original subtotal (before any discount) — never changes
-        private decimal _originalSubtotal;
-
-        // Received pre-calculated values (may be recalculated when discount changes)
-        private decimal _subtotal;
-        private decimal _discountPercentage;
-        private decimal _discountAmount;
-        private decimal _vatableAmount;
-        private decimal _vatAmount;
-        private decimal _totalAmount;
+        private readonly PaymentService _paymentService;
+        private readonly PaymentCalculator _calculator;
+        private readonly string _transactionNumber;
+        private readonly DataTable _cartItems;
+        private readonly decimal _originalSubtotal;
 
         public PaymentFrm(string username, string companyName, string transactionNumber,
                           DataTable cartItems, decimal subtotal, decimal discountPercentage,
@@ -34,373 +21,102 @@ namespace POS.Cashier
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
 
-            _username = username;
-            _companyName = companyName;
+            var companyId = GetCompanyId(companyName);
+            _paymentService = new PaymentService(companyId, username);
+            _calculator = new PaymentCalculator(subtotal, discountPercentage);
             _transactionNumber = transactionNumber;
             _cartItems = cartItems;
-            _subtotal = subtotal;
-            _discountPercentage = discountPercentage;
-            _discountAmount = discountAmount;
-            _vatableAmount = vatableAmount;
-            _vatAmount = vatAmount;
-            _totalAmount = totalAmount;
-
-            // Store original subtotal so recalculations always start from base price
             _originalSubtotal = subtotal;
 
-            // Get company ID
-            _companyId = GetCompanyId(_companyName);
-
-            // Initialize payment method combo box
-            InitializePaymentMethodComboBox();
-
-            // Display pre-calculated values
-            DisplayAmounts();
-
-            // Set default values
-            txtCustomerPayment.Text = "0";
-            txtChange.Text = "₱ 0.00";
-            lblCashierName.Text = $"{_username} | Cashier";
-            titleLabel.Text = $"{_companyName} ";
-
-            // Wire up discount TextChanged event
-            txtDiscountPercent.TextChanged += txtDiscountPercent_TextChanged;
-            txtCustomerPayment.TextChanged += txtCustomerPayment_TextChanged;
-
-            // Calculate initial change
-            CalculateChange();
+            InitializeForm(username, companyName);
         }
 
         private string GetCompanyId(string companyName)
         {
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    string query = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", companyName);
-                        var result = cmd.ExecuteScalar();
-                        return result?.ToString();
-                    }
-                }
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand("SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1", conn);
+                cmd.Parameters.AddWithValue("@name", companyName);
+                return cmd.ExecuteScalar()?.ToString();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error resolving company:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+            catch { return null; }
         }
 
-        private void InitializePaymentMethodComboBox()
+        private void InitializeForm(string username, string companyName)
         {
-            guna2ComboBox1.Items.Clear();
-            guna2ComboBox1.Items.Add("Cash");
-            guna2ComboBox1.Items.Add("Credit Card");
-            guna2ComboBox1.Items.Add("Debit Card");
-            guna2ComboBox1.Items.Add("GCash");
-            guna2ComboBox1.Items.Add("PayMaya");
+            lblCashierName.Text = $"{username} | Cashier";
+            titleLabel.Text = $"{companyName} ";
+
+            guna2ComboBox1.Items.AddRange(new[] { "Cash", "Credit Card", "Debit Card", "GCash", "PayMaya" });
             guna2ComboBox1.SelectedIndex = 0;
             guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-        }
 
-        private void DisplayAmounts()
-        {
-            txtDiscountPercent.Text = _discountPercentage.ToString();
-            txtTotalToPay.Text = _totalAmount.ToString("F2");
+            txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
+            txtTotalToPay.Text = _calculator.TotalAmount.ToString("F2");
             txtTransactionNo.Text = _transactionNumber;
+            txtCustomerPayment.Text = "0";
+            txtChange.Text = "₱ 0.00";
+            btnConfirmPayment.Enabled = false;
+
+            txtDiscountPercent.TextChanged += (s, e) => { _calculator.Recalculate(GetDiscountPercent()); UpdateDisplay(); CalculateChange(); };
+            txtCustomerPayment.TextChanged += (s, e) => CalculateChange();
+            txtCustomerPayment.KeyPress += (s, e) => e.Handled = (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.') ||
+                (e.KeyChar == '.' && (s as TextBox).Text.Contains("."));
         }
 
-        // Fires whenever the user edits the Discount % field
-        private void txtDiscountPercent_TextChanged(object sender, EventArgs e)
+        private decimal GetDiscountPercent() => decimal.TryParse(txtDiscountPercent.Text, out var pct) ? Math.Clamp(pct, 0, 100) : 0;
+
+        private void UpdateDisplay()
         {
-            RecalculateTotal();
-            CalculateChange();
-        }
-
-        // Recalculates all amounts from the original subtotal based on the current discount %
-        private void RecalculateTotal()
-        {
-            // Parse discount; default to 0 if invalid
-            if (!decimal.TryParse(txtDiscountPercent.Text, out decimal newDiscountPct))
-                newDiscountPct = 0;
-
-            // Clamp discount between 0 and 100
-            if (newDiscountPct < 0) newDiscountPct = 0;
-            if (newDiscountPct > 100) newDiscountPct = 100;
-
-            // Recalculate from original (base) subtotal
-            _discountPercentage = newDiscountPct;
-            _discountAmount = _originalSubtotal * (_discountPercentage / 100m);
-
-            decimal discountedAmount = _originalSubtotal - _discountAmount;
-
-            // VAT-inclusive breakdown (12% VAT)
-            _vatableAmount = discountedAmount / 1.12m;
-            _vatAmount = _vatableAmount * 0.12m;
-            _totalAmount = discountedAmount;
-
-            // Update the displayed total
-            txtTotalToPay.Text = _totalAmount.ToString("F2");
-           
+            txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
+            txtTotalToPay.Text = _calculator.TotalAmount.ToString("F2");
         }
 
         private void CalculateChange()
         {
-            if (string.IsNullOrEmpty(txtCustomerPayment.Text) ||
-                !decimal.TryParse(txtCustomerPayment.Text, out decimal customerPayment))
-            {
-                customerPayment = 0;
-            }
-
-            decimal change = customerPayment - _totalAmount;
-
-            if (change < 0)
-            {
-                txtChange.Text = "₱ 0.00";
-                btnConfirmPayment.Enabled = false;
-            }
-            else
-            {
-                txtChange.Text = $"₱ {change:F2}";
-                btnConfirmPayment.Enabled = true;
-            }
-        }
-
-        private void txtCustomerPayment_TextChanged(object sender, EventArgs e)
-        {
-            CalculateChange();
-        }
-
-        private void txtCustomerPayment_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Allow only digits, one decimal point, and control keys (backspace etc.)
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-
-            if (e.KeyChar == '.' && (sender as TextBox).Text.Contains("."))
-            {
-                e.Handled = true;
-            }
+            decimal payment = decimal.TryParse(txtCustomerPayment.Text, out var p) ? p : 0;
+            decimal change = _calculator.CalculateChange(payment);
+            txtChange.Text = $"₱ {change:F2}";
+            btnConfirmPayment.Enabled = _calculator.IsPaymentSufficient(payment);
         }
 
         private async void btnConfirmPayment_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtCustomerPayment.Text) ||
-                !decimal.TryParse(txtCustomerPayment.Text, out decimal customerPayment))
-            {
-                MessageBox.Show("Please enter a valid payment amount.", "Invalid Payment",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (!decimal.TryParse(txtCustomerPayment.Text, out decimal payment) || payment <= 0)
+            { ShowError("Please enter a valid payment amount.", "Invalid Payment"); return; }
 
-            if (customerPayment < _totalAmount)
-            {
-                MessageBox.Show(
-                    $"Insufficient payment amount!\n\nTotal to Pay: ₱{_totalAmount:F2}\nCustomer Payment: ₱{customerPayment:F2}",
-                    "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            if (!_calculator.IsPaymentSufficient(payment))
+            { ShowError($"Insufficient payment!\nTotal: ₱{_calculator.TotalAmount:F2}\nPayment: ₱{payment:F2}", "Payment Error"); return; }
 
-            decimal change = customerPayment - _totalAmount;
-            string paymentMethod = guna2ComboBox1.SelectedItem?.ToString() ?? "Cash";
+            string method = guna2ComboBox1.SelectedItem?.ToString() ?? "Cash";
+            decimal change = _calculator.CalculateChange(payment);
 
-            // Confirm payment
-            DialogResult result = MessageBox.Show(
-                $"Payment Confirmation:\n\n" +
-                $"Transaction #: {_transactionNumber}\n" +
-                $"Subtotal: ₱{_originalSubtotal:F2}\n" +
-                $"Discount ({_discountPercentage}%): -₱{_discountAmount:F2}\n" +
-                $"VATable Amount: ₱{_vatableAmount:F2}\n" +
-                $"VAT (12%): ₱{_vatAmount:F2}\n" +
-                $"Total to Pay: ₱{_totalAmount:F2}\n" +
-                $"Payment Method: {paymentMethod}\n" +
-                $"Customer Payment: ₱{customerPayment:F2}\n" +
-                $"Change: ₱{change:F2}\n\n" +
-                $"Proceed with payment?",
-                "Confirm Payment",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            if (PaymentValidator.ConfirmPayment(_transactionNumber, _originalSubtotal, _calculator.DiscountPercentage,
+                _calculator.DiscountAmount, _calculator.VatableAmount, _calculator.VatAmount, _calculator.TotalAmount,
+                method, payment, change) != DialogResult.Yes) return;
 
-            if (result == DialogResult.Yes)
-            {
-                bool saved = await SaveTransactionToDatabase(customerPayment, change, paymentMethod);
-
-                if (saved)
-                {
-                    await UpdateProductQuantities();
-
-                    MessageBox.Show(
-                        $"Payment Successful!\n\nChange: ₱{change:F2}\n\nThank you for your purchase!",
-                        "Payment Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to save transaction. Please try again.",
-                        "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private async Task<bool> SaveTransactionToDatabase(decimal customerPayment, decimal change, string paymentMethod)
-        {
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    await conn.OpenAsync();
+                var transactionId = await _paymentService.SaveTransactionAsync(_transactionNumber, _originalSubtotal,
+                    _calculator.DiscountPercentage, _calculator.DiscountAmount, _calculator.VatAmount,
+                    _calculator.VatableAmount, _calculator.TotalAmount, method, payment, change);
 
-                    using (var transaction = await conn.BeginTransactionAsync())
-                    {
-                        string insertTransaction = @"
-                            INSERT INTO transactions (
-                                transaction_number, company_id, cashier_name, 
-                                subtotal, discount_percentage, discount_amount, 
-                                vat_amount, vatable_amount, total_amount, 
-                                payment_method, customer_payment, change_amount, 
-                                transaction_date, status
-                            ) VALUES (
-                                @transactionNumber, @companyId::uuid, @cashierName,
-                                @subtotal, @discountPercentage, @discountAmount,
-                                @vatAmount, @vatableAmount, @totalAmount,
-                                @paymentMethod, @customerPayment, @changeAmount,
-                                @transactionDate, @status
-                            ) RETURNING id";
+                await _paymentService.SaveTransactionItemsAsync(transactionId, _cartItems);
+                await _paymentService.UpdateProductQuantitiesAsync(_cartItems);
 
-                        long transactionId;
-                        using (var cmd = new NpgsqlCommand(insertTransaction, conn, transaction))
-                        {
-                            cmd.Parameters.AddWithValue("@transactionNumber", _transactionNumber);
-                            cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
-                            cmd.Parameters.AddWithValue("@cashierName", _username);
-                            // Save the original subtotal to the DB, not the discounted one
-                            cmd.Parameters.AddWithValue("@subtotal", _originalSubtotal);
-                            cmd.Parameters.AddWithValue("@discountPercentage", _discountPercentage);
-                            cmd.Parameters.AddWithValue("@discountAmount", _discountAmount);
-                            cmd.Parameters.AddWithValue("@vatAmount", _vatAmount);
-                            cmd.Parameters.AddWithValue("@vatableAmount", _vatableAmount);
-                            cmd.Parameters.AddWithValue("@totalAmount", _totalAmount);
-                            cmd.Parameters.AddWithValue("@paymentMethod", paymentMethod);
-                            cmd.Parameters.AddWithValue("@customerPayment", customerPayment);
-                            cmd.Parameters.AddWithValue("@changeAmount", change);
-                            cmd.Parameters.AddWithValue("@transactionDate", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@status", "Completed");
-
-                            transactionId = (long)await cmd.ExecuteScalarAsync();
-                        }
-
-                        // Insert transaction items
-                        if (_cartItems.Rows.Count > 0)
-                        {
-                            var insertItemSql = new StringBuilder();
-                            insertItemSql.Append(@"
-                                INSERT INTO transaction_items (
-                                    transaction_id, product_code, product_name, 
-                                    quantity, price, subtotal
-                                ) VALUES ");
-
-                            var parameters = new List<NpgsqlParameter>();
-                            int paramIndex = 0;
-
-                            for (int i = 0; i < _cartItems.Rows.Count; i++)
-                            {
-                                DataRow item = _cartItems.Rows[i];
-                                if (i > 0) insertItemSql.Append(",");
-                                insertItemSql.Append(
-                                    $"(@transactionId, @productCode{paramIndex}, @productName{paramIndex}, " +
-                                    $"@quantity{paramIndex}, @price{paramIndex}, @subtotal{paramIndex})");
-
-                                parameters.Add(new NpgsqlParameter($"@productCode{paramIndex}", item["product_code"].ToString()));
-                                parameters.Add(new NpgsqlParameter($"@productName{paramIndex}", item["product_name"].ToString()));
-                                parameters.Add(new NpgsqlParameter($"@quantity{paramIndex}", Convert.ToInt32(item["quantity"])));
-                                parameters.Add(new NpgsqlParameter($"@price{paramIndex}", Convert.ToDecimal(item["price"])));
-                                parameters.Add(new NpgsqlParameter($"@subtotal{paramIndex}", Convert.ToDecimal(item["subtotal"])));
-                                paramIndex++;
-                            }
-
-                            using (var cmd = new NpgsqlCommand(insertItemSql.ToString(), conn, transaction))
-                            {
-                                cmd.Parameters.AddWithValue("@transactionId", transactionId);
-                                cmd.Parameters.AddRange(parameters.ToArray());
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-                        }
-
-                        await transaction.CommitAsync();
-                        return true;
-                    }
-                }
+                ShowSuccess($"Payment Successful!\nChange: ₱{change:F2}\nThank you!", "Payment Complete");
+                DialogResult = DialogResult.OK;
+                Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving transaction: {ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            catch (Exception ex) { ShowError($"Failed to save transaction: {ex.Message}", "Database Error"); }
         }
 
-        private async Task UpdateProductQuantities()
-        {
-            try
-            {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    await conn.OpenAsync();
+        private void btnClear_Click(object sender, EventArgs e) { txtCustomerPayment.Text = "0"; txtChange.Text = "₱ 0.00"; btnConfirmPayment.Enabled = false; txtCustomerPayment.Focus(); }
+        public override void CloseButton_Click(object sender, EventArgs e) => Close();
 
-                    using (var transaction = await conn.BeginTransactionAsync())
-                    {
-                        foreach (DataRow item in _cartItems.Rows)
-                        {
-                            string productCode = item["product_code"].ToString();
-                            int quantitySold = Convert.ToInt32(item["quantity"]);
-
-                            string updateQuery = @"
-                                UPDATE products 
-                                SET quantity = quantity - @soldQuantity 
-                                WHERE product_code = @productCode 
-                                AND company_id = @companyId::uuid
-                                AND quantity >= @soldQuantity";
-
-                            using (var cmd = new NpgsqlCommand(updateQuery, conn, transaction))
-                            {
-                                cmd.Parameters.AddWithValue("@soldQuantity", quantitySold);
-                                cmd.Parameters.AddWithValue("@productCode", productCode);
-                                cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-                        }
-
-                        await transaction.CommitAsync();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating inventory: {ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                throw;
-            }
-        }
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            txtCustomerPayment.Text = "0";
-            txtChange.Text = "₱ 0.00";
-            btnConfirmPayment.Enabled = false;
-            txtCustomerPayment.Focus();
-        }
-
-        public override void CloseButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void ShowError(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        private void ShowSuccess(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 }

@@ -1,39 +1,48 @@
 ﻿using Npgsql;
 using System;
 using System.Data;
+using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POS.Admin
 {
     public partial class ManageUsersFrm : BaseForm
     {
-        private string selectedUserId = null;
-        private string _username;
-        private string _companyName;
-        private string _companyId;
+        private readonly string _username, _companyName, _companyId;
+        private readonly UserService _userService;
+        private string _selectedUserId;
 
         public ManageUsersFrm(string username, string companyName)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
-            SetupDataGridView();
             _username = username;
             _companyName = companyName;
-            lblAdminName.Text = $"{_username} | Admin";
-            _companyId = GetCompanyId(_companyName);
+            _companyId = GetCompanyId(companyName);
+            _userService = new UserService(_companyId);
 
-            // Set user context for audit logging
+            lblAdminName.Text = $"{_username} | Admin";
+            titleLabel.Text = $"{_companyName} ";
             SetUserContext(_username, _companyId);
 
-            titleLabel.Text = $"{_companyName} ";
-            LoadUserLevels();
-            LoadUsers();
-            this.KeyPreview = true;
-            this.KeyDown += ManageUsersFrm_KeyDown;
-            ShortcutKeyHints();
+            SetupDataGridView();
+            InitializeShortcuts();
+            this.Load += async (s, e) => { await LoadRolesAsync(); await LoadUsersAsync(); };
         }
 
-        // ─── Setup ────────────────────────────────────────────────────────────────
+        private string GetCompanyId(string companyName)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand("SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1", conn);
+                cmd.Parameters.AddWithValue("@name", companyName);
+                return cmd.ExecuteScalar()?.ToString();
+            }
+            catch (Exception ex) { MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return null; }
+        }
 
         private void SetupDataGridView()
         {
@@ -41,110 +50,48 @@ namespace POS.Admin
             dgvUsers.MultiSelect = false;
             dgvUsers.ReadOnly = true;
             dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvUsers.SelectionChanged += dgvUsers_SelectionChanged;
+            dgvUsers.SelectionChanged += (s, e) => LoadSelectedUser();
         }
 
-        // ─── Resolve company name to ID ───────────────────────────────────────────
-
-        private string GetCompanyId(string companyName)
-        {
-            try
-            {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    string query = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", companyName);
-                        var result = cmd.ExecuteScalar();
-                        return result?.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error resolving company:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-
-        // ─── Load database ────────────────────────────────────────────────────────
-
-        private void LoadUsers(string search = "")
+        private async Task LoadUsersAsync()
         {
             if (string.IsNullOrEmpty(_companyId)) return;
-
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-
-                    string query = @"
-    SELECT u.id, u.username, u.last_name, u.first_name, u.middle_name,
-           u.contact_number, u.age, u.birthdate, r.name AS role
-    FROM public.users u
-    JOIN public.roles r ON u.role_id = r.id
-    WHERE u.company_id = @companyId
-      AND (
-           u.username       ILIKE @search
-        OR u.last_name      ILIKE @search
-        OR u.first_name     ILIKE @search
-        OR u.contact_number ILIKE @search
-      )
-    ORDER BY u.last_name, u.first_name";
-
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@companyId", Guid.Parse(_companyId));
-                        cmd.Parameters.AddWithValue("@search", $"%{search}%");
-
-                        var adapter = new NpgsqlDataAdapter(cmd);
-                        var dt = new DataTable();
-                        adapter.Fill(dt);
-
-                        dt.Columns["id"].ColumnName = "ID";
-                        dt.Columns["username"].ColumnName = "Username";
-                        dt.Columns["last_name"].ColumnName = "Last Name";
-                        dt.Columns["first_name"].ColumnName = "First Name";
-                        dt.Columns["middle_name"].ColumnName = "Middle Name";
-                        dt.Columns["contact_number"].ColumnName = "Contact #";
-                        dt.Columns["age"].ColumnName = "Age";
-                        dt.Columns["birthdate"].ColumnName = "Birthdate";
-                        dt.Columns["role"].ColumnName = "User Level";
-
-                        dgvUsers.DataSource = dt;
-
-                        if (dgvUsers.Columns["ID"] != null)
-                            dgvUsers.Columns["ID"].Visible = false;
-                    }
-                }
+                var dt = await _userService.GetUsersAsync(txtSearch.Text.Trim());
+                dt.Columns["id"].ColumnName = "ID";
+                dt.Columns["username"].ColumnName = "Username";
+                dt.Columns["last_name"].ColumnName = "Last Name";
+                dt.Columns["first_name"].ColumnName = "First Name";
+                dt.Columns["middle_name"].ColumnName = "Middle Name";
+                dt.Columns["contact_number"].ColumnName = "Contact #";
+                dt.Columns["age"].ColumnName = "Age";
+                dt.Columns["birthdate"].ColumnName = "Birthdate";
+                dt.Columns["role"].ColumnName = "User Level";
+                dgvUsers.DataSource = dt;
+                if (dgvUsers.Columns["ID"] != null)
+                    dgvUsers.Columns["ID"].Visible = false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading users:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show($"Error loading users:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        // ─── Search ───────────────────────────────────────────────────────────────
-
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private async Task LoadRolesAsync()
         {
-            LoadUsers(txtSearch.Text.Trim());
+            try
+            {
+                var roles = await _userService.GetRolesAsync();
+                cmbUserLevel.Items.Clear();
+                foreach (var role in roles)
+                    cmbUserLevel.Items.Add(role);
+            }
+            catch (Exception ex) { MessageBox.Show($"Error loading roles:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        // ─── Populate text boxes based on selection ───────────────────────────────
-
-        private void dgvUsers_SelectionChanged(object sender, EventArgs e)
+        private void LoadSelectedUser()
         {
             if (dgvUsers.SelectedRows.Count == 0) return;
-
             var row = dgvUsers.SelectedRows[0];
-
-            selectedUserId = row.Cells["ID"].Value?.ToString();
+            _selectedUserId = row.Cells["ID"].Value?.ToString();
             txtUsername.Text = row.Cells["Username"].Value?.ToString();
             txtPassword.Text = "";
             txtLastName.Text = row.Cells["Last Name"].Value?.ToString();
@@ -152,437 +99,126 @@ namespace POS.Admin
             txtMiddleName.Text = row.Cells["Middle Name"].Value?.ToString();
             txtContact.Text = row.Cells["Contact #"].Value?.ToString();
             txtAge.Text = row.Cells["Age"].Value?.ToString();
-
             if (DateTime.TryParse(row.Cells["Birthdate"].Value?.ToString(), out DateTime bd))
                 dtpBirthdate.Value = bd;
-
             cmbUserLevel.SelectedItem = row.Cells["User Level"].Value?.ToString();
         }
 
-        // ─── ADD ──────────────────────────────────────────────────────────────────
-
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!ValidateFields()) return;
+            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
+                cmbUserLevel.SelectedItem, txtAge.Text, txtPassword.Text, true);
 
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                MessageBox.Show("Password is required when adding a new user.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (!result.IsValid)
+            { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            try
-            {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
+            if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim()))
+            { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-                    using (var checkCmd = new NpgsqlCommand(
-                        "SELECT COUNT(*) FROM public.users WHERE username = @username AND company_id = @company_id", conn))
-                    {
-                        checkCmd.Parameters.AddWithValue("username", txtUsername.Text.Trim());
-                        checkCmd.Parameters.AddWithValue("company_id",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                        long count = (long)checkCmd.ExecuteScalar();
-                        if (count > 0)
-                        {
-                            MessageBox.Show("Username already exists in this company. Please choose another.",
-                                "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                    }
+            await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, cmbUserLevel.SelectedItem.ToString(),
+                txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(),
+                int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value);
 
-                    string query = @"
-INSERT INTO public.users
-    (username, password, role_id, first_name, last_name,
-     middle_name, contact_number, age, birthdate, company_id)
-VALUES
-    (@username, @password, (SELECT id FROM public.roles WHERE name = @role), @first_name, @last_name,
-     @middle_name, @contact_number, @age, @birthdate, @company_id)";
+            await AuditService.LogInsertAsync(_username, _companyId, "users", txtUsername.Text.Trim(),
+                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
+                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
 
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        AddAllParams(cmd, includePassword: true);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                // ✅ AUDIT LOG
-                await AuditService.LogInsertAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "users",
-                    recordId: txtUsername.Text.Trim(),
-                    newValuesJson: AuditService.ToJson(
-                        ("username", txtUsername.Text.Trim()),
-                        ("first_name", txtFirstName.Text.Trim()),
-                        ("last_name", txtLastName.Text.Trim()),
-                        ("middle_name", txtMiddleName.Text.Trim()),
-                        ("contact_number", txtContact.Text.Trim()),
-                        ("age", txtAge.Text.Trim()),
-                        ("role", cmbUserLevel.SelectedItem?.ToString())
-                    )
-                );
-
-                MessageBox.Show("User added successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                LoadUsers();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding user:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ClearFields();
+            await LoadUsersAsync();
         }
-
-        // ─── UPDATE ───────────────────────────────────────────────────────────────
 
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(selectedUserId))
-            {
-                MessageBox.Show("Please select a user from the list to update.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (string.IsNullOrEmpty(_selectedUserId))
+            { MessageBox.Show("Please select a user to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            if (!ValidateFields()) return;
+            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
+                cmbUserLevel.SelectedItem, txtAge.Text);
 
-            // Capture old values before update
-            string oldUsername = "";
-            string oldFirstName = "";
-            string oldLastName = "";
-            string oldRole = "";
-            string oldContact = "";
+            if (!result.IsValid)
+            { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            try
-            {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
+            var oldValues = await _userService.GetUserOldValuesAsync(_selectedUserId);
+            bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
 
-                    // Fetch old values for audit
-                    using (var fetchCmd = new NpgsqlCommand(
-                        @"SELECT u.username, u.first_name, u.last_name, u.middle_name,
-                         u.contact_number, u.age, r.name AS role
-                  FROM public.users u
-                  JOIN public.roles r ON u.role_id = r.id
-                  WHERE u.id = @id", conn))
-                    {
-                        fetchCmd.Parameters.AddWithValue("id",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
-                        using (var reader = fetchCmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                oldUsername = reader["username"].ToString();
-                                oldFirstName = reader["first_name"].ToString();
-                                oldLastName = reader["last_name"].ToString();
-                                oldContact = reader["contact_number"].ToString();
-                                oldRole = reader["role"].ToString();
-                            }
-                        }
-                    }
+            await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text,
+                cmbUserLevel.SelectedItem.ToString(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
+                txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null,
+                dtpBirthdate.Value, changePassword);
 
-                    bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
+            await AuditService.LogUpdateAsync(_username, _companyId, "users", _selectedUserId,
+                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
+                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)),
+                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
+                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
 
-                    string query = changePassword
-                        ? @"UPDATE public.users SET
-                        username       = @username,
-                        password       = @password,
-                        role_id        = (SELECT id FROM public.roles WHERE name = @role),
-                        first_name     = @first_name,
-                        last_name      = @last_name,
-                        middle_name    = @middle_name,
-                        contact_number = @contact_number,
-                        age            = @age,
-                        birthdate      = @birthdate
-                    WHERE id = @id"
-                        : @"UPDATE public.users SET
-                        username       = @username,
-                        role_id        = (SELECT id FROM public.roles WHERE name = @role),
-                        first_name     = @first_name,
-                        last_name      = @last_name,
-                        middle_name    = @middle_name,
-                        contact_number = @contact_number,
-                        age            = @age,
-                        birthdate      = @birthdate
-                    WHERE id = @id";
-
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        AddAllParams(cmd, includePassword: changePassword);
-                        cmd.Parameters.AddWithValue("id",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                // ✅ AUDIT LOG
-                await AuditService.LogUpdateAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "users",
-                    recordId: selectedUserId,
-                    oldValuesJson: AuditService.ToJson(
-                        ("username", oldUsername),
-                        ("first_name", oldFirstName),
-                        ("last_name", oldLastName),
-                        ("contact_number", oldContact),
-                        ("role", oldRole)
-                    ),
-                    newValuesJson: AuditService.ToJson(
-                        ("username", txtUsername.Text.Trim()),
-                        ("first_name", txtFirstName.Text.Trim()),
-                        ("last_name", txtLastName.Text.Trim()),
-                        ("contact_number", txtContact.Text.Trim()),
-                        ("role", cmbUserLevel.SelectedItem?.ToString())
-                    )
-                );
-
-                MessageBox.Show("User updated successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                LoadUsers();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating user:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ClearFields();
+            await LoadUsersAsync();
         }
-
-        // ─── DELETE ───────────────────────────────────────────────────────────────
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(selectedUserId))
-            {
-                MessageBox.Show("Please select a user from the list to delete.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (string.IsNullOrEmpty(_selectedUserId))
+            { MessageBox.Show("Please select a user to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            var confirm = MessageBox.Show(
-                $"Are you sure you want to delete \"{txtUsername.Text}\"?\nThis action cannot be undone.",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes) return;
 
-            if (confirm != DialogResult.Yes) return;
+            await _userService.DeleteUserAsync(_selectedUserId);
+            await AuditService.LogDeleteAsync(_username, _companyId, "users", _selectedUserId,
+                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
+                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
 
-            // Capture values before deletion
-            string deletedUsername = txtUsername.Text.Trim();
-            string deletedFirstName = txtFirstName.Text.Trim();
-            string deletedLastName = txtLastName.Text.Trim();
-            string deletedRole = cmbUserLevel.SelectedItem?.ToString();
-
-            try
-            {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    using (var cmd = new NpgsqlCommand(
-                        "DELETE FROM public.users WHERE id = @id", conn))
-                    {
-                        cmd.Parameters.AddWithValue("id",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedUserId));
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                // ✅ AUDIT LOG
-                await AuditService.LogDeleteAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "users",
-                    recordId: selectedUserId,
-                    oldValuesJson: AuditService.ToJson(
-                        ("username", deletedUsername),
-                        ("first_name", deletedFirstName),
-                        ("last_name", deletedLastName),
-                        ("role", deletedRole)
-                    )
-                );
-
-                MessageBox.Show("User deleted successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                LoadUsers();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error deleting user:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // ─── CLEAR ────────────────────────────────────────────────────────────────
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
+            MessageBox.Show("User deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
+            await LoadUsersAsync();
         }
 
         private void ClearFields()
         {
-            selectedUserId = null;
-            txtUsername.Text = "";
-            txtPassword.Text = "";
-            txtLastName.Text = "";
-            txtFirstName.Text = "";
-            txtMiddleName.Text = "";
-            txtContact.Text = "";
-            txtAge.Text = "";
+            _selectedUserId = null;
+            txtUsername.Text = txtPassword.Text = txtLastName.Text = txtFirstName.Text =
+            txtMiddleName.Text = txtContact.Text = txtAge.Text = "";
             dtpBirthdate.Value = DateTime.Today;
             cmbUserLevel.SelectedIndex = -1;
             dgvUsers.ClearSelection();
         }
 
+        private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadUsersAsync();
+        private void btnClear_Click(object sender, EventArgs e) => ClearFields();
+        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName).Show(); Close(); }
 
-        // ─── Helpers ──────────────────────────────────────────────────────────────
-
-        private bool ValidateFields()
+        private void InitializeShortcuts()
         {
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
-            { MessageBox.Show("Username is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
-
-            if (string.IsNullOrWhiteSpace(txtLastName.Text))
-            { MessageBox.Show("Last Name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
-
-            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
-            { MessageBox.Show("First Name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
-
-            if (cmbUserLevel.SelectedItem == null)
-            { MessageBox.Show("Please select a User Level (ADMIN or CASHIER).", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
-
-            if (!string.IsNullOrWhiteSpace(txtAge.Text) && !int.TryParse(txtAge.Text, out _))
-            { MessageBox.Show("Age must be a valid number.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return false; }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Adds shared parameters to a command. Pass includePassword=true for INSERT and password-changing UPDATE.
-        /// </summary>
-        private void AddAllParams(NpgsqlCommand cmd, bool includePassword)
-        {
-            cmd.Parameters.AddWithValue("username", txtUsername.Text.Trim());
-            cmd.Parameters.AddWithValue("role", cmbUserLevel.SelectedItem.ToString());
-            cmd.Parameters.AddWithValue("first_name", txtFirstName.Text.Trim());
-            cmd.Parameters.AddWithValue("last_name", txtLastName.Text.Trim());
-            cmd.Parameters.AddWithValue("middle_name", (object)txtMiddleName.Text.Trim() ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("contact_number", (object)txtContact.Text.Trim() ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("age", int.TryParse(txtAge.Text, out int a) ? (object)a : DBNull.Value);
-            cmd.Parameters.AddWithValue("birthdate", dtpBirthdate.Value.Date);
-            cmd.Parameters.AddWithValue("company_id", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-            if (includePassword)
-                cmd.Parameters.AddWithValue("password", txtPassword.Text);
-        }
-
-        // ─── Load User Levels ─────────────────────────────────────────────────────
-
-        private void LoadUserLevels()
-        {
-            try
+            KeyPreview = true;
+            KeyDown += (s, e) =>
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
+                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
+                else if (e.KeyCode == Keys.F1) btnAdd_Click(s, e);
+                else if (e.KeyCode == Keys.F2) btnUpdate_Click(s, e);
+                else if (e.KeyCode == Keys.F3) btnDelete_Click(s, e);
+                else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
+                e.Handled = true;
+            };
 
-                    string query = "SELECT name FROM public.roles ORDER BY name";
-
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        cmbUserLevel.Items.Clear();
-
-                        while (reader.Read())
-                        {
-                            cmbUserLevel.Items.Add(reader["name"].ToString());
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading roles:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // ─── Back ─────────────────────────────────────────────────────────────────
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            AdminDashboard admin = new AdminDashboard(_username, _companyName);
-            admin.Show();
-            this.Close();
-        }
-
-        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
-
-        private void ManageUsersFrm_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Escape:
-                    btnBack_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F1:
-                    btnAdd_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F2:
-                    btnUpdate_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F3:
-                    btnDelete_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F4:
-                    btnClear_Click(sender, e);
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void ShortcutKeyHints()
-        {
-            //Shortcut keys:
-
-            ToolTip toolTip = new ToolTip();
-            toolTip.InitialDelay = 200; // ms before tooltip appears
-            toolTip.ShowAlways = true;
-
-            toolTip.SetToolTip(btnBack, "ESC");
-            toolTip.SetToolTip(btnAdd, "F1");
-            toolTip.SetToolTip(btnUpdate, "F2");
-            toolTip.SetToolTip(btnDelete, "F3");
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+            toolTip.SetToolTip(btnBack, "ESC"); toolTip.SetToolTip(btnAdd, "F1");
+            toolTip.SetToolTip(btnUpdate, "F2"); toolTip.SetToolTip(btnDelete, "F3");
             toolTip.SetToolTip(btnClear, "F4");
+
             AttachHoverEffect(btnBack, "BACK", "ESC");
             AttachHoverEffect(btnAdd, "ADD", "F1");
             AttachHoverEffect(btnUpdate, "EDIT", "F2");
             AttachHoverEffect(btnDelete, "DELETE", "F3");
             AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
+
         private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
         {
             Point originalLocation = btn.Location;
-
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Text = $"{defaultText}\n({shortcut})";
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-            };
-
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Text = defaultText;
-                btn.Location = originalLocation;
-            };
+            btn.MouseEnter += (s, e) => { btn.Text = $"{defaultText}\n({shortcut})"; btn.Location = new Point(originalLocation.X, originalLocation.Y - 3); };
+            btn.MouseLeave += (s, e) => { btn.Text = defaultText; btn.Location = originalLocation; };
         }
     }
 }

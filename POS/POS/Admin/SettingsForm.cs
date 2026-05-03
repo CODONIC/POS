@@ -24,5 +24,10 @@ namespace POS.Admin
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
         }
+
+        public override void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

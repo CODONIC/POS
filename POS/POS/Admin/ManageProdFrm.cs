@@ -1,23 +1,14 @@
-﻿
-using Npgsql;
+﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace POS.Admin
 {
     public partial class ManageProdFrm : BaseForm
     {
-        private string _username;
-        private string _companyName;
-        private string _companyId;
+        private readonly string _username, _companyName, _companyId;
+        private readonly ProductService _productService;
         private string _selectedProductId;
 
         public ManageProdFrm(string username, string companyName)
@@ -26,50 +17,30 @@ namespace POS.Admin
             InitializeTitleBar(closeButton, titleBar, titleLabel);
             _username = username;
             _companyName = companyName;
+            _companyId = GetCompanyId(companyName);
+            _productService = new ProductService(_companyId);
+
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
-            this.KeyPreview = true;
-            this.KeyDown += ManageProdFrm_KeyDown;
-            ShortcutKeyHints();
-            _companyId = GetCompanyId(_companyName);
             SetUserContext(_username, _companyId);
+
             SetupDataGridView();
-            LoadCategories();
+            InitializeShortcuts();
+            this.Load += async (s, e) => { await LoadProductsAsync(); await LoadCategoriesAsync(); };
         }
-        // ─── Load Form ────────────────────────────────────────────────────────────
-
-        private async void ManageProdFrm_Load(object sender, EventArgs e)
-        {
-            await LoadProductsAsync();
-        }
-
-        // ─── Resolve company name to ID ───────────────────────────────────────────
 
         private string GetCompanyId(string companyName)
         {
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    string query = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", companyName);
-                        var result = cmd.ExecuteScalar();
-                        return result?.ToString();
-                    }
-                }
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand("SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1", conn);
+                cmd.Parameters.AddWithValue("@name", companyName);
+                return cmd.ExecuteScalar()?.ToString();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error resolving company:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+            catch (Exception ex) { MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return null; }
         }
-
-        // ─── Setup DataGridView ───────────────────────────────────────────────────
 
         private void SetupDataGridView()
         {
@@ -77,108 +48,42 @@ namespace POS.Admin
             dgvProducts.MultiSelect = false;
             dgvProducts.ReadOnly = true;
             dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
+            dgvProducts.SelectionChanged += (s, e) => LoadSelectedProduct();
         }
 
-        // ─── Load Products ────────────────────────────────────────────────────────
-
-        private async Task LoadProductsAsync(string search = "")
+        private async Task LoadProductsAsync()
         {
             if (string.IsNullOrEmpty(_companyId)) return;
-
             try
             {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                string sql = @"
-    SELECT p.product_code, p.product_name, p.price, 
-           p.quantity, p.reorder_level, c.name AS category
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.company_id = @companyId
-      AND (
-           p.product_code ILIKE @search
-        OR p.product_name ILIKE @search
-        OR c.name         ILIKE @search
-      )
-    ORDER BY p.product_name";
-
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                cmd.Parameters.AddWithValue("search", $"%{search}%");
-
-                var adapter = new NpgsqlDataAdapter(cmd);
-                var dt = new DataTable();
-                adapter.Fill(dt);
-
+                var dt = await _productService.GetProductsAsync(txtSearch.Text.Trim());
                 dt.Columns["product_code"].ColumnName = "Code";
                 dt.Columns["product_name"].ColumnName = "Product Name";
                 dt.Columns["price"].ColumnName = "Price";
                 dt.Columns["quantity"].ColumnName = "Quantity";
                 dt.Columns["reorder_level"].ColumnName = "Reorder Level";
                 dt.Columns["category"].ColumnName = "Category";
-
                 dgvProducts.DataSource = dt;
-
-
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to load products:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show($"Failed to load products:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        // ─── Load Categories into ComboBox ────────────────────────────────────────
-
-        private void LoadCategories()
+        private async Task LoadCategoriesAsync()
         {
             if (string.IsNullOrEmpty(_companyId)) return;
-
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    string sql = @"SELECT id, name FROM categories 
-                                   WHERE company_id = @companyId 
-                                   ORDER BY name";
-                    using (var cmd = new NpgsqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("companyId",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            cmbCategory.Items.Clear();
-                            while (reader.Read())
-                            {
-                                cmbCategory.Items.Add(new CategoryItem
-                                {
-                                    Id = reader["id"].ToString(),
-                                    Name = reader["name"].ToString()
-                                });
-                            }
-                        }
-                    }
-                }
+                var categories = await _productService.GetCategoriesAsync();
+                cmbCategory.Items.Clear();
+                foreach (var cat in categories) cmbCategory.Items.Add(cat);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading categories:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show($"Error loading categories:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        // ─── Selection ────────────────────────────────────────────────────────────
-
-        private void dgvProducts_SelectionChanged(object sender, EventArgs e)
+        private void LoadSelectedProduct()
         {
             if (dgvProducts.SelectedRows.Count == 0) return;
-
             var row = dgvProducts.SelectedRows[0];
-
             _selectedProductId = row.Cells["Code"].Value?.ToString();
             txtProductCode.Text = row.Cells["Code"].Value?.ToString();
             txtProductName.Text = row.Cells["Product Name"].Value?.ToString();
@@ -187,99 +92,47 @@ namespace POS.Admin
 
             string categoryName = row.Cells["Category"].Value?.ToString();
             foreach (var item in cmbCategory.Items)
-            {
-                if (item is CategoryItem cat && cat.Name == categoryName)
-                {
-                    cmbCategory.SelectedItem = item;
-                    break;
-                }
-            }
+                if (item is CategoryItem cat && cat.Name == categoryName) { cmbCategory.SelectedItem = item; break; }
         }
 
-        // ─── Search ───────────────────────────────────────────────────────────────
-
-        private async void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            await LoadProductsAsync(txtSearch.Text.Trim());
-        }
-        // ─── Buttons ───────────────────────────────────────────────────────────────
-        // ─── ADD ──────────────────────────────────────────────────────────────────────
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!ValidateInputs()) return;
+            var result = ProductValidator.ValidateInputs(
+                txtProductCode.Text.Trim(),
+                txtProductName.Text.Trim(),
+                txtPrice.Text.Trim(),
+                txtReorderLevel.Text.Trim(),
+                cmbCategory.SelectedItem);
 
-            string productCode = txtProductCode.Text.Trim();
-            string productName = txtProductName.Text.Trim();
-            decimal price = decimal.Parse(txtPrice.Text.Trim());
-            int reorderLevel = int.Parse(txtReorderLevel.Text.Trim());
-            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
-
-            try
+            if (!result.IsValid)  // ← Fix: use .IsValid property
             {
-                btnAdd.Enabled = false;
-
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                string checkSql = "SELECT COUNT(*) FROM products WHERE product_code = @code AND company_id = @companyId";
-                await using var checkCmd = new NpgsqlCommand(checkSql, conn);
-                checkCmd.Parameters.AddWithValue("code", productCode);
-                checkCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-
-                long count = (long)await checkCmd.ExecuteScalarAsync();
-                if (count > 0)
-                {
-                    MessageBox.Show($"Product code '{productCode}' already exists.", "Duplicate Code",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtProductCode.Focus();
-                    return;
-                }
-
-                string sql = @"
-            INSERT INTO products (product_code, product_name, price, quantity, reorder_level, category_id, company_id)
-            VALUES (@code, @name, @price, 0, @reorderLevel, @categoryId, @companyId)";
-
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("code", productCode);
-                cmd.Parameters.AddWithValue("name", productName);
-                cmd.Parameters.AddWithValue("price", price);
-                cmd.Parameters.AddWithValue("reorderLevel", reorderLevel);
-                cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                // ✅ AUDIT LOG
-                await AuditService.LogInsertAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "products",
-                    recordId: productCode,
-                    newValuesJson: AuditService.ToJson(
-                        ("product_code", productCode),
-                        ("product_name", productName),
-                        ("price", price),
-                        ("reorder_level", reorderLevel),
-                        ("category", selectedCategory.Name)
-                    )
-                );
-
-                MessageBox.Show($"Product '{productName}' added successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadProductsAsync();
+                MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            catch (Exception ex)
+
+            string code = txtProductCode.Text.Trim();
+            if (await _productService.ProductExistsAsync(code))
             {
-                MessageBox.Show($"Error adding product:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Product code '{code}' already exists.", "Duplicate",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtProductCode.FocusInner();
+                return;
             }
-            finally
-            {
-                btnAdd.Enabled = true;
-            }
+
+            var category = cmbCategory.SelectedItem as CategoryItem;
+            await _productService.AddProductAsync(code, txtProductName.Text.Trim(),
+                decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
+
+            await AuditService.LogInsertAsync(_username, _companyId, "products", code,
+                AuditService.ToJson(("product_code", code), ("product_name", txtProductName.Text),
+                ("price", decimal.Parse(txtPrice.Text)), ("reorder_level", int.Parse(txtReorderLevel.Text)),
+                ("category", category.Name)));
+
+            MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ClearFields();
+            await LoadProductsAsync();
         }
 
-        // ─── EDIT ─────────────────────────────────────────────────────────────────────
         private async void btnEdit_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedProductId))
@@ -289,304 +142,82 @@ namespace POS.Admin
                 return;
             }
 
-            if (!ValidateInputs()) return;
+            var result = ProductValidator.ValidateInputs(
+                txtProductCode.Text.Trim(),
+                txtProductName.Text.Trim(),
+                txtPrice.Text.Trim(),
+                txtReorderLevel.Text.Trim(),
+                cmbCategory.SelectedItem);
 
-            string productName = txtProductName.Text.Trim();
-            decimal price = decimal.Parse(txtPrice.Text.Trim());
-            int reorderLevel = int.Parse(txtReorderLevel.Text.Trim());
-            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
-
-            var confirm = MessageBox.Show($"Update product '{_selectedProductId}'?", "Confirm Edit",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
-
-            try
+            if (!result.IsValid)  // ← Fix: use .IsValid property
             {
-                btnEdit.Enabled = false;
-
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                // Fetch old values for audit
-                string oldName = ""; decimal oldPrice = 0; int oldReorder = 0; string oldCategory = "";
-                await using (var fetchCmd = new NpgsqlCommand(@"
-            SELECT p.product_name, p.price, p.reorder_level, c.name AS category
-            FROM products p
-            LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.product_code = @code AND p.company_id = @companyId", conn))
-                {
-                    fetchCmd.Parameters.AddWithValue("code", _selectedProductId);
-                    fetchCmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                    await using var reader = await fetchCmd.ExecuteReaderAsync();
-                    if (await reader.ReadAsync())
-                    {
-                        oldName = reader["product_name"].ToString();
-                        oldPrice = Convert.ToDecimal(reader["price"]);
-                        oldReorder = Convert.ToInt32(reader["reorder_level"]);
-                        oldCategory = reader["category"]?.ToString();
-                    }
-                }
-
-                string sql = @"
-            UPDATE products 
-            SET product_name  = @name,
-                price         = @price,
-                reorder_level = @reorderLevel,
-                category_id   = @categoryId
-            WHERE product_code = @code
-              AND company_id   = @companyId";
-
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("name", productName);
-                cmd.Parameters.AddWithValue("price", price);
-                cmd.Parameters.AddWithValue("reorderLevel", reorderLevel);
-                cmd.Parameters.AddWithValue("categoryId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(selectedCategory.Id));
-                cmd.Parameters.AddWithValue("code", _selectedProductId);
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                // ✅ AUDIT LOG
-                await AuditService.LogUpdateAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "products",
-                    recordId: _selectedProductId,
-                    oldValuesJson: AuditService.ToJson(
-                        ("product_name", oldName),
-                        ("price", oldPrice),
-                        ("reorder_level", oldReorder),
-                        ("category", oldCategory)
-                    ),
-                    newValuesJson: AuditService.ToJson(
-                        ("product_name", productName),
-                        ("price", price),
-                        ("reorder_level", reorderLevel),
-                        ("category", selectedCategory.Name)
-                    )
-                );
-
-                MessageBox.Show($"Product '{productName}' updated successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadProductsAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error updating product:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                btnEdit.Enabled = true;
-            }
-        }
-
-        // ─── DELETE ───────────────────────────────────────────────────────────────────
-        private async void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(_selectedProductId))
-            {
-                MessageBox.Show("Please select a product to delete.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string productName = txtProductName.Text.Trim();
-            string deletedCode = _selectedProductId;
-            decimal deletedPrice = decimal.TryParse(txtPrice.Text, out var p) ? p : 0;
-            var selectedCategory = cmbCategory.SelectedItem as CategoryItem;
+            var (oldName, oldPrice, oldReorder, oldCategory) = await _productService.GetProductOldValuesAsync(_selectedProductId);
+            var category = cmbCategory.SelectedItem as CategoryItem;
 
-            var confirm = MessageBox.Show(
-                $"Are you sure you want to delete '{productName}' ({deletedCode})?\nThis action cannot be undone.",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (confirm != DialogResult.Yes) return;
+            await _productService.UpdateProductAsync(_selectedProductId, txtProductName.Text.Trim(),
+                decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
 
-            try
-            {
-                btnDelete.Enabled = false;
+            await AuditService.LogUpdateAsync(_username, _companyId, "products", _selectedProductId,
+                AuditService.ToJson(("product_name", oldName), ("price", oldPrice), ("reorder_level", oldReorder), ("category", oldCategory)),
+                AuditService.ToJson(("product_name", txtProductName.Text), ("price", decimal.Parse(txtPrice.Text)),
+                ("reorder_level", int.Parse(txtReorderLevel.Text)), ("category", category.Name)));
 
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                string sql = "DELETE FROM products WHERE product_code = @code AND company_id = @companyId";
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("code", deletedCode);
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                await cmd.ExecuteNonQueryAsync();
-
-                // ✅ AUDIT LOG
-                await AuditService.LogDeleteAsync(
-                    username: _username,
-                    companyId: _companyId,
-                    tableName: "products",
-                    recordId: deletedCode,
-                    oldValuesJson: AuditService.ToJson(
-                        ("product_code", deletedCode),
-                        ("product_name", productName),
-                        ("price", deletedPrice),
-                        ("category", selectedCategory?.Name)
-                    )
-                );
-
-                MessageBox.Show($"Product '{productName}' deleted successfully.", "Deleted",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                await LoadProductsAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error deleting product:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                btnDelete.Enabled = true;
-            }
-        }
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
+            MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
+            await LoadProductsAsync();
         }
 
-        // ─── Helpers ──────────────────────────────────────────────────────────────────
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_selectedProductId))
+            { MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+
+            if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+
+            await _productService.DeleteProductAsync(_selectedProductId);
+            await AuditService.LogDeleteAsync(_username, _companyId, "products", _selectedProductId,
+                AuditService.ToJson(("product_code", _selectedProductId), ("product_name", txtProductName.Text)));
+
+            MessageBox.Show("Product deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ClearFields();
+            await LoadProductsAsync();
+        }
 
         private void ClearFields()
         {
             _selectedProductId = null;
-            txtProductCode.Text = "";
-            txtProductName.Text = "";
-            txtPrice.Text = "";
-            txtReorderLevel.Text = "";
+            txtProductCode.Text = txtProductName.Text = txtPrice.Text = txtReorderLevel.Text = "";
             cmbCategory.SelectedIndex = -1;
             dgvProducts.ClearSelection();
             txtProductCode.Focus();
         }
 
-        private bool ValidateInputs()
+        private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
+        private void btnClear_Click(object sender, EventArgs e) => ClearFields();
+        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName).Show(); Hide(); }
+
+        private void InitializeShortcuts()
         {
-            if (string.IsNullOrWhiteSpace(txtProductCode.Text))
+            KeyPreview = true;
+            KeyDown += (s, e) =>
             {
-                MessageBox.Show("Product code is required.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtProductCode.Focus();
-                return false;
-            }
+                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
+                else if (e.KeyCode == Keys.F1) btnAdd_Click(s, e);
+                else if (e.KeyCode == Keys.F2) btnEdit_Click(s, e);
+                else if (e.KeyCode == Keys.F3) btnDelete_Click(s, e);
+                else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
+                e.Handled = true;
+            };
 
-            if (string.IsNullOrWhiteSpace(txtProductName.Text))
-            {
-                MessageBox.Show("Product name is required.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtProductName.Focus();
-                return false;
-            }
-
-            if (!decimal.TryParse(txtPrice.Text.Trim(), out decimal price) || price < 0)
-            {
-                MessageBox.Show("Please enter a valid price (0 or greater).", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPrice.Focus();
-                return false;
-            }
-
-            if (!int.TryParse(txtReorderLevel.Text.Trim(), out int reorder) || reorder < 0)
-            {
-                MessageBox.Show("Please enter a valid reorder level (0 or greater).", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtReorderLevel.Focus();
-                return false;
-            }
-
-            if (cmbCategory.SelectedItem == null)
-            {
-                MessageBox.Show("Please select a category.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbCategory.Focus();
-                return false;
-            }
-
-            return true;
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            AdminDashboard admin = new AdminDashboard(_username, _companyName);
-            admin.Show();
-            this.Hide();
-        }
-
-        // ─── Shortcut Keys ────────────────────────────────────────────────────────────
-
-        private void ManageProdFrm_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Escape:
-                    btnBack_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F1:
-                    btnAdd_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F2:
-                    btnEdit_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F3:
-                    btnDelete_Click(sender, e);
-                    e.Handled = true;
-                    break;
-                case Keys.F4:
-                    btnClear_Click(sender, e);
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void ShortcutKeyHints()
-        {
-            //Shortcut keys:
-
-            ToolTip toolTip = new ToolTip();
-            toolTip.InitialDelay = 200; // ms before tooltip appears
-            toolTip.ShowAlways = true;
-
-            toolTip.SetToolTip(btnBack, "ESC");
-            toolTip.SetToolTip(btnAdd, "F1");
-            toolTip.SetToolTip(btnEdit, "F2");
-            toolTip.SetToolTip(btnDelete, "F3");
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+            toolTip.SetToolTip(btnBack, "ESC"); toolTip.SetToolTip(btnAdd, "F1");
+            toolTip.SetToolTip(btnEdit, "F2"); toolTip.SetToolTip(btnDelete, "F3");
             toolTip.SetToolTip(btnClear, "F4");
-            AttachHoverEffect(btnBack, "BACK", "ESC");
-            AttachHoverEffect(btnAdd, "ADD", "F1");
-            AttachHoverEffect(btnEdit, "EDIT", "F2");
-            AttachHoverEffect(btnDelete, "DELETE", "F3");
-            AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
-        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
-        {
-            Point originalLocation = btn.Location;
-
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Text = $"{defaultText}\n({shortcut})";
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-            };
-
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Text = defaultText;
-                btn.Location = originalLocation;
-            };
-        }
-        // ─── Helper Class ─────────────────────────────────────────────────────────────
-        public class CategoryItem
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public override string ToString() => Name;
-        }
-
-        
     }
 }

@@ -643,7 +643,7 @@
             Name = "CashierDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            Load += CashierDashboard_Load;
+            
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             panel1.ResumeLayout(false);

@@ -640,7 +640,7 @@
             Name = "ManageStocks";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageStocks";
-            Load += ManageStocks_Load;
+            
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             panel1.ResumeLayout(false);

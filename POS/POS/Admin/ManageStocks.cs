@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -8,10 +9,9 @@ namespace POS.Admin
 {
     public partial class ManageStocks : BaseForm
     {
-        private string _username;
-        private string _companyName;
-        private string _companyId;
-        private DataTable _pendingChanges = new DataTable(); // staging table
+        private readonly string _username, _companyName, _companyId;
+        private readonly StockService _stockService;
+        private DataTable _pendingChanges;
 
         public ManageStocks(string username, string companyName)
         {
@@ -19,130 +19,54 @@ namespace POS.Admin
             InitializeTitleBar(closeButton, titleBar, titleLabel);
             _username = username;
             _companyName = companyName;
+            _companyId = GetCompanyId(companyName);
+            _stockService = new StockService(_companyId);
+
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
-            this.KeyPreview = true;
-            this.KeyDown += ManageStocksFrm_KeyDown;
-            ShortcutKeyHints();
-            _companyId = GetCompanyId(_companyName);
             SetUserContext(_username, _companyId);
+
             SetupDataGridViews();
-            SetupPendingTable();
+            _pendingChanges = StockChangeHelper.CreatePendingTable();
+            dgvPending.DataSource = _pendingChanges;
+
+            InitializeShortcuts();
+            this.Load += async (s, e) => await LoadProductsAsync();
         }
-
-        // ─── Load Form ────────────────────────────────────────────────────────────
-
-        private async void ManageStocks_Load(object sender, EventArgs e)
-        {
-            await LoadProductsAsync();
-        }
-
-        // ─── Resolve company name to ID ───────────────────────────────────────────
 
         private string GetCompanyId(string companyName)
         {
             try
             {
-                using (var conn = DatabaseService.GetConnection())
-                {
-                    conn.Open();
-                    string query = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1";
-                    using (var cmd = new NpgsqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", companyName);
-                        var result = cmd.ExecuteScalar();
-                        return result?.ToString();
-                    }
-                }
+                using var conn = DatabaseService.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand("SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@name) LIMIT 1", conn);
+                cmd.Parameters.AddWithValue("@name", companyName);
+                return cmd.ExecuteScalar()?.ToString();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error resolving company:\n{ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+            catch (Exception ex) { MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return null; }
         }
-
-        // ─── Setup ────────────────────────────────────────────────────────────────
 
         private void SetupDataGridViews()
         {
-            // all products
             dgvAllProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAllProducts.MultiSelect = false;
             dgvAllProducts.ReadOnly = true;
             dgvAllProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvAllProducts.SelectionChanged += dgvAllProducts_SelectionChanged;
-            // pending changes
+            dgvAllProducts.SelectionChanged += (s, e) => LoadSelectedProduct();
+
             dgvPending.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPending.MultiSelect = false;
             dgvPending.ReadOnly = true;
             dgvPending.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        
-        }
-        // ─── Selection ────────────────────────────────────────────────────────────────
-
-        private void dgvAllProducts_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvAllProducts.SelectedRows.Count == 0) return;
-
-            var row = dgvAllProducts.SelectedRows[0];
-
-            txtProductCode.Text = row.Cells["Code"].Value?.ToString();
-            txtDescription.Text = row.Cells["Description"].Value?.ToString();
-            txtCategory.Text = row.Cells["Category"].Value?.ToString();
-            txtUnitPrice.Text = row.Cells["Price"].Value?.ToString();
-            txtStockInDate.Text = row.Cells["Stocked In Date"].Value?.ToString();
+            dgvPending.AutoGenerateColumns = true; // Let it auto-generate columns from the DataTable
         }
 
-        private void SetupPendingTable()
-        {
-            _pendingChanges.Columns.Add("product_code", typeof(string));
-            _pendingChanges.Columns.Add("product_name", typeof(string));
-            _pendingChanges.Columns.Add("category", typeof(string));
-            _pendingChanges.Columns.Add("change_type", typeof(string)); // ADD or REMOVE
-            _pendingChanges.Columns.Add("quantity", typeof(int));
-
-            dgvPending.DataSource = _pendingChanges;
-            dgvPending.Columns["product_code"].HeaderText = "Product Code";
-            dgvPending.Columns["product_name"].HeaderText = "Description";
-            dgvPending.Columns["category"].HeaderText = "Category";
-            dgvPending.Columns["change_type"].HeaderText = "Type";
-            dgvPending.Columns["quantity"].HeaderText = "Quantity";
-        }
-
-        // ─── Load Products ────────────────────────────────────────────────────────
-
-        private async Task LoadProductsAsync(string search = "")
+        private async Task LoadProductsAsync()
         {
             if (string.IsNullOrEmpty(_companyId)) return;
-
             try
             {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                string sql = @"
-    SELECT p.product_code, p.product_name, c.name AS category, 
-           p.price, p.quantity, p.reorder_level, p.stocked_in_date
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.company_id = @companyId
-      AND (
-           p.product_code ILIKE @search
-        OR p.product_name ILIKE @search
-        OR c.name         ILIKE @search
-      )
-    ORDER BY p.product_name";
-
-                await using var cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("companyId", NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                cmd.Parameters.AddWithValue("search", $"%{search}%");
-
-                var adapter = new NpgsqlDataAdapter(cmd);
-                var dt = new DataTable();
-                adapter.Fill(dt);
-
+                var dt = await _stockService.GetProductsAsync(txtSearch.Text.Trim());
                 dt.Columns["product_code"].ColumnName = "Code";
                 dt.Columns["product_name"].ColumnName = "Description";
                 dt.Columns["category"].ColumnName = "Category";
@@ -150,102 +74,108 @@ namespace POS.Admin
                 dt.Columns["quantity"].ColumnName = "Quantity";
                 dt.Columns["reorder_level"].ColumnName = "Reorder Level";
                 dt.Columns["stocked_in_date"].ColumnName = "Stocked In Date";
-
                 dgvAllProducts.DataSource = dt;
+
+                // Format the dgvAllProducts columns
+                if (dgvAllProducts.Columns["Price"] != null)
+                    dgvAllProducts.Columns["Price"].DefaultCellStyle.Format = "C2";
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to load products:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show($"Failed to load products:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        // ─── Search ───────────────────────────────────────────────────────────────
-
-        private async void txtSearch_TextChanged(object sender, EventArgs e)
+        private void LoadSelectedProduct()
         {
-            await LoadProductsAsync(txtSearch.Text.Trim());
+            if (dgvAllProducts.SelectedRows.Count == 0) return;
+            var row = dgvAllProducts.SelectedRows[0];
+            txtProductCode.Text = row.Cells["Code"].Value?.ToString();
+            txtDescription.Text = row.Cells["Description"].Value?.ToString();
+            txtCategory.Text = row.Cells["Category"].Value?.ToString();
+            txtUnitPrice.Text = row.Cells["Price"].Value?.ToString();
+            txtStockInDate.Text = row.Cells["Stocked In Date"].Value?.ToString();
         }
-
-        // ─── ADD STOCK ────────────────────────────────────────────────────────────────
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
-            if (dgvAllProducts.SelectedRows.Count == 0)
+            // Validate stock selection
+            var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
+            if (!selectionResult.IsValid)
             {
-                MessageBox.Show("Please select a product first.", "No Selection",
+                MessageBox.Show(selectionResult.ErrorMessage, "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!int.TryParse(txtAdd.Text.Trim(), out int qty) || qty <= 0)
+            // Validate quantity
+            var quantityResult = StockValidator.ValidateQuantity(txtAdd, "add");
+            if (!quantityResult.IsValid)
             {
-                MessageBox.Show("Please enter a valid quantity to add.", "Validation",
+                MessageBox.Show(quantityResult.ErrorMessage, "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAdd.FocusInner();
                 return;
             }
 
             var row = dgvAllProducts.SelectedRows[0];
-            string code = row.Cells["Code"].Value?.ToString();
-            string name = row.Cells["Description"].Value?.ToString();
-            string cat = row.Cells["Category"].Value?.ToString();
+            StockChangeHelper.AddChange(_pendingChanges,
+                row.Cells["Code"].Value?.ToString(),
+                row.Cells["Description"].Value?.ToString(),
+                row.Cells["Category"].Value?.ToString(),
+                "ADD", int.Parse(txtAdd.Text.Trim()));
 
-
-            _pendingChanges.Rows.Add(code, name, cat, "ADD", qty);
             txtAdd.Text = "";
+            UpdatePendingGrid();
         }
-
-        // ─── REMOVE STOCK ─────────────────────────────────────────────────────────────
 
         private void btnRemoveStock_Click(object sender, EventArgs e)
         {
-            if (dgvAllProducts.SelectedRows.Count == 0)
+            // Validate stock selection
+            var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
+            if (!selectionResult.IsValid)
             {
-                MessageBox.Show("Please select a product first.", "No Selection",
+                MessageBox.Show(selectionResult.ErrorMessage, "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!int.TryParse(txtRemove.Text.Trim(), out int qty) || qty <= 0)
-            {
-                MessageBox.Show("Please enter a valid quantity to remove.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
+            // Validate quantity
             var row = dgvAllProducts.SelectedRows[0];
-            string code = row.Cells["Code"].Value?.ToString();
-            string name = row.Cells["Description"].Value?.ToString();
-            string cat = row.Cells["Category"].Value?.ToString();
             int currentQty = Convert.ToInt32(row.Cells["Quantity"].Value);
 
-            if (qty > currentQty)
+            var quantityResult = StockValidator.ValidateQuantity(txtRemove, "remove", currentQty);
+            if (!quantityResult.IsValid)
             {
-                MessageBox.Show($"Cannot remove more than current stock ({currentQty}).", "Invalid Quantity",
+                MessageBox.Show(quantityResult.ErrorMessage, "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtRemove.FocusInner();
                 return;
             }
 
-            _pendingChanges.Rows.Add(code, name, cat, "REMOVE", qty);
+            int qty = int.Parse(txtRemove.Text.Trim());
+
+            StockChangeHelper.AddChange(_pendingChanges,
+                row.Cells["Code"].Value?.ToString(),
+                row.Cells["Description"].Value?.ToString(),
+                row.Cells["Category"].Value?.ToString(),
+                "REMOVE", qty);
+
             txtRemove.Text = "";
+            UpdatePendingGrid();
         }
 
-        // ─── SAVE ─────────────────────────────────────────────────────────────────
-
-        // ─── SAVE ─────────────────────────────────────────────────────────────────────
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            if (_pendingChanges.Rows.Count == 0)
+            // Validate pending changes
+            var changesResult = StockValidator.ValidatePendingChanges(_pendingChanges);
+            if (!changesResult.IsValid)
             {
-                MessageBox.Show("No pending changes to save.", "Nothing to Save",
+                MessageBox.Show(changesResult.ErrorMessage, "Nothing to Save",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                await using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
+                btnSave.Enabled = false;
 
                 foreach (DataRow row in _pendingChanges.Rows)
                 {
@@ -254,52 +184,22 @@ namespace POS.Admin
                     string type = row["change_type"].ToString();
                     int qty = Convert.ToInt32(row["quantity"]);
 
-                    // Fetch old quantity for audit
-                    int oldQty = 0;
-                    await using (var fetchCmd = new NpgsqlCommand(
-                        "SELECT quantity FROM products WHERE product_code = @code AND company_id = @companyId", conn))
-                    {
-                        fetchCmd.Parameters.AddWithValue("code", code);
-                        fetchCmd.Parameters.AddWithValue("companyId",
-                            NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                        oldQty = Convert.ToInt32(await fetchCmd.ExecuteScalarAsync());
-                    }
-
+                    int oldQty = await _stockService.GetCurrentQuantityAsync(code);
                     int newQty = type == "ADD" ? oldQty + qty : oldQty - qty;
 
-                    string sql = type == "ADD"
-                        ? @"UPDATE products SET 
-                        quantity = quantity + @qty,
-                        stocked_in_date = @date
-                    WHERE product_code = @code AND company_id = @companyId"
-                        : "UPDATE products SET quantity = quantity - @qty WHERE product_code = @code AND company_id = @companyId";
+                    await _stockService.UpdateStockAsync(code, qty, type);
 
-                    await using var cmd = new NpgsqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("qty", qty);
-                    cmd.Parameters.AddWithValue("code", code);
-                    cmd.Parameters.AddWithValue("companyId",
-                        NpgsqlTypes.NpgsqlDbType.Uuid, Guid.Parse(_companyId));
-                    if (type == "ADD")
-                        cmd.Parameters.AddWithValue("date", DateTime.Today);
-
-                    await cmd.ExecuteNonQueryAsync();
-
-                    // ✅ AUDIT LOG per stock change
-                    await AuditService.LogUpdateAsync(
-                        username: _username,
-                        companyId: _companyId,
-                        tableName: "products",
-                        recordId: code,
-                        oldValuesJson: AuditService.ToJson(("quantity", oldQty)),
-                        newValuesJson: AuditService.ToJson(("quantity", newQty)),
-                        remarks: $"Stock {type}: {qty} unit(s) for '{name}'."
-                    );
+                    await AuditService.LogUpdateAsync(_username, _companyId, "products", code,
+                        AuditService.ToJson(("quantity", oldQty)),
+                        AuditService.ToJson(("quantity", newQty)),
+                        $"Stock {type}: {qty} unit(s) for '{name}'.");
                 }
 
                 MessageBox.Show("Stock updated successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 _pendingChanges.Clear();
+                UpdatePendingGrid();
                 await LoadProductsAsync();
             }
             catch (Exception ex)
@@ -307,88 +207,72 @@ namespace POS.Admin
                 MessageBox.Show($"Error saving stock changes:\n{ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                btnSave.Enabled = true;
+            }
         }
-
-        // ─── CANCEL ───────────────────────────────────────────────────────────────────
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (_pendingChanges.Rows.Count == 0) return;
+            if (!StockChangeHelper.HasChanges(_pendingChanges)) return;
 
-            var confirm = MessageBox.Show(
-                "Are you sure you want to cancel all pending changes?",
-                "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var confirmResult = MessageBox.Show(
+                "Cancel all pending changes?", "Confirm Cancel",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (confirm == DialogResult.Yes)
+            if (confirmResult == DialogResult.Yes)
             {
                 _pendingChanges.Clear();
+                UpdatePendingGrid();
                 txtAdd.Text = "";
                 txtRemove.Text = "";
             }
         }
 
-        // ─── Back ─────────────────────────────────────────────────────────────────
-
         private void btnBack_Click(object sender, EventArgs e)
         {
-            if (_pendingChanges.Rows.Count > 0)
+            if (StockChangeHelper.HasChanges(_pendingChanges))
             {
-                var confirm = MessageBox.Show(
-                    "You have unsaved changes. Are you sure you want to go back?",
-                    "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var confirmResult = MessageBox.Show(
+                    "You have unsaved changes. Go back?", "Unsaved Changes",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                if (confirm != DialogResult.Yes) return;
+                if (confirmResult != DialogResult.Yes) return;
             }
 
-            AdminDashboard adminDashboard = new AdminDashboard(_username, _companyName);
-            adminDashboard.Show();
-            this.Close();
+            new AdminDashboard(_username, _companyName).Show();
+            Close();
         }
 
-        // ─── Shortcut Keys ────────────────────────────────────────────────────────
-
-        private void ManageStocksFrm_KeyDown(object sender, KeyEventArgs e)
+        private void UpdatePendingGrid()
         {
-            switch (e.KeyCode)
+            dgvPending.Refresh();
+            // Optional: Add a label to show count
+            // lblPendingCount.Text = $"Pending: {_pendingChanges.Rows.Count}";
+        }
+
+        private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
+
+        private void InitializeShortcuts()
+        {
+            KeyPreview = true;
+            KeyDown += (s, e) =>
             {
-                case Keys.Escape: btnBack_Click(sender, e); e.Handled = true; break;
-                case Keys.F1: btnAddStock_Click(sender, e); e.Handled = true; break;
-                case Keys.F2: btnRemoveStock_Click(sender, e); e.Handled = true; break;
-                case Keys.F3: btnSave_Click(sender, e); e.Handled = true; break;
-                case Keys.F4: btnCancel_Click(sender, e); e.Handled = true; break;
-            }
-        }
+                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
+                else if (e.KeyCode == Keys.F1) btnAddStock_Click(s, e);
+                else if (e.KeyCode == Keys.F2) btnRemoveStock_Click(s, e);
+                else if (e.KeyCode == Keys.F3) btnSave_Click(s, e);
+                else if (e.KeyCode == Keys.F4) btnCancel_Click(s, e);
+                e.Handled = true;
+            };
 
-        private void ShortcutKeyHints()
-        {
-            ToolTip toolTip = new ToolTip();
-            toolTip.InitialDelay = 200;
-            toolTip.ShowAlways = true;
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
             toolTip.SetToolTip(btnBack, "ESC");
             toolTip.SetToolTip(btnAddStock, "F1");
             toolTip.SetToolTip(btnRemoveStock, "F2");
             toolTip.SetToolTip(btnSave, "F3");
             toolTip.SetToolTip(btnCancel, "F4");
-            AttachHoverEffect(btnBack, "BACK", "ESC");
-            AttachHoverEffect(btnAddStock, "ADD STOCK", "F1");
-            AttachHoverEffect(btnRemoveStock, "REMOVE STOCK", "F2");
-            AttachHoverEffect(btnSave, "SAVE", "F3");
-            AttachHoverEffect(btnCancel, "CANCEL", "F4");
-        }
-
-        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
-        {
-            Point originalLocation = btn.Location;
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Text = $"{defaultText}\n({shortcut})";
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-            };
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Text = defaultText;
-                btn.Location = originalLocation;
-            };
         }
     }
 }

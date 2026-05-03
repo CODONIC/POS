@@ -487,7 +487,7 @@
             Name = "ManageProdFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageProdFrm";
-            Load += ManageProdFrm_Load;
+            //Load += ManageProdFrm_Load;
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             panel1.ResumeLayout(false);

@@ -323,7 +323,7 @@
             Name = "ProdCategoryFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ProdCategoryFrm";
-            Load += ProdCategoryFrm_Load;
+            
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCategories).EndInit();
