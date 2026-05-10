@@ -15,12 +15,14 @@ namespace POS
         private readonly CashierProductService _productService;
         private readonly CartManager _cartManager;
         private readonly TransactionCalculator _calculator;
-
+        private readonly string _userId;
+        private readonly string _sessionToken;
         private DataTable _productsTable;
         private bool _isCartView = false;
         private bool _suppressSelectionChanged = false;
+        private readonly LoginService _loginService = new LoginService();
 
-        public CashierDashboard(string username, string companyName)
+        public CashierDashboard(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -31,9 +33,12 @@ namespace POS
             _productService = new CashierProductService(_companyId);
             _cartManager = new CartManager();
             _calculator = new TransactionCalculator();
+            _userId = userId;
+            _sessionToken = sessionToken;
 
             lblCashierName.Text = $"{_username} | Cashier";
             titleLabel.Text = $"{_companyName}";
+            SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
@@ -277,13 +282,45 @@ namespace POS
             if (_isCartView) ShowProductsView(); else ShowCartView();
         }
 
+        private async Task LogLogoutAsync()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(_companyId))
+                    await AuditService.LogLogoutAsync(_username, _companyId, Environment.MachineName);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Logout audit failed: {ex.Message}");
+            }
+        }
+
         private async void btnLogOut_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            if (MessageBox.Show("Are you sure you want to log out?", "Confirm Logout",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
 
-            await AuditService.LogLogoutAsync(_username, _companyId, Environment.MachineName);
+            // CRITICAL: Set static flag first
+            BaseForm.SetAppExiting(true);
+
+            // Stop the session timer
+            StopSessionMonitoring();
+
+            try
+            {
+                // Terminate session in database
+                await _loginService.LogoutSessionAsync(_userId, _sessionToken);
+                await LogLogoutAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
+            }
+
+            // Navigate to login form and close current
             new LogInForm().Show();
-            Close();
+            this.Close();
         }
 
         private void InitializeShortcuts()

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7cRLK9j/Ip8=",
+  "dgSpecHash": "1iZGOuOwzlY=",
   "success": true,
   "projectFilePath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
   "expectedPackageFiles": [
@@ -71,7 +71,8 @@
     "C:\\Users\\Kris\\.nuget\\packages\\zstdsharp.port\\0.8.6\\zstdsharp.port.0.8.6.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.25\\microsoft.netcore.app.runtime.win-x64.8.0.25.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.25\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.25.nupkg.sha512",
-    "C:\\Users\\Kris\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.25\\microsoft.aspnetcore.app.runtime.win-x64.8.0.25.nupkg.sha512"
+    "C:\\Users\\Kris\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.25\\microsoft.aspnetcore.app.runtime.win-x64.8.0.25.nupkg.sha512",
+    "C:\\Users\\Kris\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.25\\microsoft.netcore.app.crossgen2.win-x64.8.0.25.nupkg.sha512"
   ],
   "logs": [
     {

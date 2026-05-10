@@ -1,2 +1,11 @@
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.pdb
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.dll.config
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\libHarfBuzzSharp.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\comerr64.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\gssapi64.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\k5sprt64.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krb5_64.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\krbcc64.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\libSkiaSharp.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\libSkiaSharp.pdb
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\publish\win-x64\POS.exe

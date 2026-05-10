@@ -15,7 +15,9 @@ namespace POS.Admin
     {
         private string _username;
         private string _companyName;
-        public SettingsForm(string username, string companyName)
+        private readonly string _userId;
+        private readonly string _sessionToken;
+        public SettingsForm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -23,6 +25,10 @@ namespace POS.Admin
             _companyName = companyName;
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
+            _userId = userId;
+            _sessionToken = sessionToken;
+
+            SetUserContext(_username, _userId, _sessionToken);
         }
 
         public override void CloseButton_Click(object sender, EventArgs e)

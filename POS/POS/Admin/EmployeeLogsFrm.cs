@@ -14,8 +14,10 @@ namespace POS.Admin
         private AuditLogService _auditService;
         private List<AuditLogRow> _auditRows = new();
         private int _currentPage = 1, _pageSize = 50, _totalRecords = 0;
+        private readonly string _userId;
+        private readonly string _sessionToken;
 
-        public EmployeeLogsFrm(string username, string companyName)
+        public EmployeeLogsFrm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -23,6 +25,9 @@ namespace POS.Admin
             _companyName = companyName;
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName}";
+            _userId = userId;
+            _sessionToken = sessionToken;
+            SetUserContext(_username, _userId, _sessionToken);
             InitializeGrid();
             InitializeFilters();
             txtSearch.TextChanged += async (s, e) => { _currentPage = 1; await LoadAuditLogsAsync(); };
@@ -172,6 +177,6 @@ namespace POS.Admin
         private void btnResetFilter_Click(object sender, EventArgs e) { dtpFrom.Value = dtpTo.Value = DateTime.Today; cmbCategory.SelectedIndex = cmbAction.SelectedIndex = 0; txtSearch.Text = ""; _currentPage = 1; _ = LoadAuditLogsAsync(); }
         private void btnExport_Click(object sender, EventArgs e) => AuditLogExporter.ExportToCsv(_auditRows, _companyName);
         private void SetLoading(bool loading) { btnApplyFilter.Enabled = btnResetFilter.Enabled = btnExport.Enabled = btnPrev.Enabled = btnNext.Enabled = !loading; Cursor = loading ? Cursors.WaitCursor : Cursors.Default; }
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName).Show(); Hide(); }
+        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Hide(); }
     }
 }

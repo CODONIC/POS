@@ -14,8 +14,10 @@ namespace POS.Admin
         private readonly ProductService _productService;
         private string _selectedProductId;
         private readonly string _role;
+        private readonly string _userId;
+        private readonly string _sessionToken;
 
-        public ManageProdFrm(string username, string companyName)
+        public ManageProdFrm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -24,6 +26,8 @@ namespace POS.Admin
             _companyId = GetCompanyId(companyName);
             _productService = new ProductService(_companyId);
             _role = GetUserRole(username);
+            _userId = userId;
+            _sessionToken = sessionToken;
 
             // Set title based on role
             if (_role == "INVENTORY MANAGER")
@@ -38,6 +42,7 @@ namespace POS.Admin
                 titleLabel.Text = $"{_companyName} ";
             }
 
+            SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
@@ -272,12 +277,12 @@ namespace POS.Admin
             // Return to appropriate dashboard based on role
             if (_role == "INVENTORY MANAGER")
             {
-                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName);
+                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken);
                 inventoryDashboard.Show();
             }
             else
             {
-                var adminDashboard = new AdminDashboard(_username, _companyName);
+                var adminDashboard = new AdminDashboard(_username, _companyName, _userId, _sessionToken);
                 adminDashboard.Show();
             }
             this.Hide();

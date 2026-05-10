@@ -14,18 +14,25 @@ namespace POS.Inventory_Manager
         private readonly string _username;
         private readonly string _companyName;
         private readonly string _companyId;
+        private readonly string _userId;
+        private readonly string _sessionToken;
+        private readonly LoginService _loginService = new LoginService();
         private DataTable _inventoryStatusTable;
 
-        public InventoryManagerDashboard(string username, string companyName)
+        public InventoryManagerDashboard(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
 
             _username = username;
             _companyName = companyName;
+            _userId = userId;
+            _sessionToken = sessionToken;
             _companyId = GetCompanyId(_companyName);
 
-            SetUserContext(_username, _companyId);
+            // Set user context with session info for BaseForm
+            SetUserContext(_username, _userId, _sessionToken);
+            SetUserContext(_username, _companyId); // For audit logging
 
             lblInventoryName.Text = $"{_username} | Inventory Manager";
             titleLabel.Text = $"{_companyName} ";
@@ -50,6 +57,9 @@ namespace POS.Inventory_Manager
             dgvInventStatus.AllowUserToAddRows = false;
             dgvInventStatus.BackgroundColor = Color.White;
             dgvInventStatus.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
+
+            // Clear existing columns first to avoid duplicates
+            dgvInventStatus.Columns.Clear();
 
             // Add columns
             dgvInventStatus.Columns.Add(new DataGridViewTextBoxColumn { Name = "product_code", HeaderText = "Product Code", FillWeight = 12 });
@@ -122,8 +132,6 @@ namespace POS.Inventory_Manager
                     gridRow.Cells["last_updated"].Value = row["last_stock_update"];
                     gridRow.Cells["category"].Value = row["category"];
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -179,8 +187,6 @@ namespace POS.Inventory_Manager
             return dt;
         }
 
-        
-
         private void SetLoadingState(bool loading)
         {
             if (InvokeRequired)
@@ -203,8 +209,6 @@ namespace POS.Inventory_Manager
             }
         }
 
-        
-
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             await LoadInventoryStatusAsync();
@@ -219,10 +223,10 @@ namespace POS.Inventory_Manager
         }
 
         private void btnManageProducts_Click(object sender, EventArgs e) =>
-            ShowSubScreen(new ManageProdFrm(_username, _companyName));
+            ShowSubScreen(new ManageProdFrm(_username, _companyName, _userId, _sessionToken));
 
         private void btnManageStocks_Click(object sender, EventArgs e) =>
-            ShowSubScreen(new ManageStocks(_username, _companyName));
+            ShowSubScreen(new ManageStocks(_username, _companyName, _userId, _sessionToken));
 
         // ── Logout ────────────────────────────────────────────────────────────
 
@@ -232,10 +236,26 @@ namespace POS.Inventory_Manager
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            await LogLogoutAsync();
+            // CRITICAL: Set static flag first
+            BaseForm.SetAppExiting(true);
 
+            // Stop the session timer
+            StopSessionMonitoring();
+
+            try
+            {
+                // Terminate session in database
+                await _loginService.LogoutSessionAsync(_userId, _sessionToken);
+                await LogLogoutAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
+            }
+
+            // Navigate to login form and close current
             new LogInForm().Show();
-            this.Hide();
+            this.Close();
         }
 
         private async Task LogLogoutAsync()
@@ -283,7 +303,6 @@ namespace POS.Inventory_Manager
                 { Keys.F1,     btnManageProducts_Click },
                 { Keys.F2,     btnManageStocks_Click },
                 { Keys.F5,     (s, ev) => btnRefresh_Click(s, ev) }
-               
             };
 
             if (shortcuts.TryGetValue(e.KeyCode, out var handler))
@@ -298,7 +317,7 @@ namespace POS.Inventory_Manager
             var shortcuts = new Dictionary<Button, string>
             {
                 { btnLogOut,        "ESC — Logout" },
-                { btnManageProducts,"F1 — Manage Products" },
+                { btnManageProducts,"F1 — Manage Products (Read Only)" },
                 { btnManageStocks,  "F2 — Manage Stocks" },
                 { btnRefresh,       "F5 — Refresh Status" }
             };
@@ -310,8 +329,6 @@ namespace POS.Inventory_Manager
                 toolTip.SetToolTip(button, hint);
                 AttachHoverEffect(button);
             }
-
-            
         }
 
         private void AttachHoverEffect(Button btn)

@@ -12,8 +12,10 @@ namespace POS.Admin
         private readonly BusinessStatsService _statsService;
         private KpiData _lastKpi;
         private bool _isLineChart = false, _isBestSellersView = false;
+        private readonly string _userId;
+        private readonly string _sessionToken;
 
-        public BusinessStatsForm(string username, string companyName)
+        public BusinessStatsForm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             cartesianChart1.AnimationsSpeed = TimeSpan.Zero;
@@ -22,6 +24,9 @@ namespace POS.Admin
             _companyName = companyName;
             _companyId = FetchCompanyId(companyName);
             _statsService = new BusinessStatsService(DatabaseService.ConnectionString, _companyId);
+            _userId = userId;
+            _sessionToken = sessionToken;
+            SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId.ToString());
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName}";
@@ -173,7 +178,7 @@ namespace POS.Admin
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            new AdminDashboard(_username, _companyName).Show();
+            new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Hide();
         }
     }

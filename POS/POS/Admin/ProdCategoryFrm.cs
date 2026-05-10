@@ -11,8 +11,10 @@ namespace POS.Admin
         private readonly string _username, _companyName, _companyId;
         private readonly CategoryService _categoryService;
         private string _selectedCategoryId;
+        private readonly string _userId;
+        private readonly string _sessionToken;
 
-        public ProdCategoryFrm(string username, string companyName)
+        public ProdCategoryFrm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -20,9 +22,12 @@ namespace POS.Admin
             _companyName = companyName;
             _companyId = GetCompanyId(companyName);
             _categoryService = new CategoryService(_companyId);
+            _userId = userId;
+            _sessionToken = sessionToken;
 
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
+            SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
@@ -161,7 +166,7 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadCategoriesAsync();
         private void btnClear_Click(object sender, EventArgs e) => ClearFields();
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName).Show(); Close(); }
+        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Close(); }
 
         private void InitializeShortcuts()
         {

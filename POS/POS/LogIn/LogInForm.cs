@@ -41,14 +41,15 @@ namespace POS
 
             await AuditService.LogLoginAsync(username, result.CompanyId, Environment.MachineName);
 
+            // Pass userId and sessionToken to dashboards
             if (result.Role == "ADMIN")
-                new AdminDashboard(username, result.CompanyName).Show();
-            else if(result.Role == "CASHIER")
-                new CashierDashboard(username, result.CompanyName).Show();
-            else if(result.Role == "INVENTORY MANAGER")
-                new InventoryManagerDashboard(username, result.CompanyName).Show();
+                new AdminDashboard(username, result.CompanyName, result.UserId, result.SessionToken).Show();
+            else if (result.Role == "CASHIER")
+                new CashierDashboard(username, result.CompanyName, result.UserId, result.SessionToken).Show();
+            else if (result.Role == "INVENTORY MANAGER")
+                new InventoryManagerDashboard(username, result.CompanyName, result.UserId, result.SessionToken).Show();
 
-                Hide();
+            Hide();
         }
 
         private (string username, string password, string company) GetSanitizedInputs()

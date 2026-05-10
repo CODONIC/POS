@@ -176,3 +176,4 @@ C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\Sy
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\System.Security.Cryptography.Xml.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\bin\Release\net8.0-windows\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Release\net8.0-windows\POS.Inventory_Manager.InventoryManagerDashboard.resources

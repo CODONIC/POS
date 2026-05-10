@@ -11,8 +11,10 @@ namespace POS.Admin
         private readonly string _username, _companyName, _companyId;
         private readonly TransactionService _transactionService;
         private DataTable _allTransactions;
+        private readonly string _userId;
+        private readonly string _sessionToken;
 
-        public TransactionsForm(string username, string companyName)
+        public TransactionsForm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -20,9 +22,12 @@ namespace POS.Admin
             _companyName = companyName;
             _companyId = GetCompanyId(companyName);
             _transactionService = new TransactionService(_companyId);
+            _userId = userId;
+            _sessionToken = sessionToken;
 
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName}";
+            SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId);
 
             TransactionGridBuilder.SetupColumns(dgvTransactions);
@@ -73,7 +78,7 @@ namespace POS.Admin
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            new AdminDashboard(_username, _companyName).Show();
+            new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Close();
         }
     }

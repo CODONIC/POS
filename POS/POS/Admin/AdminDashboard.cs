@@ -16,18 +16,25 @@ namespace POS
         private readonly string _username;
         private readonly string _companyName;
         private readonly string _companyId;
+        private readonly string _userId;
+        private readonly string _sessionToken;
+        private readonly LoginService _loginService = new LoginService();
         private SettingsForm _settingsForm; // Keep reference to settings form
 
-        public AdminDashboard(string username, string companyName)
+        public AdminDashboard(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
 
             _username = username;
             _companyName = companyName;
+            _userId = userId;
+            _sessionToken = sessionToken;
             _companyId = GetCompanyId(_companyName);
 
-            SetUserContext(_username, _companyId);
+            // Set user context with session info for BaseForm
+            SetUserContext(_username, _userId, _sessionToken);
+            SetUserContext(_username, _companyId); // For audit logging
 
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
@@ -63,10 +70,26 @@ namespace POS
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            await LogLogoutAsync();
+            // CRITICAL: Set static flag first
+            BaseForm.SetAppExiting(true);
 
+            // Stop the session timer
+            StopSessionMonitoring();
+
+            try
+            {
+                // Terminate session in database
+                await _loginService.LogoutSessionAsync(_userId, _sessionToken);
+                await LogLogoutAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
+            }
+
+            // Navigate to login form and close current
             new LogInForm().Show();
-            Hide();
+            this.Close();
         }
 
         private async Task LogLogoutAsync()
@@ -85,29 +108,29 @@ namespace POS
         }
 
         private void btnManageUsers_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new ManageUsersFrm(_username, _companyName));
+            ShowFormAsDialog(new ManageUsersFrm(_username, _companyName, _userId, _sessionToken));
 
         private void btnManageCategory_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new ProdCategoryFrm(_username, _companyName));
+            ShowFormAsDialog(new ProdCategoryFrm(_username, _companyName, _userId, _sessionToken));
 
         private void btnManageProducts_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new ManageProdFrm(_username, _companyName));
+            ShowFormAsDialog(new ManageProdFrm(_username, _companyName, _userId, _sessionToken));
 
         private void btnManageStocks_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new ManageStocks(_username, _companyName));
+            ShowFormAsDialog(new ManageStocks(_username, _companyName, _userId, _sessionToken));
 
         private void btnTransactions_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new TransactionsForm(_username, _companyName));
+            ShowFormAsDialog(new TransactionsForm(_username, _companyName, _userId, _sessionToken));
 
         private void btnBusinessStats_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new BusinessStatsForm(_username, _companyName));
+            ShowFormAsDialog(new BusinessStatsForm(_username, _companyName, _userId, _sessionToken));
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
             // Check if settings form is already open
             if (_settingsForm == null || _settingsForm.IsDisposed)
             {
-                _settingsForm = new SettingsForm(_username, _companyName);
+                _settingsForm = new SettingsForm(_username, _companyName, _userId, _sessionToken);
                 _settingsForm.FormClosed += (s, args) => _settingsForm = null; // Clear reference when closed
                 _settingsForm.Show(); // Show without hiding admin dashboard
             }
@@ -119,11 +142,11 @@ namespace POS
         }
 
         private void btnAudit_Click(object sender, EventArgs e) =>
-            ShowFormAsDialog(new EmployeeLogsFrm(_username, _companyName));
+            ShowFormAsDialog(new EmployeeLogsFrm(_username, _companyName, _userId, _sessionToken));
 
         private void ShowFormAsDialog(Form form)
         {
-            form.Show(); 
+            form.Show();
             this.Hide();
         }
 

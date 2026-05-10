@@ -10,10 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="Chef\**" />
+    <Compile Remove="Manager\**" />
     <Compile Remove="Properties\DataSources\**" />
     <EmbeddedResource Remove="Chef\**" />
+    <EmbeddedResource Remove="Manager\**" />
     <EmbeddedResource Remove="Properties\DataSources\**" />
     <None Remove="Chef\**" />
+    <None Remove="Manager\**" />
     <None Remove="Properties\DataSources\**" />
   </ItemGroup>
 
@@ -53,7 +56,6 @@
 
   <ItemGroup>
     <Folder Include="Admin\Settings Related\" />
-    <Folder Include="Manager\" />
     <Folder Include="Customer\" />
   </ItemGroup>
 
