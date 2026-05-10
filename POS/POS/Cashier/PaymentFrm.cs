@@ -13,7 +13,7 @@ namespace POS.Cashier
         private readonly string _transactionNumber;
         private readonly DataTable _cartItems;
         private readonly decimal _originalSubtotal;
-
+        protected override bool RequireExitConfirmation => false;
         public PaymentFrm(string username, string companyName, string transactionNumber,
                           DataTable cartItems, decimal subtotal, decimal discountPercentage,
                           decimal discountAmount, decimal vatableAmount, decimal vatAmount, decimal totalAmount)
@@ -114,7 +114,15 @@ namespace POS.Cashier
         }
 
         private void btnClear_Click(object sender, EventArgs e) { txtCustomerPayment.Text = "0"; txtChange.Text = "₱ 0.00"; btnConfirmPayment.Enabled = false; txtCustomerPayment.Focus(); }
-        public override void CloseButton_Click(object sender, EventArgs e) => Close();
+        public override void CloseButton_Click(object sender, EventArgs e)
+        {
+            // Just close without confirmation
+            this.Close();
+        }
+        protected override Task PerformLogoutAsync()
+        {
+            return Task.CompletedTask;
+        }
 
         private void ShowError(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         private void ShowSuccess(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);

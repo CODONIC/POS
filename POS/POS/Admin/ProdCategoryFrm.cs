@@ -166,7 +166,7 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadCategoriesAsync();
         private void btnClear_Click(object sender, EventArgs e) => ClearFields();
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Close(); }
+        private void btnBack_Click(object sender, EventArgs e) { SetNavigating(true); new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Close(); }
 
         private void InitializeShortcuts()
         {

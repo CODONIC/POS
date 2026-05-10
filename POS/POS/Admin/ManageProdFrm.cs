@@ -277,11 +277,13 @@ namespace POS.Admin
             // Return to appropriate dashboard based on role
             if (_role == "INVENTORY MANAGER")
             {
+                SetNavigating(true);
                 var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken);
                 inventoryDashboard.Show();
             }
             else
             {
+                SetNavigating(true);
                 var adminDashboard = new AdminDashboard(_username, _companyName, _userId, _sessionToken);
                 adminDashboard.Show();
             }

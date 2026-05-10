@@ -18,6 +18,7 @@ namespace POS
         private readonly string _companyId;
         private readonly string _userId;
         private readonly string _sessionToken;
+        private bool _isClosing = false;
         private readonly LoginService _loginService = new LoginService();
         private SettingsForm _settingsForm; // Keep reference to settings form
 
@@ -69,7 +70,7 @@ namespace POS
             if (MessageBox.Show("Are you sure you want to log out?", "Confirm Logout",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
-
+            _isClosing = true;
             // CRITICAL: Set static flag first
             BaseForm.SetAppExiting(true);
 

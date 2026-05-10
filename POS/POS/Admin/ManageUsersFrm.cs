@@ -14,6 +14,7 @@ namespace POS.Admin
         private string _selectedUserId;
         private readonly string _userId;
         private readonly string _sessionToken;
+        private readonly LoginService _loginService = new LoginService();
 
         public ManageUsersFrm(string username, string companyName, string userId, string sessionToken)
         {
@@ -109,6 +110,154 @@ namespace POS.Admin
             cmbUserLevel.SelectedItem = row.Cells["User Level"].Value?.ToString();
         }
 
+        // ─── Password Confirmation Dialog ────────────────────────────────────────
+        private async Task<bool> ConfirmAdminPasswordAsync()
+        {
+            using (var dialog = new Form())
+            {
+                dialog.Text = "Admin Password Confirmation";
+                dialog.Size = new Size(450, 250);
+                dialog.StartPosition = FormStartPosition.CenterParent;
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+                dialog.BackColor = Color.White;
+                dialog.Font = new Font("Segoe UI", 10);
+
+                // Create TableLayoutPanel for symmetry
+                var layout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 3,
+                    RowCount = 5,
+                    Padding = new Padding(20)
+                };
+
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80));
+                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
+                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
+
+                // Message Label
+                var lblMessage = new Label
+                {
+                    Text = "Confirm your password to continue:",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Font = new Font("Segoe UI", 11)
+                };
+                layout.Controls.Add(lblMessage, 1, 1);
+
+                // Admin Label
+                var lblAdmin = new Label
+                {
+                    Text = $"Admin: {_username}",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(59, 130, 246)
+                };
+                layout.Controls.Add(lblAdmin, 1, 2);
+
+                // Password TextBox
+                var txtAdminPassword = new TextBox
+                {
+                    Location = new Point(20, 80),
+                    Size = new Size(250, 30),
+                    PasswordChar = '●',
+                    UseSystemPasswordChar = true,
+                    TextAlign = HorizontalAlignment.Center,
+                    Font = new Font("Segoe UI", 11)
+                };
+                layout.Controls.Add(txtAdminPassword, 1, 3);
+
+                // Button Panel
+                var buttonPanel = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    Height = 45
+                };
+
+                var btnConfirm = new Button
+                {
+                    Text = "Confirm",
+                    Size = new Size(100, 35),
+                    BackColor = Color.FromArgb(59, 130, 246),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    DialogResult = DialogResult.OK,
+                    Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                };
+                btnConfirm.FlatAppearance.BorderSize = 0;
+
+                var btnCancel = new Button
+                {
+                    Text = "Cancel",
+                    Size = new Size(100, 35),
+                    BackColor = Color.FromArgb(156, 163, 175),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    DialogResult = DialogResult.Cancel,
+                    Margin = new Padding(20, 0, 0, 0),
+                    Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                };
+
+                btnConfirm.Location = new Point(
+                (buttonPanel.Width / 2) - btnConfirm.Width - 10,
+                (buttonPanel.Height - btnConfirm.Height) / 2
+                 );
+
+                // Position cancel button in center-right
+                btnCancel.Location = new Point(
+                    (buttonPanel.Width / 2) + 10,
+                    (buttonPanel.Height - btnCancel.Height) / 2
+                );
+                btnCancel.FlatAppearance.BorderSize = 0;
+
+                buttonPanel.Controls.Add(btnConfirm);
+                buttonPanel.Controls.Add(btnCancel);
+                buttonPanel.Controls.Add(new Label { Width = 0 }); // Spacer
+                buttonPanel.Resize += (s, e) =>
+                {
+                    btnConfirm.Location = new Point(
+                        (buttonPanel.Width / 2) - btnConfirm.Width - 10,
+                        (buttonPanel.Height - btnConfirm.Height) / 2
+                    );
+                    btnCancel.Location = new Point(
+                        (buttonPanel.Width / 2) + 10,
+                        (buttonPanel.Height - btnCancel.Height) / 2
+                    );
+                };
+                layout.Controls.Add(buttonPanel, 1, 4);
+
+                dialog.Controls.Add(layout);
+                dialog.AcceptButton = btnConfirm;
+                dialog.CancelButton = btnCancel;
+
+                // Center the password text horizontally
+                txtAdminPassword.Anchor = AnchorStyles.None;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string enteredPassword = txtAdminPassword.Text;
+                    var result = await _userService.VerifyAdminPasswordAsync(_username, enteredPassword, _companyId);
+                    if (!result)
+                    {
+                        MessageBox.Show("Incorrect admin password. Operation cancelled.", "Authentication Failed",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
@@ -119,6 +268,13 @@ namespace POS.Admin
 
             if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim()))
             { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+
+            // Password confirmation for adding user (especially if setting a password)
+            if (!string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                if (!await ConfirmAdminPasswordAsync())
+                    return;
+            }
 
             await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, cmbUserLevel.SelectedItem.ToString(),
                 txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(),
@@ -144,8 +300,16 @@ namespace POS.Admin
             if (!result.IsValid)
             { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            var oldValues = await _userService.GetUserOldValuesAsync(_selectedUserId);
             bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
+
+            // If password is being changed, require admin confirmation
+            if (changePassword)
+            {
+                if (!await ConfirmAdminPasswordAsync())
+                    return;
+            }
+
+            var oldValues = await _userService.GetUserOldValuesAsync(_selectedUserId);
 
             await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text,
                 cmbUserLevel.SelectedItem.ToString(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
@@ -170,6 +334,10 @@ namespace POS.Admin
 
             if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes) return;
 
+            // Require admin confirmation for deletion (security)
+            if (!await ConfirmAdminPasswordAsync())
+                return;
+
             await _userService.DeleteUserAsync(_selectedUserId);
             await AuditService.LogDeleteAsync(_username, _companyId, "users", _selectedUserId,
                 AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
@@ -192,7 +360,7 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadUsersAsync();
         private void btnClear_Click(object sender, EventArgs e) => ClearFields();
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Close(); }
+        private void btnBack_Click(object sender, EventArgs e) { SetNavigating(true); new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Close(); }
 
         private void InitializeShortcuts()
         {

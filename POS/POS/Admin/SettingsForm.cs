@@ -17,6 +17,7 @@ namespace POS.Admin
         private string _companyName;
         private readonly string _userId;
         private readonly string _sessionToken;
+        protected override bool RequireExitConfirmation => false;
         public SettingsForm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
@@ -34,6 +35,10 @@ namespace POS.Admin
         public override void CloseButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        protected override Task PerformLogoutAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

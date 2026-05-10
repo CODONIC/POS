@@ -39,8 +39,7 @@ namespace POS
                     int seconds = result.RemainingSeconds % 60;
                     MessageBox.Show(
                         $"Account is temporarily locked.\n\n" +
-                        $"Please try again in {minutes} minute(s) and {seconds} second(s).\n\n" +
-                        $"This is for security purposes after {_loginService.GetMaxAttempts()} failed attempts.",
+                        $"Please try again in {minutes} minute(s) and {seconds} second(s).\n\n",
                         "Account Locked",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -48,8 +47,8 @@ namespace POS
                 else if (result.RemainingAttempts > 0)
                 {
                     MessageBox.Show(
-                        $"{result.ErrorMessage}\n\n" +
-                        $"Warning: {result.RemainingAttempts} attempt(s) remaining before account lockout.",
+                        $"{result.ErrorMessage}\n" +
+                        $"WARNING: {result.RemainingAttempts} attempt(s) remaining before account lockout.",
                         "Login Failed",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);

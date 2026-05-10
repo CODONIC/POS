@@ -41,6 +41,37 @@ namespace POS.Admin
             return dt;
         }
 
+        public async Task<bool> VerifyAdminPasswordAsync(string username, string password, string companyId)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                const string sql = @"
+            SELECT u.password 
+            FROM public.users u
+            WHERE LOWER(u.username) = LOWER(@username) 
+            AND u.company_id = @companyId";
+
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@companyId", Guid.Parse(companyId));
+
+                var storedPassword = await cmd.ExecuteScalarAsync();
+
+                if (storedPassword == null)
+                    return false;
+
+                return storedPassword.ToString() == password;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"VerifyAdminPassword error: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> UsernameExistsAsync(string username)
         {
             using var conn = new NpgsqlConnection(_connectionString);

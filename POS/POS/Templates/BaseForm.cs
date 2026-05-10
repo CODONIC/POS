@@ -18,20 +18,30 @@ namespace POS
         private bool _isLoggingOut = false;
         private bool _sessionExpiredShown = false;
         private static bool _isAppExiting = false;
+        private string _userId;
+        private string _sessionToken;
+        private bool _isClosing = false;
+        private bool _isNavigating = false;
+
+        // Property to control whether exit confirmation is needed
+        protected virtual bool RequireExitConfirmation => true;
 
         protected void SetUserContext(string username, string userId, string sessionToken)
         {
             CurrentUsername = username;
             CurrentUserId = userId;
             CurrentSessionToken = sessionToken;
+            _userId = userId;
+            _sessionToken = sessionToken;
             _isLoggingOut = false;
             _sessionExpiredShown = false;
+            _isClosing = false;
+            _isNavigating = false;
 
-            // Start session validation timer
             if (_sessionTimer == null && !_isLoggingOut && !_isAppExiting)
             {
                 _sessionTimer = new System.Windows.Forms.Timer();
-                _sessionTimer.Interval = 30000; // Check every 30 seconds
+                _sessionTimer.Interval = 30000;
                 _sessionTimer.Tick += OnTimerTick;
                 _sessionTimer.Start();
             }
@@ -58,9 +68,13 @@ namespace POS
             }
         }
 
+        protected void SetNavigating(bool navigating)
+        {
+            _isNavigating = navigating;
+        }
+
         private async void OnTimerTick(object sender, EventArgs e)
         {
-            // Immediately disable the timer to prevent multiple calls
             if (_sessionTimer != null)
             {
                 _sessionTimer.Enabled = false;
@@ -68,7 +82,6 @@ namespace POS
 
             await ValidateCurrentSession();
 
-            // Re-enable if still active
             if (_sessionTimer != null && !_isLoggingOut && !_isAppExiting && !_sessionExpiredShown)
             {
                 _sessionTimer.Enabled = true;
@@ -77,7 +90,6 @@ namespace POS
 
         private async Task ValidateCurrentSession()
         {
-            // Don't validate if we're logging out or session already expired
             if (_isLoggingOut || _sessionExpiredShown || _isAppExiting) return;
 
             if (string.IsNullOrEmpty(CurrentUserId) || string.IsNullOrEmpty(CurrentSessionToken))
@@ -123,8 +135,35 @@ namespace POS
             Application.Exit();
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        protected override async void OnFormClosing(FormClosingEventArgs e)
         {
+            if (_isNavigating)
+            {
+                base.OnFormClosing(e);
+                return;
+            }
+
+            if (_isClosing) return;
+            _isClosing = true;
+
+            if (e.CloseReason == CloseReason.UserClosing && !_isLoggingOut && RequireExitConfirmation)
+            {
+                DialogResult confirm = MessageBox.Show(
+                    "Are you sure you want to exit?",
+                    "Confirm Exit",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirm == DialogResult.No)
+                {
+                    _isClosing = false;
+                    e.Cancel = true;
+                    return;
+                }
+
+                await PerformLogoutAsync();
+            }
+
             StopSessionMonitoring();
             base.OnFormClosing(e);
         }
@@ -135,7 +174,27 @@ namespace POS
             base.OnFormClosed(e);
         }
 
-        // Title bar functionality
+        // Make this method virtual so child forms can override
+        protected virtual async Task PerformLogoutAsync()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(_userId) && !string.IsNullOrEmpty(_sessionToken))
+                {
+                    await _loginService.LogoutSessionAsync(_userId, _sessionToken);
+                }
+
+                if (!string.IsNullOrEmpty(_companyId) && !string.IsNullOrEmpty(_username))
+                {
+                    await AuditService.LogLogoutAsync(_username, _companyId, Environment.MachineName);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
+            }
+        }
+
         protected void InitializeTitleBar(Button closeButton, params Control[] draggableControls)
         {
             foreach (var control in draggableControls)
@@ -145,41 +204,36 @@ namespace POS
                 closeButton.Click += CloseButton_Click;
         }
 
+        // Make this method virtual so child forms can override
         public virtual async void CloseButton_Click(object sender, EventArgs e)
         {
-            StopSessionMonitoring();
+            if (_isClosing) return;
+            _isClosing = true;
 
-            DialogResult confirm = MessageBox.Show(
-                "Are you sure you want to exit?",
-                "Confirm Exit",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            // Check if this form requires exit confirmation
+            if (RequireExitConfirmation)
+            {
+                DialogResult confirm = MessageBox.Show(
+                    "Are you sure you want to exit?",
+                    "Confirm Exit",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-            if (confirm == DialogResult.Yes)
-            {
-                await RecordLogoutAsync();
-                Application.Exit();
-            }
-            else
-            {
-                _isLoggingOut = false;
-                _isAppExiting = false;
-            }
-        }
-
-        private async Task RecordLogoutAsync()
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(_companyId) && !string.IsNullOrEmpty(_username))
+                if (confirm == DialogResult.No)
                 {
-                    await AuditService.LogLogoutAsync(_username, _companyId, Environment.MachineName);
+                    _isClosing = false;
+                    return;
                 }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Logout audit failed: {ex.Message}");
-            }
+
+            await PerformLogoutAsync();
+            StopSessionMonitoring();
+            Application.Exit();
+        }
+
+        public static void SetAppExiting(bool exiting)
+        {
+            _isAppExiting = exiting;
         }
 
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)
@@ -201,10 +255,6 @@ namespace POS
                 mousePos.Offset(mouseOffset.X, mouseOffset.Y);
                 Location = mousePos;
             }
-        }
-        public static void SetAppExiting(bool exiting)
-        {
-            _isAppExiting = exiting;
         }
 
         private void TitleBar_MouseUp(object sender, MouseEventArgs e)

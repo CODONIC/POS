@@ -177,6 +177,6 @@ namespace POS.Admin
         private void btnResetFilter_Click(object sender, EventArgs e) { dtpFrom.Value = dtpTo.Value = DateTime.Today; cmbCategory.SelectedIndex = cmbAction.SelectedIndex = 0; txtSearch.Text = ""; _currentPage = 1; _ = LoadAuditLogsAsync(); }
         private void btnExport_Click(object sender, EventArgs e) => AuditLogExporter.ExportToCsv(_auditRows, _companyName);
         private void SetLoading(bool loading) { btnApplyFilter.Enabled = btnResetFilter.Enabled = btnExport.Enabled = btnPrev.Enabled = btnNext.Enabled = !loading; Cursor = loading ? Cursors.WaitCursor : Cursors.Default; }
-        private void btnBack_Click(object sender, EventArgs e) { new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Hide(); }
+        private void btnBack_Click(object sender, EventArgs e) { SetNavigating(true); new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Hide(); }
     }
 }

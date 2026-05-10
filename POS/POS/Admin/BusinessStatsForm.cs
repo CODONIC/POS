@@ -178,6 +178,7 @@ namespace POS.Admin
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            SetNavigating(true);
             new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Hide();
         }

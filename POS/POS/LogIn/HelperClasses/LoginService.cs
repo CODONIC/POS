@@ -94,10 +94,10 @@ namespace POS
                         return result;
                     }
 
-                    result.Success = false;
-                    result.ErrorMessage = $"Username not found under the specified company.\n\nAttempts remaining: {newLockoutInfo.RemainingAttempts}";
+                    //result.Success = false;
+                    result.ErrorMessage = $"Username not found under the specified company.\n";
                     result.FocusTarget = ControlToFocus.Username;
-                    result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
+                    //result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
                     return result;
                 }
 
@@ -119,7 +119,7 @@ namespace POS
                     }
 
                     result.Success = false;
-                    result.ErrorMessage = $"Incorrect password.\n\nAttempts remaining: {newLockoutInfo.RemainingAttempts}";
+                    result.ErrorMessage = $"Incorrect password.\n";
                     result.FocusTarget = ControlToFocus.Password;
                     result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
                     return result;
