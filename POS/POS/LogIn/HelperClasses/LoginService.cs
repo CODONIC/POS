@@ -14,6 +14,9 @@ namespace POS
         public string SessionToken { get; set; }
         public string ErrorMessage { get; set; }
         public ControlToFocus FocusTarget { get; set; }
+        public bool IsLockedOut { get; set; }
+        public int RemainingSeconds { get; set; }
+        public int RemainingAttempts { get; set; }
     }
     public enum ControlToFocus
     {
@@ -22,15 +25,25 @@ namespace POS
         Password,
         Company
     }
-    public class SessionResult
+    public class SessionInfo
     {
-        public bool IsValid { get; set; }
-        public string ErrorMessage { get; set; }
         public bool HasActiveSession { get; set; }
+        public string DeviceInfo { get; set; }
+        public DateTime LoginTime { get; set; }
+    }
+
+    public class UserValidationResult
+    {
+        public string UserId { get; set; }
+        public string StoredPassword { get; set; }
+        public string Role { get; set; }
+        public string CompanyName { get; set; }
     }
 
     public class LoginService
     {
+        private readonly LoginLockoutService _lockoutService = new LoginLockoutService();
+
         public async Task<LoginResult> AuthenticateAsync(string username, string password, string company)
         {
             var result = new LoginResult();
@@ -50,26 +63,72 @@ namespace POS
                     return result;
                 }
 
+                // CHECK LOCKOUT STATUS FIRST
+                var lockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
+
+                if (lockoutInfo.IsLockedOut)
+                {
+                    result.Success = false;
+                    result.IsLockedOut = true;
+                    result.RemainingSeconds = lockoutInfo.RemainingSeconds;
+                    result.ErrorMessage = $"Account is temporarily locked.\n\nPlease try again in {lockoutInfo.RemainingSeconds / 60} minute(s) and {lockoutInfo.RemainingSeconds % 60} second(s).";
+                    result.FocusTarget = ControlToFocus.None;
+                    return result;
+                }
+
                 // Validate user and get user data
                 var userData = await ValidateUserAsync(conn, username, company);
                 if (userData == null)
                 {
+                    // Record failed attempt
+                    await _lockoutService.RecordFailedAttemptAsync(username, companyId);
+                    var newLockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
+
+                    if (newLockoutInfo.IsLockedOut)
+                    {
+                        result.Success = false;
+                        result.IsLockedOut = true;
+                        result.RemainingSeconds = newLockoutInfo.RemainingSeconds;
+                        result.ErrorMessage = $"Too many failed attempts. Account is locked for {_lockoutService.GetLockoutMinutes()} minutes.";
+                        result.FocusTarget = ControlToFocus.Username;
+                        return result;
+                    }
+
                     result.Success = false;
-                    result.ErrorMessage = "Username not found under the specified company.";
+                    result.ErrorMessage = $"Username not found under the specified company.\n\nAttempts remaining: {newLockoutInfo.RemainingAttempts}";
                     result.FocusTarget = ControlToFocus.Username;
+                    result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
                     return result;
                 }
 
                 // Validate password
                 if (userData.StoredPassword != password)
                 {
+                    // Record failed attempt
+                    await _lockoutService.RecordFailedAttemptAsync(username, companyId);
+                    var newLockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
+
+                    if (newLockoutInfo.IsLockedOut)
+                    {
+                        result.Success = false;
+                        result.IsLockedOut = true;
+                        result.RemainingSeconds = newLockoutInfo.RemainingSeconds;
+                        result.ErrorMessage = $"Too many failed attempts. Account is locked for {_lockoutService.GetLockoutMinutes()} minutes.";
+                        result.FocusTarget = ControlToFocus.Password;
+                        return result;
+                    }
+
                     result.Success = false;
-                    result.ErrorMessage = "Incorrect password.";
+                    result.ErrorMessage = $"Incorrect password.\n\nAttempts remaining: {newLockoutInfo.RemainingAttempts}";
                     result.FocusTarget = ControlToFocus.Password;
+                    result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
                     return result;
                 }
 
-                // Check for existing active session - BLOCK if exists
+                // SUCCESSFUL LOGIN - Reset lockout
+                await _lockoutService.ResetLockoutAsync(username, companyId);
+
+                // Check for existing active session
                 var sessionCheck = await CheckExistingSessionAsync(conn, userData.UserId);
 
                 if (sessionCheck.HasActiveSession)
@@ -178,6 +237,57 @@ namespace POS
             }
         }
 
+        public async Task<LockoutInfo> GetLockoutStatusAsync(string username, string companyId)
+        {
+            return await _lockoutService.CheckLockoutStatusAsync(username, companyId);
+        }
+
+        public int GetMaxAttempts()
+        {
+            return _lockoutService.GetMaxAttempts();
+        }
+
+        public int GetLockoutMinutes()
+        {
+            return _lockoutService.GetLockoutMinutes();
+        }
+
+        private async Task<string> ValidateCompanyAsync(NpgsqlConnection conn, string company)
+        {
+            const string sql = "SELECT id FROM public.companies WHERE LOWER(name) = LOWER(@company)";
+            await using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@company", company);
+            return (await cmd.ExecuteScalarAsync())?.ToString();
+        }
+
+        private async Task<UserValidationResult> ValidateUserAsync(NpgsqlConnection conn, string username, string company)
+        {
+            const string sql = @"
+                SELECT u.id, u.password, r.name AS role, c.name AS company_name
+                FROM public.users u
+                JOIN public.companies c ON u.company_id = c.id
+                JOIN public.roles r ON u.role_id = r.id
+                WHERE LOWER(u.username) = LOWER(@username) AND LOWER(c.name) = LOWER(@company)";
+
+            await using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@company", company);
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+
+            if (!await reader.ReadAsync())
+                return null;
+
+            return new UserValidationResult
+            {
+                UserId = reader["id"].ToString(),
+                StoredPassword = reader["password"].ToString(),
+                Role = reader["role"].ToString(),
+                CompanyName = reader["company_name"].ToString()
+            };
+        }
+
+
         private async Task<SessionInfo> CheckExistingSessionAsync(NpgsqlConnection conn, string userId)
         {
             const string sql = @"
@@ -204,41 +314,6 @@ namespace POS
             return new SessionInfo { HasActiveSession = false };
         }
 
-        private async Task<string> ValidateCompanyAsync(NpgsqlConnection conn, string company)
-        {
-            const string sql = "SELECT id FROM companies WHERE LOWER(name) = LOWER(@company)";
-            await using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@company", company);
-            return (await cmd.ExecuteScalarAsync())?.ToString();
-        }
-
-        private async Task<UserValidationResult> ValidateUserAsync(NpgsqlConnection conn, string username, string company)
-        {
-            const string sql = @"
-                SELECT u.id, u.password, r.name AS role, c.name AS company_name
-                FROM users u
-                JOIN companies c ON u.company_id = c.id
-                JOIN roles r ON u.role_id = r.id
-                WHERE LOWER(u.username) = LOWER(@username) AND LOWER(c.name) = LOWER(@company)";
-
-            await using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@company", company);
-
-            await using var reader = await cmd.ExecuteReaderAsync();
-
-            if (!await reader.ReadAsync())
-                return null;
-
-            return new UserValidationResult
-            {
-                UserId = reader["id"].ToString(),
-                StoredPassword = reader["password"].ToString(),
-                Role = reader["role"].ToString(),
-                CompanyName = reader["company_name"].ToString()
-            };
-        }
-
         private async Task CreateSessionAsync(NpgsqlConnection conn, string userId, string sessionToken, string deviceInfo)
         {
             const string sql = @"
@@ -252,21 +327,6 @@ namespace POS
             cmd.Parameters.AddWithValue("@loginTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("@lastActivity", DateTime.UtcNow);
             await cmd.ExecuteNonQueryAsync();
-        }
-
-        private class SessionInfo
-        {
-            public bool HasActiveSession { get; set; }
-            public string DeviceInfo { get; set; }
-            public DateTime LoginTime { get; set; }
-        }
-
-        private class UserValidationResult
-        {
-            public string UserId { get; set; }
-            public string StoredPassword { get; set; }
-            public string Role { get; set; }
-            public string CompanyName { get; set; }
         }
     }
 }

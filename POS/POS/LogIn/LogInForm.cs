@@ -29,9 +29,36 @@ namespace POS
             if (chckUserComp.Checked) _credentialsService.SaveCredentials(username, company);
 
             var result = await _loginService.AuthenticateAsync(username, password, company);
+
             if (!result.Success)
             {
-                MessageBox.Show(result.ErrorMessage, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (result.IsLockedOut)
+                {
+                    // Display lockout message with timer
+                    int minutes = result.RemainingSeconds / 60;
+                    int seconds = result.RemainingSeconds % 60;
+                    MessageBox.Show(
+                        $"Account is temporarily locked.\n\n" +
+                        $"Please try again in {minutes} minute(s) and {seconds} second(s).\n\n" +
+                        $"This is for security purposes after {_loginService.GetMaxAttempts()} failed attempts.",
+                        "Account Locked",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+                else if (result.RemainingAttempts > 0)
+                {
+                    MessageBox.Show(
+                        $"{result.ErrorMessage}\n\n" +
+                        $"Warning: {result.RemainingAttempts} attempt(s) remaining before account lockout.",
+                        "Login Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(result.ErrorMessage, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 var target = result.FocusTarget;
                 if (target == ControlToFocus.Username) { txtUsername.Clear(); txtUsername.FocusInner(); }
                 else if (target == ControlToFocus.Password) { txtPassword.Clear(); txtPassword.FocusInner(); }
