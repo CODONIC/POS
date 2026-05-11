@@ -14,7 +14,6 @@ namespace POS.Admin
         private string _selectedUserId;
         private readonly string _userId;
         private readonly string _sessionToken;
-        private readonly LoginService _loginService = new LoginService();
 
         public ManageUsersFrm(string username, string companyName, string userId, string sessionToken)
         {
@@ -110,179 +109,61 @@ namespace POS.Admin
             cmbUserLevel.SelectedItem = row.Cells["User Level"].Value?.ToString();
         }
 
-        // ─── Password Confirmation Dialog ────────────────────────────────────────
         private async Task<bool> ConfirmAdminPasswordAsync()
         {
-            using (var dialog = new Form())
-            {
-                dialog.Text = "Admin Password Confirmation";
-                dialog.Size = new Size(450, 250);
-                dialog.StartPosition = FormStartPosition.CenterParent;
-                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
-                dialog.MaximizeBox = false;
-                dialog.MinimizeBox = false;
-                dialog.BackColor = Color.White;
-                dialog.Font = new Font("Segoe UI", 10);
-
-                // Create TableLayoutPanel for symmetry
-                var layout = new TableLayoutPanel
-                {
-                    Dock = DockStyle.Fill,
-                    ColumnCount = 3,
-                    RowCount = 5,
-                    Padding = new Padding(20)
-                };
-
-                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
-                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80));
-                layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
-
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
-                layout.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
-
-                // Message Label
-                var lblMessage = new Label
-                {
-                    Text = "Confirm your password to continue:",
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Dock = DockStyle.Fill,
-                    Font = new Font("Segoe UI", 11)
-                };
-                layout.Controls.Add(lblMessage, 1, 1);
-
-                // Admin Label
-                var lblAdmin = new Label
-                {
-                    Text = $"Admin: {_username}",
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Dock = DockStyle.Fill,
-                    Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                    ForeColor = Color.FromArgb(59, 130, 246)
-                };
-                layout.Controls.Add(lblAdmin, 1, 2);
-
-                // Password TextBox
-                var txtAdminPassword = new TextBox
-                {
-                    Location = new Point(20, 80),
-                    Size = new Size(250, 30),
-                    PasswordChar = '●',
-                    UseSystemPasswordChar = true,
-                    TextAlign = HorizontalAlignment.Center,
-                    Font = new Font("Segoe UI", 11)
-                };
-                layout.Controls.Add(txtAdminPassword, 1, 3);
-
-                // Button Panel
-                var buttonPanel = new Panel
-                {
-                    Dock = DockStyle.Fill,
-                    Height = 45
-                };
-
-                var btnConfirm = new Button
-                {
-                    Text = "Confirm",
-                    Size = new Size(100, 35),
-                    BackColor = Color.FromArgb(59, 130, 246),
-                    ForeColor = Color.White,
-                    FlatStyle = FlatStyle.Flat,
-                    DialogResult = DialogResult.OK,
-                    Font = new Font("Segoe UI", 10, FontStyle.Bold)
-                };
-                btnConfirm.FlatAppearance.BorderSize = 0;
-
-                var btnCancel = new Button
-                {
-                    Text = "Cancel",
-                    Size = new Size(100, 35),
-                    BackColor = Color.FromArgb(156, 163, 175),
-                    ForeColor = Color.White,
-                    FlatStyle = FlatStyle.Flat,
-                    DialogResult = DialogResult.Cancel,
-                    Margin = new Padding(20, 0, 0, 0),
-                    Font = new Font("Segoe UI", 10, FontStyle.Bold)
-                };
-
-                btnConfirm.Location = new Point(
-                (buttonPanel.Width / 2) - btnConfirm.Width - 10,
-                (buttonPanel.Height - btnConfirm.Height) / 2
-                 );
-
-                // Position cancel button in center-right
-                btnCancel.Location = new Point(
-                    (buttonPanel.Width / 2) + 10,
-                    (buttonPanel.Height - btnCancel.Height) / 2
-                );
-                btnCancel.FlatAppearance.BorderSize = 0;
-
-                buttonPanel.Controls.Add(btnConfirm);
-                buttonPanel.Controls.Add(btnCancel);
-                buttonPanel.Controls.Add(new Label { Width = 0 }); // Spacer
-                buttonPanel.Resize += (s, e) =>
-                {
-                    btnConfirm.Location = new Point(
-                        (buttonPanel.Width / 2) - btnConfirm.Width - 10,
-                        (buttonPanel.Height - btnConfirm.Height) / 2
-                    );
-                    btnCancel.Location = new Point(
-                        (buttonPanel.Width / 2) + 10,
-                        (buttonPanel.Height - btnCancel.Height) / 2
-                    );
-                };
-                layout.Controls.Add(buttonPanel, 1, 4);
-
-                dialog.Controls.Add(layout);
-                dialog.AcceptButton = btnConfirm;
-                dialog.CancelButton = btnCancel;
-
-                // Center the password text horizontally
-                txtAdminPassword.Anchor = AnchorStyles.None;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string enteredPassword = txtAdminPassword.Text;
-                    var result = await _userService.VerifyAdminPasswordAsync(_username, enteredPassword, _companyId);
-                    if (!result)
-                    {
-                        MessageBox.Show("Incorrect admin password. Operation cancelled.", "Authentication Failed",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-                    return true;
-                }
-                return false;
-            }
+            return await ManageUsersHelper.ConfirmAdminPasswordAsync(_username, _userService, _companyId);
         }
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
+            // STEP 1: Get the selected role first
+            string newRole = cmbUserLevel.SelectedItem?.ToString() ?? "";
+
+            // STEP 2: Check admin limit IMMEDIATELY if trying to add an admin
+            if (newRole == "ADMIN")
+            {
+                int currentAdminCount = await _userService.GetAdminCountAsync(_companyId);
+
+                if (currentAdminCount >= 2)
+                {
+                    MessageBox.Show(
+                        "❌ Cannot add another admin.\n\n" +
+                        $"Maximum of 2 admins per company is allowed.\n\n" +
+                        $"Current admins: {currentAdminCount}/2\n\n" +
+                        "Please remove or change an existing admin's role before adding a new one.",
+                        "Admin Limit Reached",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return; // EXIT immediately - don't proceed
+                }
+            }
+
+            // STEP 3: Now validate other fields
             var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
                 cmbUserLevel.SelectedItem, txtAge.Text, txtPassword.Text, true);
 
             if (!result.IsValid)
             { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
+            // STEP 4: Check username exists
             if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim()))
             { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            // Password confirmation for adding user (especially if setting a password)
+            // STEP 5: Password confirmation (only after all other checks pass)
             if (!string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 if (!await ConfirmAdminPasswordAsync())
                     return;
             }
 
-            await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, cmbUserLevel.SelectedItem.ToString(),
+            // STEP 6: Add the user
+            await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, newRole,
                 txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(),
                 int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value);
 
             await AuditService.LogInsertAsync(_username, _companyId, "users", txtUsername.Text.Trim(),
                 AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
+                ("last_name", txtLastName.Text), ("role", newRole)));
 
             MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
@@ -300,9 +181,48 @@ namespace POS.Admin
             if (!result.IsValid)
             { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
+            string oldRole = await _userService.GetUserRoleAsync(_selectedUserId);
+            string newRole = cmbUserLevel.SelectedItem?.ToString() ?? "";
+
+            // Check if user is trying to change role to ADMIN when limit is reached
+            if (newRole == "ADMIN" && oldRole != "ADMIN")
+            {
+                bool canChangeToAdmin = await _userService.CanChangeToAdminRoleAsync(_companyId, _selectedUserId);
+
+                if (!canChangeToAdmin)
+                {
+                    int currentAdminCount = await _userService.GetAdminCountAsync(_companyId);
+                    MessageBox.Show(
+                        $"❌ Cannot change role to ADMIN.\n\n" +
+                        $"Maximum of 2 admins per company is allowed.\n\n" +
+                        $"Current admins: {currentAdminCount}/2\n\n" +
+                        $"Please remove or change an existing admin's role before adding a new one.",
+                        "Admin Limit Reached",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Check if user is trying to change the last admin to non-admin
+            if (oldRole == "ADMIN" && newRole != "ADMIN")
+            {
+                int adminCount = await _userService.GetAdminCountAsync(_companyId);
+                if (adminCount <= 1)
+                {
+                    MessageBox.Show(
+                        "❌ Cannot change the last admin to a different role.\n\n" +
+                        "At least 1 admin is required per company.\n\n" +
+                        "Please add another admin first before changing this user's role.",
+                        "Last Admin Restriction",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
             bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
 
-            // If password is being changed, require admin confirmation
             if (changePassword)
             {
                 if (!await ConfirmAdminPasswordAsync())
@@ -312,15 +232,15 @@ namespace POS.Admin
             var oldValues = await _userService.GetUserOldValuesAsync(_selectedUserId);
 
             await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text,
-                cmbUserLevel.SelectedItem.ToString(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
+                newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
                 txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null,
                 dtpBirthdate.Value, changePassword);
 
             await AuditService.LogUpdateAsync(_username, _companyId, "users", _selectedUserId,
                 AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)),
+                ("last_name", txtLastName.Text), ("role", oldRole)),
                 AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
+                ("last_name", txtLastName.Text), ("role", newRole)));
 
             MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
@@ -330,20 +250,44 @@ namespace POS.Admin
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedUserId))
-            { MessageBox.Show("Please select a user to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            {
+                MessageBox.Show("Please select a user to delete.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes) return;
+            string roleToDelete = cmbUserLevel.SelectedItem?.ToString() ?? "";
 
-            // Require admin confirmation for deletion (security)
+            // Check if deleting an admin would leave less than 1 admin (should have at least 1)
+            if (roleToDelete == "ADMIN")
+            {
+                int adminCount = await _userService.GetAdminCountAsync(_companyId);
+                if (adminCount <= 1)
+                {
+                    MessageBox.Show(
+                        "❌ Cannot delete the last admin account.\n\n" +
+                        "At least 1 admin is required per company.\n\n" +
+                        "Please add another admin first before deleting this one.",
+                        "Last Admin Restriction",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes)
+                return;
+
             if (!await ConfirmAdminPasswordAsync())
                 return;
 
             await _userService.DeleteUserAsync(_selectedUserId);
             await AuditService.LogDeleteAsync(_username, _companyId, "users", _selectedUserId,
                 AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", cmbUserLevel.SelectedItem)));
+                ("last_name", txtLastName.Text), ("role", roleToDelete)));
 
-            MessageBox.Show("User deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("User deleted successfully!", "Success",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadUsersAsync();
         }
@@ -380,18 +324,11 @@ namespace POS.Admin
             toolTip.SetToolTip(btnUpdate, "F2"); toolTip.SetToolTip(btnDelete, "F3");
             toolTip.SetToolTip(btnClear, "F4");
 
-            AttachHoverEffect(btnBack, "BACK", "ESC");
-            AttachHoverEffect(btnAdd, "ADD", "F1");
-            AttachHoverEffect(btnUpdate, "EDIT", "F2");
-            AttachHoverEffect(btnDelete, "DELETE", "F3");
-            AttachHoverEffect(btnClear, "CLEAR", "F4");
-        }
-
-        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
-        {
-            Point originalLocation = btn.Location;
-            btn.MouseEnter += (s, e) => { btn.Text = $"{defaultText}\n({shortcut})"; btn.Location = new Point(originalLocation.X, originalLocation.Y - 3); };
-            btn.MouseLeave += (s, e) => { btn.Text = defaultText; btn.Location = originalLocation; };
+            ManageUsersHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
+            ManageUsersHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
+            ManageUsersHelper.AttachHoverEffect(btnUpdate, "EDIT", "F2");
+            ManageUsersHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
+            ManageUsersHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
     }
 }

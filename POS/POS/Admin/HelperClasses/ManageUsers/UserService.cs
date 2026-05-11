@@ -40,6 +40,138 @@ namespace POS.Admin
             adapter.Fill(dt);
             return dt;
         }
+        public async Task<int> GetAdminCountAsync(string companyId)
+        {
+            try
+            {
+                using var conn = new NpgsqlConnection(_connectionString);
+                await conn.OpenAsync();
+
+                const string sql = @"
+            SELECT COUNT(*) 
+            FROM public.users u
+            JOIN public.roles r ON u.role_id = r.id
+            WHERE r.name = 'ADMIN' AND u.company_id = @companyId";
+
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@companyId", Guid.Parse(companyId));
+
+                return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetAdminCount error: {ex.Message}");
+                return 2;
+            }
+        }
+
+        public async Task<bool> CanAddAdminAsync(string companyId)
+        {
+            int currentAdminCount = await GetAdminCountAsync(companyId);
+            return currentAdminCount < 2; // Max 2 admins per company
+        }
+
+        public async Task<bool> CanChangeToAdminRoleAsync(string companyId, string userId)
+        {
+            int currentAdminCount = await GetAdminCountAsync(companyId);
+
+            // Check if user is already an admin (so we're not counting them twice)
+            string currentRole = await GetUserRoleAsync(userId);
+            bool isCurrentlyAdmin = currentRole == "ADMIN";
+
+            if (isCurrentlyAdmin)
+            {
+                // User is already admin, so changing to admin again doesn't increase count
+                return true;
+            }
+
+            // User is not admin, so adding as admin would increase count
+            return currentAdminCount < 2;
+        }
+
+        public async Task<bool> CanDeleteAdminAsync(string companyId, string userIdToDelete)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                const string sql = @"
+            SELECT COUNT(*) 
+            FROM public.users u
+            JOIN public.roles r ON u.role_id = r.id
+            WHERE r.name = 'ADMIN' 
+            AND u.company_id = @companyId
+            AND u.id != @userIdToDelete";
+
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@companyId", Guid.Parse(companyId));
+                cmd.Parameters.AddWithValue("@userIdToDelete", Guid.Parse(userIdToDelete));
+
+                int remainingAdmins = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                return remainingAdmins > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"CanDeleteAdmin error: {ex.Message}");
+                return false;
+            }
+        }
+
+        
+        public async Task<string> GetUserRoleAsync(string userId)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                const string sql = @"
+            SELECT r.name 
+            FROM public.users u
+            JOIN public.roles r ON u.role_id = r.id
+            WHERE u.id = @userId";
+
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@userId", Guid.Parse(userId));
+
+                var result = await cmd.ExecuteScalarAsync();
+                return result?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetUserRole error: {ex.Message}");
+                return "";
+            }
+        }
+        public async Task<bool> IsLastAdminAsync(string companyId, string userId)
+        {
+            try
+            {
+                using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+
+                const string sql = @"
+            SELECT COUNT(*) 
+            FROM public.users u
+            JOIN public.roles r ON u.role_id = r.id
+            WHERE r.name = 'ADMIN' 
+            AND u.company_id = @companyId
+            AND u.id != @userId";
+
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@companyId", Guid.Parse(companyId));
+                cmd.Parameters.AddWithValue("@userId", Guid.Parse(userId));
+
+                int otherAdmins = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                return otherAdmins == 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"IsLastAdmin error: {ex.Message}");
+                return true; // Assume true to be safe
+            }
+        }
 
         public async Task<bool> VerifyAdminPasswordAsync(string username, string password, string companyId)
         {
