@@ -350,5 +350,7 @@ namespace POS
             toolTip.SetToolTip(btnLogOut, "Esc");
             toolTip.SetToolTip(btnCart, "F1");
         }
+
+        
     }
 }

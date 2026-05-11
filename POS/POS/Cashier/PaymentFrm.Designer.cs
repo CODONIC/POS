@@ -159,6 +159,7 @@
             txtCustomerPayment.PlaceholderText = "";
             txtCustomerPayment.Size = new Size(372, 42);
             txtCustomerPayment.TabIndex = 33;
+            txtCustomerPayment.TextChanged += txtCustomerPayment_TextChanged;
             // 
             // label1
             // 

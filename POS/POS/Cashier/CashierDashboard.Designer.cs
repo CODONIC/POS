@@ -357,10 +357,11 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(274, 493);
             panel3.TabIndex = 27;
+            
             // 
             // btnRemoveItems
             // 
-            btnRemoveItems.BackColor = Color.Firebrick;
+            btnRemoveItems.BackColor = Color.FromArgb(229, 115, 115);
             btnRemoveItems.BorderColor = Color.Transparent;
             btnRemoveItems.BorderRadius = 20;
             btnRemoveItems.BorderSize = 0;
@@ -377,7 +378,7 @@
             // 
             // btnClearSelection
             // 
-            btnClearSelection.BackColor = Color.Firebrick;
+            btnClearSelection.BackColor = Color.FromArgb(156, 163, 175);
             btnClearSelection.BorderColor = Color.Transparent;
             btnClearSelection.BorderRadius = 20;
             btnClearSelection.BorderSize = 0;
@@ -457,7 +458,7 @@
             // 
             // btnClearCart
             // 
-            btnClearCart.BackColor = Color.Firebrick;
+            btnClearCart.BackColor = Color.FromArgb(229, 115, 115);
             btnClearCart.BorderColor = Color.Transparent;
             btnClearCart.BorderRadius = 20;
             btnClearCart.BorderSize = 0;
@@ -474,7 +475,7 @@
             // 
             // btnPayment
             // 
-            btnPayment.BackColor = Color.ForestGreen;
+            btnPayment.BackColor = Color.FromArgb(129, 199, 132);
             btnPayment.BorderColor = Color.Transparent;
             btnPayment.BorderRadius = 20;
             btnPayment.BorderSize = 0;
@@ -491,7 +492,7 @@
             // 
             // btnAddToCart
             // 
-            btnAddToCart.BackColor = Color.ForestGreen;
+            btnAddToCart.BackColor = Color.FromArgb(129, 199, 132);
             btnAddToCart.BorderColor = Color.Transparent;
             btnAddToCart.BorderRadius = 20;
             btnAddToCart.BorderSize = 0;
@@ -643,7 +644,6 @@
             Name = "CashierDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             panel1.ResumeLayout(false);
