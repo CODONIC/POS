@@ -32,6 +32,10 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageUsersFrm));
             lblAdminName = new Label();
             titleLabel = new Label();
@@ -40,8 +44,8 @@
             dgvUsers = new DataGridView();
             label2 = new Label();
             panel1 = new Panel();
-            dtpBirthdate = new DateTimePicker();
-            cmbUserLevel = new ComboBox();
+            dtpBirthdate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            cmbUserLevel = new Guna.UI2.WinForms.Guna2ComboBox();
             label11 = new Label();
             txtContact = new CustomControls.CustomTextBox();
             label10 = new Label();
@@ -208,18 +212,38 @@
             // 
             // dtpBirthdate
             // 
-            dtpBirthdate.Location = new Point(877, 83);
+            dtpBirthdate.Checked = true;
+            dtpBirthdate.CustomizableEdges = customizableEdges1;
+            dtpBirthdate.FillColor = SystemColors.InactiveCaption;
+            dtpBirthdate.Font = new Font("Segoe UI", 9F);
+            dtpBirthdate.Format = DateTimePickerFormat.Long;
+            dtpBirthdate.Location = new Point(865, 132);
+            dtpBirthdate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dtpBirthdate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpBirthdate.Name = "dtpBirthdate";
-            dtpBirthdate.Size = new Size(200, 23);
-            dtpBirthdate.TabIndex = 42;
+            dtpBirthdate.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            dtpBirthdate.Size = new Size(247, 36);
+            dtpBirthdate.TabIndex = 57;
+            dtpBirthdate.Value = new DateTime(2026, 5, 12, 18, 57, 31, 485);
             // 
             // cmbUserLevel
             // 
-            cmbUserLevel.FormattingEnabled = true;
-            cmbUserLevel.Location = new Point(885, 195);
+            cmbUserLevel.BackColor = Color.Transparent;
+            cmbUserLevel.BorderColor = Color.White;
+            cmbUserLevel.CustomizableEdges = customizableEdges3;
+            cmbUserLevel.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbUserLevel.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbUserLevel.FillColor = SystemColors.InactiveCaption;
+            cmbUserLevel.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbUserLevel.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbUserLevel.Font = new Font("Segoe UI", 10F);
+            cmbUserLevel.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbUserLevel.ItemHeight = 30;
+            cmbUserLevel.Location = new Point(865, 186);
             cmbUserLevel.Name = "cmbUserLevel";
-            cmbUserLevel.Size = new Size(121, 23);
-            cmbUserLevel.TabIndex = 41;
+            cmbUserLevel.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            cmbUserLevel.Size = new Size(247, 36);
+            cmbUserLevel.TabIndex = 55;
             // 
             // label11
             // 
@@ -227,7 +251,7 @@
             label11.BackColor = SystemColors.Control;
             label11.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(773, 195);
+            label11.Location = new Point(773, 192);
             label11.Name = "label11";
             label11.Size = new Size(86, 18);
             label11.TabIndex = 40;
@@ -244,7 +268,7 @@
             txtContact.InnerBackColor = SystemColors.InactiveCaption;
             txtContact.InnerForeColor = Color.Black;
             txtContact.IsPasswordField = false;
-            txtContact.Location = new Point(865, 132);
+            txtContact.Location = new Point(865, 23);
             txtContact.Name = "txtContact";
             txtContact.PasswordChar = '\0';
             txtContact.PlaceholderColor = Color.Gray;
@@ -258,7 +282,7 @@
             label10.BackColor = SystemColors.Control;
             label10.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(773, 141);
+            label10.Location = new Point(773, 32);
             label10.Name = "label10";
             label10.Size = new Size(84, 18);
             label10.TabIndex = 38;
@@ -387,7 +411,7 @@
             txtAge.InnerBackColor = SystemColors.InactiveCaption;
             txtAge.InnerForeColor = Color.Black;
             txtAge.IsPasswordField = false;
-            txtAge.Location = new Point(865, 23);
+            txtAge.Location = new Point(865, 77);
             txtAge.Name = "txtAge";
             txtAge.PasswordChar = '\0';
             txtAge.PlaceholderColor = Color.Gray;
@@ -432,7 +456,7 @@
             label5.BackColor = SystemColors.Control;
             label5.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(773, 86);
+            label5.Location = new Point(773, 138);
             label5.Name = "label5";
             label5.Size = new Size(77, 18);
             label5.TabIndex = 24;
@@ -444,7 +468,7 @@
             label4.BackColor = SystemColors.Control;
             label4.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(773, 33);
+            label4.Location = new Point(773, 87);
             label4.Name = "label4";
             label4.Size = new Size(43, 18);
             label4.TabIndex = 23;
@@ -633,7 +657,6 @@
         private Label label5;
         private Label label4;
         private Label label3;
-        private ComboBox cmbUserLevel;
         private Label label11;
         private CustomControls.CustomTextBox txtContact;
         private Label label10;
@@ -650,6 +673,7 @@
         private CustomControls.CustomTextBox txtSearch;
         private Label label12;
         private RoundedButton btnBack;
-        private DateTimePicker dtpBirthdate;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbUserLevel;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpBirthdate;
     }
 }

@@ -47,7 +47,10 @@ namespace POS.Admin
             _pendingChanges = StockChangeHelper.CreatePendingTable();
             dgvPending.DataSource = _pendingChanges;
 
-            InitializeShortcuts();
+            
+            this.KeyPreview = true;
+            this.KeyDown += manageStocks_KeyDown;
+            InitializeShortcutHints();
             this.Load += async (s, e) => await LoadProductsAsync();
         }
 
@@ -301,38 +304,59 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
 
-        private void InitializeShortcuts()
+        
+
+        private void manageStocks_KeyDown(object sender, KeyEventArgs e)
         {
-            KeyPreview = true;
-            KeyDown += (s, e) =>
+            var shortcuts = new Dictionary<Keys, EventHandler>
             {
-                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
-                else if (e.KeyCode == Keys.F1) btnAddStock_Click(s, e);
-                else if (e.KeyCode == Keys.F2) btnRemoveStock_Click(s, e);
-                else if (e.KeyCode == Keys.F3) btnSave_Click(s, e);
-                else if (e.KeyCode == Keys.F4) btnCancel_Click(s, e);
+                { Keys.Escape, btnBack_Click },
+                { Keys.F1, btnAddStock_Click },
+                { Keys.F2, btnRemoveStock_Click },
+                { Keys.F3,  btnSave_Click },
+                { Keys.F4, btnCancel_Click },
+
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
                 e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnBack, "ESC" }, { btnAddStock, "F1" }, { btnRemoveStock, "F2" },
+                { btnSave, "F3" }, { btnCancel, "F4" }
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
 
-            // Custom tooltips based on role
-            if (_role == "INVENTORY MANAGER")
+            foreach (var (button, shortcut) in shortcuts)
             {
-                toolTip.SetToolTip(btnBack, "ESC - Return to Inventory Dashboard");
-                toolTip.SetToolTip(btnAddStock, "F1 - Add Stock");
-                toolTip.SetToolTip(btnRemoveStock, "F2 - Remove Stock");
-                toolTip.SetToolTip(btnSave, "F3 - Save Changes");
-                toolTip.SetToolTip(btnCancel, "F4 - Cancel");
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
             }
-            else
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
             {
-                toolTip.SetToolTip(btnBack, "ESC");
-                toolTip.SetToolTip(btnAddStock, "F1");
-                toolTip.SetToolTip(btnRemoveStock, "F2");
-                toolTip.SetToolTip(btnSave, "F3");
-                toolTip.SetToolTip(btnCancel, "F4");
-            }
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
         }
     }
 }

@@ -46,7 +46,9 @@ namespace POS.Admin
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
-            InitializeShortcuts();
+            this.KeyPreview = true;
+            this.KeyDown += manageProd_KeyDown;
+            InitializeShortcutHints();
             this.Load += async (s, e) => { await LoadProductsAsync(); await LoadCategoriesAsync(); };
         }
 
@@ -290,25 +292,60 @@ namespace POS.Admin
             this.Hide();
         }
 
-        private void InitializeShortcuts()
+        
+
+
+        private void manageProd_KeyDown(object sender, KeyEventArgs e)
         {
-            KeyPreview = true;
-            KeyDown += (s, e) =>
+            var shortcuts = new Dictionary<Keys, EventHandler>
             {
-                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
-                else if (e.KeyCode == Keys.F1 && _role != "INVENTORY MANAGER") btnAdd_Click(s, e);
-                else if (e.KeyCode == Keys.F2 && _role != "INVENTORY MANAGER") btnEdit_Click(s, e);
-                else if (e.KeyCode == Keys.F3 && _role != "INVENTORY MANAGER") btnDelete_Click(s, e);
-                else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
+                { Keys.Escape, btnBack_Click },
+                { Keys.F1, btnAdd_Click },
+                { Keys.F2, btnEdit_Click },
+                { Keys.F3,  btnDelete_Click },
+                { Keys.F4, btnClear_Click },
+                
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
                 e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnBack, "ESC" }, { btnAdd, "F1" }, { btnEdit, "F2" },
+                { btnDelete, "F3" }, { btnClear, "F4" }
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnBack, "ESC");
-            toolTip.SetToolTip(btnAdd, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F1");
-            toolTip.SetToolTip(btnEdit, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F2");
-            toolTip.SetToolTip(btnDelete, _role == "INVENTORY MANAGER" ? "Disabled - No permission" : "F3");
-            toolTip.SetToolTip(btnClear, "F4");
+
+            foreach (var (button, shortcut) in shortcuts)
+            {
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
+            }
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
         }
     }
 }

@@ -20,6 +20,7 @@ namespace POS
         private DataTable _productsTable;
         private bool _isCartView = false;
         private bool _suppressSelectionChanged = false;
+        private bool _isSearching = false;  // ADD THIS FLAG
         private readonly LoginService _loginService = new LoginService();
 
         public CashierDashboard(string username, string companyName, string userId, string sessionToken)
@@ -142,21 +143,36 @@ namespace POS
         {
             if (_suppressSelectionChanged) return;
 
-            DataTable source = _isCartView ? _cartManager.CartTable : _productsTable;
-            if (string.IsNullOrEmpty(keyword))
+            // Set searching flag to prevent selection change
+            _isSearching = true;
+
+            try
             {
-                dgvProducts.DataSource = source;
+                DataTable source = _isCartView ? _cartManager.CartTable : _productsTable;
+                if (string.IsNullOrEmpty(keyword))
+                {
+                    dgvProducts.DataSource = source;
+                    if (_isCartView) RenameCartColumns(); else RenameProductColumns();
+                    dgvProducts.ClearSelection(); // Clear selection when showing all products
+                    ClearSearchFields(); // Clear the search fields to avoid confusion
+                    return;
+                }
+
+                var filtered = source.AsEnumerable()
+                    .Where(r => r[column]?.ToString().IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+                var result = filtered.Count > 0 ? filtered.CopyToDataTable() : source.Clone();
+                dgvProducts.DataSource = result;
                 if (_isCartView) RenameCartColumns(); else RenameProductColumns();
-                return;
+
+                // Clear selection after search to prevent auto-population
+                dgvProducts.ClearSelection();
             }
-
-            var filtered = source.AsEnumerable()
-                .Where(r => r[column]?.ToString().IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                .ToList();
-
-            var result = filtered.Count > 0 ? filtered.CopyToDataTable() : source.Clone();
-            dgvProducts.DataSource = result;
-            if (_isCartView) RenameCartColumns(); else RenameProductColumns();
+            finally
+            {
+                _isSearching = false;
+            }
         }
 
         private void btnAddToCart_Click(object sender, EventArgs e)
@@ -265,7 +281,9 @@ namespace POS
 
         private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
-            if (_suppressSelectionChanged || _isCartView || dgvProducts.SelectedRows.Count == 0) return;
+            // Don't populate if we're searching or suppressing
+            if (_isSearching || _suppressSelectionChanged || _isCartView || dgvProducts.SelectedRows.Count == 0) return;
+
             var row = dgvProducts.SelectedRows[0];
             if (row.IsNewRow) return;
 
@@ -350,7 +368,5 @@ namespace POS
             toolTip.SetToolTip(btnLogOut, "Esc");
             toolTip.SetToolTip(btnCart, "F1");
         }
-
-        
     }
 }

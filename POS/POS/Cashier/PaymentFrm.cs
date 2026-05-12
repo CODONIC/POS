@@ -36,6 +36,10 @@ namespace POS.Cashier
             _originalSubtotal = subtotal;
 
             InitializeForm(username, companyName);
+
+            this.KeyPreview = true;
+            this.KeyDown += PaymentFrm_KeyDown;
+            InitializeShortcutHints();
         }
 
         private string GetCompanyId(string companyName)
@@ -69,8 +73,37 @@ namespace POS.Cashier
 
             txtDiscountPercent.TextChanged += (s, e) => { _calculator.Recalculate(GetDiscountPercent()); UpdateDisplay(); CalculateChange(); };
             txtCustomerPayment.TextChanged += (s, e) => CalculateChange();
-            txtCustomerPayment.KeyPress += (s, e) => e.Handled = (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.') ||
-                (e.KeyChar == '.' && (s as TextBox).Text.Contains("."));
+
+            // Restrict to whole numbers only (digits, no decimal)
+            txtCustomerPayment.KeyPress += (s, e) =>
+            {
+                // Allow control characters (backspace, delete, Ctrl+C, Ctrl+V, Ctrl+X, etc.)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Allow only digits (0-9)
+                if (!char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            };
+
+            // Clean up any pasted non-numeric content (without SelectionStart)
+            txtCustomerPayment.TextChanged += (s, e) =>
+            {
+                string text = txtCustomerPayment.Text;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    // Remove any non-digit characters
+                    string cleaned = new string(text.Where(char.IsDigit).ToArray());
+                    if (cleaned != text)
+                    {
+                        txtCustomerPayment.Text = cleaned;
+                    }
+                }
+            };
         }
 
         // Override OnFormClosing to ensure no confirmation
@@ -167,6 +200,55 @@ namespace POS.Cashier
         private void txtCustomerPayment_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void PaymentFrm_KeyDown(object sender, KeyEventArgs e)
+        {
+            var shortcuts = new Dictionary<Keys, EventHandler>
+            {
+                { Keys.Escape, btnClear_Click },
+                { Keys.Enter, btnConfirmPayment_Click },
+                
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnClear, "ESC" }, { btnConfirmPayment, "ENTER" }
+            };
+
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+
+            foreach (var (button, shortcut) in shortcuts)
+            {
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
+            }
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
         }
     }
 }

@@ -9,28 +9,24 @@ namespace POS.Admin
 {
     public partial class ManageUsersFrm : BaseForm
     {
-        private readonly string _username, _companyName, _companyId;
+        private readonly string _username, _companyName, _companyId, _userId, _sessionToken;
         private readonly UserService _userService;
         private string _selectedUserId;
-        private readonly string _userId;
-        private readonly string _sessionToken;
+
+        private string GetSelectedRole() => cmbUserLevel.SelectedIndex >= 0 && cmbUserLevel.SelectedIndex < cmbUserLevel.Items.Count ? cmbUserLevel.Items[cmbUserLevel.SelectedIndex].ToString() : "";
+        private void SetSelectedRole(string role) { for (int i = 0; i < cmbUserLevel.Items.Count; i++) { if (cmbUserLevel.Items[i].ToString() == role) { cmbUserLevel.SelectedIndex = i; return; } } }
 
         public ManageUsersFrm(string username, string companyName, string userId, string sessionToken)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
-            _username = username;
-            _companyName = companyName;
+            _username = username; _companyName = companyName; _userId = userId; _sessionToken = sessionToken;
             _companyId = GetCompanyId(companyName);
             _userService = new UserService(_companyId);
-            _userId = userId;
-            _sessionToken = sessionToken;
-
             lblAdminName.Text = $"{_username} | Admin";
             titleLabel.Text = $"{_companyName} ";
             SetUserContext(_username, _userId, _sessionToken);
             SetUserContext(_username, _companyId);
-
             SetupDataGridView();
             InitializeShortcuts();
             this.Load += async (s, e) => { await LoadRolesAsync(); await LoadUsersAsync(); };
@@ -46,7 +42,7 @@ namespace POS.Admin
                 cmd.Parameters.AddWithValue("@name", companyName);
                 return cmd.ExecuteScalar()?.ToString();
             }
-            catch (Exception ex) { MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return null; }
+            catch { return null; }
         }
 
         private void SetupDataGridView()
@@ -74,10 +70,9 @@ namespace POS.Admin
                 dt.Columns["birthdate"].ColumnName = "Birthdate";
                 dt.Columns["role"].ColumnName = "User Level";
                 dgvUsers.DataSource = dt;
-                if (dgvUsers.Columns["ID"] != null)
-                    dgvUsers.Columns["ID"].Visible = false;
+                if (dgvUsers.Columns["ID"] != null) dgvUsers.Columns["ID"].Visible = false;
             }
-            catch (Exception ex) { MessageBox.Show($"Error loading users:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch { MessageBox.Show($"Error loading users", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private async Task LoadRolesAsync()
@@ -86,10 +81,9 @@ namespace POS.Admin
             {
                 var roles = await _userService.GetRolesAsync();
                 cmbUserLevel.Items.Clear();
-                foreach (var role in roles)
-                    cmbUserLevel.Items.Add(role);
+                foreach (var role in roles) cmbUserLevel.Items.Add(role);
             }
-            catch (Exception ex) { MessageBox.Show($"Error loading roles:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch { MessageBox.Show($"Error loading roles", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void LoadSelectedUser()
@@ -104,67 +98,68 @@ namespace POS.Admin
             txtMiddleName.Text = row.Cells["Middle Name"].Value?.ToString();
             txtContact.Text = row.Cells["Contact #"].Value?.ToString();
             txtAge.Text = row.Cells["Age"].Value?.ToString();
-            if (DateTime.TryParse(row.Cells["Birthdate"].Value?.ToString(), out DateTime bd))
-                dtpBirthdate.Value = bd;
-            cmbUserLevel.SelectedItem = row.Cells["User Level"].Value?.ToString();
+            if (DateTime.TryParse(row.Cells["Birthdate"].Value?.ToString(), out DateTime bd)) dtpBirthdate.Value = bd;
+            SetSelectedRole(row.Cells["User Level"].Value?.ToString());
         }
 
-        private async Task<bool> ConfirmAdminPasswordAsync()
+        private async Task<bool> ConfirmAdminPasswordAsync() => await ManageUsersHelper.ConfirmAdminPasswordAsync(_username, _userService, _companyId);
+
+        private void txt_KeyDown(object sender, KeyEventArgs e)
         {
-            return await ManageUsersHelper.ConfirmAdminPasswordAsync(_username, _userService, _companyId);
+            if (e.KeyCode == Keys.Down)
+            {
+                if (sender == txtUsername) txtPassword.FocusInner();
+                else if (sender == txtPassword) txtLastName.FocusInner();
+                else if (sender == txtLastName) txtFirstName.FocusInner();
+                else if (sender == txtFirstName) txtMiddleName.FocusInner();
+                else if (sender == txtMiddleName) txtContact.FocusInner();
+                else if (sender == txtContact) txtAge.FocusInner();
+                else if (sender == txtAge) dtpBirthdate.Focus();
+                else if (sender == dtpBirthdate) cmbUserLevel.Focus();
+                else if (sender == cmbUserLevel) txtSearch.Focus();
+                else if (sender == txtSearch) btnAdd.Focus();
+                else if (sender == btnAdd) btnUpdate.Focus();
+                else if (sender == btnUpdate) btnDelete.Focus();
+                else if (sender == btnDelete) btnClear.Focus();
+                else if (sender == btnClear) btnBack.Focus();
+                else if (sender == btnBack) txtUsername.Focus();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtPassword) txtUsername.FocusInner();
+                else if (sender == txtLastName) txtPassword.FocusInner();
+                else if (sender == txtFirstName) txtLastName.FocusInner();
+                else if (sender == txtMiddleName) txtFirstName.FocusInner();
+                else if (sender == txtContact) txtMiddleName.FocusInner();
+                else if (sender == txtAge) txtContact.FocusInner();
+                else if (sender == dtpBirthdate) txtAge.Focus();
+                else if (sender == cmbUserLevel) dtpBirthdate.Focus();
+                else if (sender == txtSearch) cmbUserLevel.Focus();
+                else if (sender == btnAdd) txtSearch.Focus();
+                else if (sender == btnUpdate) btnAdd.Focus();
+                else if (sender == btnDelete) btnUpdate.Focus();
+                else if (sender == btnClear) btnDelete.Focus();
+                else if (sender == btnBack) btnClear.Focus();
+                else if (sender == txtUsername) btnBack.Focus();
+                e.Handled = true;
+            }
         }
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            // STEP 1: Get the selected role first
-            string newRole = cmbUserLevel.SelectedItem?.ToString() ?? "";
-
-            // STEP 2: Check admin limit IMMEDIATELY if trying to add an admin
+            string newRole = GetSelectedRole();
             if (newRole == "ADMIN")
             {
                 int currentAdminCount = await _userService.GetAdminCountAsync(_companyId);
-
-                if (currentAdminCount >= 2)
-                {
-                    MessageBox.Show(
-                        "❌ Cannot add another admin.\n\n" +
-                        $"Maximum of 2 admins per company is allowed.\n\n" +
-                        $"Current admins: {currentAdminCount}/2\n\n" +
-                        "Please remove or change an existing admin's role before adding a new one.",
-                        "Admin Limit Reached",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return; // EXIT immediately - don't proceed
-                }
+                if (currentAdminCount >= 2) { MessageBox.Show("❌ Cannot add another admin.\n\nMaximum of 2 admins per company.", "Admin Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             }
-
-            // STEP 3: Now validate other fields
-            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
-                cmbUserLevel.SelectedItem, txtAge.Text, txtPassword.Text, true);
-
-            if (!result.IsValid)
-            { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-
-            // STEP 4: Check username exists
-            if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim()))
-            { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-
-            // STEP 5: Password confirmation (only after all other checks pass)
-            if (!string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                if (!await ConfirmAdminPasswordAsync())
-                    return;
-            }
-
-            // STEP 6: Add the user
-            await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, newRole,
-                txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(),
-                int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value);
-
-            await AuditService.LogInsertAsync(_username, _companyId, "users", txtUsername.Text.Trim(),
-                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", newRole)));
-
+            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text, newRole, txtAge.Text, txtPassword.Text, true);
+            if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim())) { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (!string.IsNullOrWhiteSpace(txtPassword.Text) && !await ConfirmAdminPasswordAsync()) return;
+            await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value);
+            await AuditService.LogInsertAsync(_username, _companyId, "users", txtUsername.Text.Trim(), AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", newRole)));
             MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadUsersAsync();
@@ -172,76 +167,22 @@ namespace POS.Admin
 
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_selectedUserId))
-            { MessageBox.Show("Please select a user to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-
-            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text,
-                cmbUserLevel.SelectedItem, txtAge.Text);
-
-            if (!result.IsValid)
-            { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-
+            if (string.IsNullOrEmpty(_selectedUserId)) { MessageBox.Show("Please select a user to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            string newRole = GetSelectedRole();
+            var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text, newRole, txtAge.Text);
+            if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             string oldRole = await _userService.GetUserRoleAsync(_selectedUserId);
-            string newRole = cmbUserLevel.SelectedItem?.ToString() ?? "";
-
-            // Check if user is trying to change role to ADMIN when limit is reached
             if (newRole == "ADMIN" && oldRole != "ADMIN")
             {
-                bool canChangeToAdmin = await _userService.CanChangeToAdminRoleAsync(_companyId, _selectedUserId);
-
-                if (!canChangeToAdmin)
-                {
-                    int currentAdminCount = await _userService.GetAdminCountAsync(_companyId);
-                    MessageBox.Show(
-                        $"❌ Cannot change role to ADMIN.\n\n" +
-                        $"Maximum of 2 admins per company is allowed.\n\n" +
-                        $"Current admins: {currentAdminCount}/2\n\n" +
-                        $"Please remove or change an existing admin's role before adding a new one.",
-                        "Admin Limit Reached",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
+                if (!await _userService.CanChangeToAdminRoleAsync(_companyId, _selectedUserId))
+                { MessageBox.Show($"❌ Cannot change role to ADMIN.\n\nMaximum of 2 admins per company.", "Admin Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             }
-
-            // Check if user is trying to change the last admin to non-admin
-            if (oldRole == "ADMIN" && newRole != "ADMIN")
-            {
-                int adminCount = await _userService.GetAdminCountAsync(_companyId);
-                if (adminCount <= 1)
-                {
-                    MessageBox.Show(
-                        "❌ Cannot change the last admin to a different role.\n\n" +
-                        "At least 1 admin is required per company.\n\n" +
-                        "Please add another admin first before changing this user's role.",
-                        "Last Admin Restriction",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
+            if (oldRole == "ADMIN" && newRole != "ADMIN" && await _userService.GetAdminCountAsync(_companyId) <= 1)
+            { MessageBox.Show("❌ Cannot change the last admin.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
-
-            if (changePassword)
-            {
-                if (!await ConfirmAdminPasswordAsync())
-                    return;
-            }
-
-            var oldValues = await _userService.GetUserOldValuesAsync(_selectedUserId);
-
-            await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text,
-                newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
-                txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null,
-                dtpBirthdate.Value, changePassword);
-
-            await AuditService.LogUpdateAsync(_username, _companyId, "users", _selectedUserId,
-                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", oldRole)),
-                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", newRole)));
-
+            if (changePassword && !await ConfirmAdminPasswordAsync()) return;
+            await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text, newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value, changePassword);
+            await AuditService.LogUpdateAsync(_username, _companyId, "users", _selectedUserId, AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", oldRole)), AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", newRole)));
             MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadUsersAsync();
@@ -249,45 +190,15 @@ namespace POS.Admin
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_selectedUserId))
-            {
-                MessageBox.Show("Please select a user to delete.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string roleToDelete = cmbUserLevel.SelectedItem?.ToString() ?? "";
-
-            // Check if deleting an admin would leave less than 1 admin (should have at least 1)
-            if (roleToDelete == "ADMIN")
-            {
-                int adminCount = await _userService.GetAdminCountAsync(_companyId);
-                if (adminCount <= 1)
-                {
-                    MessageBox.Show(
-                        "❌ Cannot delete the last admin account.\n\n" +
-                        "At least 1 admin is required per company.\n\n" +
-                        "Please add another admin first before deleting this one.",
-                        "Last Admin Restriction",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes)
-                return;
-
-            if (!await ConfirmAdminPasswordAsync())
-                return;
-
+            if (string.IsNullOrEmpty(_selectedUserId)) { MessageBox.Show("Please select a user to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            string roleToDelete = GetSelectedRole();
+            if (roleToDelete == "ADMIN" && await _userService.GetAdminCountAsync(_companyId) <= 1)
+            { MessageBox.Show("❌ Cannot delete the last admin account.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes) return;
+            if (!await ConfirmAdminPasswordAsync()) return;
             await _userService.DeleteUserAsync(_selectedUserId);
-            await AuditService.LogDeleteAsync(_username, _companyId, "users", _selectedUserId,
-                AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text),
-                ("last_name", txtLastName.Text), ("role", roleToDelete)));
-
-            MessageBox.Show("User deleted successfully!", "Success",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await AuditService.LogDeleteAsync(_username, _companyId, "users", _selectedUserId, AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", roleToDelete)));
+            MessageBox.Show("User deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadUsersAsync();
         }
@@ -295,8 +206,7 @@ namespace POS.Admin
         private void ClearFields()
         {
             _selectedUserId = null;
-            txtUsername.Text = txtPassword.Text = txtLastName.Text = txtFirstName.Text =
-            txtMiddleName.Text = txtContact.Text = txtAge.Text = "";
+            txtUsername.Text = txtPassword.Text = txtLastName.Text = txtFirstName.Text = txtMiddleName.Text = txtContact.Text = txtAge.Text = "";
             dtpBirthdate.Value = DateTime.Today;
             cmbUserLevel.SelectedIndex = -1;
             dgvUsers.ClearSelection();
@@ -308,27 +218,11 @@ namespace POS.Admin
 
         private void InitializeShortcuts()
         {
-            KeyPreview = true;
-            KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
-                else if (e.KeyCode == Keys.F1) btnAdd_Click(s, e);
-                else if (e.KeyCode == Keys.F2) btnUpdate_Click(s, e);
-                else if (e.KeyCode == Keys.F3) btnDelete_Click(s, e);
-                else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
-                e.Handled = true;
-            };
-
-            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnBack, "ESC"); toolTip.SetToolTip(btnAdd, "F1");
-            toolTip.SetToolTip(btnUpdate, "F2"); toolTip.SetToolTip(btnDelete, "F3");
-            toolTip.SetToolTip(btnClear, "F4");
-
-            ManageUsersHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
-            ManageUsersHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
-            ManageUsersHelper.AttachHoverEffect(btnUpdate, "EDIT", "F2");
-            ManageUsersHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
-            ManageUsersHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
+            var controls = new Control[] { txtUsername, txtPassword, txtFirstName, txtLastName, txtMiddleName, txtContact, txtAge, dtpBirthdate, cmbUserLevel, txtSearch, btnAdd, btnUpdate, btnDelete, btnClear, btnBack };
+            foreach (var control in controls) ShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
+            ShortcutHelper.AttachFunctionShortcuts(this, (s, ev) => btnBack_Click(s, ev), (s, ev) => btnAdd_Click(s, ev), (s, ev) => btnUpdate_Click(s, ev), (s, ev) => btnDelete_Click(s, ev), (s, ev) => btnClear_Click(s, ev));
+            ShortcutHelper.SetupTooltips(this, (btnBack, "ESC"), (btnAdd, "F1"), (btnUpdate, "F2"), (btnDelete, "F3"), (btnClear, "F4"));
+            ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC"); ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1"); ShortcutHelper.AttachHoverEffect(btnUpdate, "EDIT", "F2"); ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3"); ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
     }
 }

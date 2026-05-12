@@ -31,6 +31,10 @@ namespace POS.Admin
             InitializeGrid();
             InitializeFilters();
             txtSearch.TextChanged += async (s, e) => { _currentPage = 1; await LoadAuditLogsAsync(); };
+
+            this.KeyPreview = true;
+            this.KeyDown += employeeLogsForm_KeyDown;
+            InitializeShortcutHints();
         }
 
         private async Task<bool> ResolveCompanyIdAsync()
@@ -178,5 +182,66 @@ namespace POS.Admin
         private void btnExport_Click(object sender, EventArgs e) => AuditLogExporter.ExportToCsv(_auditRows, _companyName);
         private void SetLoading(bool loading) { btnApplyFilter.Enabled = btnResetFilter.Enabled = btnExport.Enabled = btnPrev.Enabled = btnNext.Enabled = !loading; Cursor = loading ? Cursors.WaitCursor : Cursors.Default; }
         private void btnBack_Click(object sender, EventArgs e) { SetNavigating(true); new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show(); Hide(); }
+
+
+
+        private void employeeLogsForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            var shortcuts = new Dictionary<Keys, EventHandler>
+            {
+                { Keys.Escape, btnBack_Click },
+                { Keys.F1, btnExport_Click },
+                { Keys.Right, btnNext_Click },
+                { Keys.Left, btnPrev_Click },
+                { Keys.F2, btnApplyFilter_Click },
+                { Keys.F3, btnResetFilter_Click },
+
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnBack, "ESC" },
+                { btnExport, "F1" },
+                { btnNext, "Right Arrow Key" },
+                { btnPrev, "Left Arrow Key" },
+                { btnApplyFilter, "F2" },
+                { btnResetFilter, "F3" }
+            };
+
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+
+            foreach (var (button, shortcut) in shortcuts)
+            {
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
+            }
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
+        }
+
     }
 }

@@ -35,6 +35,9 @@ namespace POS.Admin
 
             LoadTransactions();
             txtSearch.TextChanged += (s, e) => FilterTransactions();
+            this.KeyPreview = true;
+            this.KeyDown += transactionForm_KeyDown;
+            InitializeShortcutHints();
         }
 
         private string GetCompanyId(string companyName)
@@ -81,6 +84,54 @@ namespace POS.Admin
             SetNavigating(true);
             new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Close();
+        }
+
+        private void transactionForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            var shortcuts = new Dictionary<Keys, EventHandler>
+            {
+                { Keys.Escape, btnBack_Click },
+
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnBack, "ESC" }
+            };
+
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+
+            foreach (var (button, shortcut) in shortcuts)
+            {
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
+            }
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
         }
     }
 }

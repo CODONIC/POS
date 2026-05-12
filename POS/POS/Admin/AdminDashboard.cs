@@ -169,7 +169,8 @@ namespace POS
                 { Keys.F5, btnTransactions_Click },
                 { Keys.F6, btnBusinessStats_Click },
                 { Keys.F7, btnSalesReport_Click },
-                { Keys.F8, btnSettings_Click }
+                { Keys.F8, btnAudit_Click },
+                { Keys.F9, btnSettings_Click },
             };
 
             if (shortcuts.TryGetValue(e.KeyCode, out var handler))
@@ -185,7 +186,7 @@ namespace POS
             {
                 { btnLogOut, "ESC" }, { btnManageUsers, "F1" }, { btnManageCategory, "F2" },
                 { btnManageProducts, "F3" }, { btnManageStocks, "F4" }, { btnTransactions, "F5" },
-                { btnBusinessStats, "F6" }, { btnSalesReport, "F7" }, { btnSettings, "F8" }
+                { btnBusinessStats, "F6" }, { btnSalesReport, "F7" },{ btnAudit, "F8" }, { btnSettings, "F9" }
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };

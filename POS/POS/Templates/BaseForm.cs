@@ -38,6 +38,8 @@ namespace POS
             _isClosing = false;
             _isNavigating = false;
 
+            CrashRecoveryService.RegisterActiveSession(userId, sessionToken);
+
             if (_sessionTimer == null && !_isLoggingOut && !_isAppExiting)
             {
                 _sessionTimer = new System.Windows.Forms.Timer();
@@ -225,6 +227,7 @@ namespace POS
                     return;
                 }
             }
+            CrashRecoveryService.UnregisterActiveSession(_sessionToken);
 
             await PerformLogoutAsync();
             StopSessionMonitoring();

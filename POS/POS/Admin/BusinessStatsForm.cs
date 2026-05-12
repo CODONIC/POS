@@ -35,6 +35,10 @@ namespace POS.Admin
             dtpTo.ValueChanged += (s, e) => LoadKPIs();
             cmbQuickFilter.SelectedIndexChanged += CmbQuickFilter_SelectedIndexChanged;
             LoadKPIs();
+
+            this.KeyPreview = true;
+            this.KeyDown += businessForm_KeyDown;
+            InitializeShortcutHints();
         }
 
         private Guid FetchCompanyId(string companyName)
@@ -181,6 +185,61 @@ namespace POS.Admin
             SetNavigating(true);
             new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Hide();
+        }
+
+
+        private void businessForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            var shortcuts = new Dictionary<Keys, EventHandler>
+            {
+                { Keys.Escape, btnBack_Click },
+                { Keys.F1, btnBestSellers_Click },
+                { Keys.F2, btnToggleChart_Click },
+                { Keys.F3, btnRefresh_Click },
+
+            };
+
+            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
+            {
+                handler?.Invoke(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void InitializeShortcutHints()
+        {
+            var shortcuts = new Dictionary<Button, string>
+            {
+                { btnBack, "ESC" },
+                { btnBestSellers, "F1" },
+                { btnToggleChart, "F2" },
+                { btnRefresh, "F3" }
+            };
+
+            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+
+            foreach (var (button, shortcut) in shortcuts)
+            {
+                toolTip.SetToolTip(button, shortcut);
+                AttachHoverEffect(button);
+            }
+        }
+
+        private void AttachHoverEffect(Button btn)
+        {
+            var originalLocation = btn.Location;
+
+            btn.MouseEnter += (s, e) =>
+            {
+                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
+                btn.Padding = new Padding(0, 0, 0, 6);
+            };
+
+            btn.MouseLeave += (s, e) =>
+            {
+                btn.Location = originalLocation;
+                btn.Padding = new Padding(0);
+            };
         }
     }
 }
