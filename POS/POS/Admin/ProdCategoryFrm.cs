@@ -8,11 +8,9 @@ namespace POS.Admin
 {
     public partial class ProdCategoryFrm : BaseForm
     {
-        private readonly string _username, _companyName, _companyId;
+        private readonly string _username, _companyName, _companyId, _userId, _sessionToken;
         private readonly CategoryService _categoryService;
         private string _selectedCategoryId;
-        private readonly string _userId;
-        private readonly string _sessionToken;
 
         public ProdCategoryFrm(string username, string companyName, string userId, string sessionToken)
         {
@@ -62,17 +60,13 @@ namespace POS.Admin
             try
             {
                 var dt = await _categoryService.GetCategoriesAsync(txtSearch.Text.Trim());
-                dgvCategories.SelectionChanged -= dgvCategories_SelectionChanged;
                 dgvCategories.DataSource = dt;
                 dgvCategories.Columns["id"].HeaderText = "ID";
                 dgvCategories.Columns["name"].HeaderText = "Category Name";
                 dgvCategories.Columns["id"].Visible = false;
-                dgvCategories.SelectionChanged += dgvCategories_SelectionChanged;
             }
             catch (Exception ex) { MessageBox.Show($"Failed to load categories: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
-        private void dgvCategories_SelectionChanged(object sender, EventArgs e) => LoadSelectedCategory();
 
         private void LoadSelectedCategory()
         {
@@ -82,6 +76,23 @@ namespace POS.Admin
 
             _selectedCategoryId = row.Cells["id"].Value.ToString();
             txtCategoryName.Text = row.Cells["name"].Value.ToString();
+        }
+
+        
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                if (sender == txtSearch) txtCategoryName.FocusInner();
+                else if (sender == txtCategoryName) txtSearch.FocusInner();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtCategoryName) txtSearch.FocusInner();
+                else if (sender == txtSearch) txtCategoryName.FocusInner();
+                e.Handled = true;
+            }
         }
 
         private async void btnAdd_Click(object sender, EventArgs e)
@@ -170,34 +181,34 @@ namespace POS.Admin
 
         private void InitializeShortcuts()
         {
-            KeyPreview = true;
-            KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Escape) btnBack_Click(s, e);
-                else if (e.KeyCode == Keys.F1) btnAdd_Click(s, e);
-                else if (e.KeyCode == Keys.F2) btnEdit_Click(s, e);
-                else if (e.KeyCode == Keys.F3) btnDelete_Click(s, e);
-                else if (e.KeyCode == Keys.F4) btnClear_Click(s, e);
-                e.Handled = true;
-            };
+            
+            ShortcutHelper.AttachCustomKeyNavigation(txtSearch, txt_KeyDown);
+            ShortcutHelper.AttachCustomKeyNavigation(txtCategoryName, txt_KeyDown);
 
-            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnBack, "ESC"); toolTip.SetToolTip(btnAdd, "F1");
-            toolTip.SetToolTip(btnEdit, "F2"); toolTip.SetToolTip(btnDelete, "F3");
-            toolTip.SetToolTip(btnClear, "F4");
+            
+            ShortcutHelper.AttachFunctionShortcuts(this,
+                onEscape: (s, ev) => btnBack_Click(s, ev),
+                onF1: (s, ev) => btnAdd_Click(s, ev),
+                onF2: (s, ev) => btnEdit_Click(s, ev),
+                onF3: (s, ev) => btnDelete_Click(s, ev),
+                onF4: (s, ev) => btnClear_Click(s, ev)
+            );
 
-            AttachHoverEffect(btnBack, "BACK", "ESC");
-            AttachHoverEffect(btnAdd, "ADD", "F1");
-            AttachHoverEffect(btnEdit, "EDIT", "F2");
-            AttachHoverEffect(btnDelete, "DELETE", "F3");
-            AttachHoverEffect(btnClear, "CLEAR", "F4");
-        }
+            
+            ShortcutHelper.SetupTooltips(this,
+                (btnBack, "ESC"),
+                (btnAdd, "F1"),
+                (btnEdit, "F2"),
+                (btnDelete, "F3"),
+                (btnClear, "F4")
+            );
 
-        private void AttachHoverEffect(Button btn, string defaultText, string shortcut)
-        {
-            Point originalLocation = btn.Location;
-            btn.MouseEnter += (s, e) => { btn.Text = $"{defaultText}\n({shortcut})"; btn.Location = new Point(originalLocation.X, originalLocation.Y - 3); };
-            btn.MouseLeave += (s, e) => { btn.Text = defaultText; btn.Location = originalLocation; };
+            
+            ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
+            ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
+            ShortcutHelper.AttachHoverEffect(btnEdit, "EDIT", "F2");
+            ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
+            ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
     }
 }

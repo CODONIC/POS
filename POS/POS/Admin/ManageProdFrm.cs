@@ -10,12 +10,10 @@ namespace POS.Admin
 {
     public partial class ManageProdFrm : BaseForm
     {
-        private readonly string _username, _companyName, _companyId;
+        private readonly string _username, _companyName, _companyId, _userId, _sessionToken;
         private readonly ProductService _productService;
         private string _selectedProductId;
         private readonly string _role;
-        private readonly string _userId;
-        private readonly string _sessionToken;
 
         public ManageProdFrm(string username, string companyName, string userId, string sessionToken)
         {
@@ -29,12 +27,11 @@ namespace POS.Admin
             _userId = userId;
             _sessionToken = sessionToken;
 
-            // Set title based on role
             if (_role == "INVENTORY MANAGER")
             {
                 lblAdminName.Text = $"{_username} | Inventory Manager";
                 titleLabel.Text = $"{_companyName} (View Mode)";
-                
+                //ApplyInventoryManagerPermissions();
             }
             else
             {
@@ -46,11 +43,26 @@ namespace POS.Admin
             SetUserContext(_username, _companyId);
 
             SetupDataGridView();
-            this.KeyPreview = true;
-            this.KeyDown += manageProd_KeyDown;
-            InitializeShortcutHints();
+            InitializeShortcuts();
             this.Load += async (s, e) => { await LoadProductsAsync(); await LoadCategoriesAsync(); };
         }
+
+       /* private void ApplyInventoryManagerPermissions()
+        {
+            btnAdd.Enabled = false;
+            btnEdit.Enabled = false;
+            btnDelete.Enabled = false;
+            btnAdd.BackColor = Color.Gray;
+            btnEdit.BackColor = Color.Gray;
+            btnDelete.BackColor = Color.Gray;
+            ////txtProductCode.ReadOnly = true;
+            ///txtProductName.ReadOnly = true;
+            //txtPrice.ReadOnly = true;
+            //txtReorderLevel.ReadOnly = true;
+            cmbCategory.Enabled = false;
+            lblAdminName.ForeColor = Color.Orange;
+            lblAdminName.Text += " (Read Only)";
+        } */
 
         private string GetUserRole(string username)
         {
@@ -58,23 +70,13 @@ namespace POS.Admin
             {
                 using var conn = DatabaseService.GetConnection();
                 conn.Open();
-                const string query = @"
-                    SELECT r.name 
-                    FROM public.users u
-                    JOIN public.roles r ON u.role_id = r.id
-                    WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
+                const string query = @"SELECT r.name FROM public.users u JOIN public.roles r ON u.role_id = r.id WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
                 using var cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@username", username);
                 return cmd.ExecuteScalar()?.ToString()?.ToUpper();
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error resolving role: {ex.Message}");
-                return null;
-            }
+            catch { return null; }
         }
-
-        
 
         private string GetCompanyId(string companyName)
         {
@@ -112,7 +114,7 @@ namespace POS.Admin
                 dt.Columns["category"].ColumnName = "Category";
                 dgvProducts.DataSource = dt;
             }
-            catch (Exception ex) { MessageBox.Show($"Failed to load products:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch { MessageBox.Show($"Failed to load products", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private async Task LoadCategoriesAsync()
@@ -124,7 +126,7 @@ namespace POS.Admin
                 cmbCategory.Items.Clear();
                 foreach (var cat in categories) cmbCategory.Items.Add(cat);
             }
-            catch (Exception ex) { MessageBox.Show($"Error loading categories:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch { MessageBox.Show($"Error loading categories", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void LoadSelectedProduct()
@@ -142,47 +144,37 @@ namespace POS.Admin
                 if (item is CategoryItem cat && cat.Name == categoryName) { cmbCategory.SelectedItem = item; break; }
         }
 
+        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                if (sender == txtSearch) txtProductCode.FocusInner();
+                else if (sender == txtProductCode) txtProductName.FocusInner();
+                else if (sender == txtProductName) txtPrice.FocusInner();
+                else if (sender == txtPrice) txtReorderLevel.FocusInner();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtProductName) txtProductCode.FocusInner();
+                else if (sender == txtPrice) txtProductName.FocusInner();
+                else if (sender == txtReorderLevel) txtPrice.FocusInner();
+                else if (sender == txtProductCode) txtSearch.FocusInner();
+                e.Handled = true;
+            }
+        }
+
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            // Prevent Inventory Manager from adding
-            if (_role == "INVENTORY MANAGER")
-            {
-                MessageBox.Show("Inventory Managers do not have permission to add products.",
-                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var result = ProductValidator.ValidateInputs(
-                txtProductCode.Text.Trim(),
-                txtProductName.Text.Trim(),
-                txtPrice.Text.Trim(),
-                txtReorderLevel.Text.Trim(),
-                cmbCategory.SelectedItem);
-
-            if (!result.IsValid)
-            {
-                MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
+            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot add products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
+            if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             string code = txtProductCode.Text.Trim();
-            if (await _productService.ProductExistsAsync(code))
-            {
-                MessageBox.Show($"Product code '{code}' already exists.", "Duplicate",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtProductCode.FocusInner();
-                return;
-            }
-
+            if (await _productService.ProductExistsAsync(code)) { MessageBox.Show($"Product code '{code}' already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtProductCode.Focus(); return; }
             var category = cmbCategory.SelectedItem as CategoryItem;
-            await _productService.AddProductAsync(code, txtProductName.Text.Trim(),
-                decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
-
-            await AuditService.LogInsertAsync(_username, _companyId, "products", code,
-                AuditService.ToJson(("product_code", code), ("product_name", txtProductName.Text),
-                ("price", decimal.Parse(txtPrice.Text)), ("reorder_level", int.Parse(txtReorderLevel.Text)),
-                ("category", category.Name)));
-
+            await _productService.AddProductAsync(code, txtProductName.Text.Trim(), decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
+            await AuditService.LogInsertAsync(_username, _companyId, "products", code, AuditService.ToJson(("product_code", code), ("product_name", txtProductName.Text), ("price", decimal.Parse(txtPrice.Text)), ("reorder_level", int.Parse(txtReorderLevel.Text)), ("category", category.Name)));
             MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadProductsAsync();
@@ -190,45 +182,14 @@ namespace POS.Admin
 
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-            // Prevent Inventory Manager from editing
-            if (_role == "INVENTORY MANAGER")
-            {
-                MessageBox.Show("Inventory Managers do not have permission to edit products.",
-                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(_selectedProductId))
-            {
-                MessageBox.Show("Please select a product to edit.", "No Selection",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var result = ProductValidator.ValidateInputs(
-                txtProductCode.Text.Trim(),
-                txtProductName.Text.Trim(),
-                txtPrice.Text.Trim(),
-                txtReorderLevel.Text.Trim(),
-                cmbCategory.SelectedItem);
-
-            if (!result.IsValid)
-            {
-                MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
+            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot edit products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
+            if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             var (oldName, oldPrice, oldReorder, oldCategory) = await _productService.GetProductOldValuesAsync(_selectedProductId);
             var category = cmbCategory.SelectedItem as CategoryItem;
-
-            await _productService.UpdateProductAsync(_selectedProductId, txtProductName.Text.Trim(),
-                decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
-
-            await AuditService.LogUpdateAsync(_username, _companyId, "products", _selectedProductId,
-                AuditService.ToJson(("product_name", oldName), ("price", oldPrice), ("reorder_level", oldReorder), ("category", oldCategory)),
-                AuditService.ToJson(("product_name", txtProductName.Text), ("price", decimal.Parse(txtPrice.Text)),
-                ("reorder_level", int.Parse(txtReorderLevel.Text)), ("category", category.Name)));
-
+            await _productService.UpdateProductAsync(_selectedProductId, txtProductName.Text.Trim(), decimal.Parse(txtPrice.Text), int.Parse(txtReorderLevel.Text), category.Id);
+            await AuditService.LogUpdateAsync(_username, _companyId, "products", _selectedProductId, AuditService.ToJson(("product_name", oldName), ("price", oldPrice), ("reorder_level", oldReorder), ("category", oldCategory)), AuditService.ToJson(("product_name", txtProductName.Text), ("price", decimal.Parse(txtPrice.Text)), ("reorder_level", int.Parse(txtReorderLevel.Text)), ("category", category.Name)));
             MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadProductsAsync();
@@ -236,27 +197,11 @@ namespace POS.Admin
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            // Prevent Inventory Manager from deleting
-            if (_role == "INVENTORY MANAGER")
-            {
-                MessageBox.Show("Inventory Managers do not have permission to delete products.",
-                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(_selectedProductId))
-            {
-                MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
-
+            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot delete products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             await _productService.DeleteProductAsync(_selectedProductId);
-            await AuditService.LogDeleteAsync(_username, _companyId, "products", _selectedProductId,
-                AuditService.ToJson(("product_code", _selectedProductId), ("product_name", txtProductName.Text)));
-
+            await AuditService.LogDeleteAsync(_username, _companyId, "products", _selectedProductId, AuditService.ToJson(("product_code", _selectedProductId), ("product_name", txtProductName.Text)));
             MessageBox.Show("Product deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearFields();
             await LoadProductsAsync();
@@ -276,76 +221,47 @@ namespace POS.Admin
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            // Return to appropriate dashboard based on role
+            SetNavigating(true);
             if (_role == "INVENTORY MANAGER")
-            {
-                SetNavigating(true);
-                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken);
-                inventoryDashboard.Show();
-            }
+                new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken).Show();
             else
-            {
-                SetNavigating(true);
-                var adminDashboard = new AdminDashboard(_username, _companyName, _userId, _sessionToken);
-                adminDashboard.Show();
-            }
+                new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             this.Hide();
         }
 
-        
-
-
-        private void manageProd_KeyDown(object sender, KeyEventArgs e)
+        private void InitializeShortcuts()
         {
-            var shortcuts = new Dictionary<Keys, EventHandler>
+            // Attach KeyDown events to all controls using the helper (SAME AS MANAGEUSERS)
+            var controls = new Control[] { txtProductCode, txtProductName, txtPrice, txtReorderLevel, cmbCategory, txtSearch };
+            foreach (var control in controls)
             {
-                { Keys.Escape, btnBack_Click },
-                { Keys.F1, btnAdd_Click },
-                { Keys.F2, btnEdit_Click },
-                { Keys.F3,  btnDelete_Click },
-                { Keys.F4, btnClear_Click },
-                
-            };
-
-            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
-            {
-                handler?.Invoke(sender, e);
-                e.Handled = true;
+                ShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
             }
-        }
 
-        private void InitializeShortcutHints()
-        {
-            var shortcuts = new Dictionary<Button, string>
-            {
-                { btnBack, "ESC" }, { btnAdd, "F1" }, { btnEdit, "F2" },
-                { btnDelete, "F3" }, { btnClear, "F4" }
-            };
+            // Attach function shortcuts (SAME AS MANAGEUSERS)
+            ShortcutHelper.AttachFunctionShortcuts(this,
+                onEscape: (s, ev) => btnBack_Click(s, ev),
+                onF1: (s, ev) => btnAdd_Click(s, ev),
+                onF2: (s, ev) => btnEdit_Click(s, ev),
+                onF3: (s, ev) => btnDelete_Click(s, ev),
+                onF4: (s, ev) => btnClear_Click(s, ev)
+            );
 
-            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+            // Setup tooltips (SAME AS MANAGEUSERS)
+            ShortcutHelper.SetupTooltips(this,
+                (btnBack, "ESC"),
+                (btnAdd, "F1"),
+                (btnEdit, "F2"),
+                (btnDelete, "F3"),
+                (btnClear, "F4")
+            );
 
-            foreach (var (button, shortcut) in shortcuts)
-            {
-                toolTip.SetToolTip(button, shortcut);
-                AttachHoverEffect(button);
-            }
-        }
-
-        private void AttachHoverEffect(Button btn)
-        {
-            var originalLocation = btn.Location;
-
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-                btn.Padding = new Padding(0, 0, 0, 6);
-            };
-
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Location = originalLocation;
-                btn.Padding = new Padding(0);
-            };
+            // Attach hover effects (SAME AS MANAGEUSERS)
+            ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
+            ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
+            ShortcutHelper.AttachHoverEffect(btnEdit, "EDIT", "F2");
+            ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
+            ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
     }
 }

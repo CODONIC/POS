@@ -108,21 +108,15 @@ namespace POS.Admin
         {
             if (e.KeyCode == Keys.Down)
             {
-                if (sender == txtUsername) txtPassword.FocusInner();
+                if (sender == txtSearch) txtUsername.FocusInner();
+                else if (sender == txtUsername) txtPassword.FocusInner();
                 else if (sender == txtPassword) txtLastName.FocusInner();
                 else if (sender == txtLastName) txtFirstName.FocusInner();
                 else if (sender == txtFirstName) txtMiddleName.FocusInner();
                 else if (sender == txtMiddleName) txtContact.FocusInner();
                 else if (sender == txtContact) txtAge.FocusInner();
-                else if (sender == txtAge) dtpBirthdate.Focus();
-                else if (sender == dtpBirthdate) cmbUserLevel.Focus();
-                else if (sender == cmbUserLevel) txtSearch.Focus();
-                else if (sender == txtSearch) btnAdd.Focus();
-                else if (sender == btnAdd) btnUpdate.Focus();
-                else if (sender == btnUpdate) btnDelete.Focus();
-                else if (sender == btnDelete) btnClear.Focus();
-                else if (sender == btnClear) btnBack.Focus();
-                else if (sender == btnBack) txtUsername.Focus();
+                
+                
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Up)
@@ -133,15 +127,8 @@ namespace POS.Admin
                 else if (sender == txtMiddleName) txtFirstName.FocusInner();
                 else if (sender == txtContact) txtMiddleName.FocusInner();
                 else if (sender == txtAge) txtContact.FocusInner();
-                else if (sender == dtpBirthdate) txtAge.Focus();
-                else if (sender == cmbUserLevel) dtpBirthdate.Focus();
-                else if (sender == txtSearch) cmbUserLevel.Focus();
-                else if (sender == btnAdd) txtSearch.Focus();
-                else if (sender == btnUpdate) btnAdd.Focus();
-                else if (sender == btnDelete) btnUpdate.Focus();
-                else if (sender == btnClear) btnDelete.Focus();
-                else if (sender == btnBack) btnClear.Focus();
-                else if (sender == txtUsername) btnBack.Focus();
+                else if (sender == txtUsername) txtSearch.FocusInner();
+                
                 e.Handled = true;
             }
         }

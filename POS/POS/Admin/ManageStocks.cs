@@ -10,12 +10,10 @@ namespace POS.Admin
 {
     public partial class ManageStocks : BaseForm
     {
-        private readonly string _username, _companyName, _companyId;
+        private readonly string _username, _companyName, _companyId, _userId, _sessionToken;
         private readonly StockService _stockService;
         private DataTable _pendingChanges;
         private readonly string _role;
-        private readonly string _userId;
-        private readonly string _sessionToken;
 
         public ManageStocks(string username, string companyName, string userId, string sessionToken)
         {
@@ -29,7 +27,6 @@ namespace POS.Admin
             _userId = userId;
             _sessionToken = sessionToken;
 
-            // Set title based on role
             if (_role == "INVENTORY MANAGER")
             {
                 lblAdminName.Text = $"{_username} | Inventory Manager";
@@ -47,10 +44,7 @@ namespace POS.Admin
             _pendingChanges = StockChangeHelper.CreatePendingTable();
             dgvPending.DataSource = _pendingChanges;
 
-            
-            this.KeyPreview = true;
-            this.KeyDown += manageStocks_KeyDown;
-            InitializeShortcutHints();
+            InitializeShortcuts();
             this.Load += async (s, e) => await LoadProductsAsync();
         }
 
@@ -60,20 +54,12 @@ namespace POS.Admin
             {
                 using var conn = DatabaseService.GetConnection();
                 conn.Open();
-                const string query = @"
-                    SELECT r.name 
-                    FROM public.users u
-                    JOIN public.roles r ON u.role_id = r.id
-                    WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
+                const string query = @"SELECT r.name FROM public.users u JOIN public.roles r ON u.role_id = r.id WHERE LOWER(u.username) = LOWER(@username) LIMIT 1";
                 using var cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@username", username);
                 return cmd.ExecuteScalar()?.ToString()?.ToUpper();
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error resolving role: {ex.Message}");
-                return null;
-            }
+            catch { return null; }
         }
 
         private string GetCompanyId(string companyName)
@@ -133,13 +119,28 @@ namespace POS.Admin
             txtCategory.Text = row.Cells["Category"].Value?.ToString();
             txtUnitPrice.Text = row.Cells["Price"].Value?.ToString();
             txtStockInDate.Text = row.Cells["Stocked In Date"].Value?.ToString();
+        }
 
-            
+        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                if (sender == txtSearch) txtAdd.FocusInner();
+                else if (sender == txtAdd) txtRemove.FocusInner();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtRemove) txtAdd.FocusInner();
+                else if (sender == txtRemove) txtAdd.FocusInner();
+                else if (sender == txtAdd) txtSearch.FocusInner();
+                e.Handled = true;
+            }
         }
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
-            // Inventory Manager can add stock
             var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
             if (!selectionResult.IsValid)
             {
@@ -170,7 +171,6 @@ namespace POS.Admin
 
         private void btnRemoveStock_Click(object sender, EventArgs e)
         {
-            // Inventory Manager can remove stock
             var selectionResult = StockValidator.ValidateStockSelection(dgvAllProducts);
             if (!selectionResult.IsValid)
             {
@@ -281,19 +281,11 @@ namespace POS.Admin
                 if (confirmResult != DialogResult.Yes) return;
             }
 
-            // Return to appropriate dashboard based on role
+            SetNavigating(true);
             if (_role == "INVENTORY MANAGER")
-            {
-                SetNavigating(true);
-                var inventoryDashboard = new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken);
-                inventoryDashboard.Show();
-            }
+                new InventoryManagerDashboard(_username, _companyName, _userId, _sessionToken).Show();
             else
-            {
-                SetNavigating(true);
-                var adminDashboard = new AdminDashboard(_username, _companyName, _userId, _sessionToken);
-                adminDashboard.Show();
-            }
+                new AdminDashboard(_username, _companyName, _userId, _sessionToken).Show();
             Close();
         }
 
@@ -304,59 +296,39 @@ namespace POS.Admin
 
         private async void txtSearch_TextChanged(object sender, EventArgs e) => await LoadProductsAsync();
 
-        
-
-        private void manageStocks_KeyDown(object sender, KeyEventArgs e)
+        private void InitializeShortcuts()
         {
-            var shortcuts = new Dictionary<Keys, EventHandler>
+            // Attach KeyDown events to all textboxes using helper
+            var controls = new Control[] { txtProductCode, txtDescription, txtCategory, txtUnitPrice, txtStockInDate, txtAdd, txtRemove, txtSearch };
+            foreach (var control in controls)
             {
-                { Keys.Escape, btnBack_Click },
-                { Keys.F1, btnAddStock_Click },
-                { Keys.F2, btnRemoveStock_Click },
-                { Keys.F3,  btnSave_Click },
-                { Keys.F4, btnCancel_Click },
-
-            };
-
-            if (shortcuts.TryGetValue(e.KeyCode, out var handler))
-            {
-                handler?.Invoke(sender, e);
-                e.Handled = true;
+                ShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
             }
-        }
 
-        private void InitializeShortcutHints()
-        {
-            var shortcuts = new Dictionary<Button, string>
-            {
-                { btnBack, "ESC" }, { btnAddStock, "F1" }, { btnRemoveStock, "F2" },
-                { btnSave, "F3" }, { btnCancel, "F4" }
-            };
+            // Attach function shortcuts
+            ShortcutHelper.AttachFunctionShortcuts(this,
+                onEscape: (s, ev) => btnBack_Click(s, ev),
+                onF1: (s, ev) => btnAddStock_Click(s, ev),
+                onF2: (s, ev) => btnRemoveStock_Click(s, ev),
+                onF3: (s, ev) => btnSave_Click(s, ev),
+                onF4: (s, ev) => btnCancel_Click(s, ev)
+            );
 
-            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
+            // Setup tooltips
+            ShortcutHelper.SetupTooltips(this,
+                (btnBack, "ESC"),
+                (btnAddStock, "F1"),
+                (btnRemoveStock, "F2"),
+                (btnSave, "F3"),
+                (btnCancel, "F4")
+            );
 
-            foreach (var (button, shortcut) in shortcuts)
-            {
-                toolTip.SetToolTip(button, shortcut);
-                AttachHoverEffect(button);
-            }
-        }
-
-        private void AttachHoverEffect(Button btn)
-        {
-            var originalLocation = btn.Location;
-
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-                btn.Padding = new Padding(0, 0, 0, 6);
-            };
-
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Location = originalLocation;
-                btn.Padding = new Padding(0);
-            };
+            // Attach hover effects
+            ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
+            ShortcutHelper.AttachHoverEffect(btnAddStock, "ADD STOCK", "F1");
+            ShortcutHelper.AttachHoverEffect(btnRemoveStock, "REMOVE STOCK", "F2");
+            ShortcutHelper.AttachHoverEffect(btnSave, "SAVE", "F3");
+            ShortcutHelper.AttachHoverEffect(btnCancel, "CANCEL", "F4");
         }
     }
 }
