@@ -11,7 +11,7 @@
         "dependencies": {
           "EPPlus": "8.5.3",
           "Guna.UI2.WinForms": "2.0.4.7",
-          "LiveChartsCore.SkiaSharpView.WinForms": "2.0.1",
+          "LiveChartsCore.SkiaSharpView.WinForms": "2.0.2",
           "Microsoft.NET.ILLink.Tasks": "8.0.25",
           "MySql.Data": "9.6.0",
           "Npgsql": "10.0.1",
@@ -122,38 +122,38 @@
           }
         }
       },
-      "LiveChartsCore/2.0.1": {
+      "LiveChartsCore/2.0.2": {
         "runtime": {
           "lib/net8.0-windows7.0/LiveChartsCore.dll": {
-            "assemblyVersion": "2.0.1.0",
-            "fileVersion": "2.0.1.0"
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView/2.0.1": {
+      "LiveChartsCore.SkiaSharpView/2.0.2": {
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
+          "LiveChartsCore": "2.0.2",
           "SkiaSharp": "3.119.0",
           "SkiaSharp.HarfBuzz": "3.119.0"
         },
         "runtime": {
           "lib/net8.0-windows7.0/LiveChartsCore.SkiaSharpView.dll": {
-            "assemblyVersion": "2.0.1.0",
-            "fileVersion": "2.0.1.0"
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView.WinForms/2.0.1": {
+      "LiveChartsCore.SkiaSharpView.WinForms/2.0.2": {
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
-          "LiveChartsCore.SkiaSharpView": "2.0.1",
+          "LiveChartsCore": "2.0.2",
+          "LiveChartsCore.SkiaSharpView": "2.0.2",
           "SkiaSharp.HarfBuzz": "3.119.0",
           "SkiaSharp.Views.WindowsForms": "3.119.0"
         },
         "runtime": {
           "lib/net8.0-windows7.0/LiveChartsCore.SkiaSharpView.WinForms.dll": {
-            "assemblyVersion": "2.0.1.0",
-            "fileVersion": "2.0.1.0"
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.0"
           }
         }
       },
@@ -743,26 +743,26 @@
       "path": "k4os.hash.xxhash/1.0.8",
       "hashPath": "k4os.hash.xxhash.1.0.8.nupkg.sha512"
     },
-    "LiveChartsCore/2.0.1": {
+    "LiveChartsCore/2.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jtFjel32vWDyLTmhmg7qMSj1AHR6tKA57AWhDezRXk6Qc+nnpuRbD2eWOHQc+Uzn3uRhhPTlblUG5sRnnkc5pg==",
-      "path": "livechartscore/2.0.1",
-      "hashPath": "livechartscore.2.0.1.nupkg.sha512"
+      "sha512": "sha512-UL1f9H0eypkaSMqSm74BhyvdvDqxe+LplIqPfn/UiLmuS8yK6mGwm4qzI9YNsRaF0uQs4Hcivl67MOajH8Rqtg==",
+      "path": "livechartscore/2.0.2",
+      "hashPath": "livechartscore.2.0.2.nupkg.sha512"
     },
-    "LiveChartsCore.SkiaSharpView/2.0.1": {
+    "LiveChartsCore.SkiaSharpView/2.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-D8GlyqZdUJhypIctQHNZNevzplPeM8UGmrIALMMMoQ8bTQGlJPBhcLX8pO1U298EFpNHHDAWKUzjBOeCwPDKbg==",
-      "path": "livechartscore.skiasharpview/2.0.1",
-      "hashPath": "livechartscore.skiasharpview.2.0.1.nupkg.sha512"
+      "sha512": "sha512-O84AQUIQ7iL+cF77ulnYv6zhIcA5kyU6KY8veJxFP4Kbb58pRNxF97ZDIjbGs15AH4m/tj2FcsW+FmBw+MPXmw==",
+      "path": "livechartscore.skiasharpview/2.0.2",
+      "hashPath": "livechartscore.skiasharpview.2.0.2.nupkg.sha512"
     },
-    "LiveChartsCore.SkiaSharpView.WinForms/2.0.1": {
+    "LiveChartsCore.SkiaSharpView.WinForms/2.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jNMFeAxJvKAj2bUmN17OhZ84/p4tjrPAtx73I6O9/QjzKIAG7gt3q8kvE+OJu0O5Yl9HSoBzHolJPShOFYfHBg==",
-      "path": "livechartscore.skiasharpview.winforms/2.0.1",
-      "hashPath": "livechartscore.skiasharpview.winforms.2.0.1.nupkg.sha512"
+      "sha512": "sha512-TO1u3wiCWDnNpfj30DbV1yBNsH5O6wOSmkeaABPJ6IQHrDxpds0PAl9SpWF4dFqA7BG/6wd+cCDAUMboKGpvYg==",
+      "path": "livechartscore.skiasharpview.winforms/2.0.2",
+      "hashPath": "livechartscore.skiasharpview.winforms.2.0.2.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/8.0.0": {
       "type": "package",

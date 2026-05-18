@@ -11,16 +11,14 @@ namespace POS
 {
     public partial class CashierDashboard : BaseForm
     {
-        private readonly string _username, _companyName, _companyId;
+        private readonly string _username, _companyName, _companyId, _userId, _sessionToken;
         private readonly CashierProductService _productService;
         private readonly CartManager _cartManager;
         private readonly TransactionCalculator _calculator;
-        private readonly string _userId;
-        private readonly string _sessionToken;
         private DataTable _productsTable;
         private bool _isCartView = false;
         private bool _suppressSelectionChanged = false;
-        private bool _isSearching = false;  // ADD THIS FLAG
+        private bool _isSearching = false;
         private readonly LoginService _loginService = new LoginService();
 
         public CashierDashboard(string username, string companyName, string userId, string sessionToken)
@@ -45,6 +43,7 @@ namespace POS
             SetupDataGridView();
             WireUpEvents();
             InitializeShortcuts();
+            SetupKeyboardNavigation();
 
             this.Load += async (s, e) => await LoadProductsAsync();
         }
@@ -78,6 +77,38 @@ namespace POS
             txtProductName.TextChanged += (s, e) => SearchTable(txtProductName.Text.Trim(), "product_name");
             txtQuan.TextChanged += (s, e) => SearchTable(txtQuan.Text.Trim(), "quantity");
             txtPrice.TextChanged += (s, e) => SearchTable(txtPrice.Text.Trim(), "price");
+        }
+
+        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
+        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                if (sender == txtProductCode) txtProductName.FocusInner();
+                else if (sender == txtProductName) txtQuan.FocusInner();
+                else if (sender == txtQuan) txtPrice.FocusInner();
+                else if (sender == txtPrice) txtProductCode.FocusInner();  // Wrap to first
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtProductName) txtProductCode.FocusInner();
+                else if (sender == txtQuan) txtProductName.FocusInner();
+                else if (sender == txtPrice) txtQuan.FocusInner();
+                else if (sender == txtProductCode) txtPrice.FocusInner();  // Wrap to last
+                e.Handled = true;
+            }
+        }
+
+
+        private void SetupKeyboardNavigation()
+        {
+            var controls = new Control[] { txtProductCode, txtProductName, txtPrice, txtQuan };
+            foreach (var control in controls)
+            {
+                CashierShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
+            }
         }
 
         private async Task LoadProductsAsync()
@@ -143,7 +174,6 @@ namespace POS
         {
             if (_suppressSelectionChanged) return;
 
-            // Set searching flag to prevent selection change
             _isSearching = true;
 
             try
@@ -153,8 +183,8 @@ namespace POS
                 {
                     dgvProducts.DataSource = source;
                     if (_isCartView) RenameCartColumns(); else RenameProductColumns();
-                    dgvProducts.ClearSelection(); // Clear selection when showing all products
-                    ClearSearchFields(); // Clear the search fields to avoid confusion
+                    dgvProducts.ClearSelection();
+                    ClearSearchFields();
                     return;
                 }
 
@@ -166,7 +196,6 @@ namespace POS
                 dgvProducts.DataSource = result;
                 if (_isCartView) RenameCartColumns(); else RenameProductColumns();
 
-                // Clear selection after search to prevent auto-population
                 dgvProducts.ClearSelection();
             }
             finally
@@ -281,7 +310,6 @@ namespace POS
 
         private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
-            // Don't populate if we're searching or suppressing
             if (_isSearching || _suppressSelectionChanged || _isCartView || dgvProducts.SelectedRows.Count == 0) return;
 
             var row = dgvProducts.SelectedRows[0];
@@ -319,15 +347,11 @@ namespace POS
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            // CRITICAL: Set static flag first
             BaseForm.SetAppExiting(true);
-
-            // Stop the session timer
             StopSessionMonitoring();
 
             try
             {
-                // Terminate session in database
                 await _loginService.LogoutSessionAsync(_userId, _sessionToken);
                 await LogLogoutAsync();
             }
@@ -336,37 +360,52 @@ namespace POS
                 System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
             }
 
-            // Navigate to login form and close current
             new LogInForm().Show();
             this.Close();
         }
 
         private void InitializeShortcuts()
         {
-            KeyPreview = true;
-            KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Enter) btnAddToCart_Click(s, e);
-                else if (e.KeyCode == Keys.Delete) btnRemoveItems_Click(s, e);
-                else if (e.KeyCode == Keys.C && e.Control && e.Shift) btnClearCart_Click(s, e);
-                else if (e.KeyCode == Keys.Escape)
-                {
-                    if (dgvProducts.SelectedRows.Count > 0) btnClearSelection_Click(s, e);
-                    else btnLogOut_Click(s, e);
-                }
-                else if (e.KeyCode == Keys.F2) btnPayment_Click(s, e);
-                else if (e.KeyCode == Keys.F1) btnCart_Click(s, e);
-                e.Handled = true;
-            };
+            // Controls for arrow navigation (ONLY textboxes - same pattern as ManageUsers)
+            var controls = new Control[] { txtProductCode, txtProductName, txtQuan, txtPrice };
+            foreach (var control in controls)
+                CashierShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
 
-            var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
-            toolTip.SetToolTip(btnAddToCart, "Enter");
-            toolTip.SetToolTip(btnRemoveItems, "Delete");
-            toolTip.SetToolTip(btnClearCart, "Ctrl+Shift+C");
-            toolTip.SetToolTip(btnClearSelection, "Esc");
-            toolTip.SetToolTip(btnPayment, "F2");
-            toolTip.SetToolTip(btnLogOut, "Esc");
-            toolTip.SetToolTip(btnCart, "F1");
+            // Function shortcuts (Enter, Delete, Ctrl+Shift+C, Escape, F2, F1)
+            CashierShortcutHelper.AttachFunctionShortcuts(this,
+                onEnter: (s, ev) => btnAddToCart_Click(s, ev),
+                onDelete: (s, ev) => btnRemoveItems_Click(s, ev),
+                onClearCart: (s, ev) => btnClearCart_Click(s, ev),
+                onEscape: (s, ev) =>
+                {
+                    if (dgvProducts.SelectedRows.Count > 0) btnClearSelection_Click(s, ev);
+                    else btnLogOut_Click(s, ev);
+                },
+                onPayment: (s, ev) => btnPayment_Click(s, ev),
+                onToggleCart: (s, ev) => btnCart_Click(s, ev)
+            );
+
+            
+
+            // Setup tooltips
+            CashierShortcutHelper.SetupTooltips(this,
+                (btnAddToCart, "Enter"),
+                (btnRemoveItems, "Delete"),
+                (btnClearCart, "Ctrl+Shift+C"),
+                (btnClearSelection, "Esc"),
+                (btnPayment, "F2"),
+                (btnLogOut, "Esc"),
+                (btnCart, "F1")
+            );
+
+            // Attach hover effects (matching ManageUsers pattern)
+            CashierShortcutHelper.AttachHoverEffect(btnAddToCart, "ADD TO CART", "Enter");
+            CashierShortcutHelper.AttachHoverEffect(btnRemoveItems, "REMOVE FROM CART", "Delete");
+            CashierShortcutHelper.AttachHoverEffect(btnClearCart, "CLEAR CART", "Ctrl+Shift+C");
+            CashierShortcutHelper.AttachHoverEffect(btnClearSelection, "CLEAR SELECTION", "Esc");
+            CashierShortcutHelper.AttachHoverEffect(btnPayment, "PROCEED TO PAYMENT", "F2");
+            CashierShortcutHelper.AttachHoverEffect(btnLogOut, "Logout", "Esc");
+            CashierShortcutHelper.AttachHoverEffect(btnCart, "Switch Table", "F1");
         }
     }
 }

@@ -171,7 +171,7 @@
           }
         }
       },
-      "LiveChartsCore/2.0.1": {
+      "LiveChartsCore/2.0.2": {
         "type": "package",
         "compile": {
           "lib/net8.0-windows7.0/LiveChartsCore.dll": {
@@ -184,10 +184,10 @@
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView/2.0.1": {
+      "LiveChartsCore.SkiaSharpView/2.0.2": {
         "type": "package",
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
+          "LiveChartsCore": "2.0.2",
           "SkiaSharp": "2.88.9",
           "SkiaSharp.HarfBuzz": "2.88.9"
         },
@@ -202,11 +202,11 @@
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView.WinForms/2.0.1": {
+      "LiveChartsCore.SkiaSharpView.WinForms/2.0.2": {
         "type": "package",
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
-          "LiveChartsCore.SkiaSharpView": "2.0.1",
+          "LiveChartsCore": "2.0.2",
+          "LiveChartsCore.SkiaSharpView": "2.0.2",
           "SkiaSharp.HarfBuzz": "3.119.0",
           "SkiaSharp.Views.WindowsForms": "3.119.0"
         },
@@ -1296,7 +1296,7 @@
           }
         }
       },
-      "LiveChartsCore/2.0.1": {
+      "LiveChartsCore/2.0.2": {
         "type": "package",
         "compile": {
           "lib/net8.0-windows7.0/LiveChartsCore.dll": {
@@ -1309,10 +1309,10 @@
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView/2.0.1": {
+      "LiveChartsCore.SkiaSharpView/2.0.2": {
         "type": "package",
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
+          "LiveChartsCore": "2.0.2",
           "SkiaSharp": "2.88.9",
           "SkiaSharp.HarfBuzz": "2.88.9"
         },
@@ -1327,11 +1327,11 @@
           }
         }
       },
-      "LiveChartsCore.SkiaSharpView.WinForms/2.0.1": {
+      "LiveChartsCore.SkiaSharpView.WinForms/2.0.2": {
         "type": "package",
         "dependencies": {
-          "LiveChartsCore": "2.0.1",
-          "LiveChartsCore.SkiaSharpView": "2.0.1",
+          "LiveChartsCore": "2.0.2",
+          "LiveChartsCore.SkiaSharpView": "2.0.2",
           "SkiaSharp.HarfBuzz": "3.119.0",
           "SkiaSharp.Views.WindowsForms": "3.119.0"
         },
@@ -2467,10 +2467,10 @@
         "lib/netstandard2.1/K4os.Hash.xxHash.xml"
       ]
     },
-    "LiveChartsCore/2.0.1": {
-      "sha512": "jtFjel32vWDyLTmhmg7qMSj1AHR6tKA57AWhDezRXk6Qc+nnpuRbD2eWOHQc+Uzn3uRhhPTlblUG5sRnnkc5pg==",
+    "LiveChartsCore/2.0.2": {
+      "sha512": "UL1f9H0eypkaSMqSm74BhyvdvDqxe+LplIqPfn/UiLmuS8yK6mGwm4qzI9YNsRaF0uQs4Hcivl67MOajH8Rqtg==",
       "type": "package",
-      "path": "livechartscore/2.0.1",
+      "path": "livechartscore/2.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2484,14 +2484,14 @@
         "lib/net8.0/LiveChartsCore.xml",
         "lib/netstandard2.0/LiveChartsCore.dll",
         "lib/netstandard2.0/LiveChartsCore.xml",
-        "livechartscore.2.0.1.nupkg.sha512",
+        "livechartscore.2.0.2.nupkg.sha512",
         "livechartscore.nuspec"
       ]
     },
-    "LiveChartsCore.SkiaSharpView/2.0.1": {
-      "sha512": "D8GlyqZdUJhypIctQHNZNevzplPeM8UGmrIALMMMoQ8bTQGlJPBhcLX8pO1U298EFpNHHDAWKUzjBOeCwPDKbg==",
+    "LiveChartsCore.SkiaSharpView/2.0.2": {
+      "sha512": "O84AQUIQ7iL+cF77ulnYv6zhIcA5kyU6KY8veJxFP4Kbb58pRNxF97ZDIjbGs15AH4m/tj2FcsW+FmBw+MPXmw==",
       "type": "package",
-      "path": "livechartscore.skiasharpview/2.0.1",
+      "path": "livechartscore.skiasharpview/2.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2505,14 +2505,14 @@
         "lib/net8.0/LiveChartsCore.SkiaSharpView.xml",
         "lib/netstandard2.0/LiveChartsCore.SkiaSharpView.dll",
         "lib/netstandard2.0/LiveChartsCore.SkiaSharpView.xml",
-        "livechartscore.skiasharpview.2.0.1.nupkg.sha512",
+        "livechartscore.skiasharpview.2.0.2.nupkg.sha512",
         "livechartscore.skiasharpview.nuspec"
       ]
     },
-    "LiveChartsCore.SkiaSharpView.WinForms/2.0.1": {
-      "sha512": "jNMFeAxJvKAj2bUmN17OhZ84/p4tjrPAtx73I6O9/QjzKIAG7gt3q8kvE+OJu0O5Yl9HSoBzHolJPShOFYfHBg==",
+    "LiveChartsCore.SkiaSharpView.WinForms/2.0.2": {
+      "sha512": "TO1u3wiCWDnNpfj30DbV1yBNsH5O6wOSmkeaABPJ6IQHrDxpds0PAl9SpWF4dFqA7BG/6wd+cCDAUMboKGpvYg==",
       "type": "package",
-      "path": "livechartscore.skiasharpview.winforms/2.0.1",
+      "path": "livechartscore.skiasharpview.winforms/2.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2524,7 +2524,7 @@
         "lib/net8.0-windows10.0.19041/LiveChartsCore.SkiaSharpView.WinForms.xml",
         "lib/net8.0-windows7.0/LiveChartsCore.SkiaSharpView.WinForms.dll",
         "lib/net8.0-windows7.0/LiveChartsCore.SkiaSharpView.WinForms.xml",
-        "livechartscore.skiasharpview.winforms.2.0.1.nupkg.sha512",
+        "livechartscore.skiasharpview.winforms.2.0.2.nupkg.sha512",
         "livechartscore.skiasharpview.winforms.nuspec"
       ]
     },
@@ -3911,7 +3911,7 @@
     "net8.0-windows7.0": [
       "EPPlus >= 8.5.3",
       "Guna.UI2.WinForms >= 2.0.4.7",
-      "LiveChartsCore.SkiaSharpView.WinForms >= 2.0.1",
+      "LiveChartsCore.SkiaSharpView.WinForms >= 2.0.2",
       "Microsoft.NET.ILLink.Tasks >= 8.0.25",
       "MySql.Data >= 9.6.0",
       "Npgsql >= 10.0.1",
@@ -3975,7 +3975,7 @@
           },
           "LiveChartsCore.SkiaSharpView.WinForms": {
             "target": "Package",
-            "version": "[2.0.1, )"
+            "version": "[2.0.2, )"
           },
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",

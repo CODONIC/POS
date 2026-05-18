@@ -31,7 +31,6 @@ namespace POS.Admin
             {
                 lblAdminName.Text = $"{_username} | Inventory Manager";
                 titleLabel.Text = $"{_companyName} (View Mode)";
-                //ApplyInventoryManagerPermissions();
             }
             else
             {
@@ -46,23 +45,6 @@ namespace POS.Admin
             InitializeShortcuts();
             this.Load += async (s, e) => { await LoadProductsAsync(); await LoadCategoriesAsync(); };
         }
-
-       /* private void ApplyInventoryManagerPermissions()
-        {
-            btnAdd.Enabled = false;
-            btnEdit.Enabled = false;
-            btnDelete.Enabled = false;
-            btnAdd.BackColor = Color.Gray;
-            btnEdit.BackColor = Color.Gray;
-            btnDelete.BackColor = Color.Gray;
-            ////txtProductCode.ReadOnly = true;
-            ///txtProductName.ReadOnly = true;
-            //txtPrice.ReadOnly = true;
-            //txtReorderLevel.ReadOnly = true;
-            cmbCategory.Enabled = false;
-            lblAdminName.ForeColor = Color.Orange;
-            lblAdminName.Text += " (Read Only)";
-        } */
 
         private string GetUserRole(string username)
         {
@@ -144,7 +126,6 @@ namespace POS.Admin
                 if (item is CategoryItem cat && cat.Name == categoryName) { cmbCategory.SelectedItem = item; break; }
         }
 
-        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
         private void txt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
@@ -167,7 +148,7 @@ namespace POS.Admin
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot add products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            
             var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
             if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             string code = txtProductCode.Text.Trim();
@@ -182,7 +163,7 @@ namespace POS.Admin
 
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot edit products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+           
             if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
             if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
@@ -197,7 +178,7 @@ namespace POS.Admin
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (_role == "INVENTORY MANAGER") { MessageBox.Show("Inventory Managers cannot delete products.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            
             if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             await _productService.DeleteProductAsync(_selectedProductId);
@@ -231,14 +212,11 @@ namespace POS.Admin
 
         private void InitializeShortcuts()
         {
-            // Attach KeyDown events to all controls using the helper (SAME AS MANAGEUSERS)
             var controls = new Control[] { txtProductCode, txtProductName, txtPrice, txtReorderLevel, cmbCategory, txtSearch };
             foreach (var control in controls)
             {
                 ShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
             }
-
-            // Attach function shortcuts (SAME AS MANAGEUSERS)
             ShortcutHelper.AttachFunctionShortcuts(this,
                 onEscape: (s, ev) => btnBack_Click(s, ev),
                 onF1: (s, ev) => btnAdd_Click(s, ev),
@@ -246,8 +224,6 @@ namespace POS.Admin
                 onF3: (s, ev) => btnDelete_Click(s, ev),
                 onF4: (s, ev) => btnClear_Click(s, ev)
             );
-
-            // Setup tooltips (SAME AS MANAGEUSERS)
             ShortcutHelper.SetupTooltips(this,
                 (btnBack, "ESC"),
                 (btnAdd, "F1"),
@@ -255,8 +231,6 @@ namespace POS.Admin
                 (btnDelete, "F3"),
                 (btnClear, "F4")
             );
-
-            // Attach hover effects (SAME AS MANAGEUSERS)
             ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
             ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
             ShortcutHelper.AttachHoverEffect(btnEdit, "EDIT", "F2");

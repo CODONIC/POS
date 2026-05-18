@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
             titleLabel = new Label();
-            btnAdd = new RoundedButton();
+            btnCompanyInfo = new RoundedButton();
             label1 = new Label();
             label2 = new Label();
-            roundedButton1 = new RoundedButton();
+            btnChangeVAT = new RoundedButton();
             label3 = new Label();
             label4 = new Label();
             roundedButton4 = new RoundedButton();
@@ -98,22 +99,22 @@
             titleLabel.TabIndex = 0;
             titleLabel.Text = "POS System";
             // 
-            // btnAdd
+            // btnCompanyInfo
             // 
-            btnAdd.BackColor = Color.SteelBlue;
-            btnAdd.BorderColor = Color.Transparent;
-            btnAdd.BorderRadius = 20;
-            btnAdd.BorderSize = 0;
-            btnAdd.FlatAppearance.BorderSize = 0;
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(31, 164);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(200, 61);
-            btnAdd.TabIndex = 37;
-            btnAdd.Text = "Company Info";
-            btnAdd.UseVisualStyleBackColor = false;
+            btnCompanyInfo.BackColor = Color.SteelBlue;
+            btnCompanyInfo.BorderColor = Color.Transparent;
+            btnCompanyInfo.BorderRadius = 20;
+            btnCompanyInfo.BorderSize = 0;
+            btnCompanyInfo.FlatAppearance.BorderSize = 0;
+            btnCompanyInfo.FlatStyle = FlatStyle.Flat;
+            btnCompanyInfo.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCompanyInfo.ForeColor = Color.White;
+            btnCompanyInfo.Location = new Point(31, 164);
+            btnCompanyInfo.Name = "btnCompanyInfo";
+            btnCompanyInfo.Size = new Size(200, 61);
+            btnCompanyInfo.TabIndex = 37;
+            btnCompanyInfo.Text = "Company Info";
+            btnCompanyInfo.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -135,22 +136,22 @@
             label2.TabIndex = 39;
             label2.Text = "───────────────────────────────────────────────────────────────────";
             // 
-            // roundedButton1
+            // btnChangeVAT
             // 
-            roundedButton1.BackColor = Color.SteelBlue;
-            roundedButton1.BorderColor = Color.Transparent;
-            roundedButton1.BorderRadius = 20;
-            roundedButton1.BorderSize = 0;
-            roundedButton1.FlatAppearance.BorderSize = 0;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(31, 254);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(200, 57);
-            roundedButton1.TabIndex = 40;
-            roundedButton1.Text = "Tax and Pricing";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btnChangeVAT.BackColor = Color.SteelBlue;
+            btnChangeVAT.BorderColor = Color.Transparent;
+            btnChangeVAT.BorderRadius = 20;
+            btnChangeVAT.BorderSize = 0;
+            btnChangeVAT.FlatAppearance.BorderSize = 0;
+            btnChangeVAT.FlatStyle = FlatStyle.Flat;
+            btnChangeVAT.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnChangeVAT.ForeColor = Color.White;
+            btnChangeVAT.Location = new Point(31, 254);
+            btnChangeVAT.Name = "btnChangeVAT";
+            btnChangeVAT.Size = new Size(200, 57);
+            btnChangeVAT.TabIndex = 40;
+            btnChangeVAT.Text = "Change VAT";
+            btnChangeVAT.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
@@ -279,12 +280,13 @@
             Controls.Add(roundedButton4);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(roundedButton1);
+            Controls.Add(btnChangeVAT);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(btnAdd);
+            Controls.Add(btnCompanyInfo);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SettingsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SettingsForm";
@@ -300,10 +302,10 @@
         private Label lblAdminName;
         private Button closeButton;
         private Label titleLabel;
-        private RoundedButton btnAdd;
+        private RoundedButton btnCompanyInfo;
         private Label label1;
         private Label label2;
-        private RoundedButton roundedButton1;
+        private RoundedButton btnChangeVAT;
         private Label label3;
         private Label label4;
         private RoundedButton roundedButton4;

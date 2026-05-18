@@ -56,7 +56,7 @@
             titleBar.Dock = DockStyle.Top;
             titleBar.Location = new Point(0, 0);
             titleBar.Name = "titleBar";
-            titleBar.Size = new Size(815, 48);
+            titleBar.Size = new Size(909, 48);
             titleBar.TabIndex = 18;
             // 
             // lblInventoryName
@@ -64,7 +64,7 @@
             lblInventoryName.AutoSize = true;
             lblInventoryName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblInventoryName.ForeColor = Color.White;
-            lblInventoryName.Location = new Point(504, 12);
+            lblInventoryName.Location = new Point(611, 12);
             lblInventoryName.Name = "lblInventoryName";
             lblInventoryName.Size = new Size(229, 21);
             lblInventoryName.TabIndex = 21;
@@ -79,7 +79,7 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(766, 0);
+            closeButton.Location = new Point(861, 0);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(48, 48);
             closeButton.TabIndex = 17;
@@ -108,7 +108,7 @@
             btnManageStocks.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageStocks.ForeColor = Color.White;
             btnManageStocks.Image = (Image)resources.GetObject("btnManageStocks.Image");
-            btnManageStocks.Location = new Point(409, 446);
+            btnManageStocks.Location = new Point(487, 449);
             btnManageStocks.Name = "btnManageStocks";
             btnManageStocks.Size = new Size(180, 180);
             btnManageStocks.TabIndex = 56;
@@ -128,7 +128,7 @@
             btnManageProducts.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManageProducts.ForeColor = Color.White;
             btnManageProducts.Image = (Image)resources.GetObject("btnManageProducts.Image");
-            btnManageProducts.Location = new Point(186, 446);
+            btnManageProducts.Location = new Point(264, 449);
             btnManageProducts.Name = "btnManageProducts";
             btnManageProducts.Size = new Size(180, 180);
             btnManageProducts.TabIndex = 55;
@@ -182,7 +182,7 @@
             dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(33, 37, 41);
             dgvInventStatus.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvInventStatus.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInventStatus.Size = new Size(761, 269);
+            dgvInventStatus.Size = new Size(858, 269);
             dgvInventStatus.TabIndex = 58;
             // 
             // btnLogOut
@@ -214,7 +214,7 @@
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(640, 589);
+            btnRefresh.Location = new Point(789, 589);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(93, 37);
             btnRefresh.TabIndex = 60;
@@ -238,7 +238,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(815, 648);
+            ClientSize = new Size(909, 648);
             Controls.Add(label12);
             Controls.Add(btnRefresh);
             Controls.Add(btnLogOut);
@@ -247,6 +247,7 @@
             Controls.Add(btnManageProducts);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "InventoryManagerDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "InventoryManagerDashboard";

@@ -631,6 +631,7 @@
             Controls.Add(btnBack);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "BusinessStatsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BusinessStatsForm";

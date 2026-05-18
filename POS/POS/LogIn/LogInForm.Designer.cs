@@ -45,6 +45,7 @@
             titleLabel = new Label();
             txtCompany = new CustomControls.CustomTextBox();
             chckUserComp = new CheckBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             titleBar.SuspendLayout();
@@ -188,6 +189,7 @@
             txtPassword.Size = new Size(220, 45);
             txtPassword.TabIndex = 14;
             txtPassword.Text = "Password";
+            txtPassword.TextChanged += txtPassword_TextChanged;
             txtPassword.Enter += txtPassword_Enter;
             txtPassword.KeyDown += txt_KeyDown;
             txtPassword.Leave += txtPassword_Leave;
@@ -263,7 +265,6 @@
             txtCompany.Enter += txtCompany_Enter;
             txtCompany.KeyDown += txt_KeyDown;
             txtCompany.Leave += txtCompany_Leave;
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // chckUserComp
             // 
@@ -278,6 +279,17 @@
             chckUserComp.CheckedChanged += chckUserComp_CheckedChanged;
             chckUserComp.KeyDown += txt_KeyDown;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.MenuHighlight;
+            label2.Location = new Point(563, 578);
+            label2.Name = "label2";
+            label2.Size = new Size(114, 17);
+            label2.TabIndex = 5;
+            label2.Text = "ver 1.0.0 [DEMO]";
+            // 
             // LogInForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -285,6 +297,7 @@
             BackColor = SystemColors.Menu;
             ClientSize = new Size(679, 604);
             ControlBox = false;
+            Controls.Add(label2);
             Controls.Add(chckUserComp);
             Controls.Add(txtCompany);
             Controls.Add(titleBar);
@@ -296,6 +309,7 @@
             Controls.Add(pictureBox1);
             ForeColor = SystemColors.ActiveCaption;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LogInForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn Form";
@@ -328,5 +342,6 @@
         private Button closeButton;
         private CustomControls.CustomTextBox txtCompany;
         private CheckBox chckUserComp;
+        private Label label2;
     }
 }

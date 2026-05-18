@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1iZGOuOwzlY=",
+  "dgSpecHash": "82hKMhvvm0Q=",
   "success": true,
   "projectFilePath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
   "expectedPackageFiles": [
@@ -15,9 +15,9 @@
     "C:\\Users\\Kris\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.8\\k4os.compression.lz4.streams.1.3.8.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
-    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore\\2.0.1\\livechartscore.2.0.1.nupkg.sha512",
-    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore.skiasharpview\\2.0.1\\livechartscore.skiasharpview.2.0.1.nupkg.sha512",
-    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore.skiasharpview.winforms\\2.0.1\\livechartscore.skiasharpview.winforms.2.0.1.nupkg.sha512",
+    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore\\2.0.2\\livechartscore.2.0.2.nupkg.sha512",
+    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore.skiasharpview\\2.0.2\\livechartscore.skiasharpview.2.0.2.nupkg.sha512",
+    "C:\\Users\\Kris\\.nuget\\packages\\livechartscore.skiasharpview.winforms\\2.0.2\\livechartscore.skiasharpview.winforms.2.0.2.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Kris\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\8.0.1\\microsoft.extensions.configuration.fileextensions.8.0.1.nupkg.sha512",

@@ -40,6 +40,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeLogsFrm));
             titleBar = new Panel();
             lblAdminName = new Label();
             closeButton = new Button();
@@ -558,6 +559,7 @@
             Controls.Add(btnBack);
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EmployeeLogsFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EmployeeLogsFrm";
