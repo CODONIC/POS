@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using POS.StartUpForms;
 using System;
 using System.Threading.Tasks;
@@ -7,12 +8,17 @@ namespace POS
 {
     internal static class Program
     {
+        private static bool _isShuttingDown = false;
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            // Handle system shutdown/logoff
+            SystemEvents.SessionEnding += SystemEvents_SessionEnding;
+
             // Set up global exception handlers for crash detection
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
@@ -44,6 +50,24 @@ namespace POS
         }
 
         /// <summary>
+        /// Handles system shutdown or user logoff
+        /// </summary>
+        private static async void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+        {
+            if (_isShuttingDown) return;
+            _isShuttingDown = true;
+
+            System.Diagnostics.Debug.WriteLine($"=== SYSTEM SHUTDOWN/LOGOFF DETECTED at {DateTime.Now} ===");
+            System.Diagnostics.Debug.WriteLine($"Reason: {e.Reason}");
+
+            // Terminate all active sessions
+            await CrashRecoveryService.TerminateAllSessionsOnCrashAsync();
+
+            // Give a moment for the operation to complete
+            await Task.Delay(500);
+        }
+
+        /// <summary>
         /// Handles unhandled exceptions from the UI thread
         /// </summary>
         private static async void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -67,6 +91,8 @@ namespace POS
         /// </summary>
         private static async Task HandleCrashAsync(Exception exception)
         {
+            if (_isShuttingDown) return;
+
             // Log the crash for debugging
             System.Diagnostics.Debug.WriteLine($"=== CRASH DETECTED at {DateTime.Now} ===");
             System.Diagnostics.Debug.WriteLine($"Error: {exception.Message}");

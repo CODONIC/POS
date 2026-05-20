@@ -137,7 +137,7 @@ namespace POS
                     result.ErrorMessage = "You are already logged in on another device.\n\n" +
                                          "Please log out from the other device first before logging in here.\n\n" +
                                          $"Device: {sessionCheck.DeviceInfo}\n" +
-                                         $"Login time: {sessionCheck.LoginTime:yyyy-MM-dd HH:mm:ss}";
+                                         $"Login time: {sessionCheck.LoginTime:yyyy-MM-dd hh:mm:ss tt}";
                     result.FocusTarget = ControlToFocus.None;
                     return result;
                 }
@@ -291,10 +291,10 @@ namespace POS
         private async Task<SessionInfo> CheckExistingSessionAsync(NpgsqlConnection conn, string userId)
         {
             const string sql = @"
-                SELECT device_info, login_time 
-                FROM public.user_sessions 
-                WHERE user_id = @userId AND is_active = true 
-                LIMIT 1";
+        SELECT device_info, login_time 
+        FROM public.user_sessions 
+        WHERE user_id = @userId AND is_active = true 
+        LIMIT 1";
 
             await using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@userId", Guid.Parse(userId));
@@ -303,11 +303,14 @@ namespace POS
 
             if (await reader.ReadAsync())
             {
+                DateTime utcLoginTime = Convert.ToDateTime(reader["login_time"]);
+                DateTime localLoginTime = utcLoginTime.ToLocalTime(); // Convert UTC to local
+
                 return new SessionInfo
                 {
                     HasActiveSession = true,
                     DeviceInfo = reader["device_info"]?.ToString() ?? "Unknown device",
-                    LoginTime = Convert.ToDateTime(reader["login_time"])
+                    LoginTime = localLoginTime  // Store as local time
                 };
             }
 
