@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F7179963-2799-487A-9D1A-69001778D5BD}|DBConfigSetup\\DBConfigSetup.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\dbconfigsetup\\dbconfigsetup.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F7179963-2799-487A-9D1A-69001778D5BD}|DBConfigSetup\\DBConfigSetup.csproj|solutionrelative:dbconfigsetup\\dbconfigsetup.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7179963-2799-487A-9D1A-69001778D5BD}|DBConfigSetup\\DBConfigSetup.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\dbconfigsetup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7179963-2799-487A-9D1A-69001778D5BD}|DBConfigSetup\\DBConfigSetup.csproj|solutionrelative:dbconfigsetup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +18,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 143,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\Program.cs",
+              "RelativeDocumentMoniker": "DBConfigSetup\\Program.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\Program.cs",
+              "RelativeToolTip": "DBConfigSetup\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T11:42:32.655Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBConfigSetup",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
+              "RelativeDocumentMoniker": "DBConfigSetup\\DBConfigSetup.csproj",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
+              "RelativeToolTip": "DBConfigSetup\\DBConfigSetup.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-22T11:42:21.613Z",
+              "EditorCaption": ""
             }
           ]
         }
