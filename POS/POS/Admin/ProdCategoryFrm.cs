@@ -78,7 +78,7 @@ namespace POS.Admin
             txtCategoryName.Text = row.Cells["name"].Value.ToString();
         }
 
-        
+
         private void txt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
@@ -181,20 +181,21 @@ namespace POS.Admin
 
         private void InitializeShortcuts()
         {
-            
+
             ShortcutHelper.AttachCustomKeyNavigation(txtSearch, txt_KeyDown);
             ShortcutHelper.AttachCustomKeyNavigation(txtCategoryName, txt_KeyDown);
 
-            
+
             ShortcutHelper.AttachFunctionShortcuts(this,
                 onEscape: (s, ev) => btnBack_Click(s, ev),
                 onF1: (s, ev) => btnAdd_Click(s, ev),
                 onF2: (s, ev) => btnEdit_Click(s, ev),
                 onF3: (s, ev) => btnDelete_Click(s, ev),
                 onF4: (s, ev) => btnClear_Click(s, ev)
+
             );
 
-            
+
             ShortcutHelper.SetupTooltips(this,
                 (btnBack, "ESC"),
                 (btnAdd, "F1"),
@@ -203,12 +204,13 @@ namespace POS.Admin
                 (btnClear, "F4")
             );
 
-            
+
             ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC");
             ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1");
             ShortcutHelper.AttachHoverEffect(btnEdit, "EDIT", "F2");
             ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
             ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
+
     }
 }

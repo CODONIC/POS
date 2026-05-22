@@ -330,5 +330,6 @@ namespace POS.Admin
             ShortcutHelper.AttachHoverEffect(btnSave, "SAVE", "F3");
             ShortcutHelper.AttachHoverEffect(btnCancel, "CANCEL", "F4");
         }
+ 
     }
 }

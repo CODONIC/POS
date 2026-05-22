@@ -148,7 +148,7 @@ namespace POS.Admin
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            
+
             var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
             if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             string code = txtProductCode.Text.Trim();
@@ -163,7 +163,7 @@ namespace POS.Admin
 
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-           
+
             if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             var result = ProductValidator.ValidateInputs(txtProductCode.Text.Trim(), txtProductName.Text.Trim(), txtPrice.Text.Trim(), txtReorderLevel.Text.Trim(), cmbCategory.SelectedItem);
             if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
@@ -178,7 +178,7 @@ namespace POS.Admin
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            
+
             if (string.IsNullOrEmpty(_selectedProductId)) { MessageBox.Show("Please select a product to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (MessageBox.Show($"Delete '{txtProductName.Text}'? This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
             await _productService.DeleteProductAsync(_selectedProductId);
@@ -223,6 +223,7 @@ namespace POS.Admin
                 onF2: (s, ev) => btnEdit_Click(s, ev),
                 onF3: (s, ev) => btnDelete_Click(s, ev),
                 onF4: (s, ev) => btnClear_Click(s, ev)
+                
             );
             ShortcutHelper.SetupTooltips(this,
                 (btnBack, "ESC"),
@@ -237,5 +238,6 @@ namespace POS.Admin
             ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3");
             ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
         }
+ 
     }
 }

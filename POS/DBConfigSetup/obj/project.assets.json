@@ -283,19 +283,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kris\\.nuget\\packages\\": {}
+    "C:\\Users\\phant\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
+      "projectUniqueName": "E:\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
       "projectName": "DBConfigSetup",
-      "projectPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
-      "packagesPath": "C:\\Users\\Kris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\DBConfigSetup\\obj\\",
+      "projectPath": "E:\\POS-Tindero\\POS\\DBConfigSetup\\DBConfigSetup.csproj",
+      "packagesPath": "C:\\Users\\phant\\.nuget\\packages\\",
+      "outputPath": "E:\\POS-Tindero\\POS\\DBConfigSetup\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Kris\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\phant\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -352,7 +352,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
