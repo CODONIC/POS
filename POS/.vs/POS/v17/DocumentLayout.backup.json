@@ -1,25 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\POS-Tindero\\POS\\",
+  "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|e:\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|e:\\pos-tindero\\pos\\pos\\cashier\\helperclasses\\cashiershortcuthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\helperclasses\\cashiershortcuthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|e:\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|e:\\pos-tindero\\pos\\pos\\admin\\helperclasses\\shortcuthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\helperclasses\\shortcuthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|e:\\pos-tindero\\pos\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -29,72 +21,56 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 143,
-          "SelectedChildIndex": 3,
+          "DockedWidth": 164,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AdminDashboard.cs",
-              "DocumentMoniker": "E:\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
-              "ToolTip": "E:\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
-              "RelativeToolTip": "POS\\Admin\\AdminDashboard.cs",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAEwNQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T12:36:26.5Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ShortcutHelper.cs",
-              "DocumentMoniker": "E:\\POS-Tindero\\POS\\POS\\Admin\\HelperClasses\\ShortcutHelper.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\HelperClasses\\ShortcutHelper.cs",
-              "ToolTip": "E:\\POS-Tindero\\POS\\POS\\Admin\\HelperClasses\\ShortcutHelper.cs",
-              "RelativeToolTip": "POS\\Admin\\HelperClasses\\ShortcutHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T12:41:29.768Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CashierShortcutHelper.cs",
-              "DocumentMoniker": "E:\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\CashierShortcutHelper.cs",
-              "RelativeDocumentMoniker": "POS\\Cashier\\HelperClasses\\CashierShortcutHelper.cs",
-              "ToolTip": "E:\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\CashierShortcutHelper.cs",
-              "RelativeToolTip": "POS\\Cashier\\HelperClasses\\CashierShortcutHelper.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAowD0AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T12:18:17.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "CashierDashboard.cs",
-              "DocumentMoniker": "E:\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
               "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
-              "ToolTip": "E:\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
               "RelativeToolTip": "POS\\Cashier\\CashierDashboard.cs",
-              "ViewState": "AgIAAHMBAAAAAAAAAAAAAKwBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAG4BAAAAAAAAAAAxwIEBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T10:56:35.716Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "ManageUsersFrm.cs",
-              "DocumentMoniker": "E:\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
               "RelativeDocumentMoniker": "POS\\Admin\\ManageUsersFrm.cs",
-              "ToolTip": "E:\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\ManageUsersFrm.cs",
               "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs",
               "ViewState": "AgIAAMEAAAAAAAAAAAAlwNEAAADfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T14:12:37.83Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 122,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminDashboard.cs",
+              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
+              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
+              "RelativeToolTip": "POS\\Admin\\AdminDashboard.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAgwKYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T12:36:26.5Z",
               "EditorCaption": ""
             }
           ]

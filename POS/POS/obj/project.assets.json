@@ -2808,19 +2808,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\phant\\.nuget\\packages\\": {}
+    "C:\\Users\\Kris\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\POS-Tindero\\POS\\POS\\POS.csproj",
+      "projectUniqueName": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
       "projectName": "POS",
-      "projectPath": "E:\\POS-Tindero\\POS\\POS\\POS.csproj",
-      "packagesPath": "C:\\Users\\phant\\.nuget\\packages\\",
-      "outputPath": "E:\\POS-Tindero\\POS\\POS\\obj\\",
+      "projectPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
+      "packagesPath": "C:\\Users\\Kris\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\phant\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Kris\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2904,7 +2904,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

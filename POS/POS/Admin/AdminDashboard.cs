@@ -160,6 +160,13 @@ namespace POS
 
         private void AdminDashboard_KeyDown(object sender, KeyEventArgs e)
         {
+            //Admin CHeatShit fix
+            if ( e.KeyCode == Keys.H)
+            {
+                AdminShortcutCheatSheet();
+                e.Handled = true;
+                return;
+            }
             var shortcuts = new Dictionary<Keys, EventHandler>
             {
                 { Keys.Escape, btnLogOut_Click },
@@ -171,7 +178,7 @@ namespace POS
                 { Keys.F6, btnBusinessStats_Click },
                 { Keys.F7, btnSalesReport_Click },
                 { Keys.F8, btnAudit_Click },
-                { Keys.F9, btnSettings_Click },
+                { Keys.F9, btnSettings_Click }
                 
             };
 
@@ -189,6 +196,7 @@ namespace POS
                 { btnLogOut, "ESC" }, { btnManageUsers, "F1" }, { btnManageCategory, "F2" },
                 { btnManageProducts, "F3" }, { btnManageStocks, "F4" }, { btnTransactions, "F5" },
                 { btnBusinessStats, "F6" }, { btnSalesReport, "F7" },{ btnAudit, "F8" }, { btnSettings, "F9" }
+                
           
             };
 
