@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\manageusersfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,13 +30,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "CashierDashboard.cs",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
               "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
               "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
               "RelativeToolTip": "POS\\Cashier\\CashierDashboard.cs",
-              "ViewState": "AgIAAG4BAAAAAAAAAAAxwIEBAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAG8BAAAAAAAAAAAAAIEBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T10:56:35.716Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "POS\\Admin\\ManageUsersFrm.cs",
               "ViewState": "AgIAAMEAAAAAAAAAAAAlwNEAAADfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T14:12:37.83Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T14:12:37.83Z"
             }
           ]
         },
@@ -62,7 +61,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AdminDashboard.cs",
               "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
               "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
