@@ -19,7 +19,8 @@ namespace POS.Cashier
             Action<object, EventArgs> onClearCart,
             Action<object, EventArgs> onEscape,
             Action<object, EventArgs> onPayment,
-            Action<object, EventArgs> onToggleCart)
+            Action<object, EventArgs> onToggleCart,
+            Action<object, EventArgs> onShowCheatSheet)
         {
             form.KeyPreview = true;
             form.KeyDown += (s, e) =>
@@ -52,6 +53,11 @@ namespace POS.Cashier
                 else if (e.KeyCode == Keys.F1)
                 {
                     onToggleCart?.Invoke(s, e);
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.H)
+                {
+                    onShowCheatSheet?.Invoke(s, e);
                     e.Handled = true;
                 }
             };

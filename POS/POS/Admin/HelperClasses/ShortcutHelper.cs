@@ -19,6 +19,7 @@ namespace POS.Admin
             Action<object, EventArgs> onF2,
             Action<object, EventArgs> onF3,
             Action<object, EventArgs> onF4)
+            
         {
             form.KeyPreview = true;
             form.KeyDown += (s, e) =>
@@ -48,6 +49,7 @@ namespace POS.Admin
                     onF4?.Invoke(s, e);
                     e.Handled = true;
                 }
+               
             };
         }
 

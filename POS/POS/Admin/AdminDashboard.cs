@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Npgsql;
+using OfficeOpenXml;
+using POS.Admin;
+using POS.Cashier;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Npgsql;
-using OfficeOpenXml;
-using POS.Admin;
 
 namespace POS
 {
@@ -159,6 +160,13 @@ namespace POS
 
         private void AdminDashboard_KeyDown(object sender, KeyEventArgs e)
         {
+            //Admin CHeatShit fix
+            if ( e.KeyCode == Keys.H)
+            {
+                AdminShortcutCheatSheet();
+                e.Handled = true;
+                return;
+            }
             var shortcuts = new Dictionary<Keys, EventHandler>
             {
                 { Keys.Escape, btnLogOut_Click },
@@ -170,7 +178,8 @@ namespace POS
                 { Keys.F6, btnBusinessStats_Click },
                 { Keys.F7, btnSalesReport_Click },
                 { Keys.F8, btnAudit_Click },
-                { Keys.F9, btnSettings_Click },
+                { Keys.F9, btnSettings_Click }
+                
             };
 
             if (shortcuts.TryGetValue(e.KeyCode, out var handler))
@@ -187,6 +196,8 @@ namespace POS
                 { btnLogOut, "ESC" }, { btnManageUsers, "F1" }, { btnManageCategory, "F2" },
                 { btnManageProducts, "F3" }, { btnManageStocks, "F4" }, { btnTransactions, "F5" },
                 { btnBusinessStats, "F6" }, { btnSalesReport, "F7" },{ btnAudit, "F8" }, { btnSettings, "F9" }
+                
+          
             };
 
             var toolTip = new ToolTip { InitialDelay = 200, ShowAlways = true };
@@ -213,6 +224,29 @@ namespace POS
                 btn.Location = originalLocation;
                 btn.Padding = new Padding(0);
             };
+        }
+
+ 
+   
+      
+        private void AdminShortcutCheatSheet()
+        {
+            string adminCheatSheet =
+                @"Shortcuts:
+ESC - Logout
+F1 - Manage Users
+F2 - Manage Category
+F3 - Manage Products
+F4 - Manage Stocks
+F5 - Transactions
+F6 - Business Stats
+F7 - Sales Report
+F8 - Audit
+F9 - Settings
+CTRL+H - Show Shortcuts";
+
+            MessageBox.Show(adminCheatSheet, "Shortcuts:",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
