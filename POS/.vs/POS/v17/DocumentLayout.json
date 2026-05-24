@@ -1,10 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
+  "WorkspaceRootPath": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\helperclasses\\receiptgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\helperclasses\\receiptgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\paymentfrm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\helperclasses\\paymentvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\helperclasses\\paymentvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\helperclasses\\transactioncalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\helperclasses\\transactioncalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\crazy\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\admin\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,23 +34,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 143,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Program.cs",
-              "RelativeDocumentMoniker": "POS\\Program.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Program.cs",
-              "RelativeToolTip": "POS\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "ReceiptGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\ReceiptGenerator.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\HelperClasses\\ReceiptGenerator.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\ReceiptGenerator.cs",
+              "RelativeToolTip": "POS\\Cashier\\HelperClasses\\ReceiptGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T05:06:26.203Z",
+              "WhenOpened": "2026-05-24T08:26:16.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PaymentValidator.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\PaymentValidator.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\HelperClasses\\PaymentValidator.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\PaymentValidator.cs",
+              "RelativeToolTip": "POS\\Cashier\\HelperClasses\\PaymentValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T08:14:43.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PaymentFrm.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\PaymentFrm.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\PaymentFrm.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\PaymentFrm.cs",
+              "RelativeToolTip": "POS\\Cashier\\PaymentFrm.cs",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAAAKUAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T08:06:38.9Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CashierDashboard.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
+              "RelativeToolTip": "POS\\Cashier\\CashierDashboard.cs",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAQwB8BAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T07:51:04.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TransactionCalculator.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\TransactionCalculator.cs",
+              "RelativeDocumentMoniker": "POS\\Cashier\\HelperClasses\\TransactionCalculator.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\HelperClasses\\TransactionCalculator.cs",
+              "RelativeToolTip": "POS\\Cashier\\HelperClasses\\TransactionCalculator.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAowC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T07:41:18.276Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SettingsForm.cs",
+              "DocumentMoniker": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\SettingsForm.cs",
+              "ToolTip": "C:\\Users\\crazy\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\SettingsForm.cs",
+              "RelativeToolTip": "POS\\Admin\\SettingsForm.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T02:20:04.417Z",
               "EditorCaption": ""
             }
           ]

@@ -12,10 +12,13 @@ namespace POS.Cashier
         public decimal VatableAmount { get; private set; }
         public decimal VatAmount { get; private set; }
         public decimal TotalAmount { get; private set; }
+        public decimal VatRate { get; private set; }
 
-        public void CalculateAmounts(DataTable cartTable, decimal discountPercentage = 0)
+        public void CalculateAmounts(DataTable cartTable, decimal discountPercentage = 0, decimal vatRate = 12m)
         {
+            VatRate = vatRate;
             DiscountPercentage = discountPercentage;
+
             Subtotal = cartTable.AsEnumerable()
                 .Sum(r => Convert.ToDecimal(r["subtotal"]));
 
@@ -23,8 +26,9 @@ namespace POS.Cashier
             decimal discountedAmount = Subtotal - DiscountAmount;
 
             // VAT-INCLUSIVE breakdown (BIR standard)
-            VatableAmount = discountedAmount / 1.12m;
-            VatAmount = VatableAmount * 0.12m;
+            decimal vatMultiplier = vatRate / 100m;
+            VatableAmount = discountedAmount / (1m + vatMultiplier);
+            VatAmount = VatableAmount * vatMultiplier;
             TotalAmount = discountedAmount;
         }
 
@@ -36,6 +40,7 @@ namespace POS.Cashier
             VatableAmount = 0;
             VatAmount = 0;
             TotalAmount = 0;
+            VatRate = 0;
         }
     }
 }

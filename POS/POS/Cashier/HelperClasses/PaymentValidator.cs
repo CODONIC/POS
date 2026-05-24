@@ -11,20 +11,18 @@ namespace POS.Cashier
                 errorMessage = "Please enter a valid payment amount.";
                 return false;
             }
-
             if (customerPayment < totalAmount)
             {
                 errorMessage = $"Insufficient payment amount!\n\nTotal to Pay: ₱{totalAmount:F2}\nCustomer Payment: ₱{customerPayment:F2}";
                 return false;
             }
-
             errorMessage = null;
             return true;
         }
 
         public static DialogResult ConfirmPayment(string transactionNumber, decimal subtotal, decimal discountPercentage,
             decimal discountAmount, decimal vatableAmount, decimal vatAmount, decimal totalAmount,
-            string paymentMethod, decimal customerPayment, decimal change)
+            string paymentMethod, decimal customerPayment, decimal change, decimal vatRate = 12m)
         {
             return MessageBox.Show(
                 $"Payment Confirmation:\n\n" +
@@ -32,7 +30,7 @@ namespace POS.Cashier
                 $"Subtotal: ₱{subtotal:F2}\n" +
                 $"Discount ({discountPercentage}%): -₱{discountAmount:F2}\n" +
                 $"VATable Amount: ₱{vatableAmount:F2}\n" +
-                $"VAT (12%): ₱{vatAmount:F2}\n" +
+                $"VAT ({vatRate}%): ₱{vatAmount:F2}\n" +
                 $"Total to Pay: ₱{totalAmount:F2}\n" +
                 $"Payment Method: {paymentMethod}\n" +
                 $"Customer Payment: ₱{customerPayment:F2}\n" +

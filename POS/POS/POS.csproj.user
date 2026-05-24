@@ -7,6 +7,12 @@
     <Compile Update="Admin\BusinessStatsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Admin\ChangeVatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Admin\CompanyInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Admin\EmployeeLogsFrm.cs">
       <SubType>Form</SubType>
     </Compile>
