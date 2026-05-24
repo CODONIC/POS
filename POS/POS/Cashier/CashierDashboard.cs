@@ -399,7 +399,8 @@ namespace POS
                     else btnLogOut_Click(s, ev);
                 },
                 onPayment: (s, ev) => btnPayment_Click(s, ev),
-                onToggleCart: (s, ev) => btnCart_Click(s, ev)
+                onToggleCart: (s, ev) => btnCart_Click(s, ev),
+                onShowCheatSheet: (s, ev) => ShortcutCheatSheet()
             );
 
             CashierShortcutHelper.SetupTooltips(this,
@@ -419,6 +420,22 @@ namespace POS
             CashierShortcutHelper.AttachHoverEffect(btnPayment, "PROCEED TO PAYMENT", "F2");
             CashierShortcutHelper.AttachHoverEffect(btnLogOut, "Logout", "Esc");
             CashierShortcutHelper.AttachHoverEffect(btnCart, "Switch Table", "F1");
+        }
+
+        private void ShortcutCheatSheet()
+        {
+            string cheatSheet =
+                @"Shortcuts: 
+ENTER - Add to Cart
+DELETE - Remove Items
+CTRL+SHIFT+C - Clear Cart
+ESC - Clear Selection/Logout
+F2 - Payment
+F1 - Cart
+CTRL+H - Show Shortcuts";
+
+            MessageBox.Show(cheatSheet, "Shortcuts:",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
