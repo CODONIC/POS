@@ -20,6 +20,7 @@ namespace POS
         private bool _suppressSelectionChanged = false;
         private bool _isSearching = false;
         private readonly LoginService _loginService = new LoginService();
+        private decimal _vatRate = 12m; // loaded from DB on startup
 
         public CashierDashboard(string username, string companyName, string userId, string sessionToken)
         {
@@ -61,6 +62,26 @@ namespace POS
             catch (Exception ex) { MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return null; }
         }
 
+        private async Task LoadVatRateAsync()
+        {
+            if (string.IsNullOrEmpty(_companyId)) return;
+            try
+            {
+                await using var conn = DatabaseService.GetConnection();
+                await conn.OpenAsync();
+                await using var cmd = new NpgsqlCommand(
+                    "SELECT vat_rate FROM companies WHERE id = @id", conn);
+                cmd.Parameters.AddWithValue("id", Guid.Parse(_companyId));
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && result != DBNull.Value)
+                    _vatRate = Convert.ToDecimal(result);
+            }
+            catch
+            {
+                _vatRate = 12m; // fallback to default
+            }
+        }
+
         private void SetupDataGridView()
         {
             dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -79,8 +100,6 @@ namespace POS
             txtPrice.TextChanged += (s, e) => SearchTable(txtPrice.Text.Trim(), "price");
         }
 
-        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
-        // ─── Keyboard Navigation (Up/Down arrows cycle through textboxes) ───
         private void txt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
@@ -88,7 +107,7 @@ namespace POS
                 if (sender == txtProductCode) txtProductName.FocusInner();
                 else if (sender == txtProductName) txtQuan.FocusInner();
                 else if (sender == txtQuan) txtPrice.FocusInner();
-                else if (sender == txtPrice) txtProductCode.FocusInner();  // Wrap to first
+                else if (sender == txtPrice) txtProductCode.FocusInner();
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Up)
@@ -96,11 +115,10 @@ namespace POS
                 if (sender == txtProductName) txtProductCode.FocusInner();
                 else if (sender == txtQuan) txtProductName.FocusInner();
                 else if (sender == txtPrice) txtQuan.FocusInner();
-                else if (sender == txtProductCode) txtPrice.FocusInner();  // Wrap to last
+                else if (sender == txtProductCode) txtPrice.FocusInner();
                 e.Handled = true;
             }
         }
-
 
         private void SetupKeyboardNavigation()
         {
@@ -116,6 +134,7 @@ namespace POS
             if (string.IsNullOrEmpty(_companyId)) return;
             try
             {
+                await LoadVatRateAsync(); // load VAT rate from DB first
                 _productsTable = await _productService.LoadProductsAsync();
                 ShowProductsView();
             }
@@ -228,7 +247,7 @@ namespace POS
                 txtTransNo.Text = TransactionNumberGenerator.Generate();
 
             _cartManager.AddItem(typedCode, product["product_name"].ToString(), Convert.ToDecimal(product["price"]), qtyDialog.Quantity);
-            _calculator.CalculateAmounts(_cartManager.CartTable);
+            _calculator.CalculateAmounts(_cartManager.CartTable, 0, _vatRate); // pass dynamic VAT rate
             UpdateFinancialDisplay();
             ShowCartView();
             ClearSearchFields();
@@ -251,7 +270,7 @@ namespace POS
             if (qtyDialog.ShowDialog() != DialogResult.OK) return;
 
             _cartManager.RemoveItem(productCode, qtyDialog.Quantity, price);
-            _calculator.CalculateAmounts(_cartManager.CartTable);
+            _calculator.CalculateAmounts(_cartManager.CartTable, 0, _vatRate); // pass dynamic VAT rate
             UpdateFinancialDisplay();
             ShowCartView();
         }
@@ -266,7 +285,7 @@ namespace POS
 
             var payment = new PaymentFrm(_username, _companyName, txtTransNo.Text, _cartManager.CartTable.Copy(),
                 _calculator.Subtotal, _calculator.DiscountPercentage, _calculator.DiscountAmount,
-                _calculator.VatableAmount, _calculator.VatAmount, _calculator.TotalAmount);
+                _calculator.VatableAmount, _calculator.VatAmount, _calculator.TotalAmount, _vatRate);
 
             if (payment.ShowDialog() == DialogResult.OK)
             {
@@ -366,12 +385,10 @@ namespace POS
 
         private void InitializeShortcuts()
         {
-            // Controls for arrow navigation (ONLY textboxes - same pattern as ManageUsers)
             var controls = new Control[] { txtProductCode, txtProductName, txtQuan, txtPrice };
             foreach (var control in controls)
                 CashierShortcutHelper.AttachCustomKeyNavigation(control, txt_KeyDown);
 
-            // Function shortcuts (Enter, Delete, Ctrl+Shift+C, Escape, F2, F1)
             CashierShortcutHelper.AttachFunctionShortcuts(this,
                 onEnter: (s, ev) => btnAddToCart_Click(s, ev),
                 onDelete: (s, ev) => btnRemoveItems_Click(s, ev),
@@ -382,14 +399,9 @@ namespace POS
                     else btnLogOut_Click(s, ev);
                 },
                 onPayment: (s, ev) => btnPayment_Click(s, ev),
-                onToggleCart: (s, ev) => btnCart_Click(s, ev),
-                onShowCheatSheet: (s, ev) => ShortcutCheatSheet()
-            
+                onToggleCart: (s, ev) => btnCart_Click(s, ev)
             );
 
-
-
-            // Setup tooltips
             CashierShortcutHelper.SetupTooltips(this,
                 (btnAddToCart, "Enter"),
                 (btnRemoveItems, "Delete"),
@@ -400,7 +412,6 @@ namespace POS
                 (btnCart, "F1")
             );
 
-            // Attach hover effects (matching ManageUsers pattern)
             CashierShortcutHelper.AttachHoverEffect(btnAddToCart, "ADD TO CART", "Enter");
             CashierShortcutHelper.AttachHoverEffect(btnRemoveItems, "REMOVE FROM CART", "Delete");
             CashierShortcutHelper.AttachHoverEffect(btnClearCart, "CLEAR CART", "Ctrl+Shift+C");
@@ -408,22 +419,6 @@ namespace POS
             CashierShortcutHelper.AttachHoverEffect(btnPayment, "PROCEED TO PAYMENT", "F2");
             CashierShortcutHelper.AttachHoverEffect(btnLogOut, "Logout", "Esc");
             CashierShortcutHelper.AttachHoverEffect(btnCart, "Switch Table", "F1");
-        }
-
-        private void ShortcutCheatSheet()
-        {
-            string cheatSheet =
-                @"Shortcuts: 
-ENTER - Add to Cart
-DELETE - Remove Items
-CTRL+SHIFT+C - Clear Cart
-ESC - Clear Selection/Logout
-F2 - Payment
-F1 - Cart
-CTRL+H - Show Shortcuts";
-
-            MessageBox.Show(cheatSheet, "Shortcuts:",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace POS.Cashier
         private readonly decimal _customerPayment;
         private readonly decimal _changeAmount;
         private readonly string _paymentMethod;
+        private readonly decimal _vatRate;
         private PrintDocument _printDocument;
 
         public ReceiptGenerator(
@@ -38,7 +39,8 @@ namespace POS.Cashier
             decimal totalAmount,
             decimal customerPayment,
             decimal changeAmount,
-            string paymentMethod)
+            string paymentMethod,
+            decimal vatRate = 12m)
         {
             _companyName = companyName;
             _cashierName = cashierName;
@@ -54,6 +56,7 @@ namespace POS.Cashier
             _customerPayment = customerPayment;
             _changeAmount = changeAmount;
             _paymentMethod = paymentMethod;
+            _vatRate = vatRate;
         }
 
         public string GenerateReceiptText()
@@ -87,7 +90,6 @@ namespace POS.Cashier
                 decimal price = Convert.ToDecimal(item["price"]);
                 decimal subtotal = Convert.ToDecimal(item["subtotal"]);
 
-                // Truncate long names
                 if (productName.Length > 25)
                     productName = productName.Substring(0, 22) + "...";
 
@@ -100,12 +102,10 @@ namespace POS.Cashier
             sb.AppendLine($"{"Subtotal:",-35} {_subtotal,12:F2}");
 
             if (_discountPercentage > 0)
-            {
                 sb.AppendLine($"{"Discount (" + _discountPercentage + "%):",-35} -{_discountAmount,12:F2}");
-            }
 
             sb.AppendLine($"{"VATable Amount:",-35} {_vatableAmount,12:F2}");
-            sb.AppendLine($"{"VAT (12%):",-35} {_vatAmount,12:F2}");
+            sb.AppendLine($"{"VAT (" + _vatRate + "%):",-35} {_vatAmount,12:F2}");
             sb.AppendLine(new string('-', lineWidth));
             sb.AppendLine($"{"TOTAL:",-35} {_totalAmount,12:F2}");
             sb.AppendLine(new string('-', lineWidth));
@@ -132,9 +132,7 @@ namespace POS.Cashier
 
         private string CenterText(string text, int width)
         {
-            if (text.Length >= width)
-                return text;
-
+            if (text.Length >= width) return text;
             int padding = (width - text.Length) / 2;
             return text.PadLeft(padding + text.Length).PadRight(width);
         }
@@ -143,7 +141,6 @@ namespace POS.Cashier
         {
             _printDocument = new PrintDocument();
 
-            // Try to find a receipt printer
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
                 if (printer.ToLower().Contains("receipt") ||
@@ -177,9 +174,7 @@ namespace POS.Cashier
                         "Print Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (MessageBox.Show("Preview receipt?", "Print Error",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
                         PrintReceipt(true);
-                    }
                 }
             }
         }
@@ -275,7 +270,6 @@ namespace POS.Cashier
                 btnClose.Click += (s, e) => receiptForm.Close();
 
                 buttonPanel.Controls.AddRange(new Control[] { btnPrint, btnSave, btnClose });
-
                 receiptForm.Controls.Add(txtReceipt);
                 receiptForm.Controls.Add(buttonPanel);
                 receiptForm.ShowDialog();

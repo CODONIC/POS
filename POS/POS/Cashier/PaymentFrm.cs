@@ -15,13 +15,14 @@ namespace POS.Cashier
         private readonly decimal _originalSubtotal;
         private readonly string _username;
         private readonly string _companyName;
+        private readonly decimal _vatRate;
 
-        // Override to disable exit confirmation
         protected override bool RequireExitConfirmation => false;
 
         public PaymentFrm(string username, string companyName, string transactionNumber,
                           DataTable cartItems, decimal subtotal, decimal discountPercentage,
-                          decimal discountAmount, decimal vatableAmount, decimal vatAmount, decimal totalAmount)
+                          decimal discountAmount, decimal vatableAmount, decimal vatAmount,
+                          decimal totalAmount, decimal vatRate = 12m)
         {
             InitializeComponent();
             InitializeTitleBar(closeButton, titleBar, titleLabel);
@@ -34,6 +35,7 @@ namespace POS.Cashier
             _transactionNumber = transactionNumber;
             _cartItems = cartItems;
             _originalSubtotal = subtotal;
+            _vatRate = vatRate;
 
             InitializeForm(username, companyName);
 
@@ -74,39 +76,23 @@ namespace POS.Cashier
             txtDiscountPercent.TextChanged += (s, e) => { _calculator.Recalculate(GetDiscountPercent()); UpdateDisplay(); CalculateChange(); };
             txtCustomerPayment.TextChanged += (s, e) => CalculateChange();
 
-            // Restrict to whole numbers only (digits, no decimal)
             txtCustomerPayment.KeyPress += (s, e) =>
             {
-                // Allow control characters (backspace, delete, Ctrl+C, Ctrl+V, Ctrl+X, etc.)
-                if (char.IsControl(e.KeyChar))
-                {
-                    return;
-                }
-
-                // Allow only digits (0-9)
-                if (!char.IsDigit(e.KeyChar))
-                {
-                    e.Handled = true;
-                }
+                if (char.IsControl(e.KeyChar)) return;
+                if (!char.IsDigit(e.KeyChar)) e.Handled = true;
             };
 
-            // Clean up any pasted non-numeric content (without SelectionStart)
             txtCustomerPayment.TextChanged += (s, e) =>
             {
                 string text = txtCustomerPayment.Text;
                 if (!string.IsNullOrEmpty(text))
                 {
-                    // Remove any non-digit characters
                     string cleaned = new string(text.Where(char.IsDigit).ToArray());
-                    if (cleaned != text)
-                    {
-                        txtCustomerPayment.Text = cleaned;
-                    }
+                    if (cleaned != text) txtCustomerPayment.Text = cleaned;
                 }
             };
         }
 
-        // Override OnFormClosing to ensure no confirmation
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -148,7 +134,7 @@ namespace POS.Cashier
 
             if (PaymentValidator.ConfirmPayment(_transactionNumber, _originalSubtotal, _calculator.DiscountPercentage,
                 _calculator.DiscountAmount, _calculator.VatableAmount, _calculator.VatAmount, _calculator.TotalAmount,
-                paymentMethod, customerPayment, changeAmount) != DialogResult.Yes) return;
+                paymentMethod, customerPayment, changeAmount, _vatRate) != DialogResult.Yes) return;
 
             try
             {
@@ -174,33 +160,27 @@ namespace POS.Cashier
         private void GenerateAndPrintReceipt(decimal customerPayment, decimal changeAmount, string paymentMethod)
         {
             var receipt = new ReceiptGenerator(
-                _companyName,
-                _username,
-                _transactionNumber,
-                _cartItems,
-                _originalSubtotal,
-                _calculator.DiscountPercentage,
-                _calculator.DiscountAmount,
-                _calculator.VatableAmount,
-                _calculator.VatAmount,
-                _calculator.TotalAmount,
-                customerPayment,
-                changeAmount,
-                paymentMethod
+                _companyName, _username, _transactionNumber, _cartItems,
+                _originalSubtotal, _calculator.DiscountPercentage, _calculator.DiscountAmount,
+                _calculator.VatableAmount, _calculator.VatAmount, _calculator.TotalAmount,
+                customerPayment, changeAmount, paymentMethod, _vatRate
             );
 
             receipt.ShowReceiptDialog();
         }
 
-        private void btnClear_Click(object sender, EventArgs e) { txtCustomerPayment.Text = ""; txtChange.Text = "₱ 0.00"; btnConfirmPayment.Enabled = false; txtCustomerPayment.Focus(); }
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtCustomerPayment.Text = "";
+            txtChange.Text = "₱ 0.00";
+            btnConfirmPayment.Enabled = false;
+            txtCustomerPayment.Focus();
+        }
 
         private void ShowError(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         private void ShowSuccess(string msg, string title) => MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-        private void txtCustomerPayment_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void txtCustomerPayment_TextChanged(object sender, EventArgs e) { }
 
         private void PaymentFrm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -208,7 +188,6 @@ namespace POS.Cashier
             {
                 { Keys.Escape, btnClear_Click },
                 { Keys.Enter, btnConfirmPayment_Click },
-                
             };
 
             if (shortcuts.TryGetValue(e.KeyCode, out var handler))
@@ -237,18 +216,8 @@ namespace POS.Cashier
         private void AttachHoverEffect(Button btn)
         {
             var originalLocation = btn.Location;
-
-            btn.MouseEnter += (s, e) =>
-            {
-                btn.Location = new Point(originalLocation.X, originalLocation.Y - 3);
-                btn.Padding = new Padding(0, 0, 0, 6);
-            };
-
-            btn.MouseLeave += (s, e) =>
-            {
-                btn.Location = originalLocation;
-                btn.Padding = new Padding(0);
-            };
+            btn.MouseEnter += (s, e) => { btn.Location = new Point(originalLocation.X, originalLocation.Y - 3); btn.Padding = new Padding(0, 0, 0, 6); };
+            btn.MouseLeave += (s, e) => { btn.Location = originalLocation; btn.Padding = new Padding(0); };
         }
     }
 }

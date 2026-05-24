@@ -1,0 +1,11 @@
+Time: 5/24/2026 3:09:37 PM
+Message: Collection was modified; enumeration operation may not execute.
+Stack Trace:    at System.Collections.Generic.List`1.Enumerator.MoveNext()
+   at POS.CrashRecoveryService.UpdateHeartbeatAsync() in C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\CrashRecoveryService.cs:line 75
+   at POS.CrashRecoveryService.<>c.<<StartHeartbeat>b__6_0>d.MoveNext() in C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\CrashRecoveryService.cs:line 58
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.<>c.<ThrowAsync>b__128_1(Object state)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading.PortableThreadPool.WorkerThread.WorkerThreadStart()
+Source: System.Private.CoreLib
+Target Site: Void ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion()
