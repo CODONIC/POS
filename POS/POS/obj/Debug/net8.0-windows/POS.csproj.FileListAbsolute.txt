@@ -355,3 +355,4 @@ C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-wi
 C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.genruntimeconfig.cache
 C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\ref\POS.dll
 C:\Users\crazy\OneDrive\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ChangeVatDialog.resources
+C:\Users\Kris\Documents\GitHub\POS-Tindero\POS\POS\obj\Debug\net8.0-windows\POS.Admin.ChangeVatDialog.resources
