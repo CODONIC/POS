@@ -160,6 +160,14 @@ namespace POS
 
         private void AdminDashboard_KeyDown(object sender, KeyEventArgs e)
         {
+            //Admin CHeatShit fix
+            if (e.KeyCode == Keys.H)
+            {
+                AdminShortcutCheatSheet();
+                e.Handled = true;
+                return;
+            }
+
             var shortcuts = new Dictionary<Keys, EventHandler>
             {
                 { Keys.Escape, btnLogOut_Click },
@@ -215,10 +223,31 @@ namespace POS
                 btn.Padding = new Padding(0);
             };
         }
+
         private void btnSubscriptionOffers_Click(object sender, EventArgs e)
         {
             using var subForm = new SubscriptionForm();
             subForm.ShowDialog(this);
+        }
+
+        private void AdminShortcutCheatSheet()
+        {
+            string adminCheatSheet =
+                @"Shortcuts:
+ESC - Logout
+F1 - Manage Users
+F2 - Manage Category
+F3 - Manage Products
+F4 - Manage Stocks
+F5 - Transactions
+F6 - Business Stats
+F7 - Sales Report
+F8 - Audit
+F9 - Settings
+CTRL+H - Show Shortcuts";
+
+            MessageBox.Show(adminCheatSheet, "Shortcuts:",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

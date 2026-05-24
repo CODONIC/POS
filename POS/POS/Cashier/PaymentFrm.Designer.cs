@@ -30,6 +30,8 @@
         {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaymentFrm));
             titleBar = new Panel();
             lblCashierName = new Label();
@@ -43,13 +45,13 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            txtDiscountPercent = new CustomControls.CustomTextBox();
             txtChange = new Label();
             btnClear = new RoundedButton();
             label7 = new Label();
             guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
             txtTransactionNo = new CustomControls.CustomTextBox();
             label6 = new Label();
+            cmbDiscount = new Guna.UI2.WinForms.Guna2ComboBox();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -216,25 +218,6 @@
             label5.TabIndex = 44;
             label5.Text = "Discount";
             // 
-            // txtDiscountPercent
-            // 
-            txtDiscountPercent.BorderColor = SystemColors.ButtonFace;
-            txtDiscountPercent.BorderFocusColor = Color.FromArgb(30, 45, 61);
-            txtDiscountPercent.BorderRadius = 8;
-            txtDiscountPercent.BorderThickness = 2;
-            txtDiscountPercent.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtDiscountPercent.ForeColor = SystemColors.GrayText;
-            txtDiscountPercent.InnerBackColor = SystemColors.InactiveCaption;
-            txtDiscountPercent.InnerForeColor = Color.Black;
-            txtDiscountPercent.IsPasswordField = false;
-            txtDiscountPercent.Location = new Point(56, 325);
-            txtDiscountPercent.Name = "txtDiscountPercent";
-            txtDiscountPercent.PasswordChar = '\0';
-            txtDiscountPercent.PlaceholderColor = Color.Black;
-            txtDiscountPercent.PlaceholderText = "";
-            txtDiscountPercent.Size = new Size(372, 42);
-            txtDiscountPercent.TabIndex = 43;
-            // 
             // txtChange
             // 
             txtChange.AutoSize = true;
@@ -326,11 +309,31 @@
             label6.TabIndex = 51;
             label6.Text = "Transaction #";
             // 
+            // cmbDiscount
+            // 
+            cmbDiscount.BackColor = Color.Transparent;
+            cmbDiscount.BorderColor = Color.White;
+            cmbDiscount.CustomizableEdges = customizableEdges3;
+            cmbDiscount.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbDiscount.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDiscount.FillColor = SystemColors.InactiveCaption;
+            cmbDiscount.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbDiscount.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbDiscount.Font = new Font("Segoe UI", 10F);
+            cmbDiscount.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbDiscount.ItemHeight = 30;
+            cmbDiscount.Location = new Point(62, 325);
+            cmbDiscount.Name = "cmbDiscount";
+            cmbDiscount.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            cmbDiscount.Size = new Size(364, 36);
+            cmbDiscount.TabIndex = 56;
+            // 
             // PaymentFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(499, 622);
+            Controls.Add(cmbDiscount);
             Controls.Add(label6);
             Controls.Add(txtTransactionNo);
             Controls.Add(guna2ComboBox1);
@@ -339,7 +342,6 @@
             Controls.Add(txtChange);
             Controls.Add(label4);
             Controls.Add(label5);
-            Controls.Add(txtDiscountPercent);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -372,12 +374,12 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private CustomControls.CustomTextBox txtDiscountPercent;
         private Label txtChange;
         private RoundedButton btnClear;
         private Label label7;
         private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
         private CustomControls.CustomTextBox txtTransactionNo;
         private Label label6;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbDiscount;
     }
 }

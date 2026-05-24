@@ -31,7 +31,7 @@ namespace POS.Cashier
             _companyName = companyName;
             var companyId = GetCompanyId(companyName);
             _paymentService = new PaymentService(companyId, username);
-            _calculator = new PaymentCalculator(subtotal, discountPercentage);
+            _calculator = new PaymentCalculator(subtotal, discountPercentage, vatRate);
             _transactionNumber = transactionNumber;
             _cartItems = cartItems;
             _originalSubtotal = subtotal;
@@ -66,14 +66,30 @@ namespace POS.Cashier
             guna2ComboBox1.SelectedIndex = 0;
             guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
+            //txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
             txtTotalToPay.Text = _calculator.TotalAmount.ToString("F2");
             txtTransactionNo.Text = _transactionNumber;
             txtCustomerPayment.Text = "";
             txtChange.Text = "₱ 0.00";
             btnConfirmPayment.Enabled = false;
 
-            txtDiscountPercent.TextChanged += (s, e) => { _calculator.Recalculate(GetDiscountPercent()); UpdateDisplay(); CalculateChange(); };
+            //txtDiscountPercent.TextChanged += (s, e) => { _calculator.Recalculate(GetDiscountPercent()); UpdateDisplay(); CalculateChange(); };
+            cmbDiscount.Items.AddRange(new[] { "0%", "5%", "10%", "15%", "20%" });
+            cmbDiscount.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // Select the item matching the initial discount, defaulting to 0%
+            int initialDiscount = (int)_calculator.DiscountPercentage;
+            string initialItem = $"{initialDiscount}%";
+            cmbDiscount.SelectedIndex = cmbDiscount.Items.Contains(initialItem)
+                ? cmbDiscount.Items.IndexOf(initialItem)
+                : 0;
+
+            cmbDiscount.SelectedIndexChanged += (s, e) =>
+            {
+                _calculator.Recalculate(GetDiscountPercent());
+                UpdateDisplay();
+                CalculateChange();
+            };
             txtCustomerPayment.TextChanged += (s, e) => CalculateChange();
 
             txtCustomerPayment.KeyPress += (s, e) =>
@@ -103,11 +119,17 @@ namespace POS.Cashier
             this.Close();
         }
 
-        private decimal GetDiscountPercent() => decimal.TryParse(txtDiscountPercent.Text, out var pct) ? Math.Clamp(pct, 0, 100) : 0;
+        private decimal GetDiscountPercent()
+        {
+            if (cmbDiscount.SelectedItem is string selected &&
+                decimal.TryParse(selected.TrimEnd('%'), out var pct))
+                return pct;
+            return 0;
+        }
 
         private void UpdateDisplay()
         {
-            txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
+            //txtDiscountPercent.Text = _calculator.DiscountPercentage.ToString();
             txtTotalToPay.Text = _calculator.TotalAmount.ToString("F2");
         }
 

@@ -9,14 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Admin\Settings Related\**" />
     <Compile Remove="Chef\**" />
     <Compile Remove="Customer\**" />
     <Compile Remove="Manager\**" />
     <Compile Remove="Properties\DataSources\**" />
+    <EmbeddedResource Remove="Admin\Settings Related\**" />
     <EmbeddedResource Remove="Chef\**" />
     <EmbeddedResource Remove="Customer\**" />
     <EmbeddedResource Remove="Manager\**" />
     <EmbeddedResource Remove="Properties\DataSources\**" />
+    <None Remove="Admin\Settings Related\**" />
     <None Remove="Chef\**" />
     <None Remove="Customer\**" />
     <None Remove="Manager\**" />
@@ -55,10 +58,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Admin\Settings Related\" />
   </ItemGroup>
 
   <ItemGroup>
