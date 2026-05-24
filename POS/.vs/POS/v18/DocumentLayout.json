@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\jeffm\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\subscriptionform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\subscriptionform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\jeffm\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\subscriptionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\subscriptionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\jeffm\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\jeffm\\onedrive\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SubscriptionForm.cs",
+              "DocumentMoniker": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\SubscriptionForm.cs",
+              "RelativeDocumentMoniker": "POS\\SubscriptionForm.cs",
+              "ToolTip": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\SubscriptionForm.cs",
+              "RelativeToolTip": "POS\\SubscriptionForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T09:44:06.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminDashboard.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.Designer.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.Designer.cs",
+              "ToolTip": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.Designer.cs",
+              "RelativeToolTip": "POS\\Admin\\AdminDashboard.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-23T14:45:47.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SubscriptionForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\SubscriptionForm.Designer.cs",
+              "RelativeDocumentMoniker": "POS\\SubscriptionForm.Designer.cs",
+              "ToolTip": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\SubscriptionForm.Designer.cs",
+              "RelativeToolTip": "POS\\SubscriptionForm.Designer.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAUwC4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T08:39:39.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdminDashboard.cs",
+              "DocumentMoniker": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
+              "ToolTip": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
+              "RelativeToolTip": "POS\\Admin\\AdminDashboard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-23T14:52:50.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AdminDashboard.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
+              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
+              "ToolTip": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs [Design]",
+              "RelativeToolTip": "POS\\Admin\\AdminDashboard.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-23T14:46:54.123Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

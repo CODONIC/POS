@@ -49,6 +49,9 @@
     <Compile Update="StartUpForms\WelcomeFrm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SubscriptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Templates\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>

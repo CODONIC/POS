@@ -43,6 +43,7 @@
             btnSalesReport = new RoundedButton();
             btnSettings = new RoundedButton();
             btnAudit = new RoundedButton();
+            btnSubscriptionOffers = new Button();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -293,7 +294,20 @@
             btnAudit.TextAlign = ContentAlignment.BottomCenter;
             btnAudit.UseVisualStyleBackColor = false;
             btnAudit.Click += btnAudit_Click;
-            // 
+            //
+            // btnSubscriptionOffers
+            btnSubscriptionOffers.BackColor = Color.Black;
+            btnSubscriptionOffers.ForeColor = Color.White;
+            btnSubscriptionOffers.FlatStyle = FlatStyle.Flat;
+            btnSubscriptionOffers.FlatAppearance.BorderSize = 0;
+            btnSubscriptionOffers.FlatAppearance.MouseOverBackColor = Color.FromArgb(40, 40, 40);
+            btnSubscriptionOffers.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnSubscriptionOffers.Cursor = Cursors.Hand;
+            btnSubscriptionOffers.Location = new Point(1090, 62);
+            btnSubscriptionOffers.Size = new Size(160, 36);
+            btnSubscriptionOffers.Text = "Subscription Offers";
+            btnSubscriptionOffers.UseVisualStyleBackColor = false;
+            btnSubscriptionOffers.Click += btnSubscriptionOffers_Click;
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -310,6 +324,7 @@
             Controls.Add(btnManageCategory);
             Controls.Add(btnManageUsers);
             Controls.Add(titleBar);
+            Controls.Add(btnSubscriptionOffers);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AdminDashboard";
@@ -339,5 +354,6 @@
         private RoundedButton btnSalesReport;
         private RoundedButton btnSettings;
         private RoundedButton btnAudit;
+        private Button btnSubscriptionOffers;
     }
 }

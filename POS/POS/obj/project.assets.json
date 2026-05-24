@@ -2808,19 +2808,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kris\\.nuget\\packages\\": {}
+    "C:\\Users\\jeffm\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
+      "projectUniqueName": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
       "projectName": "POS",
-      "projectPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
-      "packagesPath": "C:\\Users\\Kris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\obj\\",
+      "projectPath": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\POS.csproj",
+      "packagesPath": "C:\\Users\\jeffm\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jeffm\\OneDrive\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Kris\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jeffm\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2832,6 +2832,7 @@
       },
       "frameworks": {
         "net8.0-windows7.0": {
+          "framework": "net8.0-windows7.0",
           "targetAlias": "net8.0-windows",
           "projectReferences": {}
         }
@@ -2846,10 +2847,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0-windows7.0": {
+        "framework": "net8.0-windows7.0",
         "targetAlias": "net8.0-windows",
         "dependencies": {
           "EPPlus": {
@@ -2896,6 +2898,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.26, 8.0.26]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -2904,7 +2924,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -2916,7 +2936,7 @@
       "message": "Package 'OpenTK 3.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "OpenTK",
       "targetGraphs": [
-        "net8.0-windows7.0"
+        "net8.0-windows"
       ]
     },
     {
@@ -2926,7 +2946,7 @@
       "message": "Package 'OpenTK.GLControl 3.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "OpenTK.GLControl",
       "targetGraphs": [
-        "net8.0-windows7.0"
+        "net8.0-windows"
       ]
     },
     {
@@ -2936,7 +2956,7 @@
       "message": "Package 'SkiaSharp.Views.WindowsForms 3.119.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "SkiaSharp.Views.WindowsForms",
       "targetGraphs": [
-        "net8.0-windows7.0"
+        "net8.0-windows"
       ]
     }
   ]

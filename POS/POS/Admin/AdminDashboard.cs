@@ -111,6 +111,7 @@ namespace POS
         private void btnManageUsers_Click(object sender, EventArgs e) =>
             ShowFormAsDialog(new ManageUsersFrm(_username, _companyName, _userId, _sessionToken));
 
+
         private void btnManageCategory_Click(object sender, EventArgs e) =>
             ShowFormAsDialog(new ProdCategoryFrm(_username, _companyName, _userId, _sessionToken));
 
@@ -213,6 +214,11 @@ namespace POS
                 btn.Location = originalLocation;
                 btn.Padding = new Padding(0);
             };
+        }
+        private void btnSubscriptionOffers_Click(object sender, EventArgs e)
+        {
+            using var subForm = new SubscriptionForm();
+            subForm.ShowDialog(this);
         }
     }
 }
