@@ -115,8 +115,8 @@ namespace POS.Admin
                 else if (sender == txtFirstName) txtMiddleName.FocusInner();
                 else if (sender == txtMiddleName) txtContact.FocusInner();
                 else if (sender == txtContact) txtAge.FocusInner();
-                
-                
+
+
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Up)
@@ -128,7 +128,7 @@ namespace POS.Admin
                 else if (sender == txtContact) txtMiddleName.FocusInner();
                 else if (sender == txtAge) txtContact.FocusInner();
                 else if (sender == txtUsername) txtSearch.FocusInner();
-                
+
                 e.Handled = true;
             }
         }
@@ -210,6 +210,126 @@ namespace POS.Admin
             ShortcutHelper.AttachFunctionShortcuts(this, (s, ev) => btnBack_Click(s, ev), (s, ev) => btnAdd_Click(s, ev), (s, ev) => btnUpdate_Click(s, ev), (s, ev) => btnDelete_Click(s, ev), (s, ev) => btnClear_Click(s, ev));
             ShortcutHelper.SetupTooltips(this, (btnBack, "ESC"), (btnAdd, "F1"), (btnUpdate, "F2"), (btnDelete, "F3"), (btnClear, "F4"));
             ShortcutHelper.AttachHoverEffect(btnBack, "BACK", "ESC"); ShortcutHelper.AttachHoverEffect(btnAdd, "ADD", "F1"); ShortcutHelper.AttachHoverEffect(btnUpdate, "EDIT", "F2"); ShortcutHelper.AttachHoverEffect(btnDelete, "DELETE", "F3"); ShortcutHelper.AttachHoverEffect(btnClear, "CLEAR", "F4");
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+            string password = txtPassword.Text;
+            int length = password.Length;
+
+            if (length > 0)
+            {
+                lblStrengthIndicator.Visible = true;
+
+                string strength = "";
+
+                if (length <= 2)
+                {
+                    strength = "WEAK";
+                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Red;
+                }
+                else if (length <= 4)
+                {
+                    strength = "MEDIUM";
+                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Orange;
+                }
+                else if (length <= 8)
+                {
+                    strength = "STRONG";
+                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    strength = "VERY STRONG";
+                    lblStrengthIndicator.ForeColor = System.Drawing.Color.DarkGreen;
+                }
+
+                lblStrengthIndicator.Text = $"Password Strength: {strength}";
+            }
+            else
+            {
+                lblStrengthIndicator.Visible = false;
+            }
+        }
+
+        private bool SetUserPassword(string newPassword)
+        {
+            int length = newPassword.Length;
+
+            if (length < 8)
+            {
+                MessageBox.Show("Password must be at least 8 characters long!",
+                              "Invalid Password",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (length > 128)
+            {
+                MessageBox.Show("Password must be at most 128 characters long!",
+                              "Invalid Password",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return false;
+            }
+
+            string strength = "";
+
+            if (length <= 2)
+            {
+                strength = "WEAK";
+            }
+            else if (length <= 4)
+            {
+                strength = "MEDIUM";
+            }
+            else if (length <= 8)
+            {
+                strength = "STRONG";
+            }
+            else
+            {
+                strength = "VERY STRONG";
+            }
+
+            if (strength == "WEAK" || strength == "MEDIUM")
+            {
+                MessageBox.Show($"Password is {strength}. Password must be at least STRONG to set/change!\n\n" +
+                              "Please use a password with more than 8 characters.",
+                              "Weak Password",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return false;
+            }
+
+            MessageBox.Show($"Password set successfully! (Strength: {strength})",
+                          "Success",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Information);
+            return true;
+        }
+
+        private void btnSetPassword_Click(object sender, EventArgs e)
+        {
+            string newPassword = txtPassword.Text;
+
+            if (!string.IsNullOrEmpty(newPassword))
+            {
+                SetUserPassword(newPassword);
+            }
+            else
+            {
+                MessageBox.Show("Please enter a password first!",
+                              "Empty Password",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
