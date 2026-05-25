@@ -163,6 +163,27 @@ namespace POS.Admin
                     return;
                 }
 
+                //Check for duplicate company name (exclude current company)
+                await using var dupCmd = new NpgsqlCommand(
+    @"SELECT COUNT(*) FROM companies 
+      WHERE id != @id 
+      AND (
+          LOWER(name) = LOWER(@name) OR
+          LOWER(@name) LIKE '%' || LOWER(name) || '%' OR
+          LOWER(name) LIKE '%' || LOWER(@name) || '%' OR
+          similarity(LOWER(name), LOWER(@name)) > 0.6
+      )", conn);
+                dupCmd.Parameters.AddWithValue("name", txtCompanyName.Text.Trim());
+                dupCmd.Parameters.AddWithValue("id", (Guid)companyId);
+
+                var dupCount = (long)await dupCmd.ExecuteScalarAsync();
+
+                if (dupCount > 0)
+                {
+                    lblStatus.Text = "Company name is too similar to an existing one.";
+                    return;
+                }
+
                 // Update company info
                 await using var updateCmd = new NpgsqlCommand(
                     "UPDATE companies SET name = @name, contact_number = @contact WHERE id = @id", conn);

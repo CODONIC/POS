@@ -81,9 +81,9 @@
             lblAdminName.AutoSize = true;
             lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
-            lblAdminName.Location = new Point(1191, 12);
+            lblAdminName.Location = new Point(1042, 9);
             lblAdminName.Name = "lblAdminName";
-            lblAdminName.Size = new Size(221, 23);
+            lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
             lblAdminName.Text = "adminName | Admin";
             // 
@@ -92,9 +92,9 @@
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(14, 12);
+            titleLabel.Location = new Point(12, 9);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(129, 28);
+            titleLabel.Size = new Size(104, 21);
             titleLabel.TabIndex = 0;
             titleLabel.Text = "Tindero POS";
             // 
@@ -106,9 +106,8 @@
             titleBar.Controls.Add(titleLabel);
             titleBar.Dock = DockStyle.Top;
             titleBar.Location = new Point(0, 0);
-            titleBar.Margin = new Padding(3, 4, 3, 4);
             titleBar.Name = "titleBar";
-            titleBar.Size = new Size(1463, 51);
+            titleBar.Size = new Size(1280, 38);
             titleBar.TabIndex = 18;
             // 
             // closeButton
@@ -120,10 +119,9 @@
             closeButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.White;
-            closeButton.Location = new Point(1416, 3);
-            closeButton.Margin = new Padding(3, 4, 3, 4);
+            closeButton.Location = new Point(1239, 2);
             closeButton.Name = "closeButton";
-            closeButton.Size = new Size(47, 47);
+            closeButton.Size = new Size(41, 35);
             closeButton.TabIndex = 17;
             closeButton.Text = " X";
             closeButton.UseVisualStyleBackColor = false;
@@ -153,8 +151,7 @@
             dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsers.EnableHeadersVisualStyles = false;
             dgvUsers.GridColor = Color.FromArgb(230, 230, 230);
-            dgvUsers.Location = new Point(48, 169);
-            dgvUsers.Margin = new Padding(3, 4, 3, 4);
+            dgvUsers.Location = new Point(42, 127);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -175,7 +172,7 @@
             dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(33, 37, 41);
             dgvUsers.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvUsers.Size = new Size(1373, 251);
+            dgvUsers.Size = new Size(1201, 188);
             dgvUsers.TabIndex = 19;
             // 
             // label2
@@ -184,9 +181,9 @@
             label2.BackColor = Color.LightSteelBlue;
             label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(48, 437);
+            label2.Location = new Point(42, 328);
             label2.Name = "label2";
-            label2.Size = new Size(266, 23);
+            label2.Size = new Size(210, 19);
             label2.TabIndex = 23;
             label2.Text = "EMPLOYEE'S INFORMATION";
             // 
@@ -213,10 +210,9 @@
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
-            panel1.Location = new Point(48, 455);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(42, 341);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1373, 399);
+            panel1.Size = new Size(1201, 306);
             panel1.TabIndex = 22;
             panel1.Paint += panel1_Paint;
             // 
@@ -224,18 +220,19 @@
             // 
             lblStrengthIndicator.AutoSize = true;
             lblStrengthIndicator.Font = new Font("Century Gothic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblStrengthIndicator.Location = new Point(420, 159);
+            lblStrengthIndicator.Location = new Point(209, 119);
             lblStrengthIndicator.Name = "lblStrengthIndicator";
-            lblStrengthIndicator.Size = new Size(0, 19);
+            lblStrengthIndicator.Size = new Size(31, 17);
             lblStrengthIndicator.TabIndex = 59;
+            lblStrengthIndicator.Text = "test";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(439, 115);
+            label1.Location = new Point(384, 86);
             label1.Name = "label1";
-            label1.Size = new Size(0, 23);
+            label1.Size = new Size(0, 19);
             label1.TabIndex = 58;
             // 
             // dtpBirthdate
@@ -245,13 +242,12 @@
             dtpBirthdate.FillColor = SystemColors.InactiveCaption;
             dtpBirthdate.Font = new Font("Segoe UI", 9F);
             dtpBirthdate.Format = DateTimePickerFormat.Long;
-            dtpBirthdate.Location = new Point(989, 176);
-            dtpBirthdate.Margin = new Padding(3, 4, 3, 4);
+            dtpBirthdate.Location = new Point(865, 132);
             dtpBirthdate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpBirthdate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpBirthdate.Name = "dtpBirthdate";
             dtpBirthdate.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            dtpBirthdate.Size = new Size(282, 48);
+            dtpBirthdate.Size = new Size(247, 36);
             dtpBirthdate.TabIndex = 57;
             dtpBirthdate.Value = new DateTime(2026, 5, 12, 18, 57, 31, 485);
             // 
@@ -268,11 +264,10 @@
             cmbUserLevel.Font = new Font("Segoe UI", 10F);
             cmbUserLevel.ForeColor = Color.FromArgb(68, 88, 112);
             cmbUserLevel.ItemHeight = 30;
-            cmbUserLevel.Location = new Point(989, 248);
-            cmbUserLevel.Margin = new Padding(3, 4, 3, 4);
+            cmbUserLevel.Location = new Point(865, 186);
             cmbUserLevel.Name = "cmbUserLevel";
             cmbUserLevel.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            cmbUserLevel.Size = new Size(282, 36);
+            cmbUserLevel.Size = new Size(247, 36);
             cmbUserLevel.TabIndex = 55;
             // 
             // label11
@@ -281,9 +276,9 @@
             label11.BackColor = SystemColors.Control;
             label11.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(883, 256);
+            label11.Location = new Point(773, 192);
             label11.Name = "label11";
-            label11.Size = new Size(107, 23);
+            label11.Size = new Size(86, 18);
             label11.TabIndex = 40;
             label11.Text = "User Level:";
             // 
@@ -298,13 +293,12 @@
             txtContact.InnerBackColor = SystemColors.InactiveCaption;
             txtContact.InnerForeColor = Color.Black;
             txtContact.IsPasswordField = false;
-            txtContact.Location = new Point(989, 31);
-            txtContact.Margin = new Padding(3, 4, 3, 4);
+            txtContact.Location = new Point(865, 23);
             txtContact.Name = "txtContact";
             txtContact.PasswordChar = '\0';
             txtContact.PlaceholderColor = Color.Gray;
             txtContact.PlaceholderText = "";
-            txtContact.Size = new Size(282, 52);
+            txtContact.Size = new Size(247, 39);
             txtContact.TabIndex = 39;
             // 
             // label10
@@ -313,9 +307,9 @@
             label10.BackColor = SystemColors.Control;
             label10.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(883, 43);
+            label10.Location = new Point(773, 32);
             label10.Name = "label10";
-            label10.Size = new Size(106, 23);
+            label10.Size = new Size(84, 18);
             label10.TabIndex = 38;
             label10.Text = "Contact #:";
             // 
@@ -330,13 +324,12 @@
             txtMiddleName.InnerBackColor = SystemColors.InactiveCaption;
             txtMiddleName.InnerForeColor = Color.Black;
             txtMiddleName.IsPasswordField = false;
-            txtMiddleName.Location = new Point(226, 308);
-            txtMiddleName.Margin = new Padding(3, 4, 3, 4);
+            txtMiddleName.Location = new Point(198, 247);
             txtMiddleName.Name = "txtMiddleName";
             txtMiddleName.PasswordChar = '\0';
             txtMiddleName.PlaceholderColor = Color.Gray;
             txtMiddleName.PlaceholderText = "";
-            txtMiddleName.Size = new Size(373, 52);
+            txtMiddleName.Size = new Size(326, 39);
             txtMiddleName.TabIndex = 37;
             // 
             // txtFirstName
@@ -350,13 +343,12 @@
             txtFirstName.InnerBackColor = SystemColors.InactiveCaption;
             txtFirstName.InnerForeColor = Color.Black;
             txtFirstName.IsPasswordField = false;
-            txtFirstName.Location = new Point(226, 248);
-            txtFirstName.Margin = new Padding(3, 4, 3, 4);
+            txtFirstName.Location = new Point(198, 202);
             txtFirstName.Name = "txtFirstName";
             txtFirstName.PasswordChar = '\0';
             txtFirstName.PlaceholderColor = Color.Gray;
             txtFirstName.PlaceholderText = "";
-            txtFirstName.Size = new Size(373, 52);
+            txtFirstName.Size = new Size(326, 39);
             txtFirstName.TabIndex = 36;
             // 
             // txtLastName
@@ -370,13 +362,12 @@
             txtLastName.InnerBackColor = SystemColors.InactiveCaption;
             txtLastName.InnerForeColor = Color.Black;
             txtLastName.IsPasswordField = false;
-            txtLastName.Location = new Point(226, 176);
-            txtLastName.Margin = new Padding(3, 4, 3, 4);
+            txtLastName.Location = new Point(198, 148);
             txtLastName.Name = "txtLastName";
             txtLastName.PasswordChar = '\0';
             txtLastName.PlaceholderColor = Color.Gray;
             txtLastName.PlaceholderText = "";
-            txtLastName.Size = new Size(373, 52);
+            txtLastName.Size = new Size(326, 39);
             txtLastName.TabIndex = 35;
             // 
             // label9
@@ -385,9 +376,9 @@
             label9.BackColor = SystemColors.Control;
             label9.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.Black;
-            label9.Location = new Point(89, 323);
+            label9.Location = new Point(78, 258);
             label9.Name = "label9";
-            label9.Size = new Size(142, 23);
+            label9.Size = new Size(113, 18);
             label9.TabIndex = 34;
             label9.Text = "Middle Name:";
             // 
@@ -397,9 +388,9 @@
             label8.BackColor = SystemColors.Control;
             label8.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(89, 260);
+            label8.Location = new Point(78, 211);
             label8.Name = "label8";
-            label8.Size = new Size(111, 23);
+            label8.Size = new Size(87, 18);
             label8.TabIndex = 33;
             label8.Text = "First Name:";
             // 
@@ -409,9 +400,9 @@
             label7.BackColor = SystemColors.Control;
             label7.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(89, 188);
+            label7.Location = new Point(78, 157);
             label7.Name = "label7";
-            label7.Size = new Size(112, 23);
+            label7.Size = new Size(88, 18);
             label7.TabIndex = 32;
             label7.Text = "Last Name:";
             // 
@@ -426,14 +417,14 @@
             txtPassword.InnerBackColor = SystemColors.InactiveCaption;
             txtPassword.InnerForeColor = Color.Black;
             txtPassword.IsPasswordField = false;
-            txtPassword.Location = new Point(226, 103);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Location = new Point(198, 77);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '\0';
             txtPassword.PlaceholderColor = Color.Gray;
             txtPassword.PlaceholderText = "";
-            txtPassword.Size = new Size(373, 52);
+            txtPassword.Size = new Size(326, 39);
             txtPassword.TabIndex = 31;
+            txtPassword.Text = "asdg";
             txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // txtAge
@@ -447,13 +438,12 @@
             txtAge.InnerBackColor = SystemColors.InactiveCaption;
             txtAge.InnerForeColor = Color.Black;
             txtAge.IsPasswordField = false;
-            txtAge.Location = new Point(989, 103);
-            txtAge.Margin = new Padding(3, 4, 3, 4);
+            txtAge.Location = new Point(865, 77);
             txtAge.Name = "txtAge";
             txtAge.PasswordChar = '\0';
             txtAge.PlaceholderColor = Color.Gray;
             txtAge.PlaceholderText = "";
-            txtAge.Size = new Size(282, 52);
+            txtAge.Size = new Size(247, 39);
             txtAge.TabIndex = 29;
             // 
             // txtUsername
@@ -467,13 +457,12 @@
             txtUsername.InnerBackColor = SystemColors.InactiveCaption;
             txtUsername.InnerForeColor = Color.Black;
             txtUsername.IsPasswordField = false;
-            txtUsername.Location = new Point(226, 31);
-            txtUsername.Margin = new Padding(3, 4, 3, 4);
+            txtUsername.Location = new Point(198, 23);
             txtUsername.Name = "txtUsername";
             txtUsername.PasswordChar = '\0';
             txtUsername.PlaceholderColor = Color.Gray;
             txtUsername.PlaceholderText = "";
-            txtUsername.Size = new Size(373, 52);
+            txtUsername.Size = new Size(326, 39);
             txtUsername.TabIndex = 28;
             // 
             // label6
@@ -482,9 +471,9 @@
             label6.BackColor = SystemColors.Control;
             label6.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(89, 115);
+            label6.Location = new Point(78, 86);
             label6.Name = "label6";
-            label6.Size = new Size(101, 23);
+            label6.Size = new Size(79, 18);
             label6.TabIndex = 25;
             label6.Text = "Password:";
             // 
@@ -494,9 +483,9 @@
             label5.BackColor = SystemColors.Control;
             label5.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(883, 184);
+            label5.Location = new Point(773, 138);
             label5.Name = "label5";
-            label5.Size = new Size(98, 23);
+            label5.Size = new Size(77, 18);
             label5.TabIndex = 24;
             label5.Text = "Birthdate:";
             // 
@@ -506,9 +495,9 @@
             label4.BackColor = SystemColors.Control;
             label4.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(883, 116);
+            label4.Location = new Point(773, 87);
             label4.Name = "label4";
-            label4.Size = new Size(54, 23);
+            label4.Size = new Size(43, 18);
             label4.TabIndex = 23;
             label4.Text = "Age:";
             // 
@@ -518,9 +507,9 @@
             label3.BackColor = SystemColors.Control;
             label3.Font = new Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(89, 44);
+            label3.Location = new Point(78, 33);
             label3.Name = "label3";
-            label3.Size = new Size(108, 23);
+            label3.Size = new Size(86, 18);
             label3.TabIndex = 22;
             label3.Text = "Username:";
             // 
@@ -534,10 +523,9 @@
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(398, 871);
-            btnAdd.Margin = new Padding(3, 4, 3, 4);
+            btnAdd.Location = new Point(348, 653);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(145, 65);
+            btnAdd.Size = new Size(127, 49);
             btnAdd.TabIndex = 36;
             btnAdd.Text = "ADD ";
             btnAdd.UseVisualStyleBackColor = false;
@@ -553,10 +541,9 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(561, 871);
-            btnUpdate.Margin = new Padding(3, 4, 3, 4);
+            btnUpdate.Location = new Point(491, 653);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(145, 65);
+            btnUpdate.Size = new Size(127, 49);
             btnUpdate.TabIndex = 37;
             btnUpdate.Text = "EDIT";
             btnUpdate.UseVisualStyleBackColor = false;
@@ -572,10 +559,9 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(730, 871);
-            btnDelete.Margin = new Padding(3, 4, 3, 4);
+            btnDelete.Location = new Point(639, 653);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(145, 65);
+            btnDelete.Size = new Size(127, 49);
             btnDelete.TabIndex = 38;
             btnDelete.Text = "DELETE";
             btnDelete.UseVisualStyleBackColor = false;
@@ -591,10 +577,9 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(885, 871);
-            btnClear.Margin = new Padding(3, 4, 3, 4);
+            btnClear.Location = new Point(774, 653);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(145, 65);
+            btnClear.Size = new Size(127, 49);
             btnClear.TabIndex = 42;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
@@ -611,13 +596,12 @@
             txtSearch.InnerBackColor = SystemColors.InactiveCaption;
             txtSearch.InnerForeColor = Color.Black;
             txtSearch.IsPasswordField = false;
-            txtSearch.Location = new Point(48, 97);
-            txtSearch.Margin = new Padding(3, 4, 3, 4);
+            txtSearch.Location = new Point(42, 73);
             txtSearch.Name = "txtSearch";
             txtSearch.PasswordChar = '\0';
             txtSearch.PlaceholderColor = Color.Gray;
             txtSearch.PlaceholderText = "";
-            txtSearch.Size = new Size(599, 52);
+            txtSearch.Size = new Size(524, 39);
             txtSearch.TabIndex = 43;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -627,9 +611,9 @@
             label12.BackColor = Color.LightSteelBlue;
             label12.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.Black;
-            label12.Location = new Point(48, 68);
+            label12.Location = new Point(42, 51);
             label12.Name = "label12";
-            label12.Size = new Size(87, 23);
+            label12.Size = new Size(69, 19);
             label12.TabIndex = 44;
             label12.Text = "SEARCH";
             // 
@@ -643,10 +627,9 @@
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Dubai", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(14, 881);
-            btnBack.Margin = new Padding(3, 4, 3, 4);
+            btnBack.Location = new Point(12, 661);
             btnBack.Name = "btnBack";
-            btnBack.Size = new Size(78, 45);
+            btnBack.Size = new Size(68, 34);
             btnBack.TabIndex = 23;
             btnBack.Text = "BACK";
             btnBack.TextAlign = ContentAlignment.TopCenter;
@@ -655,9 +638,9 @@
             // 
             // ManageUsersFrm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1463, 960);
+            ClientSize = new Size(1280, 720);
             Controls.Add(btnBack);
             Controls.Add(label12);
             Controls.Add(txtSearch);
@@ -671,7 +654,6 @@
             Controls.Add(titleBar);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 4, 3, 4);
             Name = "ManageUsersFrm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageUsersFrm";

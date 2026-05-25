@@ -49,26 +49,26 @@ namespace POS
             int col3 = startX + cardW + gap + cardW + gap;
 
             var cardBasic = BuildCard(
-                "Basic", "P777",
+                "Basic/Free Tier", "FREE",
                 System.Drawing.Color.FromArgb(191, 205, 219),
                 System.Drawing.Color.FromArgb(142, 193, 235),
-                new string[] { "Sample Text", "Sample Text" },
+                new string[] { "1 Company Branch Only", "3 Months Free Trial", "Limited Auditing & Business Statistics", "Limited Settings"},
                 new System.Drawing.Rectangle(col1, cardTop, cardW, cardH),
                 out var btnBuyBasic);
 
             var cardStandard = BuildCard(
-                "Standard", "P777",
+                "Standard Tier", "₱???",
                 System.Drawing.Color.FromArgb(191, 205, 219),
                 System.Drawing.Color.FromArgb(70, 130, 180),
-                new string[] { "Sample Text", "Sample Text", "Sample Text", "Sample Text" },
+                new string[] { "Multi Branch Support", "Unlimited Auditing & Business Statistics", "Expanded Settings", "Offline Mode" },
                 new System.Drawing.Rectangle(col2, cardTop, cardW, cardH),
                 out var btnBuyStandard);
 
             var cardPremium = BuildCard(
-                "Premium", "P777",
+                "Premium Tier", "₱???",
                 System.Drawing.Color.FromArgb(191, 205, 219),
                 System.Drawing.Color.FromArgb(30, 58, 82),
-                new string[] { "Sample Text", "Sample Text", "Sample Text", "Sample Text", "Sample Text" },
+                new string[] { "Multi Branch Support", "Unlimited Auditing & Business Statistics", "Expanded Settings", "Faster Database", "Offline Mode" },
                 new System.Drawing.Rectangle(col3, cardTop, cardW, cardH),
                 out var btnBuyPremium);
 

@@ -98,7 +98,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(238, 289);
+            label1.Location = new Point(236, 286);
             label1.Name = "label1";
             label1.Size = new Size(200, 24);
             label1.TabIndex = 20;
@@ -114,11 +114,11 @@
             btnNewUser.FlatStyle = FlatStyle.Flat;
             btnNewUser.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnNewUser.ForeColor = Color.White;
-            btnNewUser.Location = new Point(230, 345);
+            btnNewUser.Location = new Point(210, 344);
             btnNewUser.Name = "btnNewUser";
-            btnNewUser.Size = new Size(208, 46);
+            btnNewUser.Size = new Size(249, 57);
             btnNewUser.TabIndex = 22;
-            btnNewUser.Text = "CREATE COMPANY";
+            btnNewUser.Text = "CREATE YOUR COMPANY";
             btnNewUser.UseVisualStyleBackColor = false;
             btnNewUser.Click += btnNewUser_Click;
             // 
@@ -132,18 +132,18 @@
             btnOldUser.FlatStyle = FlatStyle.Flat;
             btnOldUser.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnOldUser.ForeColor = Color.White;
-            btnOldUser.Location = new Point(230, 407);
+            btnOldUser.Location = new Point(210, 407);
             btnOldUser.Name = "btnOldUser";
-            btnOldUser.Size = new Size(208, 46);
+            btnOldUser.Size = new Size(249, 55);
             btnOldUser.TabIndex = 23;
-            btnOldUser.Text = "LOAD EXISTING";
+            btnOldUser.Text = "SIGN IN";
             btnOldUser.UseVisualStyleBackColor = false;
             btnOldUser.Click += btnOldUser_Click;
             // 
             // chckDontShow
             // 
             chckDontShow.AutoSize = true;
-            chckDontShow.Location = new Point(249, 468);
+            chckDontShow.Location = new Point(249, 479);
             chckDontShow.Name = "chckDontShow";
             chckDontShow.Size = new Size(173, 19);
             chckDontShow.TabIndex = 24;
@@ -156,7 +156,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(282, 531);
+            label8.Location = new Point(283, 533);
             label8.Name = "label8";
             label8.Size = new Size(103, 17);
             label8.TabIndex = 26;
@@ -167,7 +167,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(258, 549);
+            label5.Location = new Point(259, 551);
             label5.Name = "label5";
             label5.Size = new Size(149, 21);
             label5.TabIndex = 25;
@@ -177,7 +177,7 @@
             // 
             pictureBox1.BackgroundImageLayout = ImageLayout.None;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(249, 66);
+            pictureBox1.Location = new Point(258, 66);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(162, 153);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;

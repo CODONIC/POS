@@ -64,11 +64,11 @@
             // lblAdminName
             // 
             lblAdminName.AutoSize = true;
-            lblAdminName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAdminName.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdminName.ForeColor = Color.White;
             lblAdminName.Location = new Point(406, 12);
             lblAdminName.Name = "lblAdminName";
-            lblAdminName.Size = new Size(152, 20);
+            lblAdminName.Size = new Size(179, 21);
             lblAdminName.TabIndex = 21;
             lblAdminName.Text = "adminName | Admin";
             // 
@@ -120,10 +120,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Century Gothic", 15.75F);
             label1.Location = new Point(31, 77);
             label1.Name = "label1";
-            label1.Size = new Size(122, 25);
+            label1.Size = new Size(102, 24);
             label1.TabIndex = 38;
             label1.Text = "SETTINGS ";
             // 
@@ -158,10 +158,10 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Century Gothic", 15.75F);
             label3.Location = new Point(31, 445);
             label3.Name = "label3";
-            label3.Size = new Size(187, 25);
+            label3.Size = new Size(193, 24);
             label3.TabIndex = 41;
             label3.Text = "Having Problems?";
             // 
@@ -229,10 +229,10 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Century Gothic", 15.75F);
             label5.Location = new Point(31, 502);
             label5.Name = "label5";
-            label5.Size = new Size(145, 25);
+            label5.Size = new Size(156, 24);
             label5.TabIndex = 48;
             label5.Text = "Contact us at ";
             // 
@@ -261,10 +261,10 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Century Gothic", 15.75F);
             label8.Location = new Point(31, 543);
             label8.Name = "label8";
-            label8.Size = new Size(92, 25);
+            label8.Size = new Size(97, 24);
             label8.TabIndex = 51;
             label8.Text = "Phone #";
             // 

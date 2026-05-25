@@ -69,6 +69,7 @@
             btnCart = new RoundedButton();
             lblProducts = new Label();
             dgvProducts = new DataGridView();
+            label1 = new Label();
             titleBar.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -357,7 +358,6 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(274, 493);
             panel3.TabIndex = 27;
-            
             // 
             // btnRemoveItems
             // 
@@ -623,11 +623,23 @@
             dgvProducts.Size = new Size(843, 456);
             dgvProducts.TabIndex = 58;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(212, 730);
+            label1.Name = "label1";
+            label1.Size = new Size(426, 17);
+            label1.TabIndex = 63;
+            label1.Text = "TIP: Press H to show  shortcut keys or Hover on top of the buttons!";
+            // 
             // CashierDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1267, 768);
+            Controls.Add(label1);
             Controls.Add(btnLogOut);
             Controls.Add(dgvProducts);
             Controls.Add(lblProducts);
@@ -702,5 +714,6 @@
         private RoundedButton btnClearSelection;
         private RoundedButton btnRemoveItems;
         private DataGridView dgvProducts;
+        private Label label1;
     }
 }

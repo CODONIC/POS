@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -144,6 +145,8 @@ namespace POS.Admin
             var result = UserValidator.ValidateFields(txtUsername.Text, txtLastName.Text, txtFirstName.Text, newRole, txtAge.Text, txtPassword.Text, true);
             if (!result.IsValid) { MessageBox.Show(result.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (await _userService.UsernameExistsAsync(txtUsername.Text.Trim())) { MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            // ✅ Validate password strength before proceeding
+            if (!SetUserPassword(txtPassword.Text)) return;
             if (!string.IsNullOrWhiteSpace(txtPassword.Text) && !await ConfirmAdminPasswordAsync()) return;
             await _userService.AddUserAsync(txtUsername.Text.Trim(), txtPassword.Text, newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value);
             await AuditService.LogInsertAsync(_username, _companyId, "users", txtUsername.Text.Trim(), AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", newRole)));
@@ -162,11 +165,15 @@ namespace POS.Admin
             if (newRole == "ADMIN" && oldRole != "ADMIN")
             {
                 if (!await _userService.CanChangeToAdminRoleAsync(_companyId, _selectedUserId))
-                { MessageBox.Show($"❌ Cannot change role to ADMIN.\n\nMaximum of 2 admins per company.", "Admin Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+                { MessageBox.Show($"Cannot change role to ADMIN.\n\nMaximum of 2 admins per company.", "Admin Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             }
             if (oldRole == "ADMIN" && newRole != "ADMIN" && await _userService.GetAdminCountAsync(_companyId) <= 1)
-            { MessageBox.Show("❌ Cannot change the last admin.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            { MessageBox.Show("Cannot change the last admin.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             bool changePassword = !string.IsNullOrWhiteSpace(txtPassword.Text);
+
+            //Validate password strength before proceeding
+            if (changePassword && !SetUserPassword(txtPassword.Text)) return;
+
             if (changePassword && !await ConfirmAdminPasswordAsync()) return;
             await _userService.UpdateUserAsync(_selectedUserId, txtUsername.Text.Trim(), txtPassword.Text, newRole, txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtMiddleName.Text.Trim(), txtContact.Text.Trim(), int.TryParse(txtAge.Text, out int age) ? age : (int?)null, dtpBirthdate.Value, changePassword);
             await AuditService.LogUpdateAsync(_username, _companyId, "users", _selectedUserId, AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", oldRole)), AuditService.ToJson(("username", txtUsername.Text), ("first_name", txtFirstName.Text), ("last_name", txtLastName.Text), ("role", newRole)));
@@ -180,7 +187,7 @@ namespace POS.Admin
             if (string.IsNullOrEmpty(_selectedUserId)) { MessageBox.Show("Please select a user to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             string roleToDelete = GetSelectedRole();
             if (roleToDelete == "ADMIN" && await _userService.GetAdminCountAsync(_companyId) <= 1)
-            { MessageBox.Show("❌ Cannot delete the last admin account.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+            { MessageBox.Show("Cannot delete the last admin account.\n\nAt least 1 admin required.", "Last Admin Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             if (UserValidator.ConfirmDelete(txtUsername.Text) != DialogResult.Yes) return;
             if (!await ConfirmAdminPasswordAsync()) return;
             await _userService.DeleteUserAsync(_selectedUserId);
@@ -215,36 +222,22 @@ namespace POS.Admin
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
             string password = txtPassword.Text;
-            int length = password.Length;
 
-            if (length > 0)
+            if (password.Length > 0)
             {
                 lblStrengthIndicator.Visible = true;
 
-                string strength = "";
-
-                if (length <= 2)
-                {
-                    strength = "WEAK";
-                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Red;
-                }
-                else if (length <= 4)
-                {
-                    strength = "MEDIUM";
-                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Orange;
-                }
-                else if (length <= 8)
-                {
-                    strength = "STRONG";
-                    lblStrengthIndicator.ForeColor = System.Drawing.Color.Green;
-                }
-                else
-                {
-                    strength = "VERY STRONG";
-                    lblStrengthIndicator.ForeColor = System.Drawing.Color.DarkGreen;
-                }
+                string strength = GetPasswordStrength(password);
 
                 lblStrengthIndicator.Text = $"Password Strength: {strength}";
+                lblStrengthIndicator.ForeColor = strength switch
+                {
+                    "WEAK" => Color.Red,
+                    "MEDIUM" => Color.Orange,
+                    "STRONG" => Color.Green,
+                    "VERY STRONG" => Color.DarkGreen,
+                    _ => Color.Black
+                };
             }
             else
             {
@@ -274,40 +267,47 @@ namespace POS.Admin
                 return false;
             }
 
-            string strength = "";
-
-            if (length <= 2)
-            {
-                strength = "WEAK";
-            }
-            else if (length <= 4)
-            {
-                strength = "MEDIUM";
-            }
-            else if (length <= 8)
-            {
-                strength = "STRONG";
-            }
-            else
-            {
-                strength = "VERY STRONG";
-            }
+            string strength = GetPasswordStrength(newPassword);
 
             if (strength == "WEAK" || strength == "MEDIUM")
             {
-                MessageBox.Show($"Password is {strength}. Password must be at least STRONG to set/change!\n\n" +
-                              "Please use a password with more than 8 characters.",
-                              "Weak Password",
+                string tip = strength == "WEAK"
+                    ? "Use at least 8 characters with uppercase, lowercase, numbers, and symbols."
+                    : "Try adding symbols or making it longer to improve your password.";
+
+                MessageBox.Show($"Password strength is {strength}. Password must be at least STRONG to set/change!\n\n{tip}",
+                              "Password Too Weak",
                               MessageBoxButtons.OK,
                               MessageBoxIcon.Warning);
                 return false;
             }
 
-            MessageBox.Show($"Password set successfully! (Strength: {strength})",
-                          "Success",
-                          MessageBoxButtons.OK,
-                          MessageBoxIcon.Information);
             return true;
+        }
+
+        private string GetPasswordStrength(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return "WEAK";
+
+            int score = 0;
+            int length = password.Length;
+
+            // Length scoring
+            if (length >= 8) score++;
+            if (length >= 12) score++;
+            if (length >= 16) score++;
+
+            // Character variety
+            if (Regex.IsMatch(password, @"[a-z]")) score++; // lowercase
+            if (Regex.IsMatch(password, @"[A-Z]")) score++; // uppercase
+            if (Regex.IsMatch(password, @"[0-9]")) score++; // numbers
+            if (Regex.IsMatch(password, @"[^a-zA-Z0-9]")) score++; // symbols
+
+            if (score <= 2) return "WEAK";
+            if (score <= 4) return "MEDIUM";
+            if (score <= 5) return "STRONG";
+            return "VERY STRONG";
         }
 
         private void btnSetPassword_Click(object sender, EventArgs e)

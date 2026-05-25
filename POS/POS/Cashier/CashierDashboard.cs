@@ -431,8 +431,7 @@ DELETE - Remove Items
 CTRL+SHIFT+C - Clear Cart
 ESC - Clear Selection/Logout
 F2 - Payment
-F1 - Cart
-CTRL+H - Show Shortcuts";
+F1 - Cart";
 
             MessageBox.Show(cheatSheet, "Shortcuts:",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);

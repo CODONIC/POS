@@ -44,6 +44,7 @@
             btnSettings = new RoundedButton();
             btnAudit = new RoundedButton();
             btnSubscriptionOffers = new Button();
+            label1 = new Label();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -294,25 +295,41 @@
             btnAudit.TextAlign = ContentAlignment.BottomCenter;
             btnAudit.UseVisualStyleBackColor = false;
             btnAudit.Click += btnAudit_Click;
-            //
+            // 
             // btnSubscriptionOffers
+            // 
             btnSubscriptionOffers.BackColor = Color.Black;
-            btnSubscriptionOffers.ForeColor = Color.White;
-            btnSubscriptionOffers.FlatStyle = FlatStyle.Flat;
+            btnSubscriptionOffers.Cursor = Cursors.Hand;
             btnSubscriptionOffers.FlatAppearance.BorderSize = 0;
             btnSubscriptionOffers.FlatAppearance.MouseOverBackColor = Color.FromArgb(40, 40, 40);
+            btnSubscriptionOffers.FlatStyle = FlatStyle.Flat;
             btnSubscriptionOffers.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnSubscriptionOffers.Cursor = Cursors.Hand;
+            btnSubscriptionOffers.ForeColor = Color.White;
             btnSubscriptionOffers.Location = new Point(1090, 62);
+            btnSubscriptionOffers.Name = "btnSubscriptionOffers";
             btnSubscriptionOffers.Size = new Size(160, 36);
+            btnSubscriptionOffers.TabIndex = 61;
             btnSubscriptionOffers.Text = "Subscription Offers";
             btnSubscriptionOffers.UseVisualStyleBackColor = false;
             btnSubscriptionOffers.Click += btnSubscriptionOffers_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(418, 642);
+            label1.Name = "label1";
+            label1.Size = new Size(426, 17);
+            label1.TabIndex = 62;
+            label1.Text = "TIP: Press H to show  shortcut keys or Hover on top of the buttons!";
+            // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(label1);
             Controls.Add(btnAudit);
             Controls.Add(btnSettings);
             Controls.Add(btnSalesReport);
@@ -333,6 +350,7 @@
             titleBar.ResumeLayout(false);
             titleBar.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
 
 
         }
@@ -355,5 +373,6 @@
         private RoundedButton btnSettings;
         private RoundedButton btnAudit;
         private Button btnSubscriptionOffers;
+        private Label label1;
     }
 }

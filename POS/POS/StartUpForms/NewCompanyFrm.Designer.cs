@@ -39,6 +39,7 @@
             label1 = new Label();
             label2 = new Label();
             txtContactNum = new CustomControls.CustomTextBox();
+            roundedButton1 = new RoundedButton();
             titleBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -98,14 +99,14 @@
             txtCompanyName.BorderRadius = 8;
             txtCompanyName.BorderThickness = 2;
             txtCompanyName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtCompanyName.ForeColor = SystemColors.GrayText;
+            txtCompanyName.ForeColor = Color.Black;
             txtCompanyName.InnerBackColor = SystemColors.InactiveCaption;
-            txtCompanyName.InnerForeColor = Color.Gray;
+            txtCompanyName.InnerForeColor = Color.Black;
             txtCompanyName.IsPasswordField = false;
             txtCompanyName.Location = new Point(281, 88);
             txtCompanyName.Name = "txtCompanyName";
             txtCompanyName.PasswordChar = '\0';
-            txtCompanyName.PlaceholderColor = Color.Gray;
+            txtCompanyName.PlaceholderColor = Color.Black;
             txtCompanyName.PlaceholderText = "";
             txtCompanyName.Size = new Size(220, 45);
             txtCompanyName.TabIndex = 19;
@@ -121,7 +122,7 @@
             btnCreateCompany.FlatStyle = FlatStyle.Flat;
             btnCreateCompany.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
             btnCreateCompany.ForeColor = Color.White;
-            btnCreateCompany.Location = new Point(281, 313);
+            btnCreateCompany.Location = new Point(281, 285);
             btnCreateCompany.Name = "btnCreateCompany";
             btnCreateCompany.Size = new Size(220, 46);
             btnCreateCompany.TabIndex = 20;
@@ -136,14 +137,14 @@
             txtEmailAdd.BorderRadius = 8;
             txtEmailAdd.BorderThickness = 2;
             txtEmailAdd.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtEmailAdd.ForeColor = SystemColors.GrayText;
+            txtEmailAdd.ForeColor = Color.Black;
             txtEmailAdd.InnerBackColor = SystemColors.InactiveCaption;
-            txtEmailAdd.InnerForeColor = Color.Gray;
+            txtEmailAdd.InnerForeColor = Color.Black;
             txtEmailAdd.IsPasswordField = false;
             txtEmailAdd.Location = new Point(282, 139);
             txtEmailAdd.Name = "txtEmailAdd";
             txtEmailAdd.PasswordChar = '\0';
-            txtEmailAdd.PlaceholderColor = Color.Gray;
+            txtEmailAdd.PlaceholderColor = Color.Black;
             txtEmailAdd.PlaceholderText = "";
             txtEmailAdd.Size = new Size(220, 45);
             txtEmailAdd.TabIndex = 21;
@@ -177,23 +178,42 @@
             txtContactNum.BorderRadius = 8;
             txtContactNum.BorderThickness = 2;
             txtContactNum.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtContactNum.ForeColor = SystemColors.GrayText;
+            txtContactNum.ForeColor = Color.Black;
             txtContactNum.InnerBackColor = SystemColors.InactiveCaption;
-            txtContactNum.InnerForeColor = Color.Gray;
+            txtContactNum.InnerForeColor = Color.Black;
             txtContactNum.IsPasswordField = false;
             txtContactNum.Location = new Point(282, 190);
             txtContactNum.Name = "txtContactNum";
             txtContactNum.PasswordChar = '\0';
-            txtContactNum.PlaceholderColor = Color.Gray;
+            txtContactNum.PlaceholderColor = Color.Black;
             txtContactNum.PlaceholderText = "";
             txtContactNum.Size = new Size(220, 45);
             txtContactNum.TabIndex = 24;
+            // 
+            // roundedButton1
+            // 
+            roundedButton1.BackColor = SystemColors.ActiveCaption;
+            roundedButton1.BorderColor = Color.Transparent;
+            roundedButton1.BorderRadius = 20;
+            roundedButton1.BorderSize = 0;
+            roundedButton1.FlatAppearance.BorderSize = 0;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Dubai", 13.75F, FontStyle.Bold);
+            roundedButton1.ForeColor = Color.White;
+            roundedButton1.Location = new Point(282, 337);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(220, 46);
+            roundedButton1.TabIndex = 25;
+            roundedButton1.Text = "Cancel";
+            roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // NewCompanyFrm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(680, 431);
+            Controls.Add(roundedButton1);
             Controls.Add(txtContactNum);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -225,5 +245,6 @@
         private Label label1;
         private Label label2;
         private CustomControls.CustomTextBox txtContactNum;
+        private RoundedButton roundedButton1;
     }
 }

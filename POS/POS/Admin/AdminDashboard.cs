@@ -244,7 +244,7 @@ F6 - Business Stats
 F7 - Sales Report
 F8 - Audit
 F9 - Settings
-CTRL+H - Show Shortcuts";
+Up & Down arrow Keys - Navigate between text boxes";
 
             MessageBox.Show(adminCheatSheet, "Shortcuts:",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);

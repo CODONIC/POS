@@ -46,6 +46,10 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "DnsClient": {
+              "target": "Package",
+              "version": "[1.8.0, )"
+            },
             "EPPlus": {
               "target": "Package",
               "version": "[8.5.3, )"
