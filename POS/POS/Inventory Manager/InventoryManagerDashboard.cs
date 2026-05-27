@@ -238,7 +238,7 @@ namespace POS.Inventory_Manager
 
             // CRITICAL: Set static flag first
             BaseForm.SetAppExiting(true);
-
+            
             // Stop the session timer
             StopSessionMonitoring();
 

@@ -11,6 +11,7 @@ namespace POS
         private static readonly List<ActiveSession> _activeSessions = new List<ActiveSession>();
         private static System.Timers.Timer _heartbeatTimer;
         private static bool _isCleaningUp = false;
+        private static readonly object _lockObject = new object(); // Add lock for thread safety
 
         public class ActiveSession
         {
@@ -22,26 +23,32 @@ namespace POS
 
         public static void RegisterActiveSession(string userId, string sessionToken)
         {
-            var session = new ActiveSession
+            lock (_lockObject)
             {
-                UserId = userId,
-                SessionToken = sessionToken,
-                StartedAt = DateTime.Now,
-                LastHeartbeat = DateTime.Now
-            };
+                var session = new ActiveSession
+                {
+                    UserId = userId,
+                    SessionToken = sessionToken,
+                    StartedAt = DateTime.Now,
+                    LastHeartbeat = DateTime.Now
+                };
 
-            _activeSessions.Add(session);
+                _activeSessions.Add(session);
+            }
             StartHeartbeat();
             Debug.WriteLine($"Session registered for crash recovery: User {userId}");
         }
 
         public static void UnregisterActiveSession(string sessionToken)
         {
-            var session = _activeSessions.Find(s => s.SessionToken == sessionToken);
-            if (session != null)
+            lock (_lockObject)
             {
-                _activeSessions.Remove(session);
-                Debug.WriteLine($"Session unregistered from crash recovery");
+                var session = _activeSessions.Find(s => s.SessionToken == sessionToken);
+                if (session != null)
+                {
+                    _activeSessions.Remove(session);
+                    Debug.WriteLine($"Session unregistered from crash recovery");
+                }
             }
 
             if (_activeSessions.Count == 0)
@@ -72,7 +79,14 @@ namespace POS
 
         private static async Task UpdateHeartbeatAsync()
         {
-            foreach (var session in _activeSessions)
+            // Create a copy of the sessions list to avoid modification during iteration
+            List<ActiveSession> sessionsCopy;
+            lock (_lockObject)
+            {
+                sessionsCopy = new List<ActiveSession>(_activeSessions);
+            }
+
+            foreach (var session in sessionsCopy)
             {
                 session.LastHeartbeat = DateTime.Now;
 
@@ -99,14 +113,21 @@ namespace POS
             }
         }
 
+
+
         public static async Task TerminateAllSessionsOnCrashAsync()
         {
             if (_isCleaningUp) return;
             _isCleaningUp = true;
 
-            Debug.WriteLine($"Crash recovery: Terminating {_activeSessions.Count} active sessions");
+            List<ActiveSession> sessionsToTerminate;
+            lock (_lockObject)
+            {
+                sessionsToTerminate = new List<ActiveSession>(_activeSessions);
+                _activeSessions.Clear();
+            }
 
-            var sessionsToTerminate = new List<ActiveSession>(_activeSessions);
+            Debug.WriteLine($"Crash recovery: Terminating {sessionsToTerminate.Count} active sessions");
 
             foreach (var session in sessionsToTerminate)
             {
@@ -121,7 +142,6 @@ namespace POS
                 }
             }
 
-            _activeSessions.Clear();
             _isCleaningUp = false;
         }
 
@@ -148,38 +168,14 @@ namespace POS
             }
         }
 
-        // Call this at app startup to clean up stale sessions
-        public static async Task CleanupStaleSessionsAsync()
-        {
-            try
-            {
-                using var conn = DatabaseService.GetConnection();
-                await conn.OpenAsync();
-
-                // Terminate sessions with no heartbeat for > 2 minutes
-                const string sql = @"
-                    UPDATE public.user_sessions 
-                    SET is_active = false 
-                    WHERE is_active = true 
-                    AND last_activity < NOW() - INTERVAL '2 minutes'";
-
-                using var cmd = new NpgsqlCommand(sql, conn);
-                int updated = await cmd.ExecuteNonQueryAsync();
-
-                if (updated > 0)
-                {
-                    Debug.WriteLine($"Cleaned up {updated} stale sessions");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Stale session cleanup failed: {ex.Message}");
-            }
-        }
+        
 
         public static int GetActiveSessionCount()
         {
-            return _activeSessions.Count;
+            lock (_lockObject)
+            {
+                return _activeSessions.Count;
+            }
         }
     }
 }

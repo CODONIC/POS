@@ -73,7 +73,7 @@ namespace POS
             _isClosing = true;
             // CRITICAL: Set static flag first
             BaseForm.SetAppExiting(true);
-
+            
             // Stop the session timer
             StopSessionMonitoring();
 

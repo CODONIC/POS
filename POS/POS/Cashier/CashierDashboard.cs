@@ -367,6 +367,7 @@ namespace POS
                 return;
 
             BaseForm.SetAppExiting(true);
+            
             StopSessionMonitoring();
 
             try

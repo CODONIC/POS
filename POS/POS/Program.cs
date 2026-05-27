@@ -47,6 +47,8 @@ namespace POS
             //Application.Run(new LogInForm());
             //Application.Run(new CashierDashboard()); 
             //Application.Run(new AdminDashboard());
+
+           
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ namespace POS
         public int RemainingSeconds { get; set; }
         public int RemainingAttempts { get; set; }
     }
+
     public enum ControlToFocus
     {
         None,
@@ -25,11 +26,13 @@ namespace POS
         Password,
         Company
     }
+
     public class SessionInfo
     {
         public bool HasActiveSession { get; set; }
         public string DeviceInfo { get; set; }
         public DateTime LoginTime { get; set; }
+        public string SessionToken { get; set; }
     }
 
     public class UserValidationResult
@@ -44,6 +47,9 @@ namespace POS
     {
         private readonly LoginLockoutService _lockoutService = new LoginLockoutService();
 
+        // Event for when a session is terminated remotely
+        public static event Action<string, string> OnSessionTerminated;
+
         public async Task<LoginResult> AuthenticateAsync(string username, string password, string company)
         {
             var result = new LoginResult();
@@ -53,7 +59,6 @@ namespace POS
                 await using var conn = DatabaseService.GetConnection();
                 await conn.OpenAsync();
 
-                // Validate company
                 var companyId = await ValidateCompanyAsync(conn, company);
                 if (companyId == null)
                 {
@@ -63,9 +68,7 @@ namespace POS
                     return result;
                 }
 
-                // CHECK LOCKOUT STATUS FIRST
                 var lockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
-
                 if (lockoutInfo.IsLockedOut)
                 {
                     result.Success = false;
@@ -76,11 +79,9 @@ namespace POS
                     return result;
                 }
 
-                // Validate user and get user data
                 var userData = await ValidateUserAsync(conn, username, company);
                 if (userData == null)
                 {
-                    // Record failed attempt
                     await _lockoutService.RecordFailedAttemptAsync(username, companyId);
                     var newLockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
 
@@ -94,17 +95,14 @@ namespace POS
                         return result;
                     }
 
-                    //result.Success = false;
+                    result.Success = false;
                     result.ErrorMessage = $"Username not found under the specified company.\n";
                     result.FocusTarget = ControlToFocus.Username;
-                    //result.RemainingAttempts = newLockoutInfo.RemainingAttempts;
                     return result;
                 }
 
-                // Validate password
                 if (userData.StoredPassword != password)
                 {
-                    // Record failed attempt
                     await _lockoutService.RecordFailedAttemptAsync(username, companyId);
                     var newLockoutInfo = await _lockoutService.CheckLockoutStatusAsync(username, companyId);
 
@@ -125,7 +123,6 @@ namespace POS
                     return result;
                 }
 
-                // SUCCESSFUL LOGIN - Reset lockout
                 await _lockoutService.ResetLockoutAsync(username, companyId);
 
                 // Check for existing active session
@@ -133,20 +130,23 @@ namespace POS
 
                 if (sessionCheck.HasActiveSession)
                 {
-                    result.Success = false;
-                    result.ErrorMessage = "You are already logged in on another device.\n\n" +
-                                         "Please log out from the other device first before logging in here.\n\n" +
-                                         $"Device: {sessionCheck.DeviceInfo}\n" +
-                                         $"Login time: {sessionCheck.LoginTime:yyyy-MM-dd hh:mm:ss tt}";
-                    result.FocusTarget = ControlToFocus.None;
-                    return result;
+                    // Raise event to notify the existing session
+                    OnSessionTerminated?.Invoke(sessionCheck.SessionToken,
+                        $"Your session has been terminated because someone logged in from another device.\n\n" +
+                        $"New device: {Environment.MachineName}\n" +
+                        $"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+
+                    // Terminate the existing session
+                    await ForceLogoutSessionAsync(conn, userData.UserId);
                 }
+
+                // Clean up any stale sessions
+                await CleanupUserStaleSessionsAsync(conn, username, companyId);
 
                 // Create new session
                 string sessionToken = Guid.NewGuid().ToString();
                 await CreateSessionAsync(conn, userData.UserId, sessionToken, Environment.MachineName);
 
-                // Success
                 result.Success = true;
                 result.Role = userData.Role;
                 result.CompanyName = userData.CompanyName;
@@ -287,14 +287,31 @@ namespace POS
             };
         }
 
+        private async Task CleanupUserStaleSessionsAsync(NpgsqlConnection conn, string username, string companyId)
+        {
+            const string sql = @"
+                UPDATE public.user_sessions 
+                SET is_active = false 
+                WHERE is_active = true 
+                AND user_id IN (
+                    SELECT id FROM public.users 
+                    WHERE LOWER(username) = LOWER(@username) 
+                    AND company_id = @companyId
+                )";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@companyId", Guid.Parse(companyId));
+            await cmd.ExecuteNonQueryAsync();
+        }
 
         private async Task<SessionInfo> CheckExistingSessionAsync(NpgsqlConnection conn, string userId)
         {
             const string sql = @"
-        SELECT device_info, login_time 
-        FROM public.user_sessions 
-        WHERE user_id = @userId AND is_active = true 
-        LIMIT 1";
+                SELECT device_info, login_time, session_token 
+                FROM public.user_sessions 
+                WHERE user_id = @userId AND is_active = true 
+                LIMIT 1";
 
             await using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@userId", Guid.Parse(userId));
@@ -304,13 +321,14 @@ namespace POS
             if (await reader.ReadAsync())
             {
                 DateTime utcLoginTime = Convert.ToDateTime(reader["login_time"]);
-                DateTime localLoginTime = utcLoginTime.ToLocalTime(); // Convert UTC to local
+                DateTime localLoginTime = utcLoginTime.ToLocalTime();
 
                 return new SessionInfo
                 {
                     HasActiveSession = true,
                     DeviceInfo = reader["device_info"]?.ToString() ?? "Unknown device",
-                    LoginTime = localLoginTime  // Store as local time
+                    LoginTime = localLoginTime,
+                    SessionToken = reader["session_token"].ToString()
                 };
             }
 
@@ -329,6 +347,18 @@ namespace POS
             cmd.Parameters.AddWithValue("@deviceInfo", deviceInfo ?? "Unknown");
             cmd.Parameters.AddWithValue("@loginTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("@lastActivity", DateTime.UtcNow);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        private async Task ForceLogoutSessionAsync(NpgsqlConnection conn, string userId)
+        {
+            const string sql = @"
+                UPDATE public.user_sessions 
+                SET is_active = false 
+                WHERE user_id = @userId AND is_active = true";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@userId", Guid.Parse(userId));
             await cmd.ExecuteNonQueryAsync();
         }
     }

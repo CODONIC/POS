@@ -22,6 +22,7 @@ namespace POS
         private string _sessionToken;
         private bool _isClosing = false;
         private bool _isNavigating = false;
+        private bool _isNetworkMonitoring = false;
 
         // Property to control whether exit confirmation is needed
         protected virtual bool RequireExitConfirmation => true;
@@ -47,6 +48,7 @@ namespace POS
                 _sessionTimer.Tick += OnTimerTick;
                 _sessionTimer.Start();
             }
+           
         }
 
         protected void SetUserContext(string username, string companyId)
@@ -128,7 +130,7 @@ namespace POS
         private void ShowSessionExpiredMessage()
         {
             MessageBox.Show(
-                "Your session has expired because you logged in from another device.\n\n" +
+                "Your session has been terminated because someone logged in from another device.\n\n" +
                 "The application will now close.",
                 "Session Expired",
                 MessageBoxButtons.OK,
@@ -176,7 +178,7 @@ namespace POS
             base.OnFormClosed(e);
         }
 
-        // Make this method virtual so child forms can override
+        
         protected virtual async Task PerformLogoutAsync()
         {
             try
@@ -206,7 +208,7 @@ namespace POS
                 closeButton.Click += CloseButton_Click;
         }
 
-        // Make this method virtual so child forms can override
+        
         public virtual async void CloseButton_Click(object sender, EventArgs e)
         {
             if (_isClosing) return;
@@ -227,6 +229,7 @@ namespace POS
                     return;
                 }
             }
+            
             CrashRecoveryService.UnregisterActiveSession(_sessionToken);
 
             await PerformLogoutAsync();

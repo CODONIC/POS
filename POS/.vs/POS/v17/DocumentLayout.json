@@ -1,18 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\",
+  "WorkspaceRootPath": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos-tindero\\pos\\pos\\templates\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\templates\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\admin\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos-tindero\\pos\\pos\\login\\helperclasses\\credentialsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\login\\helperclasses\\credentialsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|c:\\users\\kris\\documents\\github\\pos-tindero\\pos\\pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\cashier\\cashierdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos-tindero\\pos\\pos\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|d:\\albert\\documents\\github\\pos-tindero\\pos\\pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AC4250-5555-4E78-8632-811FC8D1ECB1}|POS\\POS.csproj|solutionrelative:pos\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,38 +35,54 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LogInForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogIn\\LogInForm.cs",
-              "RelativeDocumentMoniker": "POS\\LogIn\\LogInForm.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogIn\\LogInForm.cs [Design]",
-              "RelativeToolTip": "POS\\LogIn\\LogInForm.cs [Design]",
+              "Title": "BaseForm.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Templates\\BaseForm.cs",
+              "RelativeDocumentMoniker": "POS\\Templates\\BaseForm.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Templates\\BaseForm.cs",
+              "RelativeToolTip": "POS\\Templates\\BaseForm.cs",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAqwIcAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:41:38.319Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CashierDashboard.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\Cashier\\CashierDashboard.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Cashier\\CashierDashboard.cs [Design]",
-              "RelativeToolTip": "POS\\Cashier\\CashierDashboard.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:39:34.89Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-05-27T11:17:50.894Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AdminDashboard.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs",
-              "RelativeDocumentMoniker": "POS\\Admin\\AdminDashboard.cs",
-              "ToolTip": "C:\\Users\\Kris\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Admin\\AdminDashboard.cs [Design]",
-              "RelativeToolTip": "POS\\Admin\\AdminDashboard.cs [Design]",
+              "Title": "CredentialsService.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogIn\\HelperClasses\\CredentialsService.cs",
+              "RelativeDocumentMoniker": "POS\\LogIn\\HelperClasses\\CredentialsService.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\LogIn\\HelperClasses\\CredentialsService.cs",
+              "RelativeToolTip": "POS\\LogIn\\HelperClasses\\CredentialsService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:38:35.848Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-05-27T11:17:41.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuditService.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\AuditService.cs",
+              "RelativeDocumentMoniker": "POS\\AuditService.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\AuditService.cs",
+              "RelativeToolTip": "POS\\AuditService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-27T11:16:59.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Program.cs",
+              "RelativeDocumentMoniker": "POS\\Program.cs",
+              "ToolTip": "D:\\Albert\\Documents\\GitHub\\POS-Tindero\\POS\\POS\\Program.cs",
+              "RelativeToolTip": "POS\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-27T11:16:54.012Z",
+              "EditorCaption": ""
             }
           ]
         }
